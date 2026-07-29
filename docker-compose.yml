@@ -1,0 +1,9 @@
+services:
+  gw2-companion:
+    build: .
+    container_name: gw2-companion
+
+    ports:
+      - "8000:8000"
+
+    restart: unless-stopped
