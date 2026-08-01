@@ -1,8 +1,10 @@
-from app.services.gw2_api import GW2Client
-
 from fastapi import FastAPI
 
+from app.services.gw2_api import GW2Client
+from app.trackers.regalia import RegaliaTracker
+
 gw2 = GW2Client()
+regalia = RegaliaTracker()
 
 app = FastAPI(
     title="GW2 Companion",
@@ -29,3 +31,8 @@ async def achievements():
 @app.get("/achievement/{achievement_id}")
 async def achievement(achievement_id: int):
     return await gw2.get_achievement(achievement_id)
+
+@app.get("/tracker/regalia")
+async def regalia_progress():
+    return await regalia.progress()
+ 

@@ -40,3 +40,5 @@ class GW2Client:
 
     async def get_achievement(self, achievement_id: int):
         return await self.get(f"/achievements/{achievement_id}")
+
+    
