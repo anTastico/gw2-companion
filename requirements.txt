@@ -5,3 +5,4 @@ sqlalchemy
 apscheduler
 jinja2
 python-dotenv
+httpx
