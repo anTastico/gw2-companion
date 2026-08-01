@@ -1,21 +1,46 @@
-# Current Milestone
+# GW2 Companion
 
-✅ FastAPI
-✅ Docker
-✅ GW2 API
-✅ Regalia tracker framework
+## Current Milestone
 
-## Current Branch
+✅ Milestone 1 - Project Setup
+- Git
+- Docker
+- FastAPI
+- VS Code
 
-main
+✅ Milestone 2 - GW2 API
+- Account endpoint
+- Achievement endpoint
+- Achievement lookup
 
-## Next Task
+✅ Milestone 3 - Tracker Engine
+- Regalia tracker
+- JSON-backed requirements
+- Progress calculation
 
-Replace placeholder Regalia achievements with verified data.
+---
 
-## Architecture Decisions
+## Current Architecture
 
-- One shared GW2Client.
-- One tracker per goal.
-- Goal data stored in JSON.
-- No unnecessary API caching.
+FastAPI
+    │
+    ▼
+Trackers
+    │
+    ▼
+GW2Client
+    │
+    ▼
+ArenaNet API
+
+---
+
+## Next Milestone
+
+Replace placeholder Regalia data with verified requirements.
+
+---
+
+## Long-term Vision
+
+A self-hosted Guild Wars 2 Companion that recommends the best thing to do next based on the player's account and current goals.
