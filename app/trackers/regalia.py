@@ -9,7 +9,7 @@ class RegaliaTracker:
     def __init__(self):
         self.client = GW2Client()
 
-        data_file = Path(__file__).parent.parent / "data" / "regalia.json"
+        data_file = Path(__file__).parent.parent / "game_data" / "regalia.json"
 
         with open(data_file, "r", encoding="utf-8") as file:
             self.required = json.load(file)

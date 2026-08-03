@@ -12,8 +12,5 @@ __pycache__/
 # VS Code
 .vscode/
 
-# Docker / runtime data
-data/
-
 # macOS
 .DS_Store
