@@ -1,0 +1,179 @@
+{
+  "71820": {
+    "name": "Mystic Tribute",
+    "ingredients": [
+      {"id": 76530, "name": "Gift of Condensed Magic", "required": 2},
+      {"id": 70867, "name": "Gift of Condensed Might", "required": 2},
+      {"id": 19675, "name": "Mystic Clover", "required": 77},
+      {"id": 19976, "name": "Mystic Coin", "required": 250}
+    ]
+  },
+
+  "76530": {
+    "name": "Gift of Condensed Magic",
+    "ingredients": [
+      {"id": 71655, "name": "Gift of Blood", "required": 1},
+      {"id": 71787, "name": "Gift of Venom", "required": 1},
+      {"id": 73236, "name": "Gift of Totems", "required": 1},
+      {"id": 73196, "name": "Gift of Dust", "required": 1}
+    ]
+  },
+
+  "70867": {
+    "name": "Gift of Condensed Might",
+    "ingredients": [
+      {"id": 70801, "name": "Gift of Claws", "required": 1},
+      {"id": 75299, "name": "Gift of Scales", "required": 1},
+      {"id": 71123, "name": "Gift of Bones", "required": 1},
+      {"id": 75744, "name": "Gift of Fangs", "required": 1}
+    ]
+  },
+
+  "71655": {
+    "name": "Gift of Blood",
+    "ingredients": [
+      {"id": 24292, "name": "Vial of Blood", "required": 50},
+      {"id": 24293, "name": "Vial of Thick Blood", "required": 50},
+      {"id": 24294, "name": "Vial of Potent Blood", "required": 250},
+      {"id": 24295, "name": "Vial of Powerful Blood", "required": 100}
+    ]
+  },
+
+  "71787": {
+    "name": "Gift of Venom",
+    "ingredients": [
+      {"id": 24280, "name": "Venom Sac", "required": 50},
+      {"id": 24281, "name": "Full Venom Sac", "required": 50},
+      {"id": 24282, "name": "Potent Venom Sac", "required": 250},
+      {"id": 24283, "name": "Powerful Venom Sac", "required": 100}
+    ]
+  },
+
+  "73236": {
+    "name": "Gift of Totems",
+    "ingredients": [
+      {"id": 24298, "name": "Totem", "required": 50},
+      {"id": 24363, "name": "Engraved Totem", "required": 50},
+      {"id": 24299, "name": "Intricate Totem", "required": 250},
+      {"id": 24300, "name": "Elaborate Totem", "required": 100}
+    ]
+  },
+
+  "73196": {
+    "name": "Gift of Dust",
+    "ingredients": [
+      {"id": 24274, "name": "Pile of Radiant Dust", "required": 50},
+      {"id": 24275, "name": "Pile of Luminous Dust", "required": 50},
+      {"id": 24276, "name": "Pile of Incandescent Dust", "required": 250},
+      {"id": 24277, "name": "Pile of Crystalline Dust", "required": 100}
+    ]
+  },
+
+  "70801": {
+    "name": "Gift of Claws",
+    "ingredients": [
+      {"id": 24348, "name": "Claw", "required": 50},
+      {"id": 24349, "name": "Sharp Claw", "required": 50},
+      {"id": 24350, "name": "Large Claw", "required": 250},
+      {"id": 24351, "name": "Vicious Claw", "required": 100}
+    ]
+  },
+
+  "75299": {
+    "name": "Gift of Scales",
+    "ingredients": [
+      {"id": 24286, "name": "Scale", "required": 50},
+      {"id": 24287, "name": "Smooth Scale", "required": 50},
+      {"id": 24288, "name": "Large Scale", "required": 250},
+      {"id": 24289, "name": "Armored Scale", "required": 100}
+    ]
+  },
+
+  "71123": {
+    "name": "Gift of Bones",
+    "ingredients": [
+      {"id": 24344, "name": "Bone", "required": 50},
+      {"id": 24345, "name": "Heavy Bone", "required": 50},
+      {"id": 24341, "name": "Large Bone", "required": 250},
+      {"id": 24358, "name": "Ancient Bone", "required": 100}
+    ]
+  },
+
+  "75744": {
+    "name": "Gift of Fangs",
+    "ingredients": [
+      {"id": 24354, "name": "Fang", "required": 50},
+      {"id": 24355, "name": "Sharp Fang", "required": 50},
+      {"id": 24356, "name": "Large Fang", "required": 250},
+      {"id": 24357, "name": "Vicious Fang", "required": 100}
+    ]
+  },
+
+  "90985": {
+  "name": "Gift of Prescience",
+  "ingredients": [
+    {"id": 19623, "name": "Gift of Energy", "required": 1},
+    {"id": 76427, "name": "Gift of the Mists", "required": 1},
+    {"id": 19676, "name": "Icy Runestone", "required": 100},
+    {"id": 91010, "name": "Shattered Gift of Prescience", "required": 1}
+  ]
+},
+
+"19623": {
+  "name": "Gift of Energy",
+  "ingredients": [
+    {"id": 24274, "name": "Pile of Radiant Dust", "required": 250},
+    {"id": 24275, "name": "Pile of Luminous Dust", "required": 250},
+    {"id": 24276, "name": "Pile of Incandescent Dust", "required": 250},
+    {"id": 24277, "name": "Pile of Crystalline Dust", "required": 250}
+  ]
+},
+
+"76427": {
+  "name": "Gift of the Mists",
+  "ingredients": [
+    {"id": 19678, "name": "Gift of Battle", "required": 1},
+    {"id": 70820, "name": "Shard of Glory", "required": 250},
+    {"id": 71581, "name": "Memory of Battle", "required": 250},
+    {"id": 9940, "name": "Cube of Stabilized Dark Energy", "required": 1}
+  ]
+},
+
+"9940": {
+  "name": "Cube of Stabilized Dark Energy",
+  "ingredients": [
+    {"id": 71994, "name": "Ball of Dark Energy", "required": 1},
+    {"id": 73248, "name": "Stabilizing Matrix", "required": 75}
+  ]
+},
+
+"91041": {
+  "name": "Gift of Arid Mastery",
+  "ingredients": [
+    {"id": 86093, "name": "Funerary Incense", "required": 100},
+    {"id": 20797, "name": "Bloodstone Shard", "required": 1},
+    {"id": 91124, "name": "Gift of Crystalline Magic", "required": 1},
+    {"id": 91112, "name": "Gift of Ephemeral Magic", "required": 1}
+  ]
+},
+
+"91124": {
+  "name": "Gift of Crystalline Magic",
+  "ingredients": [
+    {"id": 86069, "name": "Kralkatite Ore", "required": 100},
+    {"id": 87645, "name": "Inscribed Shard", "required": 100},
+    {"id": 86977, "name": "Difluorite Crystal", "required": 100},
+    {"id": 19663, "name": "Bottle of Elonian Wine", "required": 1}
+  ]
+},
+
+"91112": {
+  "name": "Gift of Ephemeral Magic",
+  "ingredients": [
+    {"id": 88955, "name": "Lump of Mistonium", "required": 100},
+    {"id": 89537, "name": "Branded Mass", "required": 100},
+    {"id": 90783, "name": "Mistborn Mote", "required": 100},
+    {"id": 19663, "name": "Bottle of Elonian Wine", "required": 1}
+  ]
+}
+}

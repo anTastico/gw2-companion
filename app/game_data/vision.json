@@ -1,0 +1,28 @@
+{
+  "name": "Vision",
+  "stages": [
+    {
+      "name": "Vision I: Awakening",
+      "collections": [
+        {"id": 4765, "name": "Visions of Istan", "max": 7},
+        {"id": 4774, "name": "Visions of Sandswept Isles", "max": 7},
+        {"id": 4760, "name": "Visions of Kourna", "max": 7},
+        {"id": 4770, "name": "Visions of Jahai", "max": 7},
+        {"id": 4764, "name": "Visions of Thunderhead Peaks", "max": 7},
+        {"id": 4757, "name": "Visions of Dragonfall", "max": 7}
+      ]
+    },
+    {
+      "name": "Vision II: Farsight",
+      "collections": [
+        {"id": 4771, "name": "Vision II: Farsight", "max": 20}
+      ]
+    }
+  ],
+  "crafting": [
+    {"id": 91035, "name": "Glimpse", "required": 1},
+    {"id": 71820, "name": "Mystic Tribute", "required": 1},
+    {"id": 90985, "name": "Gift of Prescience", "required": 1},
+    {"id": 91041, "name": "Gift of Arid Mastery", "required": 1}
+  ]
+}
