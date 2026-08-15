@@ -39,20 +39,90 @@ class VisionTracker:
             stage_max = 0
 
             for collection in stage["collections"]:
-                progress = account_progress.get(collection["id"], {})
+                progress = account_progress.get(
+                    collection["id"],
+                    {}
+                )
 
-                completed_bits = progress.get("bits", [])
+                completed_bits = progress.get(
+                    "bits",
+                    []
+                )
+
                 current = len(completed_bits)
-
                 max_steps = collection["max"]
 
-                collections.append({
+                collection_result = {
                     "id": collection["id"],
                     "name": collection["name"],
                     "current": current,
                     "max": max_steps,
-                    "completed": progress.get("done", False)
-                })
+                    "completed": progress.get(
+                        "done",
+                        False
+                    )
+                }
+
+                objective_data = collection.get(
+                    "objectives"
+                )
+
+                if objective_data:
+                    objectives = []
+
+                    for objective in objective_data:
+                        bit = objective["bit"]
+
+                        objective_result = {
+                            "bit": bit,
+                            "name": objective["name"],
+                            "completed": (
+                                bit in completed_bits
+                            ),
+                            "activity": objective.get(
+                                "activity"
+                            ),
+                            "location": objective.get(
+                                "location"
+                            ),
+                            "minimum_minutes": objective.get(
+                                "minimum_minutes"
+                            ),
+                            "ideal_minutes": objective.get(
+                                "ideal_minutes"
+                            ),
+                            "action": objective.get(
+                                "action"
+                            )
+                        }
+
+                        objectives.append(
+                            objective_result
+                        )
+
+                    collection_result[
+                        "objectives"
+                    ] = objectives
+
+                    collection_result[
+                        "completed_objectives"
+                    ] = [
+                        objective
+                        for objective in objectives
+                        if objective["completed"]
+                    ]
+
+                    collection_result[
+                        "missing_objectives"
+                    ] = [
+                        objective
+                        for objective in objectives
+                        if not objective["completed"]
+                    ]
+
+                collections.append(
+                    collection_result
+                )
 
                 stage_current += current
                 stage_max += max_steps
@@ -73,7 +143,11 @@ class VisionTracker:
         crafting = []
 
         for item in self.data["crafting"]:
-            owned = item_counts.get(item["id"], 0)
+            owned = item_counts.get(
+                item["id"],
+                0
+            )
+
             required = item["required"]
 
             crafting_item = {
@@ -97,7 +171,9 @@ class VisionTracker:
                     analysis["missing_materials"]
                 )
 
-            crafting.append(crafting_item)
+            crafting.append(
+                crafting_item
+            )
 
         recipe_ids = [
             item["id"]
@@ -125,12 +201,15 @@ class VisionTracker:
                 "current": achievement_current,
                 "max": achievement_max,
                 "percent": round(
-                    achievement_current / achievement_max * 100,
+                    achievement_current
+                    / achievement_max
+                    * 100,
                     1
                 ) if achievement_max else 0
             },
             "missing_materials": missing_materials
         }
+
         return {
             "name": self.data["name"],
             "stages": stages,

@@ -1,0 +1,38 @@
+{
+  "achievement": {
+    "minimum_minutes": 15,
+    "ideal_minutes": 45
+  },
+  "open_world": {
+    "minimum_minutes": 15,
+    "ideal_minutes": 45
+  },
+  "fractals": {
+    "minimum_minutes": 20,
+    "ideal_minutes": 60
+  },
+  "wvw": {
+    "minimum_minutes": 20,
+    "ideal_minutes": 60
+  },
+  "vendor": {
+    "minimum_minutes": 5,
+    "ideal_minutes": 10
+  },
+  "trading_post": {
+    "minimum_minutes": 5,
+    "ideal_minutes": 10
+  },
+  "crafting": {
+    "minimum_minutes": 5,
+    "ideal_minutes": 15
+  },
+  "acquisition": {
+    "minimum_minutes": 10,
+    "ideal_minutes": 30
+  },
+  "other": {
+    "minimum_minutes": 15,
+    "ideal_minutes": 30
+  }
+}

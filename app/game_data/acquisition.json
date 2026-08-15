@@ -1,0 +1,176 @@
+{
+  "91010": {
+    "type": "achievement_reward",
+    "activity": "achievement",
+    "recommend_directly": false,
+    "action": "Complete Vision I: Awakening."
+  },
+
+  "82008": {
+    "type": "achievement_reward",
+    "activity": "achievement",
+    "recommend_directly": false,
+    "action": "Complete Aurora: Awakening."
+  },
+
+  "19676": {
+    "type": "vendor",
+    "activity": "vendor",
+    "recommend_directly": true,
+    "action": "Buy from Rojan the Penitent in Frostgorge Sound."
+  },
+
+  "71581": {
+    "type": "wvw_or_buy",
+    "activity": "wvw",
+    "recommend_directly": true,
+    "action": "Earn through WvW reward tracks or buy from the Trading Post."
+  },
+
+  "73248": {
+    "type": "fractals_or_buy",
+    "activity": "fractals",
+    "recommend_directly": true,
+    "action": "Acquire through fractals or ascended salvage, or buy from the Trading Post."
+  },
+
+  "20797": {
+    "type": "vendor",
+    "activity": "vendor",
+    "recommend_directly": true,
+    "action": "Buy from a Mystic Forge vendor for Spirit Shards."
+  },
+
+  "24293": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24281": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24363": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24274": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain through material drops and salvage."
+  },
+
+  "24275": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain through material drops and salvage."
+  },
+
+  "24277": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain through material drops and salvage."
+  },
+
+  "24348": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24349": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24286": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24287": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24344": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24345": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "24355": {
+    "type": "trading_post",
+    "activity": "trading_post",
+    "recommend_directly": true,
+    "action": "Buy from the Trading Post or obtain from normal material drops."
+  },
+
+  "86093": {
+    "type": "open_world",
+    "activity": "open_world",
+    "recommend_directly": true,
+    "action": "Work on Funerary Incense acquisition in Path of Fire maps."
+  },
+
+  "87645": {
+    "type": "open_world",
+    "activity": "open_world",
+    "recommend_directly": true,
+    "action": "Earn Inscribed Shards in Domain of Kourna."
+  },
+
+  "86977": {
+    "type": "open_world",
+    "activity": "open_world",
+    "recommend_directly": true,
+    "action": "Earn Difluorite Crystals in Sandswept Isles."
+  },
+
+  "88955": {
+    "type": "open_world",
+    "activity": "open_world",
+    "recommend_directly": true,
+    "action": "Earn Lumps of Mistonium in Jahai Bluffs."
+  },
+
+  "89537": {
+    "type": "open_world",
+    "activity": "open_world",
+    "recommend_directly": true,
+    "action": "Earn Branded Masses in Thunderhead Peaks."
+  },
+
+  "19663": {
+    "type": "vendor",
+    "activity": "vendor",
+    "recommend_directly": true,
+    "action": "Purchase the required Bottle of Elonian Wine."
+  }
+}

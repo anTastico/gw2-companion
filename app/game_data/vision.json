@@ -9,7 +9,76 @@
         {"id": 4760, "name": "Visions of Kourna", "max": 7},
         {"id": 4770, "name": "Visions of Jahai", "max": 7},
         {"id": 4764, "name": "Visions of Thunderhead Peaks", "max": 7},
-        {"id": 4757, "name": "Visions of Dragonfall", "max": 7}
+        {
+          "id": 4757,
+          "name": "Visions of Dragonfall",
+          "max": 7,
+          "objectives": [
+            {
+              "bit": 0,
+              "name": "Heavy Corsair Boots",
+              "activity": "achievement",
+              "location": "Dragonfall",
+              "minimum_minutes": 15,
+              "ideal_minutes": 45,
+              "action": "Work toward obtaining the Heavy Corsair Boots required for this collection."
+            },
+            {
+              "bit": 1,
+              "name": "Vision of Dragons: Aurene",
+              "activity": "open_world",
+              "location": "Dragonfall",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Visit the required memory location in Dragonfall."
+            },
+            {
+              "bit": 2,
+              "name": "Vision of Allies: Zafirah",
+              "activity": "open_world",
+              "location": "Dragonfall",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Find and interact with the required journal page in Dragonfall."
+            },
+            {
+              "bit": 3,
+              "name": "Vision of Enemies: Ley-Infused Enemy",
+              "activity": "open_world",
+              "location": "Dragonfall",
+              "minimum_minutes": 15,
+              "ideal_minutes": 30,
+              "action": "Defeat a required ley-infused champion in Dragonfall while carrying a Memory Essence Encapsulator."
+            },
+            {
+              "bit": 4,
+              "name": "Vision of Landscapes: Dragonfall",
+              "activity": "open_world",
+              "location": "Dragonfall",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Complete the required skyscale rift near the Necrotic Coast in Dragonfall."
+            },
+            {
+              "bit": 5,
+              "name": "Vision of Equipment: Dragon Champion Armor",
+              "activity": "achievement",
+              "location": "Dragonfall",
+              "minimum_minutes": 30,
+              "ideal_minutes": 60,
+              "action": "Work toward completing one weight class of Tier 1 Mist Shard armor."
+            },
+            {
+              "bit": 6,
+              "name": "Vision of Action: Dragonfall",
+              "activity": "open_world",
+              "location": "Dragonfall",
+              "minimum_minutes": 10,
+              "ideal_minutes": 20,
+              "action": "Complete one of the required strategic-resource collection events in Dragonfall."
+            }
+          ]
+        }
       ]
     },
     {
