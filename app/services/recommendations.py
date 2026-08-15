@@ -502,18 +502,67 @@ class RecommendationService:
         vision: dict,
         recommendations: list
     ):
-        incomplete_collections = []
+        incomplete_without_objectives = []
 
         for stage in vision["stages"]:
             for collection in stage["collections"]:
-                if not collection["completed"]:
-                    incomplete_collections.append(
-                        collection
-                    )
+                if collection["completed"]:
+                    continue
 
-        if incomplete_collections:
+                missing_objectives = collection.get(
+                    "missing_objectives"
+                )
+
+                if missing_objectives is not None:
+                    for objective in missing_objectives:
+                        recommendations.append({
+                            "goal": "Vision",
+                            "type": "objective",
+                            "title": objective["name"],
+                            "collection": collection["name"],
+                            "collection_progress": (
+                                f"{collection['current']}/"
+                                f"{collection['max']}"
+                            ),
+                            "progress_ratio": (
+                                self._collection_progress_ratio(
+                                    collection
+                                )
+                            ),
+                            "activity": objective.get(
+                                "activity"
+                            ),
+                            "location": objective.get(
+                                "location"
+                            ),
+                            "minimum_minutes": objective.get(
+                                "minimum_minutes"
+                            ),
+                            "ideal_minutes": objective.get(
+                                "ideal_minutes"
+                            ),
+                            "action": objective.get(
+                                "action",
+                                (
+                                    "Complete this objective "
+                                    "for the collection."
+                                )
+                            ),
+                            "reason": (
+                                f"This is an incomplete objective "
+                                f"for {collection['name']}."
+                            )
+                        })
+
+                    continue
+
+                incomplete_without_objectives.append(
+                    collection
+                )
+
+        if incomplete_without_objectives:
             best_collection = max(
-                incomplete_collections,
+                incomplete_without_objectives,
                 key=self._collection_progress_ratio
             )
 
@@ -539,7 +588,8 @@ class RecommendationService:
                 ),
                 "reason": (
                     "This is your most-progressed "
-                    "incomplete Vision collection."
+                    "incomplete Vision collection "
+                    "without objective-level data."
                 )
             })
 
@@ -722,6 +772,7 @@ class RecommendationService:
         )
 
         activity_types = {
+            "objective": "achievement",
             "achievement": "achievement",
             "unlock": "achievement",
             "achievement_reward": "achievement",
@@ -744,6 +795,12 @@ class RecommendationService:
         self,
         recommendation: dict
     ):
+        if (
+            recommendation.get("minimum_minutes") is not None
+            and recommendation.get("ideal_minutes") is not None
+        ):
+            return
+
         activity = recommendation[
             "activity"
         ]
@@ -753,13 +810,15 @@ class RecommendationService:
             self.session_profiles["other"]
         )
 
-        recommendation["minimum_minutes"] = (
-            profile["minimum_minutes"]
-        )
+        if recommendation.get("minimum_minutes") is None:
+            recommendation["minimum_minutes"] = (
+                profile["minimum_minutes"]
+            )
 
-        recommendation["ideal_minutes"] = (
-            profile["ideal_minutes"]
-        )
+        if recommendation.get("ideal_minutes") is None:
+            recommendation["ideal_minutes"] = (
+                profile["ideal_minutes"]
+            )
 
     def _apply_time_fit(
         self,
@@ -835,6 +894,7 @@ class RecommendationService:
         )
 
         value_scores = {
+            "objective": 105,
             "achievement": 100,
             "unlock": 95,
             "achievement_reward": 90,
@@ -847,6 +907,7 @@ class RecommendationService:
         }
 
         effort_levels = {
+            "objective": "medium",
             "achievement": "medium",
             "unlock": "medium",
             "achievement_reward": "high",
