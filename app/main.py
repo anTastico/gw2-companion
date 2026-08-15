@@ -5,10 +5,12 @@ from app.trackers.regalia import RegaliaTracker
 from app.trackers.vision import VisionTracker
 from app.services.account_inventory import AccountInventory
 from app.services.requirements import RequirementAnalyzer
+from app.trackers.aurora import AuroraTracker
 
 gw2 = GW2Client()
 regalia = RegaliaTracker()
 vision = VisionTracker()
+aurora = AuroraTracker()
 inventory = AccountInventory()
 requirements = RequirementAnalyzer()
 
@@ -46,6 +48,10 @@ async def regalia_progress():
 @app.get("/tracker/vision")
 async def vision_progress():
     return await vision.progress()
+
+@app.get("/tracker/aurora")
+async def aurora_progress():
+    return await aurora.progress()
 
 @app.get("/inventory/item/{item_id}")
 async def item_count(item_id: int):

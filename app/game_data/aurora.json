@@ -1,0 +1,74 @@
+{
+  "name": "Aurora",
+  "stages": [
+    {
+      "name": "Aurora: Awakening",
+      "achievement_id": 3522,
+      "collections": [
+        {
+          "id": 3500,
+          "name": "Bloodstone Fen Master",
+          "max": 12
+        },
+        {
+          "id": 3529,
+          "name": "Ember Bay Master",
+          "max": 15
+        },
+        {
+          "id": 3499,
+          "name": "Bitterfrost Frontier Master",
+          "max": 14
+        },
+        {
+          "id": 3491,
+          "name": "Lake Doric Master",
+          "max": 16
+        },
+        {
+          "id": 3547,
+          "name": "Draconis Mons Master",
+          "max": 14
+        },
+        {
+          "id": 3495,
+          "name": "Siren's Landing Master",
+          "max": 16
+        }
+      ]
+    },
+    {
+      "name": "Aurora II: Empowering",
+      "achievement_id": 3489,
+      "collections": [
+        {
+          "id": 3489,
+          "name": "Aurora II: Empowering",
+          "max": 21
+        }
+      ]
+    }
+  ],
+  "crafting": [
+    {
+      "id": 81729,
+      "name": "Spark of Sentience",
+      "required": 1
+    },
+    {
+      "id": 71820,
+      "name": "Mystic Tribute",
+      "required": 1
+    },
+    {
+      "id": 81796,
+      "name": "Gift of Sentience",
+      "required": 1
+    },
+    {
+      "id": 81861,
+      "name": "Gift of Draconic Mastery",
+      "required": 1
+    }
+  ]
+}

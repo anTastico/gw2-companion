@@ -110,70 +110,108 @@
   },
 
   "90985": {
-  "name": "Gift of Prescience",
-  "ingredients": [
-    {"id": 19623, "name": "Gift of Energy", "required": 1},
-    {"id": 76427, "name": "Gift of the Mists", "required": 1},
-    {"id": 19676, "name": "Icy Runestone", "required": 100},
-    {"id": 91010, "name": "Shattered Gift of Prescience", "required": 1}
-  ]
-},
+    "name": "Gift of Prescience",
+    "ingredients": [
+      {"id": 19623, "name": "Gift of Energy", "required": 1},
+      {"id": 76427, "name": "Gift of the Mists", "required": 1},
+      {"id": 19676, "name": "Icy Runestone", "required": 100},
+      {"id": 91010, "name": "Shattered Gift of Prescience", "required": 1}
+    ]
+  },
 
-"19623": {
-  "name": "Gift of Energy",
-  "ingredients": [
-    {"id": 24274, "name": "Pile of Radiant Dust", "required": 250},
-    {"id": 24275, "name": "Pile of Luminous Dust", "required": 250},
-    {"id": 24276, "name": "Pile of Incandescent Dust", "required": 250},
-    {"id": 24277, "name": "Pile of Crystalline Dust", "required": 250}
-  ]
-},
+  "19623": {
+    "name": "Gift of Energy",
+    "ingredients": [
+      {"id": 24274, "name": "Pile of Radiant Dust", "required": 250},
+      {"id": 24275, "name": "Pile of Luminous Dust", "required": 250},
+      {"id": 24276, "name": "Pile of Incandescent Dust", "required": 250},
+      {"id": 24277, "name": "Pile of Crystalline Dust", "required": 250}
+    ]
+  },
 
-"76427": {
-  "name": "Gift of the Mists",
-  "ingredients": [
-    {"id": 19678, "name": "Gift of Battle", "required": 1},
-    {"id": 70820, "name": "Shard of Glory", "required": 250},
-    {"id": 71581, "name": "Memory of Battle", "required": 250},
-    {"id": 9940, "name": "Cube of Stabilized Dark Energy", "required": 1}
-  ]
-},
+  "76427": {
+    "name": "Gift of the Mists",
+    "ingredients": [
+      {"id": 19678, "name": "Gift of Battle", "required": 1},
+      {"id": 70820, "name": "Shard of Glory", "required": 250},
+      {"id": 71581, "name": "Memory of Battle", "required": 250},
+      {"id": 9940, "name": "Cube of Stabilized Dark Energy", "required": 1}
+    ]
+  },
 
-"9940": {
-  "name": "Cube of Stabilized Dark Energy",
-  "ingredients": [
-    {"id": 71994, "name": "Ball of Dark Energy", "required": 1},
-    {"id": 73248, "name": "Stabilizing Matrix", "required": 75}
-  ]
-},
+  "9940": {
+    "name": "Cube of Stabilized Dark Energy",
+    "ingredients": [
+      {"id": 71994, "name": "Ball of Dark Energy", "required": 1},
+      {"id": 73248, "name": "Stabilizing Matrix", "required": 75}
+    ]
+  },
 
-"91041": {
-  "name": "Gift of Arid Mastery",
-  "ingredients": [
-    {"id": 86093, "name": "Funerary Incense", "required": 100},
-    {"id": 20797, "name": "Bloodstone Shard", "required": 1},
-    {"id": 91124, "name": "Gift of Crystalline Magic", "required": 1},
-    {"id": 91112, "name": "Gift of Ephemeral Magic", "required": 1}
-  ]
-},
+  "91041": {
+    "name": "Gift of Arid Mastery",
+    "ingredients": [
+      {"id": 86093, "name": "Funerary Incense", "required": 100},
+      {"id": 20797, "name": "Bloodstone Shard", "required": 1},
+      {"id": 91124, "name": "Gift of Crystalline Magic", "required": 1},
+      {"id": 91112, "name": "Gift of Ephemeral Magic", "required": 1}
+    ]
+  },
 
-"91124": {
-  "name": "Gift of Crystalline Magic",
-  "ingredients": [
-    {"id": 86069, "name": "Kralkatite Ore", "required": 100},
-    {"id": 87645, "name": "Inscribed Shard", "required": 100},
-    {"id": 86977, "name": "Difluorite Crystal", "required": 100},
-    {"id": 19663, "name": "Bottle of Elonian Wine", "required": 1}
-  ]
-},
+  "91124": {
+    "name": "Gift of Crystalline Magic",
+    "ingredients": [
+      {"id": 86069, "name": "Kralkatite Ore", "required": 100},
+      {"id": 87645, "name": "Inscribed Shard", "required": 100},
+      {"id": 86977, "name": "Difluorite Crystal", "required": 100},
+      {"id": 19663, "name": "Bottle of Elonian Wine", "required": 1}
+    ]
+  },
 
-"91112": {
-  "name": "Gift of Ephemeral Magic",
-  "ingredients": [
-    {"id": 88955, "name": "Lump of Mistonium", "required": 100},
-    {"id": 89537, "name": "Branded Mass", "required": 100},
-    {"id": 90783, "name": "Mistborn Mote", "required": 100},
-    {"id": 19663, "name": "Bottle of Elonian Wine", "required": 1}
-  ]
-}
+  "91112": {
+    "name": "Gift of Ephemeral Magic",
+    "ingredients": [
+      {"id": 88955, "name": "Lump of Mistonium", "required": 100},
+      {"id": 89537, "name": "Branded Mass", "required": 100},
+      {"id": 90783, "name": "Mistborn Mote", "required": 100},
+      {"id": 19663, "name": "Bottle of Elonian Wine", "required": 1}
+    ]
+  },
+
+  "81796": {
+    "name": "Gift of Sentience",
+    "ingredients": [
+      {"id": 19623, "name": "Gift of Energy", "required": 1},
+      {"id": 76427, "name": "Gift of the Mists", "required": 1},
+      {"id": 19676, "name": "Icy Runestone", "required": 100},
+      {"id": 82008, "name": "Gift of Valor", "required": 1}
+    ]
+  },
+
+  "81861": {
+    "name": "Gift of Draconic Mastery",
+    "ingredients": [
+      {"id": 46683, "name": "Crystalline Ingot", "required": 1},
+      {"id": 20797, "name": "Bloodstone Shard", "required": 1},
+      {"id": 81815, "name": "Gift of Bloodstone Magic", "required": 1},
+      {"id": 82036, "name": "Gift of Dragon Magic", "required": 1}
+    ]
+  },
+
+  "81815": {
+    "name": "Gift of Bloodstone Magic",
+    "ingredients": [
+      {"id": 79280, "name": "Blood Ruby", "required": 250},
+      {"id": 80332, "name": "Jade Shard", "required": 250},
+      {"id": 81706, "name": "Orrian Pearl", "required": 250}
+    ]
+  },
+
+  "82036": {
+    "name": "Gift of Dragon Magic",
+    "ingredients": [
+      {"id": 79469, "name": "Petrified Wood", "required": 250},
+      {"id": 79899, "name": "Fresh Winterberry", "required": 250},
+      {"id": 81127, "name": "Fire Orchid Blossom", "required": 250}
+    ]
+  }
 }
