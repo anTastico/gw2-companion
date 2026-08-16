@@ -859,8 +859,20 @@ class RecommendationService:
         ]
 
         if minutes >= ideal:
-            time_adjustment = 30
-            label = "excellent"
+            utilization_ratio = (
+                ideal / minutes
+                if minutes > 0
+                else 1
+            )
+
+            time_adjustment = (
+                30 * utilization_ratio
+            )
+
+            if utilization_ratio >= 0.6:
+                label = "excellent"
+            else:
+                label = "good"
 
         elif minutes >= minimum:
             range_size = (
@@ -978,7 +990,8 @@ class RecommendationService:
             score = self._quick_score(
                 value=value,
                 effort=effort,
-                progress_ratio=progress_ratio
+                progress_ratio=progress_ratio,
+                activity=recommendation["activity"]
             )
 
         elif mode == "play":
@@ -1039,24 +1052,41 @@ class RecommendationService:
         self,
         value: int,
         effort: str,
-        progress_ratio: float
+        progress_ratio: float,
+        activity: str
     ):
         effort_bonus = {
-            "low": 60,
-            "medium": 20,
+            "low": 25,
+            "medium": 10,
             "high": 0
         }
 
+        activity_bonus = {
+            "open_world": 20,
+            "achievement": 15,
+            "fractals": 5,
+            "wvw": 0,
+            "crafting": 0,
+            "vendor": -10,
+            "trading_post": -20,
+            "acquisition": -10,
+            "other": 0
+        }
+
         progress_bonus = (
-            progress_ratio * 60
+            progress_ratio * 25
         )
 
         value_bonus = (
-            value * 0.25
+            value * 0.65
         )
 
         return (
             effort_bonus[effort]
+            + activity_bonus.get(
+                activity,
+                0
+            )
             + progress_bonus
             + value_bonus
         )
@@ -1087,7 +1117,7 @@ class RecommendationService:
         }
 
         progress_bonus = (
-            progress_ratio * 20
+            progress_ratio * 12
         )
 
         value_bonus = (
