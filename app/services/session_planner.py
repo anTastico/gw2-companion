@@ -166,6 +166,23 @@ class SessionPlanner:
                     "progress"
                 ]
 
+            if "dependency" in best:
+                step["dependency"] = best[
+                    "dependency"
+                ]
+
+                focus = self._dependency_focus(
+                    recommendation=best,
+                    current_location=best.get(
+                        "location"
+                    )
+                )
+
+                if focus:
+                    step["focus"] = self._group_dependency_focus(
+                        focus
+                    )
+
             steps.append(
                 step
             )
@@ -228,6 +245,99 @@ class SessionPlanner:
             ),
             "locations": locations,
             "steps": steps
+        }
+
+    def _dependency_focus(
+        self,
+        recommendation: dict,
+        current_location: str | None
+    ):
+        dependency = recommendation.get(
+            "dependency",
+            {}
+        )
+
+        focus = []
+
+        for objective in dependency.get(
+            "missing_objectives",
+            []
+        ):
+            if not isinstance(
+                objective,
+                dict
+            ):
+                continue
+
+            location = objective.get(
+                "location"
+            )
+
+            if (
+                current_location
+                and location
+                and location != current_location
+            ):
+                continue
+
+            if not objective.get(
+                "bundle"
+            ):
+                continue
+
+            focus.append({
+                "name": objective["name"],
+                "activity": objective.get(
+                    "activity"
+                ),
+                "location": location,
+                "minimum_minutes": objective.get(
+                    "minimum_minutes"
+                ),
+                "ideal_minutes": objective.get(
+                    "ideal_minutes"
+                ),
+                "action": objective.get(
+                    "action"
+                ),
+                "bundle": objective.get(
+                    "bundle"
+                ),
+                "focus_type": objective.get(
+                    "focus_type",
+                    "active"
+                )
+            })
+
+        return focus
+
+    def _group_dependency_focus(
+        self,
+        focus: list
+    ):
+        groups = {
+            "quick": [],
+            "active": [],
+            "opportunistic": []
+        }
+
+        for item in focus:
+            focus_type = item.get(
+                "focus_type",
+                "active"
+            )
+
+            if focus_type not in groups:
+                focus_type = "active"
+
+            groups[focus_type].append(
+                item
+            )
+
+        return {
+            key: items
+            for key, items in groups.items()
+            if items
         }
 
     def _map_switch_is_worthwhile(

@@ -411,7 +411,12 @@
                   },
                   {
                     "bit": 9,
-                    "name": "Dexterous Dodger"
+                    "name": "Dexterous Dodger",
+                    "activity": "story",
+                    "location": "Heart to Heart",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "action": "Replay Heart to Heart and defeat Kralkatorrik without triggering any Branded traps."
                   },
                   {
                     "bit": 10,
@@ -419,23 +424,58 @@
                   },
                   {
                     "bit": 11,
-                    "name": "Show Some Restraint"
+                    "name": "Show Some Restraint",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "While mounted in Dragonfall, use Soul Binders during compatible events.",
+                    "bundle": "dragonfall",
+                    "focus_type": "active"
                   },
                   {
                     "bit": 12,
-                    "name": "My Beautiful Infrastructure"
+                    "name": "My Beautiful Infrastructure",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "action": "Participate in bridge defense or bridge repair events in Dragonfall.",
+                    "bundle": "dragonfall",
+                    "focus_type": "opportunistic"
                   },
                   {
                     "bit": 13,
-                    "name": "Championship Bout"
+                    "name": "Championship Bout",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 45,
+                    "action": "Defeat missing champions in Dragonfall toward Championship Bout.",
+                    "bundle": "dragonfall",
+                    "focus_type": "opportunistic"
                   },
                   {
                     "bit": 14,
-                    "name": "Eternally Yours"
+                    "name": "Eternally Yours",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Throw Eternal Embers at foes while playing in Dragonfall.",
+                    "bundle": "dragonfall",
+                    "focus_type": "active"
                   },
                   {
                     "bit": 15,
-                    "name": "Friends in High Places"
+                    "name": "Friends in High Places",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Speak with Sayida or Taimi on the airship.",
+                    "bundle": "dragonfall",
+                    "focus_type": "quick"
                   },
                   {
                     "bit": 16,
@@ -443,7 +483,14 @@
                   },
                   {
                     "bit": 17,
-                    "name": "Hat Trick"
+                    "name": "Hat Trick",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "action": "Defeat the required legendary creatures during the final assault against Kralkatorrik.",
+                    "bundle": "dragonfall",
+                    "focus_type": "opportunistic"
                   }
                 ],
                 "alternative": {

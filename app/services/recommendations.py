@@ -515,13 +515,12 @@ class RecommendationService:
                                 else 0
                             )
 
-                            missing_dependency_objectives = [
-                                item["name"]
-                                for item in dependency.get(
+                            missing_dependency_objectives = (
+                                dependency.get(
                                     "missing_objectives",
                                     []
                                 )
-                            ]
+                            )
 
                             reason = (
                                 f"{dependency['name']} is "

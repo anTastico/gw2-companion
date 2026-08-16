@@ -371,13 +371,31 @@ class VisionTracker:
             ):
                 bit = objective["bit"]
 
-                dependency_objectives.append({
+                dependency_objective = {
                     "bit": bit,
                     "name": objective["name"],
                     "completed": (
                         bit in completed_bits
                     )
-                })
+                }
+
+                for field in (
+                    "activity",
+                    "location",
+                    "minimum_minutes",
+                    "ideal_minutes",
+                    "action",
+                    "bundle",
+                    "focus_type"
+                ):
+                    if field in objective:
+                        dependency_objective[field] = (
+                            objective[field]
+                        )
+
+                dependency_objectives.append(
+                    dependency_objective
+                )
 
             dependency_result.update({
                 "current": current,
