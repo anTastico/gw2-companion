@@ -495,7 +495,56 @@ class RecommendationService:
 
                 if missing_objectives is not None:
                     for objective in missing_objectives:
-                        recommendations.append({
+                        dependency = objective.get(
+                            "dependency"
+                        )
+
+                        if dependency:
+                            required = dependency.get(
+                                "required",
+                                0
+                            )
+
+                            progress_ratio = (
+                                dependency.get(
+                                    "current",
+                                    0
+                                )
+                                / required
+                                if required
+                                else 0
+                            )
+
+                            missing_dependency_objectives = [
+                                item["name"]
+                                for item in dependency.get(
+                                    "missing_objectives",
+                                    []
+                                )
+                            ]
+
+                            reason = (
+                                f"{dependency['name']} is "
+                                f"{dependency.get('current', 0)}/"
+                                f"{required} complete, with "
+                                f"{len(missing_dependency_objectives)} "
+                                f"objectives remaining."
+                            )
+                        else:
+                            progress_ratio = (
+                                self._collection_progress_ratio(
+                                    collection
+                                )
+                            )
+
+                            missing_dependency_objectives = []
+
+                            reason = (
+                                f"This is an incomplete objective "
+                                f"for {collection['name']}."
+                            )
+
+                        recommendation = {
                             "goal": "Vision",
                             "type": "objective",
                             "title": objective["name"],
@@ -504,11 +553,7 @@ class RecommendationService:
                                 f"{collection['current']}/"
                                 f"{collection['max']}"
                             ),
-                            "progress_ratio": (
-                                self._collection_progress_ratio(
-                                    collection
-                                )
-                            ),
+                            "progress_ratio": progress_ratio,
                             "activity": objective.get(
                                 "activity"
                             ),
@@ -528,11 +573,42 @@ class RecommendationService:
                                     "for the collection."
                                 )
                             ),
-                            "reason": (
-                                f"This is an incomplete objective "
-                                f"for {collection['name']}."
-                            )
-                        })
+                            "reason": reason
+                        }
+
+                        if dependency:
+                            recommendation["dependency"] = {
+                                "achievement_id": dependency.get(
+                                    "achievement_id"
+                                ),
+                                "name": dependency.get(
+                                    "name"
+                                ),
+                                "progress": (
+                                    f"{dependency.get('current', 0)}/"
+                                    f"{required}"
+                                ),
+                                "percent": dependency.get(
+                                    "percent"
+                                ),
+                                "completed": dependency.get(
+                                    "completed",
+                                    False
+                                ),
+                                "missing_count": len(
+                                    missing_dependency_objectives
+                                ),
+                                "missing_objectives": (
+                                    missing_dependency_objectives
+                                ),
+                                "alternative": dependency.get(
+                                    "alternative"
+                                )
+                            }
+
+                        recommendations.append(
+                            recommendation
+                        )
 
                     continue
 
@@ -859,20 +935,8 @@ class RecommendationService:
         ]
 
         if minutes >= ideal:
-            utilization_ratio = (
-                ideal / minutes
-                if minutes > 0
-                else 1
-            )
-
-            time_adjustment = (
-                30 * utilization_ratio
-            )
-
-            if utilization_ratio >= 0.6:
-                label = "excellent"
-            else:
-                label = "good"
+            time_adjustment = 30
+            label = "excellent"
 
         elif minutes >= minimum:
             range_size = (
@@ -990,8 +1054,7 @@ class RecommendationService:
             score = self._quick_score(
                 value=value,
                 effort=effort,
-                progress_ratio=progress_ratio,
-                activity=recommendation["activity"]
+                progress_ratio=progress_ratio
             )
 
         elif mode == "play":
@@ -1052,41 +1115,24 @@ class RecommendationService:
         self,
         value: int,
         effort: str,
-        progress_ratio: float,
-        activity: str
+        progress_ratio: float
     ):
         effort_bonus = {
-            "low": 25,
-            "medium": 10,
+            "low": 60,
+            "medium": 20,
             "high": 0
         }
 
-        activity_bonus = {
-            "open_world": 20,
-            "achievement": 15,
-            "fractals": 5,
-            "wvw": 0,
-            "crafting": 0,
-            "vendor": -10,
-            "trading_post": -20,
-            "acquisition": -10,
-            "other": 0
-        }
-
         progress_bonus = (
-            progress_ratio * 25
+            progress_ratio * 60
         )
 
         value_bonus = (
-            value * 0.65
+            value * 0.25
         )
 
         return (
             effort_bonus[effort]
-            + activity_bonus.get(
-                activity,
-                0
-            )
             + progress_bonus
             + value_bonus
         )
@@ -1117,7 +1163,7 @@ class RecommendationService:
         }
 
         progress_bonus = (
-            progress_ratio * 12
+            progress_ratio * 20
         )
 
         value_bonus = (

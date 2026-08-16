@@ -167,6 +167,18 @@ class VisionTracker:
                             )
                         }
 
+                        dependency = objective.get(
+                            "dependency"
+                        )
+
+                        if dependency:
+                            objective_result[
+                                "dependency"
+                            ] = self._resolve_dependency(
+                                dependency=dependency,
+                                account_progress=account_progress
+                            )
+
                         objectives.append(
                             objective_result
                         )
@@ -295,6 +307,109 @@ class VisionTracker:
             "crafting": crafting,
             "summary": summary
         }
+
+    def _resolve_dependency(
+        self,
+        dependency: dict,
+        account_progress: dict
+    ):
+        achievement_id = dependency.get(
+            "achievement_id"
+        )
+
+        tracking = dependency.get(
+            "tracking"
+        )
+
+        progress = account_progress.get(
+            achievement_id,
+            {}
+        )
+
+        dependency_result = {
+            "achievement_id": achievement_id,
+            "name": dependency.get(
+                "name"
+            ),
+            "tracking": tracking
+        }
+
+        if tracking == "achievement_bits":
+            completed_bits = progress.get(
+                "bits",
+                []
+            )
+
+            required = dependency.get(
+                "required",
+                len(
+                    dependency.get(
+                        "objectives",
+                        []
+                    )
+                )
+            )
+
+            current = min(
+                progress.get(
+                    "current",
+                    len(completed_bits)
+                ),
+                required
+            )
+
+            completed = progress.get(
+                "done",
+                current >= required
+            )
+
+            dependency_objectives = []
+
+            for objective in dependency.get(
+                "objectives",
+                []
+            ):
+                bit = objective["bit"]
+
+                dependency_objectives.append({
+                    "bit": bit,
+                    "name": objective["name"],
+                    "completed": (
+                        bit in completed_bits
+                    )
+                })
+
+            dependency_result.update({
+                "current": current,
+                "required": required,
+                "percent": round(
+                    current / required * 100,
+                    1
+                ) if required else 0,
+                "completed": completed,
+                "objectives": dependency_objectives,
+                "completed_objectives": [
+                    objective
+                    for objective in dependency_objectives
+                    if objective["completed"]
+                ],
+                "missing_objectives": [
+                    objective
+                    for objective in dependency_objectives
+                    if not objective["completed"]
+                ]
+            })
+
+        alternative = dependency.get(
+            "alternative"
+        )
+
+        if alternative:
+            dependency_result[
+                "alternative"
+            ] = alternative
+
+        return dependency_result
 
     def _prerequisite_met(
         self,
