@@ -536,6 +536,15 @@ class RecommendationService:
 
                     continue
 
+                if (
+                    collection.get("tracking") == "count_only"
+                    and not collection.get(
+                        "prerequisite_met",
+                        collection.get("unlocked", True)
+                    )
+                ):
+                    continue
+
                 incomplete_without_objectives.append(
                     collection
                 )
@@ -546,32 +555,68 @@ class RecommendationService:
                 key=self._collection_progress_ratio
             )
 
-            recommendations.append({
-                "goal": "Vision",
-                "type": "achievement",
-                "title": (
-                    f"Continue "
-                    f"{best_collection['name']}"
-                ),
-                "progress": (
-                    f"{best_collection['current']}/"
-                    f"{best_collection['max']}"
-                ),
-                "progress_ratio": (
-                    self._collection_progress_ratio(
-                        best_collection
+            if best_collection.get("tracking") == "count_only":
+                recommendations.append({
+                    "goal": "Vision",
+                    "type": "achievement",
+                    "title": (
+                        f"Continue "
+                        f"{best_collection['name']}"
+                    ),
+                    "progress": (
+                        f"{best_collection['current']}/"
+                        f"{best_collection['max']}"
+                    ),
+                    "progress_ratio": (
+                        self._collection_progress_ratio(
+                            best_collection
+                        )
+                    ),
+                    "activity": best_collection.get(
+                        "activity"
+                    ),
+                    "minimum_minutes": best_collection.get(
+                        "minimum_minutes"
+                    ),
+                    "ideal_minutes": best_collection.get(
+                        "ideal_minutes"
+                    ),
+                    "action": best_collection.get(
+                        "action",
+                        "Continue progressing this achievement."
+                    ),
+                    "reason": (
+                        "This Vision achievement is unlocked "
+                        "and is tracked by completion count."
                     )
-                ),
-                "action": (
-                    "Continue the incomplete "
-                    "collection objectives."
-                ),
-                "reason": (
-                    "This is your most-progressed "
-                    "incomplete Vision collection "
-                    "without objective-level data."
-                )
-            })
+                })
+            else:
+                recommendations.append({
+                    "goal": "Vision",
+                    "type": "achievement",
+                    "title": (
+                        f"Continue "
+                        f"{best_collection['name']}"
+                    ),
+                    "progress": (
+                        f"{best_collection['current']}/"
+                        f"{best_collection['max']}"
+                    ),
+                    "progress_ratio": (
+                        self._collection_progress_ratio(
+                            best_collection
+                        )
+                    ),
+                    "action": (
+                        "Continue the incomplete "
+                        "collection objectives."
+                    ),
+                    "reason": (
+                        "This is your most-progressed "
+                        "incomplete Vision collection "
+                        "without objective-level data."
+                    )
+                })
 
         missing_materials = (
             vision

@@ -31,6 +31,7 @@ class VisionTracker:
         }
 
         stages = []
+        completed_stage_names = set()
 
         for stage in self.data["stages"]:
             collections = []
@@ -44,30 +45,100 @@ class VisionTracker:
                     {}
                 )
 
-                completed_bits = progress.get(
-                    "bits",
-                    []
+                tracking = collection.get(
+                    "tracking",
+                    "bits"
                 )
 
-                current = len(completed_bits)
                 max_steps = collection["max"]
+
+                if tracking == "count_only":
+                    current = min(
+                        progress.get(
+                            "current",
+                            0
+                        ),
+                        max_steps
+                    )
+                else:
+                    completed_bits = progress.get(
+                        "bits",
+                        []
+                    )
+
+                    current = len(
+                        completed_bits
+                    )
+
+                completed = progress.get(
+                    "done",
+                    current >= max_steps
+                )
 
                 collection_result = {
                     "id": collection["id"],
                     "name": collection["name"],
                     "current": current,
                     "max": max_steps,
-                    "completed": progress.get(
-                        "done",
-                        False
-                    )
+                    "completed": completed
                 }
+
+                if tracking == "count_only":
+                    prerequisite = collection.get(
+                        "prerequisite"
+                    )
+
+                    prerequisite_met = self._prerequisite_met(
+                        prerequisite=prerequisite,
+                        completed_stage_names=completed_stage_names
+                    )
+
+                    if prerequisite is not None:
+                        unlocked = prerequisite_met
+                    elif progress:
+                        unlocked = progress.get(
+                            "unlocked",
+                            True
+                        )
+                    else:
+                        unlocked = False
+
+                    collection_result.update({
+                        "tracking": tracking,
+                        "unlocked": unlocked,
+                        "activity": collection.get(
+                            "activity"
+                        ),
+                        "minimum_minutes": collection.get(
+                            "minimum_minutes"
+                        ),
+                        "ideal_minutes": collection.get(
+                            "ideal_minutes"
+                        ),
+                        "action": collection.get(
+                            "action"
+                        )
+                    })
+
+                    if prerequisite is not None:
+                        collection_result[
+                            "prerequisite"
+                        ] = prerequisite
+
+                        collection_result[
+                            "prerequisite_met"
+                        ] = prerequisite_met
 
                 objective_data = collection.get(
                     "objectives"
                 )
 
                 if objective_data:
+                    completed_bits = progress.get(
+                        "bits",
+                        []
+                    )
+
                     objectives = []
 
                     for objective in objective_data:
@@ -126,6 +197,14 @@ class VisionTracker:
 
                 stage_current += current
                 stage_max += max_steps
+
+            if (
+                stage_max > 0
+                and stage_current >= stage_max
+            ):
+                completed_stage_names.add(
+                    stage["name"]
+                )
 
             stages.append({
                 "name": stage["name"],
@@ -216,3 +295,23 @@ class VisionTracker:
             "crafting": crafting,
             "summary": summary
         }
+
+    def _prerequisite_met(
+        self,
+        prerequisite: dict | None,
+        completed_stage_names: set
+    ):
+        if prerequisite is None:
+            return True
+
+        prerequisite_type = prerequisite.get(
+            "type"
+        )
+
+        if prerequisite_type == "stage":
+            return (
+                prerequisite.get("name")
+                in completed_stage_names
+            )
+
+        return False
