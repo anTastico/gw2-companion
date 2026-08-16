@@ -6,6 +6,7 @@ from app.services.gw2_api import GW2Client
 from app.services.account_inventory import AccountInventory
 from app.services.requirements import RequirementAnalyzer
 from app.services.recommendations import RecommendationService
+from app.services.session_planner import SessionPlanner
 from app.trackers.regalia import RegaliaTracker
 from app.trackers.vision import VisionTracker
 from app.trackers.aurora import AuroraTracker
@@ -20,6 +21,7 @@ aurora = AuroraTracker()
 inventory = AccountInventory()
 requirements = RequirementAnalyzer()
 recommendations = RecommendationService()
+session_planner = SessionPlanner()
 
 
 app = FastAPI(
@@ -127,4 +129,36 @@ async def get_recommendations(
         goal=goal,
         activity=activity,
         minutes=minutes
+    )
+
+
+@app.get("/session-plan")
+async def get_session_plan(
+    minutes: int = Query(
+        ge=5,
+        le=360
+    ),
+    goal: Literal[
+        "vision",
+        "aurora",
+        "regalia"
+    ] | None = Query(
+        default=None
+    ),
+    activity: Literal[
+        "achievement",
+        "open_world",
+        "fractals",
+        "wvw",
+        "vendor",
+        "trading_post",
+        "acquisition"
+    ] | None = Query(
+        default=None
+    )
+):
+    return await session_planner.build_plan(
+        minutes=minutes,
+        goal=goal,
+        activity=activity
     )
