@@ -428,26 +428,6 @@ class RecommendationService:
                 recommendation
             )
 
-        if len(selected) < self.MAX_RESULTS:
-            for recommendation in recommendations:
-                if len(selected) >= self.MAX_RESULTS:
-                    break
-
-                recommendation_id = id(
-                    recommendation
-                )
-
-                if recommendation_id in selected_ids:
-                    continue
-
-                selected.append(
-                    recommendation
-                )
-
-                selected_ids.add(
-                    recommendation_id
-                )
-
         selected.sort(
             key=lambda recommendation: recommendation["score"],
             reverse=True
@@ -907,7 +887,6 @@ class RecommendationService:
         }
 
         effort_levels = {
-            "objective": "medium",
             "achievement": "medium",
             "unlock": "medium",
             "achievement_reward": "high",
@@ -924,10 +903,24 @@ class RecommendationService:
             50
         )
 
-        effort = effort_levels.get(
-            recommendation_type,
-            "medium"
-        )
+        if recommendation_type == "objective":
+            ideal_minutes = recommendation.get(
+                "ideal_minutes",
+                30
+            )
+
+            if ideal_minutes <= 15:
+                effort = "low"
+            elif ideal_minutes <= 45:
+                effort = "medium"
+            else:
+                effort = "high"
+
+        else:
+            effort = effort_levels.get(
+                recommendation_type,
+                "medium"
+            )
 
         progress_ratio = (
             recommendation.get(

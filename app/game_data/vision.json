@@ -4,11 +4,356 @@
     {
       "name": "Vision I: Awakening",
       "collections": [
-        {"id": 4765, "name": "Visions of Istan", "max": 7},
-        {"id": 4774, "name": "Visions of Sandswept Isles", "max": 7},
-        {"id": 4760, "name": "Visions of Kourna", "max": 7},
-        {"id": 4770, "name": "Visions of Jahai", "max": 7},
-        {"id": 4764, "name": "Visions of Thunderhead Peaks", "max": 7},
+        {
+          "id": 4765,
+          "name": "Visions of Istan",
+          "max": 7,
+          "objectives": [
+            {
+              "bit": 0,
+              "name": "Heavy Corsair Turban",
+              "activity": "achievement",
+              "location": "Domain of Istan",
+              "minimum_minutes": 15,
+              "ideal_minutes": 45,
+              "action": "Work toward obtaining the Heavy Corsair Turban required for this collection."
+            },
+            {
+              "bit": 1,
+              "name": "Vision of Dragons: Aurene",
+              "activity": "open_world",
+              "location": "Domain of Istan",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Visit the required memory location above the Plaza of Resurgence in the Domain of Istan."
+            },
+            {
+              "bit": 2,
+              "name": "Vision of Allies: Taimi",
+              "activity": "open_world",
+              "location": "Domain of Istan",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Find and interact with the required journal page in the Domain of Istan."
+            },
+            {
+              "bit": 3,
+              "name": "Vision of Enemies: Warden Amala",
+              "activity": "open_world",
+              "location": "Domain of Istan",
+              "minimum_minutes": 15,
+              "ideal_minutes": 30,
+              "action": "Defeat Warden Amala while carrying a Memory Essence Encapsulator."
+            },
+            {
+              "bit": 4,
+              "name": "Vision of Landscapes: Domain of Istan",
+              "activity": "open_world",
+              "location": "Domain of Istan",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Complete the required skyscale rift at the Astralarium in the Domain of Istan."
+            },
+            {
+              "bit": 5,
+              "name": "Vision of Equipment: Astral Weapons",
+              "activity": "achievement",
+              "location": "Domain of Istan",
+              "minimum_minutes": 30,
+              "ideal_minutes": 60,
+              "action": "Work toward obtaining the required Astral or Stellar weapon skins for this collection."
+            },
+            {
+              "bit": 6,
+              "name": "Vision of Action: Domain of Istan",
+              "activity": "open_world",
+              "location": "Domain of Istan",
+              "minimum_minutes": 10,
+              "ideal_minutes": 20,
+              "action": "Complete the required activity in the Domain of Istan."
+            }
+          ]
+        },
+        {
+          "id": 4774,
+          "name": "Visions of Sandswept Isles",
+          "max": 7,
+          "objectives": [
+            {
+              "bit": 0,
+              "name": "Olmakhan Mantle",
+              "activity": "achievement",
+              "location": "Sandswept Isles",
+              "minimum_minutes": 15,
+              "ideal_minutes": 45,
+              "action": "Work toward obtaining the Olmakhan Mantle through the A Bug in the System mastery achievement or Sandswept Isles Reward Track."
+            },
+            {
+              "bit": 1,
+              "name": "Vision of Dragons: Aurene",
+              "activity": "open_world",
+              "location": "Sandswept Isles",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Visit the memory fragment on the cliff directly north of Atholma Waypoint."
+            },
+            {
+              "bit": 2,
+              "name": "Vision of Allies: Rox",
+              "activity": "open_world",
+              "location": "Sandswept Isles",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Find and interact with the Unfinished Field Report near Atholma Waypoint."
+            },
+            {
+              "bit": 3,
+              "name": "Vision of Enemies: Kuda's Subjects",
+              "activity": "open_world",
+              "location": "Sandswept Isles",
+              "minimum_minutes": 15,
+              "ideal_minutes": 30,
+              "action": "Defeat Kuda's test subjects in the Specimen Chamber while carrying a Memory Essence Encapsulator."
+            },
+            {
+              "bit": 4,
+              "name": "Vision of Landscapes: Sandswept Isles",
+              "activity": "open_world",
+              "location": "Sandswept Isles",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Complete the required skyscale rift above The Iron Whale in the Sandswept Isles."
+            },
+            {
+              "bit": 5,
+              "name": "Vision of Equipment: Olmakhan Bandolier",
+              "activity": "achievement",
+              "location": "Sandswept Isles",
+              "minimum_minutes": 30,
+              "ideal_minutes": 60,
+              "action": "Work toward acquiring the Reinforced Olmakhan Bandolier."
+            },
+            {
+              "bit": 6,
+              "name": "Vision of Action: Sandswept Isles",
+              "activity": "open_world",
+              "location": "Sandswept Isles",
+              "minimum_minutes": 10,
+              "ideal_minutes": 20,
+              "action": "Complete the Catch as many fish as you can! event in the Sandswept Isles."
+            }
+          ]
+        },
+        {
+          "id": 4760,
+          "name": "Visions of Kourna",
+          "max": 7,
+          "objectives": [
+            {
+              "bit": 0,
+              "name": "Heavy Corsair Jerkin",
+              "activity": "achievement",
+              "location": "Domain of Kourna",
+              "minimum_minutes": 15,
+              "ideal_minutes": 45,
+              "action": "Work toward obtaining the Heavy Corsair Jerkin through the Long Live the Lich mastery achievement or Domain of Kourna Reward Track."
+            },
+            {
+              "bit": 1,
+              "name": "Vision of Dragons: Aurene",
+              "activity": "open_world",
+              "location": "Domain of Kourna",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Visit the Memory Fragment almost directly above Lady Camilla near Zelbahn Garrison."
+            },
+            {
+              "bit": 2,
+              "name": "Vision of Allies: Blish",
+              "activity": "open_world",
+              "location": "Domain of Kourna",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Interact with the Data Log Printout directly west of Lady Camilla in the Allied Encampment."
+            },
+            {
+              "bit": 3,
+              "name": "Vision of Enemies: Olori Ogun",
+              "activity": "open_world",
+              "location": "Domain of Kourna",
+              "minimum_minutes": 15,
+              "ideal_minutes": 30,
+              "action": "Defeat the legendary bounty Troopmarshal Olori Ogun while carrying a Memory Essence Encapsulator."
+            },
+            {
+              "bit": 4,
+              "name": "Vision of Landscapes: Domain of Kourna",
+              "activity": "open_world",
+              "location": "Domain of Kourna",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Complete the skyscale rift above the Domain of Kourna Insight: Allied Encampment."
+            },
+            {
+              "bit": 5,
+              "name": "Banner of the Commander",
+              "activity": "achievement",
+              "location": "Domain of Kourna",
+              "minimum_minutes": 30,
+              "ideal_minutes": 60,
+              "action": "Work toward crafting the Banner of the Commander required for this collection."
+            },
+            {
+              "bit": 6,
+              "name": "Vision of Action: Domain of Kourna",
+              "activity": "open_world",
+              "location": "Domain of Kourna",
+              "minimum_minutes": 10,
+              "ideal_minutes": 20,
+              "action": "Complete the Dance with the choya to assist Tebb's research event near Idol of the Choya."
+            }
+          ]
+        },
+        {
+          "id": 4770,
+          "name": "Visions of Jahai",
+          "max": 7,
+          "objectives": [
+            {
+              "bit": 0,
+              "name": "Updated Record of Joko's Deeds",
+              "activity": "achievement",
+              "location": "Jahai Bluffs",
+              "minimum_minutes": 15,
+              "ideal_minutes": 45,
+              "action": "Work toward obtaining the Updated Record of Joko's Deeds after completing the A Star to Guide Us mastery achievement."
+            },
+            {
+              "bit": 1,
+              "name": "Vision of Dragons: Aurene",
+              "activity": "open_world",
+              "location": "Jahai Bluffs",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Visit the required memory location above Venta Pass Waypoint in Jahai Bluffs."
+            },
+            {
+              "bit": 2,
+              "name": "Vision of Allies: Braham",
+              "activity": "open_world",
+              "location": "Jahai Bluffs",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Find and interact with the Undelivered Letter near Mirza's Rest."
+            },
+            {
+              "bit": 3,
+              "name": "Vision of Enemies: Death-Branded Shatterer",
+              "activity": "open_world",
+              "location": "Jahai Bluffs",
+              "minimum_minutes": 15,
+              "ideal_minutes": 30,
+              "action": "Defeat the Death-Branded Shatterer while carrying a Memory Essence Encapsulator."
+            },
+            {
+              "bit": 4,
+              "name": "Vision of Landscapes: Jahai Bluffs",
+              "activity": "open_world",
+              "location": "Jahai Bluffs",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Complete the required skyscale rift at the top of the Displaced Vizier's Tower."
+            },
+            {
+              "bit": 5,
+              "name": "Vision of Equipment: Elegy Armor",
+              "activity": "achievement",
+              "location": "Jahai Bluffs",
+              "minimum_minutes": 30,
+              "ideal_minutes": 60,
+              "action": "Work toward completing The Convergence of Sorrow I: Elegy and obtaining the required Elegy Armor collection item."
+            },
+            {
+              "bit": 6,
+              "name": "Vision of Action: Jahai Bluffs",
+              "activity": "open_world",
+              "location": "Jahai Bluffs",
+              "minimum_minutes": 10,
+              "ideal_minutes": 20,
+              "action": "Complete the Stop Joko from recruiting the Awakened! event in Jahai Bluffs."
+            }
+          ]
+        },
+        {
+          "id": 4764,
+          "name": "Visions of Thunderhead Peaks",
+          "max": 7,
+          "objectives": [
+            {
+              "bit": 0,
+              "name": "Heavy Corsair Leggings",
+              "activity": "achievement",
+              "location": "Thunderhead Peaks",
+              "minimum_minutes": 15,
+              "ideal_minutes": 45,
+              "action": "Work toward obtaining the Heavy Corsair Leggings required for this collection."
+            },
+            {
+              "bit": 1,
+              "name": "Vision of Dragons: Aurene",
+              "activity": "open_world",
+              "location": "Thunderhead Peaks",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Visit the required memory location directly above The Forge in Thunderhead Peaks."
+            },
+            {
+              "bit": 2,
+              "name": "Vision of Allies: Caithe",
+              "activity": "open_world",
+              "location": "Thunderhead Peaks",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Find and interact with the Torn Page south of History's End Waypoint."
+            },
+            {
+              "bit": 3,
+              "name": "Vision of Enemies: Wrathbringer",
+              "activity": "open_world",
+              "location": "Thunderhead Peaks",
+              "minimum_minutes": 15,
+              "ideal_minutes": 30,
+              "action": "Defeat Wrathbringer while carrying a Memory Essence Encapsulator."
+            },
+            {
+              "bit": 4,
+              "name": "Vision of Landscapes: Thunderhead Peaks",
+              "activity": "open_world",
+              "location": "Thunderhead Peaks",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Complete the required skyscale rift near the Weeping Sisters in Thunderhead Peaks."
+            },
+            {
+              "bit": 5,
+              "name": "Vision of Equipment: Dragonsblood Weapons",
+              "activity": "achievement",
+              "location": "Thunderhead Peaks",
+              "minimum_minutes": 30,
+              "ideal_minutes": 60,
+              "action": "Work toward obtaining six different Dragonsblood weapon skins."
+            },
+            {
+              "bit": 6,
+              "name": "Vision of Action: Thunderhead Peaks",
+              "activity": "open_world",
+              "location": "Thunderhead Peaks",
+              "minimum_minutes": 10,
+              "ideal_minutes": 20,
+              "action": "Complete the Defend the Zephyrites from the Branded event in Thunderhead Peaks."
+            }
+          ]
+        },
         {
           "id": 4757,
           "name": "Visions of Dragonfall",
