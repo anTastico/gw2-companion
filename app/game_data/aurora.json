@@ -4,6 +4,68 @@
     {
       "name": "Aurora: Awakening",
       "achievement_id": 3522,
+      "unlock": {
+        "type": "achievement_chain",
+        "name": "Sentient Seed",
+        "item_id": 81781,
+        "action": "Complete the four sentient-item achievements, combine the four sentient items into Gleam of Sentience, then purchase the Sentient Seed for 1,000 Unbound Magic.",
+        "requirements": [
+          {
+            "achievement_id": 3053,
+            "name": "Conspiracy of Dunces",
+            "reward_item_id": 79197,
+            "reward_item_name": "Sentient Anomaly",
+            "activity": "achievement",
+            "location": "Bloodstone Fen",
+            "minimum_minutes": 15,
+            "ideal_minutes": 45,
+            "action": "Complete Conspiracy of Dunces by finding the White Mantle journals."
+          },
+          {
+            "achievement_id": 3129,
+            "name": "Token Collector",
+            "reward_item_id": 79558,
+            "reward_item_name": "Sentient Aberration",
+            "activity": "achievement",
+            "location": "Ember Bay",
+            "minimum_minutes": 20,
+            "ideal_minutes": 60,
+            "action": "Complete Token Collector by collecting the mursaat tokens scattered around Ember Bay."
+          },
+          {
+            "achievement_id": 3383,
+            "name": "Cin Business",
+            "reward_item_id": 80144,
+            "reward_item_name": "Sentient Oddity",
+            "activity": "achievement",
+            "location": "Lake Doric",
+            "minimum_minutes": 20,
+            "ideal_minutes": 60,
+            "action": "Complete Cin Business by finding the goods requested by Cin."
+          },
+          {
+            "achievement_id": 3429,
+            "name": "Lessons Learned",
+            "reward_item_id": 81120,
+            "reward_item_name": "Sentient Singularity",
+            "activity": "achievement",
+            "location": "Draconis Mons",
+            "minimum_minutes": 20,
+            "ideal_minutes": 60,
+            "action": "Complete Lessons Learned by finding all 14 lost golemancer recordings in Draconis Mons."
+          }
+        ],
+        "combine": {
+          "result_item_id": 81780,
+          "result_item_name": "Gleam of Sentience",
+          "action": "Combine Sentient Anomaly, Sentient Aberration, Sentient Oddity, and Sentient Singularity in the Mystic Forge."
+        },
+        "purchase": {
+          "currency": "Unbound Magic",
+          "required": 1000,
+          "action": "Use Gleam of Sentience to purchase the Sentient Seed for 1,000 Unbound Magic."
+        }
+      },
       "collections": [
         {
           "id": 3500,

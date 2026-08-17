@@ -30,14 +30,13 @@ class AuroraTracker:
             for achievement in account_achievements
         }
 
+        item_counts = await self.inventory.get_item_counts()
         stages = []
 
         for stage in self.data["stages"]:
             collections = []
-
             stage_current = 0
             stage_max = 0
-
             stage_achievement_id = stage.get("achievement_id")
 
             if (
@@ -52,15 +51,19 @@ class AuroraTracker:
                 else True
             )
 
-            for collection in stage["collections"]:
-                progress = account_progress.get(
-                    collection["id"],
-                    {}
+            unlock = None
+
+            if not stage_unlocked and stage.get("unlock"):
+                unlock = self._resolve_unlock(
+                    unlock_data=stage["unlock"],
+                    account_progress=account_progress,
+                    item_counts=item_counts
                 )
 
+            for collection in stage["collections"]:
+                progress = account_progress.get(collection["id"], {})
                 completed_bits = progress.get("bits", [])
                 current = len(completed_bits)
-
                 max_steps = collection["max"]
 
                 collections.append({
@@ -89,7 +92,7 @@ class AuroraTracker:
             else:
                 status = "locked"
 
-            stages.append({
+            stage_result = {
                 "name": stage["name"],
                 "status": status,
                 "current": stage_current,
@@ -99,9 +102,12 @@ class AuroraTracker:
                     1
                 ) if stage_max else 0,
                 "collections": collections
-            })
+            }
 
-        item_counts = await self.inventory.get_item_counts()
+            if unlock is not None:
+                stage_result["unlock"] = unlock
+
+            stages.append(stage_result)
 
         crafting = []
 
@@ -125,10 +131,7 @@ class AuroraTracker:
                     item_id=item["id"],
                     item_counts=item_counts
                 )
-
-                crafting_item["missing_materials"] = (
-                    analysis["missing_materials"]
-                )
+                crafting_item["missing_materials"] = analysis["missing_materials"]
 
             crafting.append(crafting_item)
 
@@ -143,46 +146,33 @@ class AuroraTracker:
             item_counts=item_counts
         )
 
-        achievement_current = sum(
-            stage["current"]
-            for stage in stages
-        )
+        achievement_current = sum(stage["current"] for stage in stages)
+        achievement_max = sum(stage["max"] for stage in stages)
 
-        achievement_max = sum(
-            stage["max"]
-            for stage in stages
-        )
-
-        if all(
-            stage["status"] == "completed"
-            for stage in stages
-        ):
+        if all(stage["status"] == "completed" for stage in stages):
             tracker_status = "completed"
-
-        elif any(
-            stage["status"] == "in_progress"
-            for stage in stages
-        ):
+        elif any(stage["status"] == "in_progress" for stage in stages):
             tracker_status = "in_progress"
-
-        elif all(
-            stage["status"] == "locked"
-            for stage in stages
-        ):
+        elif all(stage["status"] == "locked" for stage in stages):
             tracker_status = "locked"
-
         else:
             tracker_status = "in_progress"
 
         next_step = None
 
         for stage in stages:
-            if stage["status"] != "completed":
-                next_step = {
-                    "stage": stage["name"],
-                    "reason": stage["status"]
-                }
-                break
+            if stage["status"] == "completed":
+                continue
+
+            next_step = {
+                "stage": stage["name"],
+                "reason": stage["status"]
+            }
+
+            if stage.get("unlock"):
+                next_step["unlock"] = stage["unlock"]
+
+            break
 
         summary = {
             "status": tracker_status,
@@ -203,4 +193,86 @@ class AuroraTracker:
             "stages": stages,
             "crafting": crafting,
             "summary": summary
+        }
+
+    def _resolve_unlock(
+        self,
+        unlock_data: dict,
+        account_progress: dict,
+        item_counts: dict
+    ):
+        requirements = []
+
+        for requirement in unlock_data.get("requirements", []):
+            achievement_id = requirement["achievement_id"]
+            achievement_progress = account_progress.get(
+                achievement_id,
+                {}
+            )
+            reward_item_id = requirement.get("reward_item_id")
+
+            reward_owned = (
+                item_counts.get(reward_item_id, 0) > 0
+                if reward_item_id is not None
+                else False
+            )
+
+            completed = (
+                achievement_progress.get("done", False)
+                or reward_owned
+            )
+
+            requirements.append({
+                "achievement_id": achievement_id,
+                "name": requirement["name"],
+                "completed": completed,
+                "reward_item_id": reward_item_id,
+                "reward_item_name": requirement.get("reward_item_name"),
+                "reward_owned": reward_owned,
+                "activity": requirement.get("activity"),
+                "location": requirement.get("location"),
+                "minimum_minutes": requirement.get("minimum_minutes"),
+                "ideal_minutes": requirement.get("ideal_minutes"),
+                "action": requirement.get("action")
+            })
+
+        completed_count = sum(
+            1 for requirement in requirements
+            if requirement["completed"]
+        )
+        missing_requirements = [
+            requirement
+            for requirement in requirements
+            if not requirement["completed"]
+        ]
+
+        target_item_id = unlock_data.get("item_id")
+        target_owned = (
+            item_counts.get(target_item_id, 0) > 0
+            if target_item_id is not None
+            else False
+        )
+
+        return {
+            "type": unlock_data.get("type"),
+            "name": unlock_data["name"],
+            "item_id": target_item_id,
+            "target_owned": target_owned,
+            "current": completed_count,
+            "required": len(requirements),
+            "percent": round(
+                completed_count / len(requirements) * 100,
+                1
+            ) if requirements else 0,
+            "completed": target_owned,
+            "action": unlock_data.get("action"),
+            "requirements": requirements,
+            "completed_requirements": [
+                requirement
+                for requirement in requirements
+                if requirement["completed"]
+            ],
+            "missing_requirements": missing_requirements,
+            "combine": unlock_data.get("combine"),
+            "purchase": unlock_data.get("purchase")
         }

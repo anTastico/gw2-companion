@@ -747,38 +747,124 @@ class RecommendationService:
         aurora: dict,
         recommendations: list
     ):
-        summary = aurora.get(
-            "summary",
-            {}
-        )
-
-        status = summary.get(
-            "status"
-        )
+        summary = aurora.get("summary", {})
+        status = summary.get("status")
 
         if status == "locked":
-            next_step = summary.get(
-                "next_step"
-            )
+            next_step = summary.get("next_step", {})
+            unlock = next_step.get("unlock")
+
+            if unlock:
+                required = unlock.get("required", 0)
+                current = unlock.get("current", 0)
+                progress_ratio = (
+                    current / required
+                    if required
+                    else 0
+                )
+                missing_requirements = unlock.get(
+                    "missing_requirements",
+                    []
+                )
+
+                if missing_requirements:
+                    for requirement in missing_requirements:
+                        reward_name = requirement.get(
+                            "reward_item_name"
+                        )
+
+                        reason = (
+                            f"Aurora: Awakening is locked. "
+                            f"The Sentient Seed prerequisite "
+                            f"is {current}/{required} complete."
+                        )
+
+                        if reward_name:
+                            reason += (
+                                f" Completing this awards "
+                                f"{reward_name}."
+                            )
+
+                        recommendations.append({
+                            "goal": "Aurora",
+                            "type": "unlock_requirement",
+                            "title": requirement["name"],
+                            "progress": f"{current}/{required}",
+                            "progress_ratio": progress_ratio,
+                            "activity": requirement.get("activity"),
+                            "location": requirement.get("location"),
+                            "minimum_minutes": requirement.get(
+                                "minimum_minutes"
+                            ),
+                            "ideal_minutes": requirement.get(
+                                "ideal_minutes"
+                            ),
+                            "action": requirement.get(
+                                "action",
+                                "Complete this prerequisite for Aurora: Awakening."
+                            ),
+                            "reason": reason,
+                            "unlock": {
+                                "stage": next_step.get("stage"),
+                                "name": unlock.get("name"),
+                                "progress": f"{current}/{required}",
+                                "percent": unlock.get("percent"),
+                                "reward_item_id": requirement.get(
+                                    "reward_item_id"
+                                ),
+                                "reward_item_name": reward_name
+                            }
+                        })
+
+                    return
+
+                combine = unlock.get("combine", {})
+                purchase = unlock.get("purchase", {})
+
+                recommendations.append({
+                    "goal": "Aurora",
+                    "type": "unlock",
+                    "title": f"Acquire {unlock['name']}",
+                    "progress": f"{current}/{required}",
+                    "progress_ratio": progress_ratio,
+                    "activity": "vendor",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": " ".join(
+                        part
+                        for part in (
+                            combine.get("action"),
+                            purchase.get("action")
+                        )
+                        if part
+                    ),
+                    "reason": (
+                        "All tracked sentient-item prerequisites are complete. "
+                        "Finish the Sentient Seed unlock to open Aurora: Awakening."
+                    ),
+                    "unlock": {
+                        "stage": next_step.get("stage"),
+                        "name": unlock.get("name"),
+                        "progress": f"{current}/{required}",
+                        "percent": unlock.get("percent"),
+                        "combine": combine,
+                        "purchase": purchase
+                    }
+                })
+
+                return
 
             if next_step:
                 recommendations.append({
                     "goal": "Aurora",
                     "type": "unlock",
-                    "title": (
-                        f"Unlock "
-                        f"{next_step['stage']}"
-                    ),
+                    "title": f"Unlock {next_step['stage']}",
                     "progress_ratio": 0,
                     "action": (
-                        "Complete the prerequisite "
-                        "needed to unlock this "
+                        "Complete the prerequisite needed to unlock this "
                         "Aurora stage."
                     ),
-                    "reason": (
-                        "Aurora progression is "
-                        "currently locked."
-                    )
+                    "reason": "Aurora progression is currently locked."
                 })
 
             return
@@ -791,9 +877,7 @@ class RecommendationService:
 
             for collection in stage["collections"]:
                 if not collection["completed"]:
-                    incomplete_collections.append(
-                        collection
-                    )
+                    incomplete_collections.append(collection)
 
         if incomplete_collections:
             best_collection = max(
@@ -804,26 +888,20 @@ class RecommendationService:
             recommendations.append({
                 "goal": "Aurora",
                 "type": "achievement",
-                "title": (
-                    f"Continue "
-                    f"{best_collection['name']}"
-                ),
+                "title": f"Continue {best_collection['name']}",
                 "progress": (
                     f"{best_collection['current']}/"
                     f"{best_collection['max']}"
                 ),
                 "progress_ratio": (
-                    self._collection_progress_ratio(
-                        best_collection
-                    )
+                    self._collection_progress_ratio(best_collection)
                 ),
                 "action": (
-                    "Continue the incomplete "
-                    "collection objectives."
+                    "Continue the incomplete collection objectives."
                 ),
                 "reason": (
-                    "This is your most-progressed "
-                    "incomplete Aurora collection."
+                    "This is your most-progressed incomplete "
+                    "Aurora collection."
                 )
             })
 
@@ -843,18 +921,48 @@ class RecommendationService:
 
         next_step = incomplete_steps[0]
 
+        if next_step.get("id") == 5960:
+            dependency = regalia.get("dependency", {})
+            resolved = dependency.get("next_step")
+
+            if resolved:
+                remaining = [
+                    item
+                    for item in dependency.get("chain", [])
+                    if not item["completed"]
+                ]
+
+                recommendations.append({
+                    "goal": "Prismatic Champion's Regalia",
+                    "type": "unlock_requirement",
+                    "title": resolved["name"],
+                    "progress_ratio": 0,
+                    "activity": resolved.get("activity", "achievement"),
+                    "location": resolved.get("location"),
+                    "minimum_minutes": resolved.get("minimum_minutes"),
+                    "ideal_minutes": resolved.get("ideal_minutes"),
+                    "action": resolved.get(
+                        "action",
+                        "Complete this prerequisite."
+                    ),
+                    "reason": (
+                        "End Conjecture is locked behind this "
+                        f"achievement chain. {len(remaining)} "
+                        "tracked step(s) remain."
+                    ),
+                    "dependency": dependency
+                })
+                return
+
         recommendations.append({
             "goal": "Prismatic Champion's Regalia",
             "type": "achievement",
             "title": next_step["name"],
             "progress_ratio": 0,
-            "action": (
-                "Complete this Return achievement."
-            ),
+            "action": "Complete this Return achievement.",
             "reason": (
-                "This is the next incomplete "
-                "Regalia achievement in the "
-                "tracked list."
+                "This is the next incomplete Regalia achievement "
+                "in the tracked list."
             )
         })
 
@@ -875,6 +983,7 @@ class RecommendationService:
             "objective": "achievement",
             "achievement": "achievement",
             "unlock": "achievement",
+            "unlock_requirement": "achievement",
             "achievement_reward": "achievement",
             "wvw_or_buy": "wvw",
             "fractals_or_buy": "fractals",
@@ -996,6 +1105,7 @@ class RecommendationService:
         value_scores = {
             "objective": 105,
             "achievement": 100,
+            "unlock_requirement": 100,
             "unlock": 95,
             "achievement_reward": 90,
             "open_world": 75,
@@ -1008,6 +1118,7 @@ class RecommendationService:
 
         effort_levels = {
             "achievement": "medium",
+            "unlock_requirement": "medium",
             "unlock": "medium",
             "achievement_reward": "high",
             "open_world": "medium",

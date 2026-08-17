@@ -1,7 +1,59 @@
 [
     {
         "id": 5960,
-        "name": "End Conjecture"
+        "name": "End Conjecture",
+        "location": "Eye of the North",
+        "activity": "achievement",
+        "minimum_minutes": 5,
+        "ideal_minutes": 10,
+        "action": "After completing Return to the Dragonstorm, visit Taimi and Gorrik at the Eye of the North.",
+        "dependency_chain": [
+            {
+                "id": 5823,
+                "name": "Return to Research",
+                "location": "Eye of the North",
+                "activity": "achievement",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "action": "After completing Icebrood Saga Episode 5, visit Taimi and Gorrik at the Eye of the North."
+            },
+            {
+                "id": 5830,
+                "name": "Studying Scarlet",
+                "location": "Eye of the North",
+                "activity": "achievement",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "action": "After completing Return To Silverwastes 2, visit Taimi and Gorrik at the Eye of the North."
+            },
+            {
+                "id": 5851,
+                "name": "Peer Review",
+                "location": "Eye of the North",
+                "activity": "achievement",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "action": "After completing Return to Siren's Landing, visit Taimi and Gorrik at the Eye of the North."
+            },
+            {
+                "id": 5990,
+                "name": "Parallel Analysis",
+                "location": "Eye of the North",
+                "activity": "achievement",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "action": "After completing Return to Dragonfall, visit Taimi and Gorrik at the Eye of the North."
+            },
+            {
+                "id": 5960,
+                "name": "End Conjecture",
+                "location": "Eye of the North",
+                "activity": "achievement",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "action": "After completing Return to the Dragonstorm, visit Taimi and Gorrik at the Eye of the North."
+            }
+        ]
     },
     {
         "id": 5779,
@@ -69,7 +121,7 @@
     },
     {
         "id": 5748,
-        "name": "Return to Siren\u0027s Landing"
+        "name": "Return to Siren's Landing"
     },
     {
         "id": 5948,
