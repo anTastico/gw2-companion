@@ -29,7 +29,8 @@ class SessionPlanner:
             mode="play",
             goal=goal,
             activity=activity,
-            minutes=minutes
+            minutes=minutes,
+            full_candidate_pool=True
         )
 
         candidates = [

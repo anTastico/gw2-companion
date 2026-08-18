@@ -41,7 +41,8 @@ class RecommendationService:
         mode: str = "progress",
         goal: str | None = None,
         activity: str | None = None,
-        minutes: int | None = None
+        minutes: int | None = None,
+        full_candidate_pool: bool = False
     ):
         account_state = await AccountState.load()
 
@@ -118,10 +119,13 @@ class RecommendationService:
         eligible_count = len(eligible)
 
         if eligible:
-            selected = self._select_diverse_recommendations(
-                eligible,
-                mode
-            )
+            if full_candidate_pool:
+                selected = list(eligible)
+            else:
+                selected = self._select_diverse_recommendations(
+                    eligible,
+                    mode
+                )
 
             self._clean_internal_fields(
                 selected
