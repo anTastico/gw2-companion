@@ -231,7 +231,7 @@ class AuroraTracker:
                 or reward_owned
             )
 
-            requirements.append({
+            requirement_result = {
                 "achievement_id": achievement_id,
                 "name": requirement["name"],
                 "completed": completed,
@@ -243,7 +243,56 @@ class AuroraTracker:
                 "minimum_minutes": requirement.get("minimum_minutes"),
                 "ideal_minutes": requirement.get("ideal_minutes"),
                 "action": requirement.get("action")
-            })
+            }
+
+            objective_tracking = requirement.get("objective_tracking")
+
+            if (
+                objective_tracking
+                and objective_tracking.get("type") == "achievement_bits"
+                and not completed
+            ):
+                completed_bits = set(
+                    achievement_progress.get("bits", [])
+                )
+                objectives = objective_tracking.get("objectives", [])
+                missing_objectives = [
+                    objective
+                    for objective in objectives
+                    if objective.get("bit") not in completed_bits
+                ]
+
+                groups = {}
+
+                for objective in missing_objectives:
+                    group_name = objective.get(
+                        objective_tracking.get("group_by", "area"),
+                        "Other"
+                    )
+                    groups.setdefault(group_name, []).append(objective)
+
+                requirement_result["objective_progress"] = {
+                    "current": len(objectives) - len(missing_objectives),
+                    "required": len(objectives),
+                    "percent": round(
+                        (len(objectives) - len(missing_objectives))
+                        / len(objectives) * 100,
+                        1
+                    ) if objectives else 0,
+                    "completed_bits": sorted(completed_bits),
+                    "missing_count": len(missing_objectives),
+                    "missing_objectives": missing_objectives,
+                    "missing_groups": [
+                        {
+                            "name": group_name,
+                            "missing_count": len(group_objectives),
+                            "objectives": group_objectives
+                        }
+                        for group_name, group_objectives in groups.items()
+                    ]
+                }
+
+            requirements.append(requirement_result)
 
         completed_count = sum(
             1 for requirement in requirements

@@ -794,6 +794,83 @@ class RecommendationService:
                                 f"{reward_name}."
                             )
 
+                        objective_progress = requirement.get(
+                            "objective_progress"
+                        )
+
+                        if objective_progress:
+                            objective_required = objective_progress.get(
+                                "required",
+                                0
+                            )
+                            objective_current = objective_progress.get(
+                                "current",
+                                0
+                            )
+                            objective_ratio = (
+                                objective_current / objective_required
+                                if objective_required
+                                else 0
+                            )
+
+                            for group in objective_progress.get(
+                                "missing_groups",
+                                []
+                            ):
+                                group_objectives = group.get(
+                                    "objectives",
+                                    []
+                                )
+
+                                recommendations.append({
+                                    "goal": "Aurora",
+                                    "type": "objective_bundle",
+                                    "title": (
+                                        f"Token Collector: {group['name']}"
+                                    ),
+                                    "progress": (
+                                        f"{objective_current}/"
+                                        f"{objective_required}"
+                                    ),
+                                    "progress_ratio": objective_ratio,
+                                    "activity": "open_world",
+                                    "location": requirement.get("location"),
+                                    "minimum_minutes": max(
+                                        5,
+                                        len(group_objectives) * 2
+                                    ),
+                                    "ideal_minutes": max(
+                                        10,
+                                        len(group_objectives) * 5
+                                    ),
+                                    "action": (
+                                        f"Collect the "
+                                        f"{len(group_objectives)} missing "
+                                        f"mursaat token(s) in "
+                                        f"{group['name']}."
+                                    ),
+                                    "reason": (
+                                        f"Token Collector is "
+                                        f"{objective_current}/"
+                                        f"{objective_required} complete. "
+                                        f"This keeps the work grouped within "
+                                        f"{group['name']} in Ember Bay."
+                                    ),
+                                    "objectives": group_objectives,
+                                    "unlock": {
+                                        "stage": next_step.get("stage"),
+                                        "name": unlock.get("name"),
+                                        "progress": f"{current}/{required}",
+                                        "percent": unlock.get("percent"),
+                                        "reward_item_id": requirement.get(
+                                            "reward_item_id"
+                                        ),
+                                        "reward_item_name": reward_name
+                                    }
+                                })
+
+                            continue
+
                         recommendations.append({
                             "goal": "Aurora",
                             "type": "unlock_requirement",
@@ -1113,6 +1190,7 @@ class RecommendationService:
 
         value_scores = {
             "objective": 105,
+            "objective_bundle": 100,
             "achievement": 100,
             "unlock_requirement": 100,
             "unlock": 95,
@@ -1126,6 +1204,7 @@ class RecommendationService:
         }
 
         effort_levels = {
+            "objective_bundle": "medium",
             "achievement": "medium",
             "unlock_requirement": "medium",
             "unlock": "medium",
