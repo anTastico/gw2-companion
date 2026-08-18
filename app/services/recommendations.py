@@ -4,6 +4,7 @@ from pathlib import Path
 from app.trackers.regalia import RegaliaTracker
 from app.trackers.vision import VisionTracker
 from app.trackers.aurora import AuroraTracker
+from app.services.account_state import AccountState
 
 
 class RecommendationService:
@@ -42,9 +43,17 @@ class RecommendationService:
         activity: str | None = None,
         minutes: int | None = None
     ):
-        regalia = await self.regalia.progress()
-        vision = await self.vision.progress()
-        aurora = await self.aurora.progress()
+        account_state = await AccountState.load()
+
+        regalia = await self.regalia.progress(
+            account_state=account_state
+        )
+        vision = await self.vision.progress(
+            account_state=account_state
+        )
+        aurora = await self.aurora.progress(
+            account_state=account_state
+        )
 
         recommendations = []
 

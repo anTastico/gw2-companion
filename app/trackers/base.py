@@ -19,13 +19,18 @@ class BaseTracker:
         with open(data_file, "r", encoding="utf-8") as file:
             self.required = json.load(file)
 
-    async def progress(self):
-        account_achievements = await self.client.get_account_achievements()
+    async def progress(self, account_state=None):
+        if account_state is not None:
+            account_progress = account_state.achievement_by_id
+        else:
+            account_achievements = (
+                await self.client.get_account_achievements()
+            )
 
-        account_progress = {
-            achievement["id"]: achievement
-            for achievement in account_achievements
-        }
+            account_progress = {
+                achievement["id"]: achievement
+                for achievement in account_achievements
+            }
 
         steps = []
 

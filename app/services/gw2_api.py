@@ -7,25 +7,32 @@ from app.core.config import GW2_API_KEY
 class GW2Client:
     BASE_URL = "https://api.guildwars2.com/v2"
 
-    def __init__(self):
+    def __init__(self, http_client=None):
         self.headers = {
             "Authorization": f"Bearer {GW2_API_KEY}"
         }
+        self.http_client = http_client
 
     async def get(self, endpoint: str):
         timeout = httpx.Timeout(20.0)
 
         for attempt in range(3):
             try:
-                async with httpx.AsyncClient(timeout=timeout) as client:
-                    response = await client.get(
+                if self.http_client is not None:
+                    response = await self.http_client.get(
                         f"{self.BASE_URL}{endpoint}",
                         headers=self.headers
                     )
+                else:
+                    async with httpx.AsyncClient(timeout=timeout) as client:
+                        response = await client.get(
+                            f"{self.BASE_URL}{endpoint}",
+                            headers=self.headers
+                        )
 
-                    response.raise_for_status()
+                response.raise_for_status()
 
-                    return response.json()
+                return response.json()
 
             except httpx.ReadTimeout:
                 if attempt == 2:

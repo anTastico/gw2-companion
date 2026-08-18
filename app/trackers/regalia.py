@@ -9,14 +9,21 @@ class RegaliaTracker(BaseTracker):
             data_filename="regalia.json"
         )
 
-    async def progress(self):
-        result = await super().progress()
+    async def progress(self, account_state=None):
+        result = await super().progress(
+            account_state=account_state
+        )
 
-        account_achievements = await self.client.get_account_achievements()
-        account_progress = {
-            achievement["id"]: achievement
-            for achievement in account_achievements
-        }
+        if account_state is not None:
+            account_progress = account_state.achievement_by_id
+        else:
+            account_achievements = (
+                await self.client.get_account_achievements()
+            )
+            account_progress = {
+                achievement["id"]: achievement
+                for achievement in account_achievements
+            }
 
         required_by_id = {
             achievement["id"]: achievement
