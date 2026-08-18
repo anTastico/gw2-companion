@@ -61,152 +61,102 @@ The goal is not to replace GW2Efficiency, but to provide account-aware guidance 
 
 ### Milestone 5 - Account Inventory and Requirement Engine
 
-- Account-wide inventory aggregation.
-- Counts items across:
-  - Bank
-  - Material storage
-  - Shared inventory
-  - Character inventories
+- Account-wide inventory aggregation across bank, material storage, shared inventory, and character inventories.
 - Recursive recipe requirement analysis.
 - Calculates owned, required, and missing quantities.
 - Expands crafted components into underlying materials.
-- Aggregates duplicate leaf materials within recipe trees.
-- Aggregates shared requirements across multiple recipes.
+- Aggregates duplicate leaf materials and shared requirements.
 - Produces flat missing-material summaries.
 
 ### Milestone 6 - Vision Tracker
 
-- Vision I: Awakening tracking.
-- Vision II: Farsight tracking.
-- Tracks individual collection progress.
-- Objective-level tracking for Living World Season 4 Vision collections.
-- Count-only tracking for Vision II: Farsight.
-- Handles Vision I prerequisite state for Farsight.
-- Tracks final crafting components.
-- Mystic Tribute requirement analysis.
-- Gift of Prescience requirement analysis.
-- Gift of Arid Mastery requirement analysis.
-- Combined Vision-wide missing-material summary.
-- Combined Vision achievement progress summary.
+- Vision I: Awakening and Vision II: Farsight tracking.
+- Individual collection and objective-level progress.
+- Final crafting-component and recursive requirement tracking.
+- Mystic Tribute, Gift of Prescience, and Gift of Arid Mastery analysis.
+- Combined Vision-wide achievement and missing-material summaries.
 - Uses live account inventory and achievement data.
 
 ### Milestone 7 - Aurora Tracker
 
-- Aurora: Awakening tracking.
-- Aurora II: Empowering tracking.
+- Aurora: Awakening and Aurora II: Empowering tracking.
 - Tracks the six Living World Season 3 mastery collections.
 - Detects locked, in-progress, and completed collection stages.
-- Tracks final Aurora crafting components.
-- Reuses Mystic Tribute requirement analysis.
-- Gift of Sentience requirement analysis.
-- Gift of Draconic Mastery requirement analysis.
-- Tracks Living World Season 3 map currency requirements.
-- Produces an Aurora-wide missing-material summary.
-- Produces combined Aurora achievement progress.
-- Provides tracker-level status.
-- Provides an initial next-step structure.
-- Uses live account inventory and achievement data.
+- Tracks final crafting components and Living World Season 3 map currencies.
+- Mystic Tribute, Gift of Sentience, and Gift of Draconic Mastery analysis.
+- Combined Aurora achievement and missing-material summaries.
 - Verified against live account data.
 
 ### Milestone 8 - Recommendation Engine
 
-- Added a shared recommendation service across Vision, Aurora, and Regalia.
-- Supports recommendation modes:
-  - `progress`
-  - `quick`
-  - `play`
-- Supports goal filtering:
-  - Vision
-  - Aurora
-  - Prismatic Champion's Regalia
-- Supports activity filtering.
-- Adds estimated minimum and ideal session time.
-- Adds effort and value classifications.
-- Scores recommendations using:
-  - Goal value
-  - Current progress
-  - Estimated effort
-  - Activity type
-  - Available session time
-- Prevents recommendation lists from being dominated by one goal/activity combination.
-- Provides fallback recommendations when strict filters do not produce a direct match.
-- Includes acquisition recommendations for relevant materials.
-- Uses tracker data rather than maintaining separate account state.
+- Shared recommendation service across Vision, Aurora, and Regalia.
+- Supports `progress`, `quick`, and `play` modes.
+- Goal and activity filtering.
+- Minimum/ideal session-time estimates, effort, and value classifications.
+- Scoring based on goal value, progress, effort, activity type, and available time.
+- Prevents one goal/activity combination from dominating results.
+- Provides fallback and acquisition recommendations.
 
 ### Milestone 9 - Time-Aware Session Planner
 
 - Added `/session-plan`.
 - Builds multi-step plans from ranked recommendations.
-- Supports:
-  - Session length
-  - Goal filtering
-  - Activity filtering
-- Allocates time to tasks using minimum and ideal time estimates.
-- Allows intentionally unused session time when no worthwhile task fits.
-- Prefers staying in the current map/location when useful.
-- Applies a map-switch penalty.
-- Requires enough useful time before switching maps.
-- Uses a 75% ideal-time threshold for cross-map tasks.
-- Supports modest cross-goal awareness without forcing artificial goal diversity.
-- Preserves location grouping and reports all planned locations.
+- Supports session length, goal, and activity filtering.
+- Allocates time using minimum and ideal estimates.
+- Allows intentionally unused time when no worthwhile task fits.
+- Location-aware planning with map-switch penalties and useful-time thresholds.
+- Supports cross-goal planning without forcing artificial diversity.
 
 ### Milestone 10 - Vision Dependency-Aware Planning
 
 - Added dependency data for Heavy Corsair Boots.
-- Tracks `"War Eternal" Mastery` using live account achievement bits.
-- Maps all 18 War Eternal meta-achievement bit positions.
-- Reports:
-  - Current dependency progress
-  - Percentage complete
-  - Completed dependency objectives
-  - Missing dependency objectives
-- Preserves the Dragonfall Reward Track as an alternative acquisition route.
-- Recommendation scoring can use dependency progress rather than only parent-collection progress.
-- Session plans preserve dependency details.
-- Added actionable metadata to remaining War Eternal objectives.
-- Supports dependency objective bundling by location.
-- Groups Dragonfall focus work into:
-  - `quick`
-  - `active`
-  - `opportunistic`
-- Keeps story-specific objectives such as Dexterous Dodger outside the Dragonfall bundle.
-- Avoids double-counting bundled focus tasks as separate session time.
+- Tracks `"War Eternal" Mastery` using live achievement bits.
+- Maps all 18 meta-achievement bit positions.
+- Reports dependency progress and missing objectives.
+- Preserves Dragonfall Reward Track as an alternative acquisition route.
+- Adds actionable objective metadata and Dragonfall focus bundling.
+- Avoids double-counting bundled tasks as separate session time.
 
 ### Milestone 11 - Multi-Goal Dependency-Aware Planning
 
-- Added actionable Aurora unlock-prerequisite tracking for `Aurora: Awakening`.
-- Models the Sentient Seed unlock chain using:
+- Added actionable Aurora Sentient Seed unlock prerequisites:
   - Conspiracy of Dunces
   - Token Collector
   - Cin Business
   - Lessons Learned
-- Detects completed sentient-item requirements using achievement completion and inventory ownership.
-- Reports Aurora unlock progress and missing prerequisites.
-- Adds Aurora unlock requirements as real recommendation candidates with:
-  - Location
-  - Minimum and ideal time
-  - Action text
-  - Unlock context
-- Added `unlock_requirement` scoring support so hard prerequisites are treated as high-value work.
+- Added `unlock_requirement` scoring for hard prerequisites.
 - Added dependency-aware Regalia handling for End Conjecture.
-- Models the verified End Conjecture chain:
+- Models the verified chain:
   - Return to Research
   - Studying Scarlet
   - Peer Review
   - Parallel Analysis
   - End Conjecture
-- Regalia now resolves the first incomplete actionable prerequisite instead of recommending a locked downstream achievement.
-- Adds accurate Eye of the North location and short 5-10 minute estimates for the Taimi/Gorrik chain.
-- Verified that unrestricted recommendation ranking compares Vision, Aurora, and Regalia using real actionable candidates.
-- Verified that planner behaviour remains focused when that is best:
-  - 60-minute plans can stay entirely on Vision.
-  - 90-minute plans can still remain Vision-focused when the alternatives are less efficient.
-- Verified genuine multi-goal planning:
-  - A 120-minute unrestricted session naturally selected Vision work in Dragonfall followed by Aurora work in Ember Bay.
-- Confirmed design principle:
-  - Multi-goal planning should enable cross-goal progress when worthwhile.
-  - It should not force every session to include multiple goals.
-- Confirmed that better underlying game data is preferable to compensating with scoring tweaks.
+- Regalia resolves the first incomplete actionable prerequisite rather than a locked downstream achievement.
+- Verified unrestricted ranking across Vision, Aurora, and Regalia.
+- Verified focused 60/90-minute plans and natural multi-goal behaviour in a 120-minute plan.
+- Confirmed design rule: multi-goal planning enables cross-goal progress when worthwhile; it does not require every session to contain multiple goals.
+
+### Milestone 12 - Shared Account State and API Optimisation
+
+- Added request-scoped `AccountState`.
+- Recommendation/session-planning requests fetch account data once and share the snapshot across Regalia, Vision, and Aurora.
+- Shared state contains account achievements, achievement lookup by ID, and aggregated account-wide item counts.
+- The five ArenaNet account requests are issued concurrently with `asyncio.gather`:
+  - `/account/achievements`
+  - `/account/bank`
+  - `/account/materials`
+  - `/account/inventory`
+  - `/characters?page=0&page_size=200`
+- Added shared `httpx.AsyncClient` injection to `GW2Client` so the snapshot reuses one HTTP client across all five requests.
+- Preserved standalone tracker behaviour when no shared snapshot is supplied.
+- Temporary instrumentation verified that one `/session-plan` request performs exactly the intended five account calls with no hidden duplicate account requests.
+- `/characters` was the slowest observed endpoint during instrumentation.
+- Five-run `/session-plan?minutes=60` benchmark before shared HTTP-client reuse averaged approximately 8.13 seconds, with a 4.13-12.40 second sample range.
+- Five-run benchmark after shared HTTP-client reuse averaged approximately 4.87 seconds, with a 3.87-6.74 second sample range.
+- The measured sample therefore showed roughly a 40% lower average request time and substantially reduced latency variance.
+- Temporary timing/debug instrumentation was removed before commit.
+- Established a short architecture/efficiency review at major milestone boundaries, checking for duplicate API calls, duplicate logic/data, unnecessary sequential work, growing coupling, performance bottlenecks, and error-handling weaknesses.
 
 ---
 
@@ -215,6 +165,14 @@ The goal is not to replace GW2Efficiency, but to provide account-aware guidance 
 FastAPI
   |
   +-- RecommendationService
+  |     |
+  |     +-- AccountState
+  |     |     |
+  |     |     +-- Achievements
+  |     |     +-- Bank
+  |     |     +-- Materials
+  |     |     +-- Shared inventory
+  |     |     +-- Character inventories
   |     |
   |     +-- RegaliaTracker
   |     +-- VisionTracker
@@ -230,31 +188,16 @@ FastAPI
   |     +-- Cross-goal awareness
   |     +-- Dependency focus grouping
   |
-  +-- Trackers
-  |     |
-  |     +-- RegaliaTracker
-  |     +-- VisionTracker
-  |     +-- AuroraTracker
-  |
   +-- RequirementAnalyzer
   |     |
   |     +-- Recursive recipe analysis
   |     +-- Missing material aggregation
   |
-  +-- AccountInventory
-  |     |
-  |     +-- Bank
-  |     +-- Materials
-  |     +-- Shared inventory
-  |     +-- Character inventories
-  |
   +-- GW2Client
         |
         +-- ArenaNet API
 
-Static game, acquisition, session-profile, and recipe data:
-
-`app/game_data/`
+Static game, acquisition, session-profile, and recipe data live in `app/game_data/`.
 
 ---
 
@@ -293,53 +236,34 @@ Static game, acquisition, session-profile, and recipe data:
 
 ## Current Development Branch
 
-`feature/multi-goal-planning`
+`feature/shared-account-state`
 
-This branch contains the completed multi-goal planning work built on top of the merged recommendation/session-planning milestone.
+This branch contains the completed request-scoped account-state and API-efficiency work built on top of the merged multi-goal planning milestone.
 
 Current verified behaviour includes:
 
-- Vision dependency-aware planning.
-- Aurora unlock-prerequisite recommendations.
-- Regalia dependency-chain resolution.
-- Cross-goal recommendation ranking.
-- Location-aware multi-goal session planning.
+- One shared account snapshot per recommendation/session-planning request.
+- Five concurrent ArenaNet account calls instead of duplicated tracker-level fetching.
+- Shared HTTP-client reuse for account snapshot requests.
+- Preserved standalone tracker behaviour.
+- Unchanged recommendation and session-planning results after the refactor.
+- Improved `/session-plan` latency in the measured five-run benchmark.
 
 ---
 
 ## Current Multi-Goal Planning Behaviour
 
-The current planner has been verified against live account state.
+The planner has been verified against live account state.
 
-### Short and medium sessions
+Shorter sessions can remain focused on one goal when that is the best use of time. Longer sessions can naturally cross goals when enough useful time exists to justify changing location.
 
-Shorter sessions can remain focused on a single goal when that produces the best use of time.
-
-Example behaviour:
-
-- 60-minute unrestricted session:
-  - Vision-focused Dragonfall plan.
-- 90-minute unrestricted session:
-  - Vision-focused plan can still win even when Aurora and Regalia are available.
-
-This is intentional.
-
-### Longer sessions
-
-Longer sessions can naturally cross goals when there is enough useful time to justify changing location.
-
-Verified example:
-
-- 120-minute unrestricted session:
-  - Vision work in Dragonfall.
-  - Aurora `Token Collector` work in Ember Bay.
-  - Small amount of unused time left rather than filling the plan with a weak task.
+Verified examples include a Vision-focused 60-minute plan, a Vision-focused 90-minute plan, and a 120-minute plan combining Vision work in Dragonfall with Aurora Token Collector work in Ember Bay.
 
 Design rule:
 
 `multi-goal planning != mandatory goal diversity`
 
-The planner should optimise useful progress, time fit, and travel/location efficiency first, while still recognising when a second goal becomes worthwhile.
+The planner optimises useful progress, time fit, and travel/location efficiency first.
 
 ---
 
@@ -347,66 +271,49 @@ The planner should optimise useful progress, time fit, and travel/location effic
 
 ### Regalia external prerequisites
 
-The End Conjecture dependency chain is modelled, but some chain steps themselves rely on external Return/meta-achievement prerequisites.
+The End Conjecture chain is modelled, but some chain steps rely on external Return/meta-achievement prerequisites. The current resolver does not yet recursively combine those external Return achievements into one dependency graph.
 
-Examples:
+### ArenaNet API latency
 
-- Peer Review depends on Return to Siren's Landing.
-- Parallel Analysis depends on Return to Dragonfall.
-- End Conjecture depends on Return to the Dragonstorm.
+Duplicate account fetching has been resolved by `AccountState`. Remaining request latency is primarily influenced by the slowest ArenaNet endpoint in the concurrent snapshot. During instrumentation, `/characters?page=0&page_size=200` was the slowest observed account request.
 
-The current resolver tracks the Taimi/Gorrik chain itself, but does not yet recursively combine those external Return-achievement prerequisites into one dependency graph.
-
-### Duplicate account/API work
-
-Recommendation and session-plan requests currently cause multiple trackers to fetch overlapping account data independently.
-
-This can result in repeated calls for:
-
-- Account achievements.
-- Characters.
-- Bank.
-- Material storage.
-- Shared inventory.
-
-A GW2 API `ReadTimeout` has already been observed during `/session-plan` while fetching characters.
-
-Future improvement:
-
-- Fetch account state once per recommendation/session request.
-- Share that state across trackers and services.
-- Reduce ArenaNet API call volume and timeout risk.
+Possible future improvements include carefully scoped short-lived caching, determining whether every recommendation mode requires character inventory, and graceful partial-state handling when a non-critical ArenaNet endpoint fails.
 
 ### Incomplete objective depth
 
-Vision currently has the richest objective-level data.
+Vision currently has the richest objective-level data. Aurora and Regalia have meaningful prerequisite-aware recommendations, but deeper objective guidance can still be added for Living World Season 3 mastery collections, remaining Regalia Return achievements, and additional Vision dependencies.
 
-Aurora and Regalia now have meaningful prerequisite-aware recommendations, but deeper objective-level guidance can still be added for:
+---
 
-- Aurora Living World Season 3 mastery collections.
-- Remaining Regalia Return achievements.
-- Additional Vision collections and dependencies.
+## Development Practice - Milestone Architecture Review
+
+At the end of each major milestone, perform a short architecture/efficiency review before merging. The review should look specifically for:
+
+- Duplicate API/database/network calls.
+- Duplicate logic or static data.
+- Unnecessary sequential work that can safely run concurrently.
+- Services becoming too tightly coupled.
+- New performance bottlenecks.
+- Fragile or repeated error-handling paths.
+- Opportunities to simplify before adding the next major feature.
+
+Optimisations should be measured where practical rather than retained solely because they appear architecturally cleaner.
 
 ---
 
 ## Next Milestone
 
-The multi-goal planning architecture is now proven.
+Shared account-state/API optimisation is complete and verified.
 
-The next development step should focus on one of two areas:
+The next development step should return to broader dependency/objective modelling:
 
-1. **Shared account-state / API optimisation**
-   - Reduce duplicate ArenaNet calls.
-   - Improve response speed.
-   - Reduce timeout risk.
+- Expand Aurora objective-level guidance.
+- Expand Regalia dependency depth.
+- Model external Return-achievement prerequisites.
+- Reuse dependency structures across additional tracked goals.
+- Continue expanding Vision dependencies where useful.
 
-2. **Broader dependency/objective modelling**
-   - Expand Aurora objective-level guidance.
-   - Expand Regalia dependency depth.
-   - Model external Return-achievement prerequisites.
-   - Reuse the same dependency structures across additional tracked goals.
-
-Before starting the next milestone, this branch should be reviewed and merged into `main` once the current status update is committed.
+At the end of that milestone, perform another architecture/efficiency review before merging.
 
 ---
 
@@ -417,19 +324,11 @@ Before starting the next milestone, this branch should be reviewed and merged in
 - Add deeper Regalia objective-level guidance.
 - Add additional legendary goals.
 - Improve handling of currencies and non-inventory requirements.
-- Expand acquisition method modelling:
-  - Craft
-  - Buy
-  - Earn
-  - Achievement reward
-  - PvP/WvW reward track
-  - Time-gated acquisition
+- Expand acquisition-method modelling: craft, buy, earn, achievement rewards, PvP/WvW reward tracks, and time-gated acquisition.
 - Add event/meta awareness where useful.
-- Add stronger prerequisite modelling.
 - Improve estimated effort and time-gating awareness.
 - Add planner support for grouped/meta-event tasks.
-- Share account state across trackers to reduce duplicate API calls.
-- Add caching where appropriate.
+- Consider carefully scoped caching only if further latency reduction becomes worthwhile.
 - Build a user-friendly frontend/dashboard.
 - Prepare for self-hosted deployment.
 
@@ -449,6 +348,8 @@ The session planner is operational with time allocation, map-aware planning, use
 
 The project now has a working end-to-end pipeline:
 
-`game data -> live account state -> trackers -> recommendations -> session plans`
+`game data -> shared live account state -> trackers -> recommendations -> session plans`
 
-The current branch proves that multiple goals can now compete fairly in the same planner without forcing artificial diversity.
+Recommendation and session-planning requests share one request-scoped account snapshot across all three trackers, eliminating duplicate account fetching while preserving fresh data and standalone tracker behaviour.
+
+The development workflow now includes milestone-end architecture/efficiency reviews to catch avoidable technical debt as the project grows.
