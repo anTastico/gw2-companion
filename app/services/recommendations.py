@@ -822,11 +822,17 @@ class RecommendationService:
                                     []
                                 )
 
+                                requirement_name = requirement["name"]
+                                requirement_location = requirement.get(
+                                    "location"
+                                )
+
                                 recommendations.append({
                                     "goal": "Aurora",
                                     "type": "objective_bundle",
                                     "title": (
-                                        f"Token Collector: {group['name']}"
+                                        f"{requirement_name}: "
+                                        f"{group['name']}"
                                     ),
                                     "progress": (
                                         f"{objective_current}/"
@@ -834,7 +840,7 @@ class RecommendationService:
                                     ),
                                     "progress_ratio": objective_ratio,
                                     "activity": "open_world",
-                                    "location": requirement.get("location"),
+                                    "location": requirement_location,
                                     "minimum_minutes": max(
                                         5,
                                         len(group_objectives) * 2
@@ -844,17 +850,22 @@ class RecommendationService:
                                         len(group_objectives) * 5
                                     ),
                                     "action": (
-                                        f"Collect the "
+                                        f"Complete the "
                                         f"{len(group_objectives)} missing "
-                                        f"mursaat token(s) in "
-                                        f"{group['name']}."
+                                        f"{requirement_name} objective(s) "
+                                        f"in {group['name']}."
                                     ),
                                     "reason": (
-                                        f"Token Collector is "
+                                        f"{requirement_name} is "
                                         f"{objective_current}/"
                                         f"{objective_required} complete. "
                                         f"This keeps the work grouped within "
-                                        f"{group['name']} in Ember Bay."
+                                        f"{group['name']}"
+                                        + (
+                                            f" in {requirement_location}."
+                                            if requirement_location
+                                            else "."
+                                        )
                                     ),
                                     "objectives": group_objectives,
                                     "unlock": {
