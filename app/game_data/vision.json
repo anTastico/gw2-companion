@@ -61,7 +61,108 @@
               "location": "Domain of Istan",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward obtaining the required Astral or Stellar weapon skins for this collection."
+              "action": "Complete Brandstone Research first, then unlock six Astral or Stellar weapon skins and speak to Yasna.",
+              "dependency": {
+                "achievement_id": 4000,
+                "name": "Brandstone Research",
+                "tracking": "achievement_bits",
+                "required": 7,
+                "time_gated": true,
+                "time_gate": "One Brandstone Research task can be completed per day; the full achievement takes at least 7 days.",
+                "objectives": [
+                  {
+                    "bit": 0,
+                    "name": "Kralkatite Research",
+                    "activity": "vendor",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Bring 10 Kralkatite Ore to Yasna in the Astralarium.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 1,
+                    "name": "Branded Residue Research",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Collect 10 Branded Residues from Branded creatures and bring them to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 2,
+                    "name": "Miasma Research",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Use Yasna's Particle Collector at a Brandstone Impact Site, then return the filled collector to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 3,
+                    "name": "Powdered Gemstone Research",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Collect 10 Powdered Rose Quartz from Brandstone Chunks and bring it to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 4,
+                    "name": "Treatise on Astral Alignments",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Access the restricted archives via Archivist Salwa, collect the Treatise on Astral Alignments, and return it to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 5,
+                    "name": "Mirror Calibration Readings",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Complete Akili's mirror-calibration event at the Astralarium and return to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 6,
+                    "name": "Blazing Kralkatite",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Combine 10 Kralkatite Ore and 5 Powdered Rose Quartz at the Beam of Light atop the Astralarium, then bring the result to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  }
+                ],
+                "unlocks": {
+                  "type": "vendor_recipes",
+                  "name": "Astral weapon recipes",
+                  "vendor": "Yasna",
+                  "location": "The Astralarium, Domain of Istan"
+                },
+                "next_step": {
+                  "type": "skin_count",
+                  "name": "Astral or Stellar weapon skins",
+                  "required": 6,
+                  "note": "After Brandstone Research, unlock six Astral or Stellar weapon skins, then speak to Yasna for the Vision collection item."
+                },
+                "sequential": true
+              }
             },
             {
               "bit": 6,

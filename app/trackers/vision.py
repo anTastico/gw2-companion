@@ -427,6 +427,24 @@ class VisionTracker:
                 ]
             })
 
+        for field in (
+            "time_gated",
+            "time_gate",
+            "sequential",
+            "unlocks",
+            "next_step"
+        ):
+            if field in dependency:
+                dependency_result[field] = dependency[field]
+
+        if (
+            dependency_result.get("sequential")
+            and dependency_result.get("missing_objectives")
+        ):
+            dependency_result["next_objective"] = (
+                dependency_result["missing_objectives"][0]
+            )
+
         alternative = dependency.get(
             "alternative"
         )

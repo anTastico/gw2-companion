@@ -15,8 +15,15 @@ class GW2Client:
 
     async def get(self, endpoint: str):
         timeout = httpx.Timeout(20.0)
+        max_attempts = 3
+        retry_statuses = {
+            500,
+            502,
+            503,
+            504
+        }
 
-        for attempt in range(3):
+        for attempt in range(max_attempts):
             try:
                 if self.http_client is not None:
                     response = await self.http_client.get(
@@ -24,21 +31,41 @@ class GW2Client:
                         headers=self.headers
                     )
                 else:
-                    async with httpx.AsyncClient(timeout=timeout) as client:
+                    async with httpx.AsyncClient(
+                        timeout=timeout
+                    ) as client:
                         response = await client.get(
                             f"{self.BASE_URL}{endpoint}",
                             headers=self.headers
                         )
 
+                if (
+                    response.status_code in retry_statuses
+                    and attempt < max_attempts - 1
+                ):
+                    await asyncio.sleep(
+                        0.5 * (2 ** attempt)
+                    )
+                    continue
+
                 response.raise_for_status()
 
                 return response.json()
 
-            except httpx.ReadTimeout:
-                if attempt == 2:
+            except (
+                httpx.TimeoutException,
+                httpx.NetworkError
+            ):
+                if attempt == max_attempts - 1:
                     raise
 
-                await asyncio.sleep(1)
+                await asyncio.sleep(
+                    0.5 * (2 ** attempt)
+                )
+
+        raise RuntimeError(
+            f"GW2 API request exhausted retries: {endpoint}"
+        )
 
     async def get_account(self):
         data = await self.get("/account")

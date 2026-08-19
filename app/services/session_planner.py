@@ -15,6 +15,7 @@ class SessionPlanner:
     LOW_VALUE_PENALTY = 25
     MIN_WORTHWHILE_SCORE = 70
     MIN_MAP_SWITCH_IDEAL_RATIO = 0.75
+    TIME_GATED_PLANNER_BONUS = 20
 
     def __init__(self):
         self.recommendations = RecommendationService()
@@ -166,6 +167,15 @@ class SessionPlanner:
                 step["progress"] = best[
                     "progress"
                 ]
+
+            if "time_gated" in best:
+                step["time_gated"] = best["time_gated"]
+
+            if best.get("time_gate"):
+                step["time_gate"] = best["time_gate"]
+
+            if "parent_objective" in best:
+                step["parent_objective"] = best["parent_objective"]
 
             if "dependency" in best:
                 step["dependency"] = best[
@@ -389,6 +399,9 @@ class SessionPlanner:
         unrestricted_goal: bool
     ):
         score = candidate["score"]
+
+        if candidate.get("time_gated"):
+            score += self.TIME_GATED_PLANNER_BONUS
 
         location = candidate.get(
             "location"

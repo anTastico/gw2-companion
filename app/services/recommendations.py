@@ -535,6 +535,12 @@ class RecommendationService:
                                 )
                             )
 
+                            next_dependency_objective = (
+                                dependency.get("next_objective")
+                                if dependency.get("sequential")
+                                else None
+                            )
+
                             reason = (
                                 f"{dependency['name']} is "
                                 f"{dependency.get('current', 0)}/"
@@ -542,6 +548,19 @@ class RecommendationService:
                                 f"{len(missing_dependency_objectives)} "
                                 f"objectives remaining."
                             )
+
+                            if next_dependency_objective:
+                                reason += (
+                                    " The dependency is sequential; "
+                                    f"the next step is "
+                                    f"{next_dependency_objective['name']}."
+                                )
+
+                            if dependency.get("time_gated"):
+                                reason += (
+                                    " Starting this time-gated dependency "
+                                    "early avoids delaying later progress."
+                                )
                         else:
                             progress_ratio = (
                                 self._collection_progress_ratio(
@@ -589,6 +608,52 @@ class RecommendationService:
                         }
 
                         if dependency:
+                            recommendation["time_gated"] = (
+                                dependency.get("time_gated", False)
+                            )
+                            recommendation["time_gate"] = (
+                                dependency.get("time_gate")
+                            )
+
+                            next_dependency_objective = (
+                                dependency.get("next_objective")
+                                if dependency.get("sequential")
+                                else None
+                            )
+
+                            if next_dependency_objective:
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+                                recommendation["title"] = (
+                                    f"{dependency['name']}: "
+                                    f"{next_dependency_objective['name']}"
+                                )
+                                recommendation["location"] = (
+                                    next_dependency_objective.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                )
+                                recommendation["minimum_minutes"] = (
+                                    next_dependency_objective.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    )
+                                )
+                                recommendation["ideal_minutes"] = (
+                                    next_dependency_objective.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    )
+                                )
+                                recommendation["action"] = (
+                                    next_dependency_objective.get(
+                                        "action",
+                                        objective.get("action")
+                                    )
+                                )
+
                             recommendation["dependency"] = {
                                 "achievement_id": dependency.get(
                                     "achievement_id"
@@ -615,6 +680,26 @@ class RecommendationService:
                                 ),
                                 "alternative": dependency.get(
                                     "alternative"
+                                ),
+                                "time_gated": dependency.get(
+                                    "time_gated",
+                                    False
+                                ),
+                                "time_gate": dependency.get(
+                                    "time_gate"
+                                ),
+                                "sequential": dependency.get(
+                                    "sequential",
+                                    False
+                                ),
+                                "next_objective": dependency.get(
+                                    "next_objective"
+                                ),
+                                "unlocks": dependency.get(
+                                    "unlocks"
+                                ),
+                                "next_step": dependency.get(
+                                    "next_step"
                                 )
                             }
 
@@ -743,6 +828,15 @@ class RecommendationService:
                 ),
                 "activity": metadata.get(
                     "activity"
+                ),
+                "location": metadata.get(
+                    "location"
+                ),
+                "minimum_minutes": metadata.get(
+                    "minimum_minutes"
+                ),
+                "ideal_minutes": metadata.get(
+                    "ideal_minutes"
                 ),
                 "action": metadata.get(
                     "action",
@@ -1403,6 +1497,9 @@ class RecommendationService:
             if value >= 60
             else "low"
         )
+
+        if recommendation.get("time_gated"):
+            score += 10
 
         recommendation["score"] = round(
             score,

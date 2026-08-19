@@ -142,6 +142,7 @@
   "87645": {
     "type": "open_world",
     "activity": "open_world",
+    "location": "Domain of Kourna",
     "recommend_directly": true,
     "action": "Earn Inscribed Shards in Domain of Kourna."
   },
@@ -149,6 +150,7 @@
   "86977": {
     "type": "open_world",
     "activity": "open_world",
+    "location": "Sandswept Isles",
     "recommend_directly": true,
     "action": "Earn Difluorite Crystals in Sandswept Isles."
   },
@@ -156,6 +158,7 @@
   "88955": {
     "type": "open_world",
     "activity": "open_world",
+    "location": "Jahai Bluffs",
     "recommend_directly": true,
     "action": "Earn Lumps of Mistonium in Jahai Bluffs."
   },
@@ -163,6 +166,7 @@
   "89537": {
     "type": "open_world",
     "activity": "open_world",
+    "location": "Thunderhead Peaks",
     "recommend_directly": true,
     "action": "Earn Branded Masses in Thunderhead Peaks."
   },
