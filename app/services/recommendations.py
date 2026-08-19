@@ -977,8 +977,115 @@ class RecommendationService:
                 continue
 
             for collection in stage["collections"]:
-                if not collection["completed"]:
-                    incomplete_collections.append(collection)
+                if collection["completed"]:
+                    continue
+
+                if not collection.get("actionable", True):
+                    continue
+
+                objective_progress = collection.get(
+                    "objective_progress"
+                )
+
+                if objective_progress:
+                    objective_required = objective_progress.get(
+                        "required",
+                        collection.get("max", 0)
+                    )
+                    objective_current = objective_progress.get(
+                        "current",
+                        collection.get("current", 0)
+                    )
+                    objective_ratio = (
+                        objective_current / objective_required
+                        if objective_required
+                        else 0
+                    )
+
+                    for group in objective_progress.get(
+                        "missing_groups",
+                        []
+                    ):
+                        group_objectives = group.get(
+                            "objectives",
+                            []
+                        )
+
+                        if not group_objectives:
+                            continue
+
+                        minimum_minutes = sum(
+                            objective.get(
+                                "minimum_minutes",
+                                5
+                            )
+                            for objective in group_objectives
+                        )
+                        ideal_minutes = sum(
+                            objective.get(
+                                "ideal_minutes",
+                                10
+                            )
+                            for objective in group_objectives
+                        )
+
+                        activities = {
+                            objective.get(
+                                "activity",
+                                "open_world"
+                            )
+                            for objective in group_objectives
+                        }
+                        bundle_activity = (
+                            next(iter(activities))
+                            if len(activities) == 1
+                            else "open_world"
+                        )
+
+                        recommendations.append({
+                            "goal": "Aurora",
+                            "type": "objective_bundle",
+                            "title": (
+                                f"{collection['name']}: "
+                                f"{group['name']}"
+                            ),
+                            "progress": (
+                                f"{objective_current}/"
+                                f"{objective_required}"
+                            ),
+                            "progress_ratio": objective_ratio,
+                            "activity": bundle_activity,
+                            "location": collection.get(
+                                "location"
+                            ),
+                            "minimum_minutes": max(
+                                5,
+                                minimum_minutes
+                            ),
+                            "ideal_minutes": max(
+                                10,
+                                ideal_minutes
+                            ),
+                            "action": (
+                                f"Work on the "
+                                f"{len(group_objectives)} missing "
+                                f"{group['name'].lower()} "
+                                f"objective(s) for "
+                                f"{collection['name']}."
+                            ),
+                            "reason": (
+                                f"{collection['name']} is "
+                                f"{objective_current}/"
+                                f"{objective_required} complete. "
+                                f"This groups similar work in "
+                                f"{collection.get('location')}."
+                            ),
+                            "objectives": group_objectives
+                        })
+
+                    continue
+
+                incomplete_collections.append(collection)
 
         if incomplete_collections:
             best_collection = max(
@@ -1002,7 +1109,7 @@ class RecommendationService:
                 ),
                 "reason": (
                     "This is your most-progressed incomplete "
-                    "Aurora collection."
+                    "Aurora collection without objective-level guidance."
                 )
             })
 

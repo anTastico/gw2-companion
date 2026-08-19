@@ -75,13 +75,40 @@ class AuroraTracker:
                 current = len(completed_bits)
                 max_steps = collection["max"]
 
-                collections.append({
+                collection_result = {
                     "id": collection["id"],
                     "name": collection["name"],
                     "current": current,
                     "max": max_steps,
-                    "completed": progress.get("done", False)
-                })
+                    "completed": progress.get("done", False),
+                    "unlocked": stage_unlocked,
+                    "actionable": (
+                        stage_unlocked
+                        and not progress.get("done", False)
+                    ),
+                    "location": collection.get("location")
+                }
+
+                objective_tracking = collection.get(
+                    "objective_tracking"
+                )
+
+                if (
+                    objective_tracking
+                    and objective_tracking.get("type")
+                    == "achievement_bits"
+                ):
+                    objective_progress = self._resolve_achievement_bits(
+                        objective_tracking=objective_tracking,
+                        achievement_progress=progress
+                    )
+                    collection_result["objective_progress"] = (
+                        objective_progress
+                    )
+                    current = objective_progress["current"]
+                    collection_result["current"] = current
+
+                collections.append(collection_result)
 
                 stage_current += current
                 stage_max += max_steps
@@ -204,6 +231,57 @@ class AuroraTracker:
             "summary": summary
         }
 
+    def _resolve_achievement_bits(
+        self,
+        objective_tracking: dict,
+        achievement_progress: dict
+    ):
+        completed_bits = set(
+            achievement_progress.get("bits", [])
+        )
+        objectives = objective_tracking.get("objectives", [])
+        missing_objectives = [
+            objective
+            for objective in objectives
+            if objective.get("bit") not in completed_bits
+        ]
+
+        group_by = objective_tracking.get("group_by")
+        groups = {}
+
+        if group_by:
+            for objective in missing_objectives:
+                group_name = objective.get(
+                    group_by,
+                    "Other"
+                )
+                groups.setdefault(
+                    group_name,
+                    []
+                ).append(objective)
+
+        current = len(objectives) - len(missing_objectives)
+
+        return {
+            "current": current,
+            "required": len(objectives),
+            "percent": round(
+                current / len(objectives) * 100,
+                1
+            ) if objectives else 0,
+            "completed_bits": sorted(completed_bits),
+            "missing_count": len(missing_objectives),
+            "missing_objectives": missing_objectives,
+            "missing_groups": [
+                {
+                    "name": group_name,
+                    "missing_count": len(group_objectives),
+                    "objectives": group_objectives
+                }
+                for group_name, group_objectives in groups.items()
+            ]
+        }
+
     def _resolve_unlock(
         self,
         unlock_data: dict,
@@ -252,45 +330,12 @@ class AuroraTracker:
                 and objective_tracking.get("type") == "achievement_bits"
                 and not completed
             ):
-                completed_bits = set(
-                    achievement_progress.get("bits", [])
-                )
-                objectives = objective_tracking.get("objectives", [])
-                missing_objectives = [
-                    objective
-                    for objective in objectives
-                    if objective.get("bit") not in completed_bits
-                ]
-
-                groups = {}
-
-                for objective in missing_objectives:
-                    group_name = objective.get(
-                        objective_tracking.get("group_by", "area"),
-                        "Other"
+                requirement_result["objective_progress"] = (
+                    self._resolve_achievement_bits(
+                        objective_tracking=objective_tracking,
+                        achievement_progress=achievement_progress
                     )
-                    groups.setdefault(group_name, []).append(objective)
-
-                requirement_result["objective_progress"] = {
-                    "current": len(objectives) - len(missing_objectives),
-                    "required": len(objectives),
-                    "percent": round(
-                        (len(objectives) - len(missing_objectives))
-                        / len(objectives) * 100,
-                        1
-                    ) if objectives else 0,
-                    "completed_bits": sorted(completed_bits),
-                    "missing_count": len(missing_objectives),
-                    "missing_objectives": missing_objectives,
-                    "missing_groups": [
-                        {
-                            "name": group_name,
-                            "missing_count": len(group_objectives),
-                            "objectives": group_objectives
-                        }
-                        for group_name, group_objectives in groups.items()
-                    ]
-                }
+                )
 
             requirements.append(requirement_result)
 
