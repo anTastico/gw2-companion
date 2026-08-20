@@ -508,8 +508,15 @@ class RecommendationService:
 
                 if missing_objectives is not None:
                     for objective in missing_objectives:
-                        dependency = objective.get(
+                        dependency_chain = objective.get(
                             "dependency"
+                        )
+                        dependency = (
+                            self._active_vision_dependency(
+                                dependency_chain
+                            )
+                            if dependency_chain
+                            else None
                         )
 
                         if dependency:
@@ -703,6 +710,14 @@ class RecommendationService:
                                 )
                             }
 
+                        if (
+                            dependency_chain
+                            and dependency_chain is not dependency
+                        ):
+                            recommendation["dependency_chain"] = (
+                                dependency_chain
+                            )
+
                         recommendations.append(
                             recommendation
                         )
@@ -848,6 +863,30 @@ class RecommendationService:
                     "required for Vision."
                 )
             })
+
+    def _active_vision_dependency(
+        self,
+        dependency: dict
+    ):
+        active = dependency
+
+        while active:
+            prerequisite = active.get(
+                "prerequisite"
+            )
+
+            if (
+                not prerequisite
+                or prerequisite.get(
+                    "completed",
+                    False
+                )
+            ):
+                return active
+
+            active = prerequisite
+
+        return dependency
 
     def _add_aurora_recommendations(
         self,

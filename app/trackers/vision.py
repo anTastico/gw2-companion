@@ -395,7 +395,8 @@ class VisionTracker:
                     "ideal_minutes",
                     "action",
                     "bundle",
-                    "focus_type"
+                    "focus_type",
+                    "event_dependent"
                 ):
                     if field in objective:
                         dependency_objective[field] = (
@@ -427,12 +428,33 @@ class VisionTracker:
                 ]
             })
 
+        prerequisite = dependency.get(
+            "prerequisite"
+        )
+
+        if prerequisite:
+            dependency_result["prerequisite"] = (
+                self._resolve_dependency(
+                    dependency=prerequisite,
+                    account_progress=account_progress
+                )
+            )
+            dependency_result["blocked_by_prerequisite"] = (
+                not dependency_result[
+                    "prerequisite"
+                ].get(
+                    "completed",
+                    False
+                )
+            )
+
         for field in (
             "time_gated",
             "time_gate",
             "sequential",
             "unlocks",
-            "next_step"
+            "next_step",
+            "reward"
         ):
             if field in dependency:
                 dependency_result[field] = dependency[field]

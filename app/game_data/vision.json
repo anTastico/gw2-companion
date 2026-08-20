@@ -232,7 +232,259 @@
               "location": "Sandswept Isles",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward acquiring the Reinforced Olmakhan Bandolier."
+              "action": "Complete the three Lasting Bonds collections to obtain the Reinforced Olmakhan Bandolier.",
+              "dependency": {
+                "achievement_id": 4112,
+                "name": "Lasting Bonds: What Comes Next",
+                "tracking": "achievement_bits",
+                "required": 8,
+                "sequential": true,
+                "prerequisite": {
+                  "achievement_id": 4106,
+                  "name": "Lasting Bonds: What We Do Here",
+                  "tracking": "achievement_bits",
+                  "required": 9,
+                  "sequential": true,
+                  "prerequisite": {
+                    "achievement_id": 4144,
+                    "name": "Lasting Bonds: Where We Come From",
+                    "tracking": "achievement_bits",
+                    "required": 6,
+                    "sequential": true,
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Simple Olmakhan Bandolier",
+                        "activity": "story",
+                        "location": "Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Complete the story episode \"A Bug in the System\" to receive the Simple Olmakhan Bandolier."
+                      },
+                      {
+                        "bit": 1,
+                        "name": "We Carry Her Loss Together",
+                        "activity": "open_world",
+                        "location": "Atholma, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Turn in the Simple Olmakhan Bandolier to Efi near the southern gate of Atholma."
+                      },
+                      {
+                        "bit": 2,
+                        "name": "We Sing Her Story",
+                        "activity": "open_world",
+                        "location": "Atholma, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Speak with Lorekeeper Rhosan on the north end of Atholma."
+                      },
+                      {
+                        "bit": 3,
+                        "name": "Laughter on the Wind",
+                        "activity": "open_world",
+                        "location": "Jemandi Market, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Speak with Marlen near Jemandi Market."
+                      },
+                      {
+                        "bit": 4,
+                        "name": "The Good We Do In Life",
+                        "activity": "open_world",
+                        "location": "Olma's Legacy, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Find Ewyn's retreat east of Olma's Legacy."
+                      },
+                      {
+                        "bit": 5,
+                        "name": "Olmakhan Songbook",
+                        "activity": "open_world",
+                        "location": "Specimen Chamber, Sandswept Isles",
+                        "minimum_minutes": 10,
+                        "ideal_minutes": 20,
+                        "action": "Explore above the Specimen Chamber using your jackal."
+                      }
+                    ],
+                    "reward": {
+                      "name": "Handwoven Olmakhan Bandolier"
+                    }
+                  },
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "name": "Handwoven Olmakhan Bandolier",
+                      "activity": "achievement",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Complete Lasting Bonds: Where We Come From to receive the Handwoven Olmakhan Bandolier."
+                    },
+                    {
+                      "bit": 1,
+                      "name": "The Storm That Consumes All",
+                      "activity": "open_world",
+                      "location": "Atholma, Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Turn in the Handwoven Olmakhan Bandolier to Efi near the southern gate of Atholma."
+                    },
+                    {
+                      "bit": 2,
+                      "name": "Old Stonehoof's Stone Hoof",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Defeat the legendary bounty Old Stonehoof and collect the bounty reward.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 3,
+                      "name": "Ironshell's Shell Fragment",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Defeat the legendary bounty Ironshell and collect the bounty reward.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 4,
+                      "name": "Smashed Vase",
+                      "activity": "open_world",
+                      "location": "The Ruined Paths, Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Defeat the Spirit of the Storm in the Ruined Paths.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 5,
+                      "name": "Artificial Diamond",
+                      "activity": "open_world",
+                      "location": "The Hunting Grounds, Sandswept Isles",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "action": "Defeat elementals in the Hunting Grounds until the Artificial Diamond drops.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 6,
+                      "name": "Luminescent Seaweed",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Gather from eerie driftwood after the Gathering Storms meta.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 7,
+                      "name": "Nakis and Zohaqan's Tree",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Find the location where Zohaqan would watch the sunrise."
+                    },
+                    {
+                      "bit": 8,
+                      "name": "Inquest Manual on Choleric Elemental Energy",
+                      "activity": "vendor",
+                      "location": "Magnetics Lab, Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Purchase the Inquest Manual from Researcher Thale near the Magnetics Lab."
+                    }
+                  ],
+                  "reward": {
+                    "name": "Pocketed Olmakhan Bandolier"
+                  }
+                },
+                "objectives": [
+                  {
+                    "bit": 0,
+                    "name": "Pocketed Olmakhan Bandolier",
+                    "activity": "achievement",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Complete Lasting Bonds: What We Do Here to receive the Pocketed Olmakhan Bandolier."
+                  },
+                  {
+                    "bit": 1,
+                    "name": "Hope for Tomorrow",
+                    "activity": "open_world",
+                    "location": "Atholma, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Turn in the Pocketed Olmakhan Bandolier to Efi near the southern gate of Atholma."
+                  },
+                  {
+                    "bit": 2,
+                    "name": "Starcaller's Aetheric Gland",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "action": "Defeat the legendary hydra bounty Starcaller and collect the bounty reward.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 3,
+                    "name": "Seneb the Desecrated's Locket",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "action": "Defeat the legendary mummy bounty Seneb the Desecrated and collect the bounty reward.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 4,
+                    "name": "Nakis's Bracelet",
+                    "activity": "open_world",
+                    "location": "Specimen Chamber, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Gain access to the Specimen Chamber and investigate it.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 5,
+                    "name": "Zohaqan's Letter",
+                    "activity": "open_world",
+                    "location": "Whispering Grottos, Elon Riverlands",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Loot the chest in the depths of a cave in the Whispering Grottos of Elon Riverlands."
+                  },
+                  {
+                    "bit": 6,
+                    "name": "Olmakhan Bow of Force",
+                    "activity": "open_world",
+                    "location": "Specimen Chamber, Sandswept Isles",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "action": "Defeat both bosses in the Specimen Chamber.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 7,
+                    "name": "Shadow and Sun",
+                    "activity": "open_world",
+                    "location": "Atholma, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Bring the Olmakhan Bow of Force to Efi."
+                  }
+                ],
+                "reward": {
+                  "name": "Reinforced Olmakhan Bandolier"
+                }
+              }
             },
             {
               "bit": 6,
