@@ -694,7 +694,193 @@
               "location": "Thunderhead Peaks",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward obtaining six different Dragonsblood weapon skins."
+              "action": "Unlock any six different Dragonsblood weapon skins, then return to Forge Master Hilina for the Vision collection item.",
+              "dependency": {
+                "achievement_id": 4577,
+                "name": "Journeyman of the Forge",
+                "tracking": "achievement_bits",
+                "required": 6,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "available": 16,
+                "objectives": [
+                  {
+                    "bit": 0,
+                    "name": "Dragonsblood Axe",
+                    "skin_id": 8596,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Axe skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 1,
+                    "name": "Dragonsblood Dagger",
+                    "skin_id": 8597,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Dagger skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 2,
+                    "name": "Dragonsblood Focus",
+                    "skin_id": 8601,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Focus skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 3,
+                    "name": "Dragonsblood Greatsword",
+                    "skin_id": 8615,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Greatsword skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 4,
+                    "name": "Dragonsblood Hammer",
+                    "skin_id": 8593,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Hammer skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 5,
+                    "name": "Dragonsblood Longbow",
+                    "skin_id": 8583,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Longbow skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 6,
+                    "name": "Dragonsblood Mace",
+                    "skin_id": 8613,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Mace skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 7,
+                    "name": "Dragonsblood Pistol",
+                    "skin_id": 8611,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Pistol skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 8,
+                    "name": "Dragonsblood Rifle",
+                    "skin_id": 8614,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Rifle skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 9,
+                    "name": "Dragonsblood Scepter",
+                    "skin_id": 8555,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Scepter skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 10,
+                    "name": "Dragonsblood Shield",
+                    "skin_id": 8568,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Shield skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 11,
+                    "name": "Dragonsblood Short Bow",
+                    "skin_id": 8610,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Short Bow skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 12,
+                    "name": "Dragonsblood Staff",
+                    "skin_id": 8564,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Staff skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 13,
+                    "name": "Dragonsblood Sword",
+                    "skin_id": 8554,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Sword skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 14,
+                    "name": "Dragonsblood Torch",
+                    "skin_id": 8605,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Torch skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 15,
+                    "name": "Dragonsblood Warhorn",
+                    "skin_id": 8572,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Warhorn skin toward the six different Dragonsblood weapons required for Vision."
+                  }
+                ],
+                "prerequisite": {
+                  "achievement_id": 4513,
+                  "name": "Dragonsblood",
+                  "tracking": "achievement",
+                  "required": 1,
+                  "action": "Complete the Dragonsblood achievement by creating and testing a prototype Dragonsblood weapon."
+                },
+                "next_step": {
+                  "type": "vendor_purchase",
+                  "name": "Vision of Equipment: Dragonsblood Weapons",
+                  "vendor": "Forge Master Hilina",
+                  "location": "Thunderhead Peaks",
+                  "cost": "5 gold",
+                  "note": "After unlocking six different Dragonsblood weapon skins, return to Forge Master Hilina for the Vision collection item."
+                }
+              }
             },
             {
               "bit": 6,

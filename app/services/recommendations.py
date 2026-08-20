@@ -542,19 +542,37 @@ class RecommendationService:
                                 )
                             )
 
+                            remaining_required = max(
+                                required - dependency.get("current", 0),
+                                0
+                            )
+
                             next_dependency_objective = (
                                 dependency.get("next_objective")
                                 if dependency.get("sequential")
                                 else None
                             )
 
-                            reason = (
-                                f"{dependency['name']} is "
-                                f"{dependency.get('current', 0)}/"
-                                f"{required} complete, with "
-                                f"{len(missing_dependency_objectives)} "
-                                f"objectives remaining."
-                            )
+                            if dependency.get("completion_mode") == "threshold":
+                                available = dependency.get(
+                                    "available",
+                                    len(dependency.get("objectives", []))
+                                )
+                                reason = (
+                                    f"{dependency['name']} has "
+                                    f"{dependency.get('current', 0)}/"
+                                    f"{required} required unlocks. "
+                                    f"Acquire {remaining_required} more "
+                                    f"from {available} available options."
+                                )
+                            else:
+                                reason = (
+                                    f"{dependency['name']} is "
+                                    f"{dependency.get('current', 0)}/"
+                                    f"{required} complete, with "
+                                    f"{len(missing_dependency_objectives)} "
+                                    f"objectives remaining."
+                                )
 
                             if next_dependency_objective:
                                 reason += (
@@ -661,6 +679,66 @@ class RecommendationService:
                                     )
                                 )
 
+                            if (
+                                dependency.get("completion_mode")
+                                == "threshold"
+                                and dependency.get("selection_mode")
+                                == "any"
+                            ):
+                                missing_options = (
+                                    missing_dependency_objectives
+                                )
+                                representative = (
+                                    missing_options[0]
+                                    if missing_options
+                                    else {}
+                                )
+
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+                                plural = (
+                                    "s" if remaining_required != 1 else ""
+                                )
+                                recommendation["title"] = (
+                                    f"{dependency['name']}: Acquire "
+                                    f"{remaining_required} more "
+                                    "Dragonsblood weapon skin"
+                                    f"{plural}"
+                                )
+                                recommendation["activity"] = (
+                                    representative.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    )
+                                )
+                                recommendation["location"] = (
+                                    representative.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                )
+                                recommendation["minimum_minutes"] = (
+                                    representative.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    )
+                                )
+                                recommendation["ideal_minutes"] = (
+                                    representative.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    )
+                                )
+                                recommendation["action"] = (
+                                    f"Unlock any {remaining_required} of the "
+                                    f"{len(missing_options)} remaining "
+                                    "Dragonsblood weapon skins."
+                                )
+                                recommendation["options"] = (
+                                    missing_options
+                                )
+
                             recommendation["dependency"] = {
                                 "achievement_id": dependency.get(
                                     "achievement_id"
@@ -672,6 +750,11 @@ class RecommendationService:
                                     f"{dependency.get('current', 0)}/"
                                     f"{required}"
                                 ),
+                                "current": dependency.get(
+                                    "current",
+                                    0
+                                ),
+                                "required": required,
                                 "percent": dependency.get(
                                     "percent"
                                 ),
@@ -707,7 +790,17 @@ class RecommendationService:
                                 ),
                                 "next_step": dependency.get(
                                     "next_step"
-                                )
+                                ),
+                                "completion_mode": dependency.get(
+                                    "completion_mode"
+                                ),
+                                "selection_mode": dependency.get(
+                                    "selection_mode"
+                                ),
+                                "available": dependency.get(
+                                    "available"
+                                ),
+                                "remaining_required": remaining_required
                             }
 
                         if (

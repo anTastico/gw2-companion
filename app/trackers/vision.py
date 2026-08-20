@@ -343,6 +343,20 @@ class VisionTracker:
             "tracking": tracking
         }
 
+        if tracking == "achievement":
+            required = dependency.get("required", 1)
+            current = min(progress.get("current", 0), required)
+            completed = progress.get("done", current >= required)
+            dependency_result.update({
+                "current": current,
+                "required": required,
+                "percent": round(current / required * 100, 1) if required else 0,
+                "completed": completed,
+                "objectives": [],
+                "completed_objectives": [],
+                "missing_objectives": []
+            })
+
         if tracking == "achievement_bits":
             completed_bits = progress.get(
                 "bits",
@@ -367,10 +381,13 @@ class VisionTracker:
                 required
             )
 
-            completed = progress.get(
-                "done",
-                current >= required
-            )
+            if dependency.get("completion_mode") == "threshold":
+                completed = current >= required
+            else:
+                completed = progress.get(
+                    "done",
+                    current >= required
+                )
 
             dependency_objectives = []
 
@@ -396,7 +413,8 @@ class VisionTracker:
                     "action",
                     "bundle",
                     "focus_type",
-                    "event_dependent"
+                    "event_dependent",
+                    "skin_id"
                 ):
                     if field in objective:
                         dependency_objective[field] = (
@@ -454,7 +472,11 @@ class VisionTracker:
             "sequential",
             "unlocks",
             "next_step",
-            "reward"
+            "reward",
+            "completion_mode",
+            "selection_mode",
+            "available",
+            "action"
         ):
             if field in dependency:
                 dependency_result[field] = dependency[field]
