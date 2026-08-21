@@ -10,12 +10,18 @@ class SessionPlanner:
     }
 
     LOCATION_BONUS = 20
+    LOCATION_SECOND_BONUS = 10
+    LOCATION_LATE_BONUS = 0
     MAP_SWITCH_PENALTY = 18
+    MAP_SWITCH_PENALTY_AFTER_BLOCK = 8
+    MAP_BLOCK_MINUTES = 45
     NEW_GOAL_BONUS = 10
     LOW_VALUE_PENALTY = 25
     MIN_WORTHWHILE_SCORE = 70
     MIN_MAP_SWITCH_IDEAL_RATIO = 0.75
     TIME_GATED_PLANNER_BONUS = 20
+    DEPENDENCY_BLOCKER_BONUS = 12
+    SHARED_MATERIAL_BONUS = 15
 
     def __init__(self):
         self.recommendations = RecommendationService()
@@ -64,6 +70,8 @@ class SessionPlanner:
         steps = []
         remaining_minutes = minutes
         current_location = None
+        current_location_minutes = 0
+        current_location_steps = 0
         used_low_value_activity = False
         used_goals = set()
 
@@ -91,6 +99,12 @@ class SessionPlanner:
                         candidate=candidate,
                         remaining_minutes=remaining_minutes,
                         current_location=current_location,
+                        current_location_minutes=(
+                            current_location_minutes
+                        ),
+                        current_location_steps=(
+                            current_location_steps
+                        ),
                         used_low_value_activity=(
                             used_low_value_activity
                         ),
@@ -177,6 +191,21 @@ class SessionPlanner:
             if "parent_objective" in best:
                 step["parent_objective"] = best["parent_objective"]
 
+            if "material_item_id" in best:
+                step["material_item_id"] = best["material_item_id"]
+
+            if "material_required" in best:
+                step["material_required"] = best["material_required"]
+
+            if "material_owned" in best:
+                step["material_owned"] = best["material_owned"]
+
+            if "material_missing" in best:
+                step["material_missing"] = best["material_missing"]
+
+            if "material_sources" in best:
+                step["material_sources"] = best["material_sources"]
+
             if "dependency" in best:
                 step["dependency"] = best[
                     "dependency"
@@ -205,7 +234,13 @@ class SessionPlanner:
             )
 
             if location:
-                current_location = location
+                if location == current_location:
+                    current_location_minutes += allocated_minutes
+                    current_location_steps += 1
+                else:
+                    current_location = location
+                    current_location_minutes = allocated_minutes
+                    current_location_steps = 1
 
             used_goals.add(
                 best["goal"]
@@ -394,6 +429,8 @@ class SessionPlanner:
         candidate: dict,
         remaining_minutes: int,
         current_location: str | None,
+        current_location_minutes: int,
+        current_location_steps: int,
         used_low_value_activity: bool,
         used_goals: set,
         unrestricted_goal: bool
@@ -403,16 +440,41 @@ class SessionPlanner:
         if candidate.get("time_gated"):
             score += self.TIME_GATED_PLANNER_BONUS
 
+        dependency = candidate.get("dependency") or {}
+        blocker = dependency.get("primary_blocker") or {}
+
+        if blocker:
+            score += self.DEPENDENCY_BLOCKER_BONUS
+
+        material_sources = candidate.get(
+            "material_sources",
+            []
+        )
+
+        if len(material_sources) > 1:
+            score += self.SHARED_MATERIAL_BONUS * min(
+                len(material_sources) - 1,
+                3
+            )
+
         location = candidate.get(
             "location"
         )
 
         if current_location:
             if location == current_location:
-                score += self.LOCATION_BONUS
+                if current_location_steps <= 1:
+                    score += self.LOCATION_BONUS
+                elif current_location_steps == 2:
+                    score += self.LOCATION_SECOND_BONUS
+                else:
+                    score += self.LOCATION_LATE_BONUS
 
             elif location:
-                score -= self.MAP_SWITCH_PENALTY
+                if current_location_minutes >= self.MAP_BLOCK_MINUTES:
+                    score -= self.MAP_SWITCH_PENALTY_AFTER_BLOCK
+                else:
+                    score -= self.MAP_SWITCH_PENALTY
 
         if (
             unrestricted_goal
@@ -498,6 +560,29 @@ class SessionPlanner:
         reasons = [
             recommendation["reason"]
         ]
+
+        material_sources = recommendation.get(
+            "material_sources",
+            []
+        )
+
+        if len(material_sources) > 1:
+            reasons.append(
+                "This material advances "
+                + str(len(material_sources))
+                + " Vision requirements at once."
+            )
+
+        dependency = recommendation.get(
+            "dependency"
+        ) or {}
+
+        if dependency.get("primary_blocker"):
+            reasons.append(
+                "It also clears the current blocker for "
+                + dependency.get("name", "this dependency")
+                + "."
+            )
 
         location = recommendation.get(
             "location"

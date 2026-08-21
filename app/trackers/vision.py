@@ -35,6 +35,15 @@ class VisionTracker:
                 for achievement in account_achievements
             }
 
+        if account_state is not None:
+            item_counts = account_state.item_counts
+            recipe_ids = account_state.recipe_ids
+        else:
+            item_counts = await self.inventory.get_item_counts()
+            recipe_ids = set(
+                await self.client.get_account_recipes()
+            )
+
         stages = []
         completed_stage_names = set()
 
@@ -181,7 +190,9 @@ class VisionTracker:
                                 "dependency"
                             ] = self._resolve_dependency(
                                 dependency=dependency,
-                                account_progress=account_progress
+                                account_progress=account_progress,
+                                item_counts=item_counts,
+                                recipe_ids=recipe_ids
                             )
 
                         objectives.append(
@@ -233,12 +244,6 @@ class VisionTracker:
                 ) if stage_max else 0,
                 "collections": collections
             })
-
-        item_counts = (
-            account_state.item_counts
-            if account_state is not None
-            else await self.inventory.get_item_counts()
-        )
 
         crafting = []
 
@@ -320,7 +325,9 @@ class VisionTracker:
     def _resolve_dependency(
         self,
         dependency: dict,
-        account_progress: dict
+        account_progress: dict,
+        item_counts: dict,
+        recipe_ids: set
     ):
         achievement_id = dependency.get(
             "achievement_id"
@@ -446,6 +453,174 @@ class VisionTracker:
                 ]
             })
 
+        if tracking == "crafting":
+            output_item_id = dependency.get("item_id")
+            output_required = dependency.get("required", 1)
+            output_owned = item_counts.get(output_item_id, 0)
+
+            material_totals = {}
+
+            def add_material(material, count):
+                item_id = material["item_id"]
+
+                if item_id not in material_totals:
+                    material_totals[item_id] = {
+                        "item_id": item_id,
+                        "name": material["name"],
+                        "required": 0,
+                        "priority": material.get("priority", 50),
+                        "activity": material.get("activity"),
+                        "location": material.get("location"),
+                        "minimum_minutes": material.get("minimum_minutes"),
+                        "ideal_minutes": material.get("ideal_minutes"),
+                        "action": material.get("action")
+                    }
+
+                material_totals[item_id]["required"] += count
+
+            for material in dependency.get("materials", []):
+                add_material(material, material["required"])
+
+            recipe_states = []
+
+            for recipe in dependency.get("recipe_unlocks", []):
+                unlocked = recipe["recipe_id"] in recipe_ids
+
+                recipe_state = {
+                    "recipe_id": recipe["recipe_id"],
+                    "recipe_item_id": recipe.get("recipe_item_id"),
+                    "name": recipe["name"],
+                    "unlocked": unlocked,
+                    "priority": recipe.get("priority", 50),
+                    "activity": recipe.get("activity"),
+                    "location": recipe.get("location"),
+                    "minimum_minutes": recipe.get("minimum_minutes"),
+                    "ideal_minutes": recipe.get("ideal_minutes"),
+                    "action": recipe.get("action")
+                }
+                recipe_states.append(recipe_state)
+
+                if not unlocked:
+                    for cost in recipe.get("costs", []):
+                        source = next(
+                            (
+                                material
+                                for material in dependency.get("materials", [])
+                                if material["item_id"] == cost["item_id"]
+                            ),
+                            {
+                                "item_id": cost["item_id"],
+                                "name": cost["name"]
+                            }
+                        )
+                        add_material(source, cost["count"])
+
+            materials = []
+
+            for material in material_totals.values():
+                owned = item_counts.get(material["item_id"], 0)
+                missing = max(material["required"] - owned, 0)
+
+                resolved = dict(material)
+                resolved.update({
+                    "owned": owned,
+                    "missing": missing,
+                    "completed": missing == 0
+                })
+                materials.append(resolved)
+
+            materials.sort(
+                key=lambda material: (
+                    material["priority"],
+                    -material["missing"]
+                )
+            )
+
+            missing_materials = [
+                material
+                for material in materials
+                if material["missing"] > 0
+            ]
+
+            missing_recipes = [
+                recipe
+                for recipe in recipe_states
+                if not recipe["unlocked"]
+            ]
+
+            blockers = [
+                {
+                    "kind": "material",
+                    **material
+                }
+                for material in missing_materials
+            ]
+
+            if not missing_materials:
+                blockers.extend(
+                    {
+                        "kind": "recipe",
+                        **recipe
+                    }
+                    for recipe in sorted(
+                        missing_recipes,
+                        key=lambda recipe: recipe["priority"]
+                    )
+                )
+
+            ready_to_craft = (
+                not missing_materials
+                and not missing_recipes
+                and output_owned < output_required
+            )
+
+            if ready_to_craft:
+                blockers.append({
+                    "kind": "craft",
+                    "name": dependency["name"],
+                    "activity": dependency.get("activity", "crafting"),
+                    "location": dependency.get("location"),
+                    "minimum_minutes": dependency.get("minimum_minutes", 5),
+                    "ideal_minutes": dependency.get("ideal_minutes", 15),
+                    "action": dependency.get("next_step", {}).get(
+                        "note",
+                        f"Craft {dependency['name']}."
+                    )
+                })
+
+            required_nodes = len(materials) + len(recipe_states)
+            completed_nodes = (
+                sum(1 for material in materials if material["completed"])
+                + sum(1 for recipe in recipe_states if recipe["unlocked"])
+            )
+
+            dependency_result.update({
+                "item_id": output_item_id,
+                "owned": output_owned,
+                "current": completed_nodes,
+                "required": required_nodes,
+                "percent": round(
+                    completed_nodes / required_nodes * 100,
+                    1
+                ) if required_nodes else 0,
+                "completed": output_owned >= output_required,
+                "recipe_id": dependency.get("recipe_id"),
+                "recipe_known": (
+                    dependency.get("recipe_id") in recipe_ids
+                    if dependency.get("recipe_id") is not None
+                    else True
+                ),
+                "materials": materials,
+                "missing_materials": missing_materials,
+                "recipe_unlocks": recipe_states,
+                "missing_recipes": missing_recipes,
+                "ready_to_craft": ready_to_craft,
+                "objectives": blockers,
+                "completed_objectives": [],
+                "missing_objectives": blockers,
+                "primary_blocker": blockers[0] if blockers else None
+            })
+
         prerequisite = dependency.get(
             "prerequisite"
         )
@@ -454,7 +629,9 @@ class VisionTracker:
             dependency_result["prerequisite"] = (
                 self._resolve_dependency(
                     dependency=prerequisite,
-                    account_progress=account_progress
+                    account_progress=account_progress,
+                    item_counts=item_counts,
+                    recipe_ids=recipe_ids
                 )
             )
             dependency_result["blocked_by_prerequisite"] = (
@@ -476,7 +653,12 @@ class VisionTracker:
             "completion_mode",
             "selection_mode",
             "available",
-            "action"
+            "action",
+            "activity",
+            "location",
+            "minimum_minutes",
+            "ideal_minutes",
+            "components"
         ):
             if field in dependency:
                 dependency_result[field] = dependency[field]

@@ -73,6 +73,10 @@ class RecommendationService:
             recommendations
         )
 
+        recommendations = self._consolidate_material_requirements(
+            recommendations
+        )
+
         for recommendation in recommendations:
             self._classify_activity(
                 recommendation
@@ -196,6 +200,92 @@ class RecommendationService:
             "top_recommendation": None,
             "recommendations": []
         }
+
+    def _consolidate_material_requirements(
+        self,
+        recommendations: list
+    ):
+        grouped = {}
+        passthrough = []
+
+        for recommendation in recommendations:
+            item_id = recommendation.get("material_item_id")
+            if item_id is None:
+                passthrough.append(recommendation)
+                continue
+
+            key = (recommendation.get("goal"), item_id)
+            grouped.setdefault(key, []).append(recommendation)
+
+        consolidated = list(passthrough)
+
+        for candidates in grouped.values():
+            if len(candidates) == 1:
+                consolidated.append(candidates[0])
+                continue
+
+            total_required = sum(
+                candidate.get("material_required", 0)
+                for candidate in candidates
+            )
+            owned_values = {
+                candidate.get("material_owned", 0)
+                for candidate in candidates
+            }
+            if len(owned_values) != 1:
+                raise RuntimeError(
+                    "Conflicting owned counts while consolidating material recommendations."
+                )
+
+            owned = owned_values.pop()
+            missing = max(total_required - owned, 0)
+            template = max(
+                candidates,
+                key=lambda candidate: (
+                    1 if candidate.get("dependency") else 0,
+                    candidate.get("material_required", 0)
+                )
+            )
+            merged = dict(template)
+            material_name = merged.get("material_name", "material")
+
+            sources = []
+            for candidate in candidates:
+                source = candidate.get("material_source")
+                if source and source not in sources:
+                    sources.append(source)
+
+            merged.update({
+                "title": f"Acquire {missing} more {material_name}",
+                "progress": f"{owned}/{total_required}",
+                "progress_ratio": (owned / total_required if total_required else 1),
+                "material_owned": owned,
+                "material_required": total_required,
+                "material_missing": missing,
+                "material_sources": sources,
+                "parent_objective": None,
+                "reason": (
+                    f"{total_required} {material_name} are required across "
+                    f"{len(candidates)} Vision requirements; {owned} are currently owned."
+                )
+            })
+
+            acquisition = self._get_acquisition_metadata(
+                merged["material_item_id"]
+            )
+            if acquisition.get("activity"):
+                merged["activity"] = acquisition["activity"]
+            if acquisition.get("location"):
+                merged["location"] = acquisition["location"]
+            if acquisition.get("action"):
+                merged["action"] = (
+                    f"Acquire {missing} more {material_name}. "
+                    f"{acquisition['action']}"
+                )
+
+            consolidated.append(merged)
+
+        return consolidated
 
     def _filter_recommendations(
         self,
@@ -739,6 +829,98 @@ class RecommendationService:
                                     missing_options
                                 )
 
+                            if dependency.get("tracking") == "crafting":
+                                blocker = dependency.get("primary_blocker")
+
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+
+                                if blocker:
+                                    acquisition = self.acquisition.get(
+                                        str(blocker.get("item_id")),
+                                        {}
+                                    )
+
+                                    if blocker.get("kind") == "material":
+                                        recommendation["title"] = (
+                                            f"Acquire {blocker['missing']} more "
+                                            f"{blocker['name']}"
+                                        )
+                                        recommendation["material_item_id"] = blocker["item_id"]
+                                        recommendation["material_name"] = blocker["name"]
+                                        recommendation["material_owned"] = blocker["owned"]
+                                        recommendation["material_required"] = blocker["required"]
+                                        recommendation["material_source"] = objective["name"]
+                                    else:
+                                        recommendation["title"] = blocker["name"]
+
+                                    recommendation["activity"] = (
+                                        acquisition.get(
+                                            "activity",
+                                            blocker.get(
+                                                "activity",
+                                                objective.get("activity")
+                                            )
+                                        )
+                                    )
+                                    recommendation["location"] = (
+                                        acquisition.get(
+                                            "location",
+                                            blocker.get(
+                                                "location",
+                                                objective.get("location")
+                                            )
+                                        )
+                                    )
+                                    recommendation["minimum_minutes"] = (
+                                        blocker.get(
+                                            "minimum_minutes",
+                                            objective.get("minimum_minutes")
+                                        )
+                                    )
+                                    recommendation["ideal_minutes"] = (
+                                        blocker.get(
+                                            "ideal_minutes",
+                                            objective.get("ideal_minutes")
+                                        )
+                                    )
+
+                                    acquisition_action = acquisition.get("action")
+                                    blocker_action = blocker.get("action")
+
+                                    if (
+                                        blocker.get("kind") == "material"
+                                        and acquisition_action
+                                    ):
+                                        recommendation["action"] = (
+                                            f"Acquire {blocker['missing']} more "
+                                            f"{blocker['name']}. "
+                                            f"{acquisition_action}"
+                                        )
+                                    else:
+                                        recommendation["action"] = (
+                                            blocker_action
+                                            or objective.get("action")
+                                        )
+
+                                missing_materials = dependency.get(
+                                    "missing_materials",
+                                    []
+                                )
+                                missing_recipes = dependency.get(
+                                    "missing_recipes",
+                                    []
+                                )
+
+                                recommendation["reason"] = (
+                                    f"{dependency['name']} has "
+                                    f"{len(missing_materials)} material "
+                                    f"shortage(s) and "
+                                    f"{len(missing_recipes)} locked "
+                                    "recipe(s) remaining."
+                                )
+
                             recommendation["dependency"] = {
                                 "achievement_id": dependency.get(
                                     "achievement_id"
@@ -800,7 +982,28 @@ class RecommendationService:
                                 "available": dependency.get(
                                     "available"
                                 ),
-                                "remaining_required": remaining_required
+                                "remaining_required": remaining_required,
+                                "tracking": dependency.get("tracking"),
+                                "item_id": dependency.get("item_id"),
+                                "owned": dependency.get("owned"),
+                                "recipe_id": dependency.get("recipe_id"),
+                                "recipe_known": dependency.get("recipe_known"),
+                                "materials": dependency.get("materials"),
+                                "missing_materials": dependency.get(
+                                    "missing_materials"
+                                ),
+                                "recipe_unlocks": dependency.get(
+                                    "recipe_unlocks"
+                                ),
+                                "missing_recipes": dependency.get(
+                                    "missing_recipes"
+                                ),
+                                "ready_to_craft": dependency.get(
+                                    "ready_to_craft"
+                                ),
+                                "primary_blocker": dependency.get(
+                                    "primary_blocker"
+                                )
                             }
 
                         if (
@@ -921,6 +1124,11 @@ class RecommendationService:
                     "type",
                     "material"
                 ),
+                "material_item_id": material["id"],
+                "material_name": material["name"],
+                "material_owned": material["owned"],
+                "material_required": material["required"],
+                "material_source": "Vision crafting requirements",
                 "title": (
                     f"Acquire {material['missing']} "
                     f"more {material['name']}"

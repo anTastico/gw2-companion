@@ -554,7 +554,165 @@
               "location": "Domain of Kourna",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward crafting the Banner of the Commander required for this collection."
+              "action": "Resolve the Banner of the Commander crafting tree, including recipe unlocks and missing materials.",
+              "dependency": {
+                "name": "Banner of the Commander",
+                "tracking": "crafting",
+                "item_id": 88057,
+                "required": 1,
+                "recipe_id": 12700,
+                "activity": "crafting",
+                "location": "Domain of Kourna",
+                "minimum_minutes": 5,
+                "ideal_minutes": 15,
+                "materials": [
+                  {
+                    "item_id": 87645,
+                    "name": "Inscribed Shard",
+                    "required": 100,
+                    "priority": 10,
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 60,
+                    "action": "Earn Inscribed Shards in Domain of Kourna."
+                  },
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "required": 15,
+                    "priority": 60,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Globs of Ectoplasm."
+                  },
+                  {
+                    "item_id": 19725,
+                    "name": "Ancient Wood Log",
+                    "required": 10,
+                    "priority": 60,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Ancient Wood Logs."
+                  },
+                  {
+                    "item_id": 88023,
+                    "name": "Vial of Awakened Blood",
+                    "required": 1,
+                    "priority": 20,
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Complete Rude Awakening if needed to obtain the Vial of Awakened Blood."
+                  },
+                  {
+                    "item_id": 19746,
+                    "name": "Bolt of Gossamer",
+                    "required": 5,
+                    "priority": 40,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "action": "Craft or acquire the remaining Bolts of Gossamer."
+                  },
+                  {
+                    "item_id": 19790,
+                    "name": "Spool of Gossamer Thread",
+                    "required": 100,
+                    "priority": 30,
+                    "activity": "vendor",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Buy the remaining Spools of Gossamer Thread from a crafting vendor."
+                  },
+                  {
+                    "item_id": 87153,
+                    "name": "Olmakhan Latigo Strap",
+                    "required": 5,
+                    "priority": 20,
+                    "activity": "vendor",
+                    "location": "Allied Encampment, Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Buy the remaining Olmakhan Latigo Straps from Nalar for Volatile Magic."
+                  },
+                  {
+                    "item_id": 19685,
+                    "name": "Orichalcum Ingot",
+                    "required": 25,
+                    "priority": 70,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Orichalcum Ingots."
+                  },
+                  {
+                    "item_id": 20323,
+                    "name": "Unidentified Dye",
+                    "required": 20,
+                    "priority": 70,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Unidentified Dyes."
+                  }
+                ],
+                "recipe_unlocks": [
+                  {
+                    "recipe_id": 12700,
+                    "name": "Recipe: Banner of the Commander",
+                    "required": true,
+                    "priority": 5,
+                    "activity": "vendor",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Learn Recipe: Banner of the Commander before crafting the back item."
+                  },
+                  {
+                    "recipe_id": 12706,
+                    "recipe_item_id": 87988,
+                    "name": "Recipe: Banner Pennon",
+                    "required": true,
+                    "priority": 15,
+                    "activity": "vendor",
+                    "location": "Allied Encampment, Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Buy Recipe: Banner Pennon from Lady Camilla for 100 Inscribed Shards.",
+                    "costs": [
+                      {
+                        "item_id": 87645,
+                        "name": "Inscribed Shard",
+                        "count": 100
+                      }
+                    ]
+                  }
+                ],
+                "components": [
+                  {
+                    "item_id": 87668,
+                    "name": "Lacquered Banner Pole",
+                    "required": 1
+                  },
+                  {
+                    "item_id": 87925,
+                    "name": "Banner Pennon",
+                    "required": 1,
+                    "recipe_id": 12706
+                  }
+                ],
+                "next_step": {
+                  "type": "craft",
+                  "name": "Banner of the Commander",
+                  "item_id": 88057,
+                  "recipe_id": 12700,
+                  "note": "When all materials and recipe unlocks are ready, craft Banner of the Commander with a level 500 Armorsmith, Leatherworker, or Tailor."
+                }
+              }
             },
             {
               "bit": 6,
