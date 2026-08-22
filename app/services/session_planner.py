@@ -22,6 +22,7 @@ class SessionPlanner:
     TIME_GATED_PLANNER_BONUS = 20
     OPENING_TIME_GATED_BONUS = 12
     DEPENDENCY_BLOCKER_BONUS = 12
+    DEPENDENCY_READY_BONUS = 60
     SHARED_MATERIAL_BONUS = 15
     META_DEPENDENCY_BONUS = 12
     OPTION_PRIORITY_MAX_BONUS = 8
@@ -160,6 +161,8 @@ class SessionPlanner:
                 "goal": best["goal"],
                 "type": best["type"],
                 "title": best["title"],
+                "score": best["score"],
+                "planner_score": round(planner_score, 1),
                 "activity": best["activity"],
                 "location": best.get(
                     "location"
@@ -538,6 +541,15 @@ class SessionPlanner:
 
         if blocker:
             score += self.DEPENDENCY_BLOCKER_BONUS
+
+            blocker_clearable_now = any((
+                dependency.get("ready_to_acquire") is True,
+                dependency.get("can_acquire_now") is True,
+                dependency.get("ready_to_craft") is True
+            ))
+
+            if blocker_clearable_now:
+                score += self.DEPENDENCY_READY_BONUS
 
         if (
             dependency.get("tracking")
