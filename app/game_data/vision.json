@@ -14,9 +14,169 @@
               "name": "Heavy Corsair Turban",
               "activity": "achievement",
               "location": "Domain of Istan",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Heavy Corsair Turban required for this collection."
+              "minimum_minutes": 5,
+              "ideal_minutes": 30,
+              "action": "Finish \"Daybreak\" Mastery by completing enough remaining Daybreak achievements.",
+              "dependency": {
+                "achievement_id": 3988,
+                "name": "\"Daybreak\" Mastery",
+                "tracking": "achievement_options",
+                "required": 30,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "Daybreak achievement",
+                "activity": "achievement",
+                "location": "Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 30,
+                "action": "Complete enough remaining Daybreak achievements to finish \"Daybreak\" Mastery.",
+                "options": [
+                  {
+                    "achievement_id": 3960,
+                    "name": "Istan Dives",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 10,
+                    "action": "Finish the remaining diving-goggle locations in the Domain of Istan.",
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Corsair Flotilla diving goggles",
+                        "action": "Find and use the diving goggles on the captain's ship in the Corsair Flotilla."
+                      },
+                      {
+                        "bit": 1,
+                        "name": "Modri Caverns diving goggles",
+                        "action": "Find and use the diving goggles in the Modri Caverns."
+                      },
+                      {
+                        "bit": 2,
+                        "name": "Champion's Dawn diving goggles",
+                        "action": "Find and use the diving goggles in Champion's Dawn."
+                      },
+                      {
+                        "bit": 3,
+                        "name": "Ancient Royal Docks diving goggles",
+                        "action": "Find and use the diving goggles above the Ancient Royal Docks."
+                      }
+                    ]
+                  },
+                  {
+                    "achievement_id": 3989,
+                    "name": "Sunk Cost",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "priority": 15,
+                    "event_dependent": true,
+                    "action": "Destroy the remaining Corsair ship during the Palawadan raid.",
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Scoundrel's Bounty"
+                      },
+                      {
+                        "bit": 1,
+                        "name": "The Marauder"
+                      },
+                      {
+                        "bit": 2,
+                        "name": "The Red Dagger"
+                      }
+                    ]
+                  },
+                  {
+                    "achievement_id": 4019,
+                    "name": "Istani Bounty Hunter",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 20,
+                    "action": "Complete the remaining Domain of Istan bounties.",
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Lady Shamshir"
+                      },
+                      {
+                        "bit": 1,
+                        "name": "Matriarch Shrilliss"
+                      },
+                      {
+                        "bit": 2,
+                        "name": "Simoom the Accursed"
+                      },
+                      {
+                        "bit": 3,
+                        "name": "Suneh Stormbringer"
+                      },
+                      {
+                        "bit": 4,
+                        "name": "Smoldge"
+                      }
+                    ]
+                  },
+                  {
+                    "achievement_id": 3978,
+                    "name": "Lightspeed Reflector",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 12,
+                    "action": "Rotate all mirrors at the top of the Astralarium within 30 seconds."
+                  },
+                  {
+                    "achievement_id": 3959,
+                    "name": "Rest in Peace",
+                    "activity": "open_world",
+                    "location": "Champion's Dawn, Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 25,
+                    "event_dependent": true,
+                    "action": "Defeat the Champion Mordant Crescent Graveraiser in Champion's Dawn."
+                  },
+                  {
+                    "achievement_id": 4008,
+                    "name": "Race to the Finish: Domain of Istan",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 30,
+                    "event_dependent": true,
+                    "action": "Finish the race to Issnur Bay in first, second, or third place."
+                  },
+                  {
+                    "achievement_id": 4012,
+                    "name": "Belligerent Brawl",
+                    "activity": "open_world",
+                    "location": "Corsair Flotilla, Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 22,
+                    "action": "Defeat a Corsair captain while under the effects of Mehdi's Monstrous Grogs."
+                  },
+                  {
+                    "achievement_id": 3958,
+                    "name": "Corsair Keepsakes",
+                    "activity": "open_world",
+                    "location": "Corsair Flotilla, Domain of Istan",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 35,
+                    "action": "Find the remaining Corsair keepsakes around the flotilla."
+                  }
+                ],
+                "reward": {
+                  "name": "Heavy Corsair Turban"
+                }
+              }
             },
             {
               "bit": 1,
@@ -43,7 +203,64 @@
               "location": "Domain of Istan",
               "minimum_minutes": 15,
               "ideal_minutes": 30,
-              "action": "Defeat Warden Amala while carrying a Memory Essence Encapsulator."
+              "action": "Carry a Memory Essence Encapsulator and defeat Warden Amala during the Sunspear Uprising encounter in the Domain of Istan.",
+              "event_dependent": true,
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Chalon Docks, Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Alaleh",
+                "action": "Buy a Memory Essence Encapsulator from Alaleh at Chalon Docks before fighting Warden Amala.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ]
+              }
             },
             {
               "bit": 4,

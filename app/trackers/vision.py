@@ -453,6 +453,258 @@ class VisionTracker:
                 ]
             })
 
+        if tracking == "achievement_options":
+            required = dependency.get("required", 1)
+            current = min(progress.get("current", 0), required)
+            completed = progress.get("done", current >= required)
+            remaining_required = max(required - current, 0)
+            options = []
+
+            for option in dependency.get("options", []):
+                option_id = option["achievement_id"]
+                option_progress = account_progress.get(option_id, {})
+                option_done = option_progress.get("done", False)
+
+                option_result = {
+                    "achievement_id": option_id,
+                    "name": option["name"],
+                    "completed": option_done,
+                    "current": option_progress.get("current", 0),
+                    "required": option_progress.get("max"),
+                    "bits": option_progress.get("bits", []),
+                    "priority": option.get("priority", 50)
+                }
+
+                for field in ("activity","location","minimum_minutes","ideal_minutes","action","event_dependent"):
+                    if field in option:
+                        option_result[field] = option[field]
+
+                subresults = []
+                for subobjective in option.get("objectives", []):
+                    bit = subobjective["bit"]
+                    sub = {
+                        "bit": bit,
+                        "name": subobjective["name"],
+                        "completed": bit in option_result["bits"]
+                    }
+                    if "action" in subobjective:
+                        sub["action"] = subobjective["action"]
+                    subresults.append(sub)
+
+                if subresults:
+                    option_result["objectives"] = subresults
+                    option_result["missing_objectives"] = [x for x in subresults if not x["completed"]]
+
+                options.append(option_result)
+
+            options.sort(key=lambda x: (
+                x["completed"],
+                x.get("priority", 50),
+                -(x.get("current", 0) / x.get("required", 1) if x.get("required") else 0)
+            ))
+            missing_options = [x for x in options if not x["completed"]]
+
+            dependency_result.update({
+                "current": current,
+                "required": required,
+                "remaining_required": remaining_required,
+                "percent": round(current / required * 100, 1) if required else 0,
+                "completed": completed,
+                "options": options,
+                "objectives": options,
+                "completed_objectives": [x for x in options if x["completed"]],
+                "missing_objectives": missing_options,
+                "available": len(missing_options),
+                "recommended_options": missing_options[:remaining_required]
+            })
+
+        if tracking == "shared_consumable":
+            output_item_id = dependency.get("item_id")
+            objective_required = dependency.get(
+                "objective_required",
+                1
+            )
+            shared_required = dependency.get(
+                "shared_required",
+                objective_required
+            )
+            output_owned = item_counts.get(
+                output_item_id,
+                0
+            )
+
+            objective_materials = []
+            shared_materials = []
+
+            for material in dependency.get(
+                "per_unit_cost",
+                []
+            ):
+                item_id = material["item_id"]
+                owned = item_counts.get(item_id, 0)
+                unit_count = material["count"]
+
+                objective_required_count = (
+                    unit_count * objective_required
+                )
+                shared_required_count = (
+                    unit_count * shared_required
+                )
+
+                objective_missing = max(
+                    objective_required_count - owned,
+                    0
+                )
+                shared_missing = max(
+                    shared_required_count - owned,
+                    0
+                )
+
+                common = {
+                    "item_id": item_id,
+                    "name": material["name"],
+                    "owned": owned,
+                    "priority": material.get("priority", 50),
+                    "activity": material.get("activity"),
+                    "location": material.get("location"),
+                    "minimum_minutes": material.get("minimum_minutes"),
+                    "ideal_minutes": material.get("ideal_minutes"),
+                    "action": material.get("action")
+                }
+
+                objective_materials.append({
+                    **common,
+                    "required": objective_required_count,
+                    "missing": objective_missing,
+                    "completed": objective_missing == 0
+                })
+
+                shared_materials.append({
+                    **common,
+                    "required": shared_required_count,
+                    "missing": shared_missing,
+                    "completed": shared_missing == 0
+                })
+
+            objective_materials.sort(
+                key=lambda item: (
+                    item["priority"],
+                    -item["missing"]
+                )
+            )
+            shared_materials.sort(
+                key=lambda item: (
+                    item["priority"],
+                    -item["missing"]
+                )
+            )
+
+            missing_objective_materials = [
+                item
+                for item in objective_materials
+                if item["missing"] > 0
+            ]
+            missing_shared_materials = [
+                item
+                for item in shared_materials
+                if item["missing"] > 0
+            ]
+
+            has_required_item = (
+                output_owned >= objective_required
+            )
+            can_acquire_now = (
+                not missing_objective_materials
+            )
+
+            blockers = []
+
+            if not has_required_item:
+                if missing_objective_materials:
+                    blockers.extend(
+                        {
+                            "kind": "material",
+                            **item
+                        }
+                        for item in missing_objective_materials
+                    )
+                else:
+                    blockers.append({
+                        "kind": "vendor_purchase",
+                        "item_id": output_item_id,
+                        "name": dependency["name"],
+                        "required": objective_required,
+                        "owned": output_owned,
+                        "missing": max(
+                            objective_required - output_owned,
+                            0
+                        ),
+                        "activity": dependency.get(
+                            "activity",
+                            "vendor"
+                        ),
+                        "location": dependency.get("location"),
+                        "minimum_minutes": dependency.get(
+                            "minimum_minutes",
+                            5
+                        ),
+                        "ideal_minutes": dependency.get(
+                            "ideal_minutes",
+                            10
+                        ),
+                        "action": dependency.get("action"),
+                        "completed": False
+                    })
+
+            dependency_result.update({
+                "item_id": output_item_id,
+                "owned": output_owned,
+                "current": min(
+                    output_owned,
+                    objective_required
+                ),
+                "required": objective_required,
+                "objective_required": objective_required,
+                "shared_required": shared_required,
+                "shared_scope": dependency.get("shared_scope"),
+                "percent": round(
+                    min(output_owned, objective_required)
+                    / objective_required
+                    * 100,
+                    1
+                ) if objective_required else 0,
+                "completed": has_required_item,
+                "can_acquire_now": can_acquire_now,
+                "ready_to_acquire": (
+                    can_acquire_now
+                    and not has_required_item
+                ),
+                "objective_materials": objective_materials,
+                "missing_objective_materials": (
+                    missing_objective_materials
+                ),
+                "shared_materials": shared_materials,
+                "missing_shared_materials": (
+                    missing_shared_materials
+                ),
+                "shared_primary_blocker": (
+                    {
+                        "kind": "shared_material",
+                        **missing_shared_materials[0]
+                    }
+                    if missing_shared_materials
+                    else None
+                ),
+                "objectives": blockers,
+                "completed_objectives": [],
+                "missing_objectives": blockers,
+                "primary_blocker": (
+                    blockers[0]
+                    if blockers
+                    else None
+                )
+            })
+
         if tracking == "crafting":
             output_item_id = dependency.get("item_id")
             output_required = dependency.get("required", 1)
@@ -658,7 +910,9 @@ class VisionTracker:
             "location",
             "minimum_minutes",
             "ideal_minutes",
-            "components"
+            "components",
+            "option_noun",
+            "options"
         ):
             if field in dependency:
                 dependency_result[field] = dependency[field]

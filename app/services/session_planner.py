@@ -20,8 +20,12 @@ class SessionPlanner:
     MIN_WORTHWHILE_SCORE = 70
     MIN_MAP_SWITCH_IDEAL_RATIO = 0.75
     TIME_GATED_PLANNER_BONUS = 20
+    OPENING_TIME_GATED_BONUS = 12
     DEPENDENCY_BLOCKER_BONUS = 12
     SHARED_MATERIAL_BONUS = 15
+    META_DEPENDENCY_BONUS = 12
+    OPTION_PRIORITY_MAX_BONUS = 8
+    OPTION_PROGRESS_MAX_BONUS = 6
 
     def __init__(self):
         self.recommendations = RecommendationService()
@@ -74,6 +78,7 @@ class SessionPlanner:
         current_location_steps = 0
         used_low_value_activity = False
         used_goals = set()
+        selected_dependency_counts = {}
 
         while candidates:
             eligible = [
@@ -86,6 +91,12 @@ class SessionPlanner:
                         candidate=candidate,
                         remaining_minutes=remaining_minutes,
                         current_location=current_location
+                    )
+                    and self._dependency_option_slot_available(
+                        candidate=candidate,
+                        selected_dependency_counts=(
+                            selected_dependency_counts
+                        )
                     )
                 )
             ]
@@ -109,6 +120,10 @@ class SessionPlanner:
                             used_low_value_activity
                         ),
                         used_goals=used_goals,
+                        selected_dependency_counts=(
+                            selected_dependency_counts
+                        ),
+                        opening_step=not steps,
                         unrestricted_goal=(
                             goal is None
                         )
@@ -191,6 +206,15 @@ class SessionPlanner:
             if "parent_objective" in best:
                 step["parent_objective"] = best["parent_objective"]
 
+            step["map"] = self._map_key(
+                best.get("location")
+            )
+
+            if "event_dependent" in best:
+                step["event_dependent"] = best[
+                    "event_dependent"
+                ]
+
             if "material_item_id" in best:
                 step["material_item_id"] = best["material_item_id"]
 
@@ -229,8 +253,8 @@ class SessionPlanner:
 
             remaining_minutes -= allocated_minutes
 
-            location = best.get(
-                "location"
+            location = self._map_key(
+                best.get("location")
             )
 
             if location:
@@ -245,6 +269,26 @@ class SessionPlanner:
             used_goals.add(
                 best["goal"]
             )
+
+            dependency = best.get("dependency") or {}
+            if (
+                dependency.get("tracking")
+                == "achievement_options"
+                and best.get("dependency_option")
+            ):
+                dependency_key = (
+                    dependency.get("achievement_id")
+                    or dependency.get("name")
+                )
+                selected_dependency_counts[
+                    dependency_key
+                ] = (
+                    selected_dependency_counts.get(
+                        dependency_key,
+                        0
+                    )
+                    + 1
+                )
 
             if (
                 best["activity"]
@@ -386,14 +430,58 @@ class SessionPlanner:
             if items
         }
 
+    def _map_key(
+        self,
+        location: str | None
+    ):
+        if not location:
+            return None
+
+        if "," in location:
+            return location.rsplit(",", 1)[-1].strip()
+
+        return location.strip()
+
+    def _dependency_option_slot_available(
+        self,
+        candidate: dict,
+        selected_dependency_counts: dict
+    ):
+        dependency = candidate.get("dependency") or {}
+
+        if (
+            dependency.get("tracking")
+            != "achievement_options"
+            or not candidate.get("dependency_option")
+        ):
+            return True
+
+        dependency_key = (
+            dependency.get("achievement_id")
+            or dependency.get("name")
+        )
+
+        remaining_required = dependency.get(
+            "remaining_required",
+            0
+        )
+
+        return (
+            selected_dependency_counts.get(
+                dependency_key,
+                0
+            )
+            < remaining_required
+        )
+
     def _map_switch_is_worthwhile(
         self,
         candidate: dict,
         remaining_minutes: int,
         current_location: str | None
     ):
-        location = candidate.get(
-            "location"
+        location = self._map_key(
+            candidate.get("location")
         )
 
         if (
@@ -433,6 +521,8 @@ class SessionPlanner:
         current_location_steps: int,
         used_low_value_activity: bool,
         used_goals: set,
+        selected_dependency_counts: dict,
+        opening_step: bool,
         unrestricted_goal: bool
     ):
         score = candidate["score"]
@@ -440,11 +530,67 @@ class SessionPlanner:
         if candidate.get("time_gated"):
             score += self.TIME_GATED_PLANNER_BONUS
 
+            if opening_step:
+                score += self.OPENING_TIME_GATED_BONUS
+
         dependency = candidate.get("dependency") or {}
         blocker = dependency.get("primary_blocker") or {}
 
         if blocker:
             score += self.DEPENDENCY_BLOCKER_BONUS
+
+        if (
+            dependency.get("tracking")
+            == "achievement_options"
+            and candidate.get("dependency_option")
+        ):
+            dependency_key = (
+                dependency.get("achievement_id")
+                or dependency.get("name")
+            )
+            selected_count = (
+                selected_dependency_counts.get(
+                    dependency_key,
+                    0
+                )
+            )
+            remaining_required = dependency.get(
+                "remaining_required",
+                0
+            )
+
+            if selected_count < remaining_required:
+                score += self.META_DEPENDENCY_BONUS
+
+                dependency_option = (
+                    candidate.get("dependency_option")
+                    or {}
+                )
+                option_priority = dependency_option.get(
+                    "priority"
+                )
+                if option_priority is not None:
+                    # Lower numeric priority means a better option.
+                    # Cap the effect so data priority guides rather
+                    # than dictates the whole session.
+                    priority_bonus = max(
+                        0,
+                        self.OPTION_PRIORITY_MAX_BONUS
+                        - ((option_priority - 10) / 5)
+                    )
+                    score += min(
+                        self.OPTION_PRIORITY_MAX_BONUS,
+                        priority_bonus
+                    )
+
+                option_progress_ratio = candidate.get(
+                    "option_progress_ratio"
+                )
+                if option_progress_ratio is not None:
+                    score += (
+                        option_progress_ratio
+                        * self.OPTION_PROGRESS_MAX_BONUS
+                    )
 
         material_sources = candidate.get(
             "material_sources",
@@ -457,8 +603,8 @@ class SessionPlanner:
                 3
             )
 
-        location = candidate.get(
-            "location"
+        location = self._map_key(
+            candidate.get("location")
         )
 
         if current_location:
@@ -584,8 +730,8 @@ class SessionPlanner:
                 + "."
             )
 
-        location = recommendation.get(
-            "location"
+        location = self._map_key(
+            recommendation.get("location")
         )
 
         if (
