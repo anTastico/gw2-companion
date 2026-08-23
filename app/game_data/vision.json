@@ -428,10 +428,77 @@
               "bit": 3,
               "name": "Vision of Enemies: Kuda's Subjects",
               "activity": "open_world",
-              "location": "Sandswept Isles",
+              "location": "Specimen Chamber, Sandswept Isles",
               "minimum_minutes": 15,
               "ideal_minutes": 30,
-              "action": "Defeat Kuda's test subjects in the Specimen Chamber while carrying a Memory Essence Encapsulator."
+              "action": "Carry a Memory Essence Encapsulator and defeat Kuda's test subjects during the Specimen Chamber encounter in the Sandswept Isles.",
+              "event_dependent": true,
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Chalon Docks, Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Alaleh",
+                "action": "Buy a Memory Essence Encapsulator from Alaleh at Chalon Docks before doing the Specimen Chamber encounter for Kuda's Subjects.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ],
+                "next_step": {
+                  "type": "event_kill",
+                  "name": "Kuda's Subjects",
+                  "activity": "open_world",
+                  "location": "Specimen Chamber, Sandswept Isles",
+                  "minimum_minutes": 15,
+                  "ideal_minutes": 30,
+                  "event_dependent": true,
+                  "note": "After obtaining the Encapsulator, complete the Specimen Chamber encounter and defeat Kuda's test subjects."
+                }
+              }
             },
             {
               "bit": 4,
