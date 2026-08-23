@@ -577,6 +577,58 @@ class VisionTracker:
                     if field in option:
                         option_result[field] = option[field]
 
+                completion_effects = []
+
+                for effect in option.get(
+                    "completion_effects",
+                    []
+                ):
+                    target_progress = account_progress.get(
+                        effect["achievement_id"],
+                        {}
+                    )
+
+                    effect_active = True
+
+                    if effect.get("effect") == "complete_bit":
+                        target_bit = effect.get("bit")
+                        effect_active = (
+                            not target_progress.get("done", False)
+                            and target_bit not in target_progress.get(
+                                "bits",
+                                []
+                            )
+                        )
+                    elif effect.get("effect") == "complete_achievement":
+                        effect_active = not target_progress.get(
+                            "done",
+                            False
+                        )
+
+                    effect_result = dict(effect)
+                    effect_result["active"] = effect_active
+                    effect_result["current"] = target_progress.get(
+                        "current",
+                        0
+                    )
+                    effect_result["required"] = target_progress.get(
+                        "max"
+                    )
+
+                    completion_effects.append(effect_result)
+
+                if completion_effects:
+                    option_result["completion_effects"] = (
+                        completion_effects
+                    )
+                    option_result[
+                        "active_completion_effects"
+                    ] = [
+                        effect
+                        for effect in completion_effects
+                        if effect["active"]
+                    ]
+
                 subresults = []
                 for subobjective in option.get("objectives", []):
                     bit = subobjective["bit"]

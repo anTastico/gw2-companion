@@ -1518,6 +1518,30 @@ class RecommendationService:
                                 option_recommendation[
                                     "dependency_option_rank"
                                 ] = option_index + 1
+
+                                active_completion_effects = option.get(
+                                    "active_completion_effects",
+                                    []
+                                )
+
+                                if active_completion_effects:
+                                    option_recommendation[
+                                        "completion_effects"
+                                    ] = active_completion_effects
+                                    option_recommendation[
+                                        "completion_effect_count"
+                                    ] = len(
+                                        active_completion_effects
+                                    )
+                                    option_recommendation[
+                                        "effective_achievement_completions"
+                                    ] = (
+                                        1
+                                        + len(
+                                            active_completion_effects
+                                        )
+                                    )
+
                                 option_recommendation[
                                     "score_adjustment"
                                 ] = (
@@ -1539,6 +1563,24 @@ class RecommendationService:
                                     f"{option['name']} is one of the "
                                     "highest-priority remaining options."
                                 )
+
+                                if active_completion_effects:
+                                    effect_names = [
+                                        effect["name"]
+                                        for effect in active_completion_effects
+                                    ]
+                                    option_recommendation["reason"] += (
+                                        " Completing it also advances "
+                                        + (
+                                            " and ".join(effect_names)
+                                            if len(effect_names) <= 2
+                                            else (
+                                                ", ".join(effect_names[:-1])
+                                                + f", and {effect_names[-1]}"
+                                            )
+                                        )
+                                        + "."
+                                    )
 
                                 option_required = option.get("required")
                                 if option_required:

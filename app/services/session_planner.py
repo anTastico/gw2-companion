@@ -25,6 +25,7 @@ class SessionPlanner:
     DEPENDENCY_READY_BONUS = 60
     SHARED_MATERIAL_BONUS = 15
     SHARED_DEPENDENCY_BONUS = 15
+    COMPLETION_EFFECT_BONUS = 15
     META_DEPENDENCY_BONUS = 12
     OPTION_PRIORITY_MAX_BONUS = 8
     OPTION_PROGRESS_MAX_BONUS = 6
@@ -221,6 +222,21 @@ class SessionPlanner:
             if "dependency_achievement_id" in best:
                 step["dependency_achievement_id"] = (
                     best["dependency_achievement_id"]
+                )
+
+            if "completion_effects" in best:
+                step["completion_effects"] = (
+                    best["completion_effects"]
+                )
+
+            if "completion_effect_count" in best:
+                step["completion_effect_count"] = (
+                    best["completion_effect_count"]
+                )
+
+            if "effective_achievement_completions" in best:
+                step["effective_achievement_completions"] = (
+                    best["effective_achievement_completions"]
                 )
 
             step["map"] = self._map_key(
@@ -637,6 +653,17 @@ class SessionPlanner:
         if shared_dependency_count > 1:
             score += self.SHARED_DEPENDENCY_BONUS * min(
                 shared_dependency_count - 1,
+                3
+            )
+
+        completion_effect_count = candidate.get(
+            "completion_effect_count",
+            0
+        )
+
+        if completion_effect_count > 0:
+            score += self.COMPLETION_EFFECT_BONUS * min(
+                completion_effect_count,
                 3
             )
 

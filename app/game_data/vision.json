@@ -481,7 +481,16 @@
                     "ideal_minutes": 15,
                     "priority": 15,
                     "event_dependent": true,
-                    "action": "Finish the Inquest Facility race in first, second, or third place."
+                    "action": "Finish the Inquest Facility race in first, second, or third place.",
+                    "completion_effects": [
+                      {
+                        "achievement_id": 4105,
+                        "name": "Track Record",
+                        "effect": "complete_bit",
+                        "bit": 1,
+                        "note": "Completing the Inquest Facility race also completes the missing Inquest Facility Race objective for Track Record."
+                      }
+                    ]
                   },
                   {
                     "achievement_id": 4142,
