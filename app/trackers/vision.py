@@ -573,7 +573,15 @@ class VisionTracker:
                     "priority": option.get("priority", 50)
                 }
 
-                for field in ("activity","location","minimum_minutes","ideal_minutes","action","event_dependent"):
+                for field in (
+                    "activity",
+                    "location",
+                    "minimum_minutes",
+                    "ideal_minutes",
+                    "action",
+                    "event_dependent",
+                    "related_objectives"
+                ):
                     if field in option:
                         option_result[field] = option[field]
 

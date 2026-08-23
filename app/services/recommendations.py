@@ -1573,6 +1573,21 @@ class RecommendationService:
                                     "dependency_option_rank"
                                 ] = option_index + 1
 
+                                related_objectives = option.get(
+                                    "related_objectives",
+                                    []
+                                )
+
+                                if related_objectives:
+                                    option_recommendation[
+                                        "related_objectives"
+                                    ] = related_objectives
+                                    option_recommendation[
+                                        "related_objective_count"
+                                    ] = len(
+                                        related_objectives
+                                    )
+
                                 active_completion_effects = option.get(
                                     "active_completion_effects",
                                     []
@@ -1646,6 +1661,20 @@ class RecommendationService:
                                             else (
                                                 ", ".join(effect_names[:-1])
                                                 + f", and {effect_names[-1]}"
+                                            )
+                                        )
+                                        + "."
+                                    )
+
+                                if related_objectives:
+                                    option_recommendation["reason"] += (
+                                        " This work also advances "
+                                        + (
+                                            " and ".join(related_objectives)
+                                            if len(related_objectives) <= 2
+                                            else (
+                                                ", ".join(related_objectives[:-1])
+                                                + f", and {related_objectives[-1]}"
                                             )
                                         )
                                         + "."

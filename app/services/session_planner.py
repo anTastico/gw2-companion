@@ -26,6 +26,7 @@ class SessionPlanner:
     SHARED_MATERIAL_BONUS = 15
     SHARED_DEPENDENCY_BONUS = 15
     COMPLETION_EFFECT_BONUS = 15
+    RELATED_OBJECTIVE_BONUS = 12
     META_DEPENDENCY_BONUS = 12
     OPTION_PRIORITY_MAX_BONUS = 8
     OPTION_PROGRESS_MAX_BONUS = 6
@@ -240,6 +241,16 @@ class SessionPlanner:
             if "completion_effects" in best:
                 step["completion_effects"] = (
                     best["completion_effects"]
+                )
+
+            if "related_objectives" in best:
+                step["related_objectives"] = (
+                    best["related_objectives"]
+                )
+
+            if "related_objective_count" in best:
+                step["related_objective_count"] = (
+                    best["related_objective_count"]
                 )
 
             if "completion_effect_count" in best:
@@ -793,6 +804,17 @@ class SessionPlanner:
         if completion_effect_count > 0:
             score += self.COMPLETION_EFFECT_BONUS * min(
                 completion_effect_count,
+                3
+            )
+
+        related_objective_count = candidate.get(
+            "related_objective_count",
+            0
+        )
+
+        if related_objective_count > 0:
+            score += self.RELATED_OBJECTIVE_BONUS * min(
+                related_objective_count,
                 3
             )
 

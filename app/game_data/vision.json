@@ -1062,9 +1062,229 @@
               "name": "Heavy Corsair Jerkin",
               "activity": "achievement",
               "location": "Domain of Kourna",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Heavy Corsair Jerkin through the Long Live the Lich mastery achievement or Domain of Kourna Reward Track."
+              "minimum_minutes": 5,
+              "ideal_minutes": 30,
+              "action": "Finish \"Long Live the Lich\" Mastery by completing enough remaining qualifying achievements, or use the Domain of Kourna Reward Track alternative.",
+              "dependency": {
+                "achievement_id": 4195,
+                "name": "\"Long Live the Lich\" Mastery",
+                "tracking": "achievement_options",
+                "required": 38,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "Long Live the Lich achievement",
+                "activity": "achievement",
+                "location": "Domain of Kourna",
+                "minimum_minutes": 5,
+                "ideal_minutes": 30,
+                "action": "Complete enough remaining \"Long Live the Lich\" achievements to reach 38 and obtain the Corsair Jerkin Box.",
+                "options": [
+                  {
+                    "achievement_id": 4246,
+                    "name": "Loquacious Orator",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 10,
+                    "action": "Replay the relevant trial sequence and hear the remaining arguments."
+                  },
+                  {
+                    "achievement_id": 4228,
+                    "name": "Domain of Kourna Insight: Dunlon Springs",
+                    "activity": "open_world",
+                    "location": "Dunlon Springs, Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 11,
+                    "action": "Discover the Dunlon Springs Mastery Insight."
+                  },
+                  {
+                    "achievement_id": 4203,
+                    "name": "Dances with Cacti",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 12,
+                    "event_dependent": true,
+                    "action": "Complete the choya dance activity in the Domain of Kourna."
+                  },
+                  {
+                    "achievement_id": 4222,
+                    "name": "Crab Kickin'",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 13,
+                    "action": "Kick the surly crab toward the Awakened."
+                  },
+                  {
+                    "achievement_id": 4231,
+                    "name": "I Can See My House...",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 14,
+                    "action": "Take your roller beetle to the highest point in Kourna."
+                  },
+                  {
+                    "achievement_id": 4192,
+                    "name": "Roller Beetle Training: Silver",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 15,
+                    "event_dependent": true,
+                    "action": "Earn the silver chest in the Domain of Kourna roller beetle training."
+                  },
+                  {
+                    "achievement_id": 4198,
+                    "name": "Roller Beetle Training: Gold",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 20,
+                    "priority": 16,
+                    "event_dependent": true,
+                    "action": "Earn the gold chest in the Domain of Kourna roller beetle training."
+                  },
+                  {
+                    "achievement_id": 4251,
+                    "name": "The Gandaran Service Medal",
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 40,
+                    "priority": 17,
+                    "action": "Complete the remaining Gandaran campaign medal objectives."
+                  },
+                  {
+                    "achievement_id": 4264,
+                    "name": "Taking All Their Secrets",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 18,
+                    "action": "Loot the Inquest lab enough additional times to reach 10."
+                  },
+                  {
+                    "achievement_id": 4233,
+                    "name": "The Tyrian Service Medal",
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 45,
+                    "priority": 19,
+                    "action": "Complete the remaining Tyrian campaign medal objectives."
+                  },
+                  {
+                    "achievement_id": 4207,
+                    "name": "More Than a Hero",
+                    "activity": "crafting",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "priority": 20,
+                    "action": "Continue the Banner of the Commander crafting dependency; crafting the Banner also completes More Than a Hero.",
+                    "related_objectives": [
+                      "Banner of the Commander"
+                    ]
+                  },
+                  {
+                    "achievement_id": 4186,
+                    "name": "More than a Hero, a Symbol",
+                    "activity": "crafting",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 40,
+                    "priority": 21,
+                    "action": "After Banner of the Commander, craft the Banner of the Dauntless Commander to complete More than a Hero, a Symbol.",
+                    "related_objectives": [
+                      "Banner of the Commander"
+                    ]
+                  },
+                  {
+                    "achievement_id": 4217,
+                    "name": "Captive Audience",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 30,
+                    "action": "Replay the relevant story content and listen to all of Joko's taunts."
+                  },
+                  {
+                    "achievement_id": 4243,
+                    "name": "Dexterous and Flexible",
+                    "activity": "story",
+                    "location": "Moon Fortress, Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 31,
+                    "action": "Replay the Moon Fortress section and avoid every laser trap."
+                  },
+                  {
+                    "achievement_id": 4188,
+                    "name": "Glory Hog",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 32,
+                    "action": "Replay the relevant story section and plant all seeds before Canach helps."
+                  },
+                  {
+                    "achievement_id": 4220,
+                    "name": "Silent but Deadly",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "priority": 33,
+                    "action": "Replay the infiltration section without raising suspicion enough to spawn champions."
+                  },
+                  {
+                    "achievement_id": 4234,
+                    "name": "Thing That Wouldn't Leave",
+                    "activity": "open_world",
+                    "location": "Awakened Inquest plague research lab, Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 34,
+                    "action": "Overstay your welcome in the Awakened Inquest plague research lab."
+                  },
+                  {
+                    "achievement_id": 4258,
+                    "name": "Valor Beyond Valor",
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 80,
+                    "action": "Complete both The Gandaran Service Medal and The Tyrian Service Medal to receive Valor Beyond Valor."
+                  }
+                ],
+                "alternative": {
+                  "type": "reward_track",
+                  "name": "Domain of Kourna Reward Track",
+                  "activity": "wvw_or_pvp",
+                  "action": "Complete the Domain of Kourna Reward Track and choose the Heavy Corsair Jerkin from the final reward."
+                },
+                "reward": {
+                  "name": "Heavy Corsair Jerkin"
+                },
+                "excluded_option_groups": [
+                  {
+                    "name": "Field Tech Turret Dynamics",
+                    "reason": "The FTT achievement tree is prerequisite-heavy and is intentionally excluded from the flat option pool until it has nested dependency modelling."
+                  }
+                ]
+              }
             },
             {
               "bit": 1,
