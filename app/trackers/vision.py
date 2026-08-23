@@ -412,6 +412,26 @@ class VisionTracker:
                     )
                 }
 
+                objective_achievement_id = objective.get(
+                    "achievement_id"
+                )
+
+                if objective_achievement_id is not None:
+                    objective_progress = account_progress.get(
+                        objective_achievement_id,
+                        {}
+                    )
+                    dependency_objective.update({
+                        "achievement_id": objective_achievement_id,
+                        "current": objective_progress.get(
+                            "current",
+                            0
+                        ),
+                        "required": objective_progress.get(
+                            "max"
+                        )
+                    })
+
                 for field in (
                     "activity",
                     "location",
@@ -451,6 +471,84 @@ class VisionTracker:
                     for objective in dependency_objectives
                     if not objective["completed"]
                 ]
+            })
+
+        if tracking == "achievement_set":
+            definitions = dependency.get("objectives", [])
+            required = dependency.get("required", len(definitions))
+            dependency_objectives = []
+
+            for objective in definitions:
+                objective_id = objective["achievement_id"]
+                objective_progress = account_progress.get(
+                    objective_id,
+                    {}
+                )
+                objective_current = objective_progress.get(
+                    "current",
+                    0
+                )
+                objective_max = objective_progress.get("max")
+                objective_done = objective_progress.get("done")
+
+                if objective_done is None:
+                    objective_done = bool(
+                        objective_max
+                        and objective_current >= objective_max
+                    )
+
+                dependency_objective = {
+                    "achievement_id": objective_id,
+                    "name": objective["name"],
+                    "completed": bool(objective_done),
+                    "current": objective_current,
+                    "required": objective_max
+                }
+
+                for field in (
+                    "activity",
+                    "location",
+                    "minimum_minutes",
+                    "ideal_minutes",
+                    "action",
+                    "event_dependent",
+                    "bundle",
+                    "focus_type",
+                    "reward"
+                ):
+                    if field in objective:
+                        dependency_objective[field] = objective[field]
+
+                dependency_objectives.append(
+                    dependency_objective
+                )
+
+            completed_objectives = [
+                objective
+                for objective in dependency_objectives
+                if objective["completed"]
+            ]
+            missing_objectives = [
+                objective
+                for objective in dependency_objectives
+                if not objective["completed"]
+            ]
+            current = min(
+                len(completed_objectives),
+                required
+            )
+
+            dependency_result.update({
+                "current": current,
+                "required": required,
+                "percent": round(
+                    current / required * 100,
+                    1
+                ) if required else 0,
+                "completed": current >= required,
+                "objectives": dependency_objectives,
+                "completed_objectives": completed_objectives,
+                "missing_objectives": missing_objectives
             })
 
         if tracking == "achievement_options":

@@ -24,6 +24,7 @@ class SessionPlanner:
     DEPENDENCY_BLOCKER_BONUS = 12
     DEPENDENCY_READY_BONUS = 60
     SHARED_MATERIAL_BONUS = 15
+    SHARED_DEPENDENCY_BONUS = 15
     META_DEPENDENCY_BONUS = 12
     OPTION_PRIORITY_MAX_BONUS = 8
     OPTION_PROGRESS_MAX_BONUS = 6
@@ -208,6 +209,19 @@ class SessionPlanner:
 
             if "parent_objective" in best:
                 step["parent_objective"] = best["parent_objective"]
+
+            if "parent_objectives" in best:
+                step["parent_objectives"] = best["parent_objectives"]
+
+            if "shared_dependency_count" in best:
+                step["shared_dependency_count"] = (
+                    best["shared_dependency_count"]
+                )
+
+            if "dependency_achievement_id" in best:
+                step["dependency_achievement_id"] = (
+                    best["dependency_achievement_id"]
+                )
 
             step["map"] = self._map_key(
                 best.get("location")
@@ -612,6 +626,17 @@ class SessionPlanner:
         if len(material_sources) > 1:
             score += self.SHARED_MATERIAL_BONUS * min(
                 len(material_sources) - 1,
+                3
+            )
+
+        shared_dependency_count = candidate.get(
+            "shared_dependency_count",
+            1
+        )
+
+        if shared_dependency_count > 1:
+            score += self.SHARED_DEPENDENCY_BONUS * min(
+                shared_dependency_count - 1,
                 3
             )
 

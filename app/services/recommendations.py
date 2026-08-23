@@ -77,6 +77,10 @@ class RecommendationService:
             recommendations
         )
 
+        recommendations = self._consolidate_achievement_dependencies(
+            recommendations
+        )
+
         for recommendation in recommendations:
             self._classify_activity(
                 recommendation
@@ -282,6 +286,87 @@ class RecommendationService:
                     f"Acquire {missing} more {material_name}. "
                     f"{acquisition['action']}"
                 )
+
+            consolidated.append(merged)
+
+        return consolidated
+
+    def _consolidate_achievement_dependencies(
+        self,
+        recommendations: list
+    ):
+        grouped = {}
+        passthrough = []
+
+        for recommendation in recommendations:
+            achievement_id = recommendation.get(
+                "dependency_achievement_id"
+            )
+
+            if achievement_id is None:
+                passthrough.append(recommendation)
+                continue
+
+            key = (
+                recommendation.get("goal"),
+                achievement_id
+            )
+            grouped.setdefault(key, []).append(
+                recommendation
+            )
+
+        consolidated = list(passthrough)
+
+        for candidates in grouped.values():
+            if len(candidates) == 1:
+                consolidated.append(candidates[0])
+                continue
+
+            template = max(
+                candidates,
+                key=lambda candidate: candidate.get(
+                    "progress_ratio",
+                    0
+                )
+            )
+            merged = dict(template)
+
+            parent_objectives = []
+            for candidate in candidates:
+                source = candidate.get(
+                    "dependency_source"
+                )
+                if source and source not in parent_objectives:
+                    parent_objectives.append(source)
+
+            merged["parent_objectives"] = parent_objectives
+            merged["shared_dependency_count"] = len(
+                parent_objectives
+            )
+            merged.pop("parent_objective", None)
+            merged.pop("dependency", None)
+            merged.pop("dependency_chain", None)
+
+            progress = merged.get("progress")
+            source_text = (
+                " and ".join(parent_objectives)
+                if len(parent_objectives) <= 2
+                else (
+                    ", ".join(parent_objectives[:-1])
+                    + f", and {parent_objectives[-1]}"
+                )
+            )
+
+            merged["reason"] = (
+                f"{merged['title']} advances "
+                f"{len(parent_objectives)} Vision dependencies: "
+                f"{source_text}."
+                + (
+                    f" Current progress is {progress}."
+                    if progress
+                    else ""
+                )
+            )
 
             consolidated.append(merged)
 
@@ -1277,6 +1362,83 @@ class RecommendationService:
                                 )
 
                             continue
+
+                        if (
+                            dependency
+                            and dependency.get("tracking")
+                            in {"achievement_bits", "achievement_set"}
+                        ):
+                            for child in missing_dependency_objectives:
+                                child_achievement_id = child.get(
+                                    "achievement_id"
+                                )
+
+                                if child_achievement_id is None:
+                                    continue
+
+                                child_recommendation = dict(
+                                    recommendation
+                                )
+                                child_recommendation.update({
+                                    "type": "objective",
+                                    "title": child["name"],
+                                    "parent_objective": objective["name"],
+                                    "dependency_achievement_id": (
+                                        child_achievement_id
+                                    ),
+                                    "dependency_source": objective["name"],
+                                    "activity": child.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    ),
+                                    "location": child.get(
+                                        "location",
+                                        objective.get("location")
+                                    ),
+                                    "minimum_minutes": child.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    ),
+                                    "ideal_minutes": child.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    ),
+                                    "action": child.get(
+                                        "action",
+                                        objective.get("action")
+                                    ),
+                                    "event_dependent": child.get(
+                                        "event_dependent",
+                                        False
+                                    ),
+                                    "reason": (
+                                        f"{child['name']} is required for "
+                                        f"{objective['name']}."
+                                    )
+                                })
+
+                                child_required = child.get(
+                                    "required"
+                                )
+
+                                if child_required:
+                                    child_current = child.get(
+                                        "current",
+                                        0
+                                    )
+                                    child_recommendation["progress"] = (
+                                        f"{child_current}/{child_required}"
+                                    )
+                                    child_recommendation[
+                                        "progress_ratio"
+                                    ] = (
+                                        child_current
+                                        / child_required
+                                    )
+
+                                recommendations.append(
+                                    child_recommendation
+                                )
 
                         recommendations.append(
                             recommendation

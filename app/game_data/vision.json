@@ -1350,6 +1350,7 @@
                   {
                     "bit": 12,
                     "name": "My Beautiful Infrastructure",
+                    "achievement_id": 4687,
                     "activity": "open_world",
                     "location": "Dragonfall",
                     "minimum_minutes": 15,
@@ -1361,6 +1362,7 @@
                   {
                     "bit": 13,
                     "name": "Championship Bout",
+                    "achievement_id": 4708,
                     "activity": "open_world",
                     "location": "Dragonfall",
                     "minimum_minutes": 20,
@@ -1456,9 +1458,30 @@
               "name": "Vision of Equipment: Dragon Champion Armor",
               "activity": "achievement",
               "location": "Dragonfall",
-              "minimum_minutes": 30,
-              "ideal_minutes": 60,
-              "action": "Work toward completing one weight class of Tier 1 Mist Shard armor."
+              "minimum_minutes": 20,
+              "ideal_minutes": 45,
+              "action": "Complete the remaining Mist Shard armor reward achievements for one weight class, then buy the Vision collection item from the Traveling Elonian Trader.",
+              "dependency": {
+                "name": "Tier 1 Mist Shard Armor",
+                "tracking": "achievement_set",
+                "required": 6,
+                "objectives": [
+                  {"achievement_id": 4686, "name": "Chasing Waterfalls", "reward": "Mist Shard Helm", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Find the remaining waterfalls in Dragonfall to complete Chasing Waterfalls."},
+                  {"achievement_id": 4740, "name": "Putting Out Fires", "reward": "Mist Shard Shoulders", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Complete Putting Out Fires for the Mist Shard shoulder reward."},
+                  {"achievement_id": 4708, "name": "Championship Bout", "reward": "Mist Shard Coat", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 20, "ideal_minutes": 45, "action": "Defeat the remaining Dragonfall champions toward Championship Bout.", "bundle": "dragonfall", "focus_type": "opportunistic"},
+                  {"achievement_id": 4687, "name": "My Beautiful Infrastructure", "reward": "Mist Shard Gloves", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 15, "ideal_minutes": 30, "action": "Participate in the remaining bridge defense or bridge repair events in Dragonfall.", "bundle": "dragonfall", "focus_type": "opportunistic"},
+                  {"achievement_id": 4723, "name": "Life in the Underworld", "reward": "Mist Shard Leggings", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Complete Life in the Underworld for the Mist Shard legging reward."},
+                  {"achievement_id": 4715, "name": "Cutting Weeds", "reward": "Mist Shard Boots", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Complete Cutting Weeds for the Mist Shard boot reward."}
+                ],
+                "next_step": {
+                  "type": "vendor_purchase",
+                  "name": "Vision of Equipment: Dragon Champion Armor",
+                  "vendor": "Traveling Elonian Trader",
+                  "location": "Pact Command, Dragonfall",
+                  "cost": "5 gold",
+                  "note": "After unlocking one complete weight class of Tier 1 Mist Shard armor, buy the Vision collection item from the Traveling Elonian Trader."
+                }
+              }
             },
             {
               "bit": 6,
