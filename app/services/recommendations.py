@@ -484,6 +484,47 @@ class RecommendationService:
                 if parent and parent not in parent_objectives:
                     parent_objectives.append(parent)
 
+            vendor_options = []
+            seen_vendor_locations = set()
+
+            for candidate in candidates:
+                candidate_dependency = (
+                    candidate.get("dependency")
+                    or {}
+                )
+                candidate_blocker = (
+                    candidate_dependency.get("primary_blocker")
+                    or {}
+                )
+                vendor_location = candidate_blocker.get(
+                    "location"
+                )
+
+                if (
+                    not vendor_location
+                    or vendor_location in seen_vendor_locations
+                ):
+                    continue
+
+                seen_vendor_locations.add(
+                    vendor_location
+                )
+                vendor_options.append({
+                    "location": vendor_location,
+                    "minimum_minutes": candidate_blocker.get(
+                        "minimum_minutes",
+                        candidate.get("minimum_minutes")
+                    ),
+                    "ideal_minutes": candidate_blocker.get(
+                        "ideal_minutes",
+                        candidate.get("ideal_minutes")
+                    ),
+                    "action": candidate_blocker.get(
+                        "action",
+                        candidate.get("action")
+                    )
+                })
+
             blocker.update({
                 "required": immediate_required,
                 "owned": owned,
@@ -517,6 +558,11 @@ class RecommendationService:
             item_name = dependency.get("name", "shared consumable")
             plural = "s" if immediate_missing != 1 else ""
 
+            vendor_locations = [
+                option["location"]
+                for option in vendor_options
+            ]
+
             template.update({
                 "title": (
                     f"Buy {immediate_missing} {item_name}{plural}"
@@ -528,10 +574,11 @@ class RecommendationService:
                 "dependency": dependency,
                 "immediate_required": immediate_required,
                 "immediate_missing": immediate_missing,
+                "vendor_options": vendor_options,
                 "action": (
                     f"Buy {immediate_missing} {item_name}{plural} "
-                    "from Alaleh at Chalon Docks to prepare the "
-                    "currently modelled Vision of Enemies objectives."
+                    "from a Memory Essence Encapsulator vendor to prepare "
+                    "the currently modelled Vision of Enemies objectives."
                 ),
                 "reason": (
                     f"{len(parent_objectives)} incomplete Vision of Enemies "
@@ -542,6 +589,13 @@ class RecommendationService:
                     f"requirement{'s' if immediate_missing != 1 else ''}. "
                     f"Across Vision of Enemies, {shared_required} are needed "
                     "in total."
+                    + (
+                        " Available vendor locations: "
+                        + "; ".join(vendor_locations)
+                        + "."
+                        if vendor_locations
+                        else ""
+                    )
                 )
             })
 
@@ -1533,12 +1587,27 @@ class RecommendationService:
                                     ] = len(
                                         active_completion_effects
                                     )
+                                    qualifying_completion_effects = [
+                                        effect
+                                        for effect in active_completion_effects
+                                        if (
+                                            effect.get(
+                                                "completes_achievement",
+                                                False
+                                            )
+                                            and effect.get(
+                                                "counts_toward_same_dependency",
+                                                False
+                                            )
+                                        )
+                                    ]
+
                                     option_recommendation[
                                         "effective_achievement_completions"
                                     ] = (
                                         1
                                         + len(
-                                            active_completion_effects
+                                            qualifying_completion_effects
                                         )
                                     )
 

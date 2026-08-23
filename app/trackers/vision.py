@@ -605,14 +605,48 @@ class VisionTracker:
                             False
                         )
 
-                    effect_result = dict(effect)
-                    effect_result["active"] = effect_active
-                    effect_result["current"] = target_progress.get(
+                    target_current = target_progress.get(
                         "current",
                         0
                     )
-                    effect_result["required"] = target_progress.get(
+                    target_required = target_progress.get(
                         "max"
+                    )
+
+                    completes_achievement = False
+
+                    if effect.get("effect") == "complete_achievement":
+                        completes_achievement = effect_active
+                    elif (
+                        effect.get("effect") == "complete_bit"
+                        and effect_active
+                        and target_required
+                    ):
+                        completes_achievement = (
+                            target_current + 1
+                            >= target_required
+                        )
+
+                    same_dependency_ids = {
+                        candidate.get("achievement_id")
+                        for candidate in dependency.get(
+                            "options",
+                            []
+                        )
+                    }
+
+                    effect_result = dict(effect)
+                    effect_result["active"] = effect_active
+                    effect_result["current"] = target_current
+                    effect_result["required"] = target_required
+                    effect_result["completes_achievement"] = (
+                        completes_achievement
+                    )
+                    effect_result[
+                        "counts_toward_same_dependency"
+                    ] = (
+                        effect.get("achievement_id")
+                        in same_dependency_ids
                     )
 
                     completion_effects.append(effect_result)

@@ -82,8 +82,15 @@ class SessionPlanner:
         used_low_value_activity = False
         used_goals = set()
         selected_dependency_counts = {}
+        projected_completed_achievement_ids = set()
 
         while candidates:
+            for candidate in candidates:
+                self._apply_vendor_option(
+                    candidate=candidate,
+                    current_location=current_location
+                )
+
             eligible = [
                 candidate
                 for candidate in candidates
@@ -100,6 +107,12 @@ class SessionPlanner:
                         selected_dependency_counts=(
                             selected_dependency_counts
                         )
+                    )
+                    and (
+                        candidate.get(
+                            "dependency_achievement_id"
+                        )
+                        not in projected_completed_achievement_ids
                     )
                 )
             ]
@@ -263,6 +276,16 @@ class SessionPlanner:
             if "material_sources" in best:
                 step["material_sources"] = best["material_sources"]
 
+            if "vendor_options" in best:
+                step["vendor_options"] = best[
+                    "vendor_options"
+                ]
+
+            if "selected_vendor_option" in best:
+                step["selected_vendor_option"] = best[
+                    "selected_vendor_option"
+                ]
+
             if "dependency" in best:
                 step["dependency"] = best[
                     "dependency"
@@ -320,8 +343,31 @@ class SessionPlanner:
                         dependency_key,
                         0
                     )
-                    + 1
+                    + best.get(
+                        "effective_achievement_completions",
+                        1
+                    )
                 )
+
+            for effect in best.get(
+                "completion_effects",
+                []
+            ):
+                if (
+                    effect.get("active")
+                    and effect.get(
+                        "completes_achievement",
+                        False
+                    )
+                ):
+                    target_achievement_id = effect.get(
+                        "achievement_id"
+                    )
+
+                    if target_achievement_id is not None:
+                        projected_completed_achievement_ids.add(
+                            target_achievement_id
+                        )
 
             if (
                 best["activity"]
@@ -369,6 +415,89 @@ class SessionPlanner:
             "locations": locations,
             "steps": steps
         }
+
+    def _apply_vendor_option(
+        self,
+        candidate: dict,
+        current_location: str | None
+    ):
+        vendor_options = candidate.get(
+            "vendor_options",
+            []
+        )
+
+        if not vendor_options:
+            return
+
+        selected = vendor_options[0]
+
+        if current_location:
+            for option in vendor_options:
+                if (
+                    self._map_key(
+                        option.get("location")
+                    )
+                    == current_location
+                ):
+                    selected = option
+                    break
+
+        candidate["selected_vendor_option"] = selected
+        candidate["location"] = selected.get(
+            "location",
+            candidate.get("location")
+        )
+        candidate["minimum_minutes"] = selected.get(
+            "minimum_minutes",
+            candidate.get("minimum_minutes")
+        )
+        candidate["ideal_minutes"] = selected.get(
+            "ideal_minutes",
+            candidate.get("ideal_minutes")
+        )
+
+        item_count = candidate.get(
+            "immediate_missing"
+        )
+        dependency = candidate.get(
+            "dependency",
+            {}
+        )
+        item_name = dependency.get(
+            "name",
+            "shared consumable"
+        )
+
+        if item_count:
+            plural = "s" if item_count != 1 else ""
+            selected_action = selected.get(
+                "action",
+                ""
+            )
+
+            vendor_phrase = ""
+
+            if " from " in selected_action:
+                vendor_phrase = (
+                    selected_action
+                    .split(" from ", 1)[1]
+                    .split(" before ", 1)[0]
+                    .rstrip(".")
+                )
+
+            if vendor_phrase:
+                candidate["action"] = (
+                    f"Buy {item_count} {item_name}{plural} "
+                    f"from {vendor_phrase}."
+                )
+            else:
+                candidate["action"] = (
+                    f"Buy {item_count} {item_name}{plural}."
+                )
+        elif selected.get("action"):
+            candidate["action"] = selected[
+                "action"
+            ]
 
     def _dependency_focus(
         self,
