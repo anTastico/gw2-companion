@@ -1599,11 +1599,37 @@
             {
               "bit": 0,
               "name": "Updated Record of Joko's Deeds",
-              "activity": "achievement",
-              "location": "Jahai Bluffs",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Updated Record of Joko's Deeds after completing the A Star to Guide Us mastery achievement."
+              "activity": "vendor",
+              "location": "Yatendi Village, Jahai Bluffs",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Buy the Updated Record of Joko's Deeds from Trader Hyacinth at Yatendi Village.",
+              "dependency": {
+                "achievement_id": 4359,
+                "name": "\"A Star to Guide Us\" Mastery",
+                "tracking": "achievement",
+                "required": 38,
+                "activity": "achievement",
+                "location": "Jahai Bluffs",
+                "minimum_minutes": 15,
+                "ideal_minutes": 45,
+                "action": "Complete \"A Star to Guide Us\" Mastery to unlock the Updated Record of Joko's Deeds.",
+                "next_step": {
+                  "type": "vendor_purchase",
+                  "name": "Buy Updated Record of Joko's Deeds",
+                  "activity": "vendor",
+                  "vendor": "Trader Hyacinth",
+                  "location": "Yatendi Village, Jahai Bluffs",
+                  "minimum_minutes": 5,
+                  "ideal_minutes": 10,
+                  "cost": {
+                    "gold": 8,
+                    "volatile_magic": 50
+                  },
+                  "action": "Buy the Updated Record of Joko's Deeds from Trader Hyacinth at Yatendi Village.",
+                  "note": "\"A Star to Guide Us\" Mastery must be complete before Trader Hyacinth offers the item."
+                }
+              }
             },
             {
               "bit": 1,

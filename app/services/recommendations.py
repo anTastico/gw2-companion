@@ -1089,6 +1089,19 @@ class RecommendationService:
                                     " Starting this time-gated dependency "
                                     "early avoids delaying later progress."
                                 )
+
+                            completed_next_step = (
+                                dependency.get("next_step")
+                                if dependency.get("completed")
+                                else None
+                            )
+
+                            if completed_next_step:
+                                reason = (
+                                    f"{dependency['name']} is complete. "
+                                    f"The unlocked next step is "
+                                    f"{completed_next_step.get('name', 'available now')}."
+                                )
                         else:
                             progress_ratio = (
                                 self._collection_progress_ratio(
@@ -1142,6 +1155,54 @@ class RecommendationService:
                             recommendation["time_gate"] = (
                                 dependency.get("time_gate")
                             )
+
+                            completed_next_step = (
+                                dependency.get("next_step")
+                                if dependency.get("completed")
+                                else None
+                            )
+
+                            if completed_next_step:
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+                                recommendation["title"] = (
+                                    completed_next_step.get(
+                                        "name",
+                                        objective["name"]
+                                    )
+                                )
+                                recommendation["activity"] = (
+                                    completed_next_step.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    )
+                                )
+                                recommendation["location"] = (
+                                    completed_next_step.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                )
+                                recommendation["minimum_minutes"] = (
+                                    completed_next_step.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    )
+                                )
+                                recommendation["ideal_minutes"] = (
+                                    completed_next_step.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    )
+                                )
+                                recommendation["action"] = (
+                                    completed_next_step.get(
+                                        "action",
+                                        objective.get("action")
+                                    )
+                                )
+                                recommendation["dependency_ready"] = True
 
                             next_dependency_objective = (
                                 dependency.get("next_objective")
