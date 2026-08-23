@@ -1597,10 +1597,19 @@ class RecommendationService:
                                     option_recommendation[
                                         "completion_effects"
                                     ] = active_completion_effects
+                                    immediate_completion_effects = [
+                                        effect
+                                        for effect in active_completion_effects
+                                        if effect.get(
+                                            "completes_achievement",
+                                            False
+                                        )
+                                    ]
+
                                     option_recommendation[
                                         "completion_effect_count"
                                     ] = len(
-                                        active_completion_effects
+                                        immediate_completion_effects
                                     )
                                     qualifying_completion_effects = [
                                         effect

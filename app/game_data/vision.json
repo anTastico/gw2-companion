@@ -1160,7 +1160,19 @@
                     "minimum_minutes": 15,
                     "ideal_minutes": 40,
                     "priority": 17,
-                    "action": "Complete the remaining Gandaran campaign medal objectives."
+                    "action": "Complete the remaining Gandaran campaign medal objectives.",
+                    "completion_effects": [
+                      {
+                        "achievement_id": 4258,
+                        "name": "Valor Beyond Valor",
+                        "effect": "complete_when_all",
+                        "prerequisite_achievement_ids": [
+                          4251,
+                          4233
+                        ],
+                        "note": "Valor Beyond Valor completes once both The Gandaran Service Medal and The Tyrian Service Medal are complete."
+                      }
+                    ]
                   },
                   {
                     "achievement_id": 4264,
@@ -1180,7 +1192,19 @@
                     "minimum_minutes": 20,
                     "ideal_minutes": 45,
                     "priority": 19,
-                    "action": "Complete the remaining Tyrian campaign medal objectives."
+                    "action": "Complete the remaining Tyrian campaign medal objectives.",
+                    "completion_effects": [
+                      {
+                        "achievement_id": 4258,
+                        "name": "Valor Beyond Valor",
+                        "effect": "complete_when_all",
+                        "prerequisite_achievement_ids": [
+                          4251,
+                          4233
+                        ],
+                        "note": "Valor Beyond Valor completes once both The Gandaran Service Medal and The Tyrian Service Medal are complete."
+                      }
+                    ]
                   },
                   {
                     "achievement_id": 4207,

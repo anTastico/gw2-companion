@@ -91,6 +91,12 @@ class SessionPlanner:
                     candidate=candidate,
                     current_location=current_location
                 )
+                self._apply_projected_completion_effects(
+                    candidate=candidate,
+                    projected_completed_achievement_ids=(
+                        projected_completed_achievement_ids
+                    )
+                )
 
             eligible = [
                 candidate
@@ -258,6 +264,11 @@ class SessionPlanner:
                     best["completion_effect_count"]
                 )
 
+            if "projected_completion_effects" in best:
+                step["projected_completion_effects"] = (
+                    best["projected_completion_effects"]
+                )
+
             if "effective_achievement_completions" in best:
                 step["effective_achievement_completions"] = (
                     best["effective_achievement_completions"]
@@ -360,6 +371,15 @@ class SessionPlanner:
                     )
                 )
 
+            selected_achievement_id = best.get(
+                "dependency_achievement_id"
+            )
+
+            if selected_achievement_id is not None:
+                projected_completed_achievement_ids.add(
+                    selected_achievement_id
+                )
+
             for effect in best.get(
                 "completion_effects",
                 []
@@ -367,8 +387,11 @@ class SessionPlanner:
                 if (
                     effect.get("active")
                     and effect.get(
-                        "completes_achievement",
-                        False
+                        "projected_completes_achievement",
+                        effect.get(
+                            "completes_achievement",
+                            False
+                        )
                     )
                 ):
                     target_achievement_id = effect.get(
@@ -426,6 +449,141 @@ class SessionPlanner:
             "locations": locations,
             "steps": steps
         }
+
+    def _apply_projected_completion_effects(
+        self,
+        candidate: dict,
+        projected_completed_achievement_ids: set
+    ):
+        effects = candidate.get(
+            "completion_effects",
+            []
+        )
+
+        if not effects:
+            return
+
+        candidate_achievement_id = candidate.get(
+            "dependency_achievement_id"
+        )
+
+        projected_with_candidate = set(
+            projected_completed_achievement_ids
+        )
+
+        if candidate_achievement_id is not None:
+            projected_with_candidate.add(
+                candidate_achievement_id
+            )
+
+        projected_effects = []
+
+        for effect in effects:
+            projected_effect = dict(effect)
+            projected_completes = effect.get(
+                "completes_achievement",
+                False
+            )
+
+            if (
+                effect.get("active")
+                and effect.get("effect")
+                == "complete_when_all"
+            ):
+                prerequisite_ids = set(
+                    effect.get(
+                        "prerequisite_achievement_ids",
+                        []
+                    )
+                )
+                projected_completes = bool(
+                    prerequisite_ids
+                    and prerequisite_ids.issubset(
+                        projected_with_candidate
+                    )
+                )
+
+            projected_effect[
+                "projected_completes_achievement"
+            ] = projected_completes
+
+            projected_effects.append(
+                projected_effect
+            )
+
+        candidate["completion_effects"] = projected_effects
+
+        projected_completed_names = [
+            effect.get("name")
+            for effect in projected_effects
+            if (
+                effect.get("active")
+                and effect.get(
+                    "projected_completes_achievement",
+                    False
+                )
+                and effect.get("name")
+            )
+        ]
+
+        if projected_completed_names:
+            reason = candidate.get("reason", "")
+
+            for effect_name in projected_completed_names:
+                advances_text = (
+                    f"Completing it also advances {effect_name}."
+                )
+                completes_text = (
+                    f"Completing it also completes {effect_name}."
+                )
+
+                if advances_text in reason:
+                    reason = reason.replace(
+                        advances_text,
+                        completes_text,
+                        1
+                    )
+
+            candidate["reason"] = reason
+
+        completing_effects = [
+            effect
+            for effect in projected_effects
+            if (
+                effect.get("active")
+                and effect.get(
+                    "projected_completes_achievement",
+                    False
+                )
+            )
+        ]
+
+        candidate["completion_effect_count"] = len(
+            completing_effects
+        )
+
+        qualifying_effects = [
+            effect
+            for effect in completing_effects
+            if effect.get(
+                "counts_toward_same_dependency",
+                False
+            )
+        ]
+
+        candidate[
+            "effective_achievement_completions"
+        ] = 1 + len(qualifying_effects)
+
+        if completing_effects:
+            candidate[
+                "projected_completion_effects"
+            ] = completing_effects
+        else:
+            candidate.pop(
+                "projected_completion_effects",
+                None
+            )
 
     def _apply_vendor_option(
         self,
