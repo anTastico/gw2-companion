@@ -402,9 +402,271 @@
               "name": "Olmakhan Mantle",
               "activity": "achievement",
               "location": "Sandswept Isles",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Olmakhan Mantle through the A Bug in the System mastery achievement or Sandswept Isles Reward Track."
+              "minimum_minutes": 5,
+              "ideal_minutes": 30,
+              "action": "Finish \"A Bug in the System\" Mastery by completing enough remaining qualifying achievements, or use the Sandswept Isles Reward Track alternative.",
+              "dependency": {
+                "achievement_id": 4093,
+                "name": "\"A Bug in the System\" Mastery",
+                "tracking": "achievement_options",
+                "required": 35,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "A Bug in the System achievement",
+                "activity": "achievement",
+                "location": "Sandswept Isles",
+                "minimum_minutes": 5,
+                "ideal_minutes": 30,
+                "action": "Complete enough remaining \"A Bug in the System\" achievements to reach 35 and obtain the Olmakhan Mantle Box.",
+                "options": [
+                  {
+                    "achievement_id": 4133,
+                    "name": "Sandswept Isles Legendary Hunter",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 10,
+                    "event_dependent": true,
+                    "action": "Defeat the remaining legendary bounty in the Sandswept Isles."
+                  },
+                  {
+                    "achievement_id": 4105,
+                    "name": "Track Record",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 11,
+                    "event_dependent": true,
+                    "action": "Complete the remaining Sandswept Isles race."
+                  },
+                  {
+                    "achievement_id": 4117,
+                    "name": "Honorary Olmakhan",
+                    "activity": "open_world",
+                    "location": "The Hunting Grounds, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 12,
+                    "action": "Defeat the remaining prestige hunting targets in the Olmakhan hunting grounds."
+                  },
+                  {
+                    "achievement_id": 4139,
+                    "name": "The Specimen Chamber",
+                    "activity": "open_world",
+                    "location": "Specimen Chamber, Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 13,
+                    "event_dependent": true,
+                    "action": "Defeat the remaining champion simulacrums in the Specimen Chamber."
+                  },
+                  {
+                    "achievement_id": 4100,
+                    "name": "Magnetic Attraction",
+                    "activity": "open_world",
+                    "location": "Magnetics Lab, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 14,
+                    "action": "Collect the remaining magneton particles in the Magnetics Lab."
+                  },
+                  {
+                    "achievement_id": 4136,
+                    "name": "Race to the Finish: Inquest Facility",
+                    "activity": "open_world",
+                    "location": "Inquest Facility, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 15,
+                    "event_dependent": true,
+                    "action": "Finish the Inquest Facility race in first, second, or third place."
+                  },
+                  {
+                    "achievement_id": 4142,
+                    "name": "The Queen and I",
+                    "activity": "open_world",
+                    "location": "Driftwood Jetty, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 16,
+                    "event_dependent": true,
+                    "action": "Slay the champion beetle queen near Driftwood Jetty."
+                  },
+                  {
+                    "achievement_id": 4127,
+                    "name": "Wyvern Whacker",
+                    "activity": "open_world",
+                    "location": "Western Complex, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 17,
+                    "event_dependent": true,
+                    "action": "Slay the champion Branded wyvern outside the Western Complex."
+                  },
+                  {
+                    "achievement_id": 4110,
+                    "name": "Light Speed",
+                    "activity": "open_world",
+                    "location": "Invariant Enclave Lab, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 18,
+                    "action": "Activate all four door controls in the Invariant Enclave Lab in under 35 seconds."
+                  },
+                  {
+                    "achievement_id": 4149,
+                    "name": "Three Golem Monte",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 19,
+                    "event_dependent": true,
+                    "action": "Choose the correct golem in every round of the Golem Eye Exam event."
+                  },
+                  {
+                    "achievement_id": 4101,
+                    "name": "Stimulus and Response",
+                    "activity": "open_world",
+                    "location": "Comms Lab, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 20,
+                    "action": "Solve the comms lab hive-mind experiment in only three steps."
+                  },
+                  {
+                    "achievement_id": 4102,
+                    "name": "Tales of Elona",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 21,
+                    "action": "Visit Ewyn at his retreat and listen to his story."
+                  },
+                  {
+                    "achievement_id": 4144,
+                    "name": "Lasting Bonds: Where We Come From",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "priority": 22,
+                    "action": "Continue Lasting Bonds: Where We Come From; this also advances the Olmakhan Bandolier dependency."
+                  },
+                  {
+                    "achievement_id": 4109,
+                    "name": "Drones Disabled",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 35,
+                    "action": "Replay the relevant story instance and disable the drones in lab Sigma-05."
+                  },
+                  {
+                    "achievement_id": 4137,
+                    "name": "Gate-Crasher",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 36,
+                    "action": "Replay Tracking the Scientist and reach the tracking network hub quickly without provoking the Inquest."
+                  },
+                  {
+                    "achievement_id": 4126,
+                    "name": "I Make This Golem Look Good",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 37,
+                    "action": "Replay Tracking the Scientist and remain undetected while infiltrating the Inquest facility inside a golem."
+                  },
+                  {
+                    "achievement_id": 4090,
+                    "name": "Saving Skritt",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 38,
+                    "action": "Replay the relevant story instance, find Subject S in the poisonous corridor, and evacuate him to the airship."
+                  },
+                  {
+                    "achievement_id": 4120,
+                    "name": "X-T3R-M1N-8",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 39,
+                    "action": "Replay A Kindness Repaid and defeat the Mark II Beta Exterminator Golem in under three minutes."
+                  },
+                  {
+                    "achievement_id": 4130,
+                    "name": "Talk to the Fist",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 45,
+                    "action": "Replay Tracking the Scientist and choose the combative responses during questioning by the Inquest guards."
+                  },
+                  {
+                    "achievement_id": 4141,
+                    "name": "Rebooting IG-6417",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 80,
+                    "action": "Download the next available software module needed to repair IG-6417."
+                  },
+                  {
+                    "achievement_id": 4108,
+                    "name": "Redeeming IG-6417",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 90,
+                    "action": "After Rebooting IG-6417 is complete, upload recordings to teach IG-6417 how to be heroic."
+                  },
+                  {
+                    "achievement_id": 4106,
+                    "name": "Lasting Bonds: What We Do Here",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "priority": 95,
+                    "action": "After Lasting Bonds: Where We Come From is complete, continue Lasting Bonds: What We Do Here."
+                  },
+                  {
+                    "achievement_id": 4112,
+                    "name": "Lasting Bonds: What Comes Next",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 40,
+                    "priority": 96,
+                    "action": "After Lasting Bonds: What We Do Here is complete, continue Lasting Bonds: What Comes Next."
+                  }
+                ],
+                "alternative": {
+                  "type": "reward_track",
+                  "name": "Sandswept Isles Reward Track",
+                  "activity": "wvw_or_pvp",
+                  "action": "Complete the Sandswept Isles Reward Track and choose the Olmakhan Mantle from the final reward."
+                },
+                "reward": {
+                  "name": "Olmakhan Mantle"
+                }
+              }
             },
             {
               "bit": 1,

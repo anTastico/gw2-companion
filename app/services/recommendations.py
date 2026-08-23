@@ -347,6 +347,18 @@ class RecommendationService:
             merged["shared_dependency_count"] = len(
                 parent_objectives
             )
+
+            achievement_name = next(
+                (
+                    candidate.get("dependency_achievement_name")
+                    for candidate in candidates
+                    if candidate.get("dependency_achievement_name")
+                ),
+                None
+            )
+            if achievement_name:
+                merged["title"] = achievement_name
+
             merged.pop("parent_objective", None)
             merged.pop("dependency", None)
             merged.pop("dependency_chain", None)
@@ -991,6 +1003,15 @@ class RecommendationService:
                                 recommendation["parent_objective"] = (
                                     objective["name"]
                                 )
+                                recommendation[
+                                    "dependency_achievement_id"
+                                ] = dependency.get("achievement_id")
+                                recommendation[
+                                    "dependency_achievement_name"
+                                ] = dependency.get("name")
+                                recommendation[
+                                    "dependency_source"
+                                ] = objective["name"]
                                 recommendation["title"] = (
                                     f"{dependency['name']}: "
                                     f"{next_dependency_objective['name']}"
@@ -1485,6 +1506,15 @@ class RecommendationService:
                                 option_recommendation[
                                     "dependency_option"
                                 ] = option
+                                option_recommendation[
+                                    "dependency_achievement_id"
+                                ] = option.get("achievement_id")
+                                option_recommendation[
+                                    "dependency_achievement_name"
+                                ] = option.get("name")
+                                option_recommendation[
+                                    "dependency_source"
+                                ] = objective["name"]
                                 option_recommendation[
                                     "dependency_option_rank"
                                 ] = option_index + 1
