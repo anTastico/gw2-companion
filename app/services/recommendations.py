@@ -470,9 +470,18 @@ class RecommendationService:
                 if missing > 0:
                     can_acquire_all_now = False
 
-            if not can_acquire_all_now:
-                consolidated.extend(candidates)
-                continue
+            immediate_material_blockers = [
+                material
+                for material in aggregate_materials
+                if material.get("missing", 0) > 0
+            ]
+
+            immediate_material_blockers.sort(
+                key=lambda material: (
+                    material.get("priority", 50),
+                    -material.get("missing", 0)
+                )
+            )
 
             template = dict(candidates[0])
             dependency = dict(template_dependency)
@@ -531,6 +540,29 @@ class RecommendationService:
                 "missing": immediate_missing
             })
 
+            primary_immediate_blocker = None
+
+            if immediate_material_blockers:
+                material = immediate_material_blockers[0]
+                primary_immediate_blocker = {
+                    "kind": "material",
+                    "item_id": material.get("item_id"),
+                    "name": material.get("name"),
+                    "required": material.get("required", 0),
+                    "owned": material.get("owned", 0),
+                    "missing": material.get("missing", 0),
+                    "priority": material.get("priority", 50),
+                    "activity": material.get("activity", "acquisition"),
+                    "location": material.get("location"),
+                    "minimum_minutes": material.get("minimum_minutes", 10),
+                    "ideal_minutes": material.get("ideal_minutes", 30),
+                    "action": material.get(
+                        "action",
+                        f"Acquire {material.get('missing', 0)} more {material.get('name', 'material')}."
+                    ),
+                    "completed": False
+                }
+
             dependency.update({
                 "progress": (
                     f"{min(owned, immediate_required)}/"
@@ -547,12 +579,22 @@ class RecommendationService:
                     1
                 ) if immediate_required else 0,
                 "completed": owned >= immediate_required,
-                "missing_count": 1 if immediate_missing > 0 else 0,
-                "can_acquire_now": True,
-                "ready_to_acquire": immediate_missing > 0,
+                "missing_count": (
+                    len(immediate_material_blockers)
+                    if immediate_material_blockers
+                    else (1 if immediate_missing > 0 else 0)
+                ),
+                "can_acquire_now": can_acquire_all_now,
+                "ready_to_acquire": (
+                    immediate_missing > 0
+                    and can_acquire_all_now
+                ),
                 "objective_materials": aggregate_materials,
-                "missing_objective_materials": [],
-                "primary_blocker": blocker
+                "missing_objective_materials": immediate_material_blockers,
+                "primary_blocker": (
+                    primary_immediate_blocker
+                    or blocker
+                )
             })
 
             item_name = dependency.get("name", "shared consumable")
@@ -563,41 +605,95 @@ class RecommendationService:
                 for option in vendor_options
             ]
 
-            template.update({
-                "title": (
-                    f"Buy {immediate_missing} {item_name}{plural}"
-                    if immediate_missing != 1
-                    else f"Buy {item_name}"
-                ),
-                "parent_objectives": parent_objectives,
-                "shared_dependency_count": len(parent_objectives),
-                "dependency": dependency,
-                "immediate_required": immediate_required,
-                "immediate_missing": immediate_missing,
-                "vendor_options": vendor_options,
-                "action": (
-                    f"Buy {immediate_missing} {item_name}{plural} "
-                    "from a Memory Essence Encapsulator vendor to prepare "
-                    "the currently modelled Vision of Enemies objectives."
-                ),
-                "reason": (
-                    f"{len(parent_objectives)} incomplete Vision of Enemies "
-                    f"objectives currently require {immediate_required} "
-                    f"{item_name}{'s' if immediate_required != 1 else ''}; "
-                    f"{owned} are currently owned. You have the materials "
-                    f"needed to acquire all {immediate_missing} immediate "
-                    f"requirement{'s' if immediate_missing != 1 else ''}. "
-                    f"Across Vision of Enemies, {shared_required} are needed "
-                    "in total."
-                    + (
-                        " Available vendor locations: "
-                        + "; ".join(vendor_locations)
-                        + "."
-                        if vendor_locations
-                        else ""
+            if can_acquire_all_now:
+                template.update({
+                    "title": (
+                        f"Buy {immediate_missing} {item_name}{plural}"
+                        if immediate_missing != 1
+                        else f"Buy {item_name}"
+                    ),
+                    "parent_objectives": parent_objectives,
+                    "shared_dependency_count": len(parent_objectives),
+                    "dependency": dependency,
+                    "immediate_required": immediate_required,
+                    "immediate_missing": immediate_missing,
+                    "vendor_options": vendor_options,
+                    "action": (
+                        f"Buy {immediate_missing} {item_name}{plural} "
+                        "from a Memory Essence Encapsulator vendor to prepare "
+                        "the currently modelled Vision of Enemies objectives."
+                    ),
+                    "reason": (
+                        f"{len(parent_objectives)} incomplete Vision of Enemies "
+                        f"objectives currently require {immediate_required} "
+                        f"{item_name}{'s' if immediate_required != 1 else ''}; "
+                        f"{owned} are currently owned. You have the materials "
+                        f"needed to acquire all {immediate_missing} immediate "
+                        f"requirement{'s' if immediate_missing != 1 else ''}. "
+                        f"Across Vision of Enemies, {shared_required} are needed "
+                        "in total."
+                        + (
+                            " Available vendor locations: "
+                            + "; ".join(vendor_locations)
+                            + "."
+                            if vendor_locations
+                            else ""
+                        )
                     )
+                })
+            else:
+                material = primary_immediate_blocker
+                material_name = material.get("name", "required material")
+                material_missing = material.get("missing", 0)
+                acquisition = self._get_acquisition_metadata(
+                    material.get("item_id")
                 )
-            })
+
+                template.update({
+                    "title": (
+                        f"Acquire {material_missing} more {material_name}"
+                    ),
+                    "parent_objectives": parent_objectives,
+                    "shared_dependency_count": len(parent_objectives),
+                    "dependency": dependency,
+                    "immediate_required": immediate_required,
+                    "immediate_missing": immediate_missing,
+                    "material_item_id": material.get("item_id"),
+                    "material_name": material_name,
+                    "material_owned": material.get("owned", 0),
+                    "material_required": material.get("required", 0),
+                    "material_missing": material_missing,
+                    "activity": acquisition.get(
+                        "activity",
+                        material.get("activity", "acquisition")
+                    ),
+                    "location": acquisition.get(
+                        "location",
+                        material.get("location")
+                    ),
+                    "minimum_minutes": material.get("minimum_minutes", 10),
+                    "ideal_minutes": material.get("ideal_minutes", 30),
+                    "action": (
+                        f"Acquire {material_missing} more {material_name}. "
+                        + acquisition.get(
+                            "action",
+                            material.get("action", "")
+                        )
+                    ).strip(),
+                    "reason": (
+                        f"{len(parent_objectives)} incomplete Vision of Enemies "
+                        f"objectives currently require {immediate_required} "
+                        f"{item_name}{'s' if immediate_required != 1 else ''}. "
+                        f"You are {material_missing} {material_name} short of "
+                        "the materials needed for the full immediate batch. "
+                        f"After clearing this blocker, buy "
+                        f"{immediate_missing} {item_name}{plural}. "
+                        f"Across Vision of Enemies, {shared_required} are "
+                        "needed in total."
+                    )
+                })
+
+                template.pop("vendor_options", None)
 
             template.pop("parent_objective", None)
             consolidated.append(template)

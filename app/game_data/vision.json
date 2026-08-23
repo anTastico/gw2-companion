@@ -1630,7 +1630,74 @@
               "location": "Jahai Bluffs",
               "minimum_minutes": 15,
               "ideal_minutes": 30,
-              "action": "Defeat the Death-Branded Shatterer while carrying a Memory Essence Encapsulator."
+              "action": "Carry a Memory Essence Encapsulator and defeat the Death-Branded Shatterer in Jahai Bluffs.",
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Yatendi Village, Jahai Bluffs",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Trader Hyacinth",
+                "action": "Buy a Memory Essence Encapsulator from Trader Hyacinth at Yatendi Village before fighting the Death-Branded Shatterer.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ],
+                "next_step": {
+                  "type": "event_kill",
+                  "name": "Death-Branded Shatterer",
+                  "activity": "open_world",
+                  "location": "Jahai Bluffs",
+                  "minimum_minutes": 15,
+                  "ideal_minutes": 30,
+                  "event_dependent": true,
+                  "note": "After obtaining the Encapsulator, defeat the Death-Branded Shatterer in Jahai Bluffs while the Encapsulator is in your inventory."
+                }
+              },
+              "event_dependent": true
             },
             {
               "bit": 4,
