@@ -1440,9 +1440,76 @@
               "name": "Vision of Enemies: Ley-Infused Enemy",
               "activity": "open_world",
               "location": "Dragonfall",
-              "minimum_minutes": 15,
-              "ideal_minutes": 30,
-              "action": "Defeat a required ley-infused champion in Dragonfall while carrying a Memory Essence Encapsulator."
+              "minimum_minutes": 20,
+              "ideal_minutes": 45,
+              "action": "Carry a Memory Essence Encapsulator and defeat a ley-infused champion during the Dragonfall post-meta bonus phase after Break the Crystal Dragon.",
+              "event_dependent": true,
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Chalon Docks, Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Alaleh",
+                "action": "Buy a Memory Essence Encapsulator from Alaleh at Chalon Docks before doing the Dragonfall post-meta ley-infused champion.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ],
+                "next_step": {
+                  "type": "event_kill",
+                  "name": "Ley-Infused Enemy",
+                  "activity": "open_world",
+                  "location": "Dragonfall",
+                  "minimum_minutes": 20,
+                  "ideal_minutes": 45,
+                  "event_dependent": true,
+                  "note": "After obtaining the Encapsulator, complete Break the Crystal Dragon and defeat a ley-infused champion during the bonus phase."
+                }
+              }
             },
             {
               "bit": 4,
@@ -1466,12 +1533,70 @@
                 "tracking": "achievement_set",
                 "required": 6,
                 "objectives": [
-                  {"achievement_id": 4686, "name": "Chasing Waterfalls", "reward": "Mist Shard Helm", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Find the remaining waterfalls in Dragonfall to complete Chasing Waterfalls."},
-                  {"achievement_id": 4740, "name": "Putting Out Fires", "reward": "Mist Shard Shoulders", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Complete Putting Out Fires for the Mist Shard shoulder reward."},
-                  {"achievement_id": 4708, "name": "Championship Bout", "reward": "Mist Shard Coat", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 20, "ideal_minutes": 45, "action": "Defeat the remaining Dragonfall champions toward Championship Bout.", "bundle": "dragonfall", "focus_type": "opportunistic"},
-                  {"achievement_id": 4687, "name": "My Beautiful Infrastructure", "reward": "Mist Shard Gloves", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 15, "ideal_minutes": 30, "action": "Participate in the remaining bridge defense or bridge repair events in Dragonfall.", "bundle": "dragonfall", "focus_type": "opportunistic"},
-                  {"achievement_id": 4723, "name": "Life in the Underworld", "reward": "Mist Shard Leggings", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Complete Life in the Underworld for the Mist Shard legging reward."},
-                  {"achievement_id": 4715, "name": "Cutting Weeds", "reward": "Mist Shard Boots", "activity": "open_world", "location": "Dragonfall", "minimum_minutes": 10, "ideal_minutes": 30, "action": "Complete Cutting Weeds for the Mist Shard boot reward."}
+                  {
+                    "achievement_id": 4686,
+                    "name": "Chasing Waterfalls",
+                    "reward": "Mist Shard Helm",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Find the remaining waterfalls in Dragonfall to complete Chasing Waterfalls."
+                  },
+                  {
+                    "achievement_id": 4740,
+                    "name": "Putting Out Fires",
+                    "reward": "Mist Shard Shoulders",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Complete Putting Out Fires for the Mist Shard shoulder reward."
+                  },
+                  {
+                    "achievement_id": 4708,
+                    "name": "Championship Bout",
+                    "reward": "Mist Shard Coat",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 45,
+                    "action": "Defeat the remaining Dragonfall champions toward Championship Bout.",
+                    "bundle": "dragonfall",
+                    "focus_type": "opportunistic"
+                  },
+                  {
+                    "achievement_id": 4687,
+                    "name": "My Beautiful Infrastructure",
+                    "reward": "Mist Shard Gloves",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "action": "Participate in the remaining bridge defense or bridge repair events in Dragonfall.",
+                    "bundle": "dragonfall",
+                    "focus_type": "opportunistic"
+                  },
+                  {
+                    "achievement_id": 4723,
+                    "name": "Life in the Underworld",
+                    "reward": "Mist Shard Leggings",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Complete Life in the Underworld for the Mist Shard legging reward."
+                  },
+                  {
+                    "achievement_id": 4715,
+                    "name": "Cutting Weeds",
+                    "reward": "Mist Shard Boots",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Complete Cutting Weeds for the Mist Shard boot reward."
+                  }
                 ],
                 "next_step": {
                   "type": "vendor_purchase",

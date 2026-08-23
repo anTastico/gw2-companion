@@ -81,6 +81,10 @@ class RecommendationService:
             recommendations
         )
 
+        recommendations = self._consolidate_shared_consumable_purchases(
+            recommendations
+        )
+
         for recommendation in recommendations:
             self._classify_activity(
                 recommendation
@@ -369,6 +373,168 @@ class RecommendationService:
             )
 
             consolidated.append(merged)
+
+        return consolidated
+
+    def _consolidate_shared_consumable_purchases(
+        self,
+        recommendations: list
+    ):
+        grouped = {}
+        passthrough = []
+
+        for recommendation in recommendations:
+            dependency = recommendation.get("dependency") or {}
+
+            if (
+                dependency.get("tracking") != "shared_consumable"
+                or dependency.get("item_id") is None
+                or (dependency.get("primary_blocker") or {}).get("kind")
+                != "vendor_purchase"
+            ):
+                passthrough.append(recommendation)
+                continue
+
+            key = (
+                recommendation.get("goal"),
+                dependency["item_id"]
+            )
+            grouped.setdefault(key, []).append(recommendation)
+
+        consolidated = list(passthrough)
+
+        for candidates in grouped.values():
+            if len(candidates) == 1:
+                consolidated.append(candidates[0])
+                continue
+
+            dependencies = [candidate["dependency"] for candidate in candidates]
+
+            owned_values = {
+                dependency.get("owned", 0)
+                for dependency in dependencies
+            }
+            shared_required_values = {
+                dependency.get("shared_required")
+                for dependency in dependencies
+            }
+
+            if len(owned_values) != 1 or len(shared_required_values) != 1:
+                consolidated.extend(candidates)
+                continue
+
+            owned = owned_values.pop()
+            shared_required = shared_required_values.pop()
+
+            immediate_required = sum(
+                dependency.get("objective_required", 1)
+                for dependency in dependencies
+            )
+            immediate_missing = max(immediate_required - owned, 0)
+
+            template_dependency = dependencies[0]
+            shared_materials = template_dependency.get("shared_materials", [])
+            aggregate_materials = []
+            can_acquire_all_now = True
+
+            for material in shared_materials:
+                shared_count = material.get("required", 0)
+                per_unit = (
+                    shared_count / shared_required
+                    if shared_required
+                    else 0
+                )
+                required = int(round(per_unit * immediate_missing))
+                material_owned = material.get("owned", 0)
+                missing = max(required - material_owned, 0)
+
+                aggregate_materials.append({
+                    **material,
+                    "required": required,
+                    "missing": missing,
+                    "completed": missing == 0
+                })
+
+                if missing > 0:
+                    can_acquire_all_now = False
+
+            if not can_acquire_all_now:
+                consolidated.extend(candidates)
+                continue
+
+            template = dict(candidates[0])
+            dependency = dict(template_dependency)
+            blocker = dict(dependency.get("primary_blocker") or {})
+
+            parent_objectives = []
+            for candidate in candidates:
+                parent = candidate.get("parent_objective")
+                if parent and parent not in parent_objectives:
+                    parent_objectives.append(parent)
+
+            blocker.update({
+                "required": immediate_required,
+                "owned": owned,
+                "missing": immediate_missing
+            })
+
+            dependency.update({
+                "progress": (
+                    f"{min(owned, immediate_required)}/"
+                    f"{immediate_required}"
+                ),
+                "current": min(owned, immediate_required),
+                "required": immediate_required,
+                "remaining_required": immediate_missing,
+                "objective_required": immediate_required,
+                "percent": round(
+                    min(owned, immediate_required)
+                    / immediate_required
+                    * 100,
+                    1
+                ) if immediate_required else 0,
+                "completed": owned >= immediate_required,
+                "missing_count": 1 if immediate_missing > 0 else 0,
+                "can_acquire_now": True,
+                "ready_to_acquire": immediate_missing > 0,
+                "objective_materials": aggregate_materials,
+                "missing_objective_materials": [],
+                "primary_blocker": blocker
+            })
+
+            item_name = dependency.get("name", "shared consumable")
+            plural = "s" if immediate_missing != 1 else ""
+
+            template.update({
+                "title": (
+                    f"Buy {immediate_missing} {item_name}{plural}"
+                    if immediate_missing != 1
+                    else f"Buy {item_name}"
+                ),
+                "parent_objectives": parent_objectives,
+                "shared_dependency_count": len(parent_objectives),
+                "dependency": dependency,
+                "immediate_required": immediate_required,
+                "immediate_missing": immediate_missing,
+                "action": (
+                    f"Buy {immediate_missing} {item_name}{plural} "
+                    "from Alaleh at Chalon Docks to prepare the "
+                    "currently modelled Vision of Enemies objectives."
+                ),
+                "reason": (
+                    f"{len(parent_objectives)} incomplete Vision of Enemies "
+                    f"objectives currently require {immediate_required} "
+                    f"{item_name}{'s' if immediate_required != 1 else ''}; "
+                    f"{owned} are currently owned. You have the materials "
+                    f"needed to acquire all {immediate_missing} immediate "
+                    f"requirement{'s' if immediate_missing != 1 else ''}. "
+                    f"Across Vision of Enemies, {shared_required} are needed "
+                    "in total."
+                )
+            })
+
+            template.pop("parent_objective", None)
+            consolidated.append(template)
 
         return consolidated
 
