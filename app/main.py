@@ -122,13 +122,17 @@ async def get_recommendations(
         default=None,
         ge=5,
         le=360
+    ),
+    collection: str | None = Query(
+        default=None
     )
 ):
     return await recommendations.get_recommendations(
         mode=mode,
         goal=goal,
         activity=activity,
-        minutes=minutes
+        minutes=minutes,
+        collection=collection
     )
 
 
@@ -155,10 +159,14 @@ async def get_session_plan(
         "acquisition"
     ] | None = Query(
         default=None
+    ),
+    collection: str | None = Query(
+        default=None
     )
 ):
     return await session_planner.build_plan(
         minutes=minutes,
         goal=goal,
-        activity=activity
+        activity=activity,
+        collection=collection
     )

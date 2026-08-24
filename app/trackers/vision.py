@@ -178,6 +178,24 @@ class VisionTracker:
                             ),
                             "action": objective.get(
                                 "action"
+                            ),
+                            "availability_type": objective.get(
+                                "availability_type"
+                            ),
+                            "event_dependent": objective.get(
+                                "event_dependent",
+                                False
+                            ),
+                            "group_recommended": objective.get(
+                                "group_recommended",
+                                False
+                            ),
+                            "schedule_dependent": objective.get(
+                                "schedule_dependent",
+                                False
+                            ),
+                            "playability_note": objective.get(
+                                "playability_note"
                             )
                         }
 
@@ -563,6 +581,19 @@ class VisionTracker:
                 option_progress = account_progress.get(option_id, {})
                 option_done = option_progress.get("done", False)
 
+                prerequisite_achievement_ids = option.get(
+                    "prerequisite_achievement_ids",
+                    []
+                )
+                option_available = all(
+                    account_progress.get(
+                        prerequisite_id,
+                        {}
+                    ).get("done", False)
+                    for prerequisite_id
+                    in prerequisite_achievement_ids
+                )
+
                 option_result = {
                     "achievement_id": option_id,
                     "name": option["name"],
@@ -570,7 +601,9 @@ class VisionTracker:
                     "current": option_progress.get("current", 0),
                     "required": option_progress.get("max"),
                     "bits": option_progress.get("bits", []),
-                    "priority": option.get("priority", 50)
+                    "priority": option.get("priority", 50),
+                    "available": option_available,
+                    "prerequisite_achievement_ids": prerequisite_achievement_ids
                 }
 
                 for field in (
@@ -580,7 +613,12 @@ class VisionTracker:
                     "ideal_minutes",
                     "action",
                     "event_dependent",
-                    "related_objectives"
+                    "related_objectives",
+                    "availability_type",
+                    "repeat_required",
+                    "group_recommended",
+                    "schedule_dependent",
+                    "playability_note"
                 ):
                     if field in option:
                         option_result[field] = option[field]
@@ -695,6 +733,10 @@ class VisionTracker:
                 -(x.get("current", 0) / x.get("required", 1) if x.get("required") else 0)
             ))
             missing_options = [x for x in options if not x["completed"]]
+            available_missing_options = [
+                x for x in missing_options
+                if x.get("available", True)
+            ]
 
             dependency_result.update({
                 "current": current,
@@ -706,8 +748,8 @@ class VisionTracker:
                 "objectives": options,
                 "completed_objectives": [x for x in options if x["completed"]],
                 "missing_objectives": missing_options,
-                "available": len(missing_options),
-                "recommended_options": missing_options[:remaining_required]
+                "available": len(available_missing_options),
+                "recommended_options": available_missing_options[:remaining_required]
             })
 
         if tracking == "shared_consumable":

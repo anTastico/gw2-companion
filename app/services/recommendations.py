@@ -42,6 +42,7 @@ class RecommendationService:
         goal: str | None = None,
         activity: str | None = None,
         minutes: int | None = None,
+        collection: str | None = None,
         full_candidate_pool: bool = False
     ):
         account_state = await AccountState.load()
@@ -117,6 +118,15 @@ class RecommendationService:
             goal=goal,
             activity=activity
         )
+
+        if collection is not None:
+            wanted_collection = collection.casefold()
+            filtered = [
+                recommendation
+                for recommendation in filtered
+                if recommendation.get("collection", "").casefold()
+                == wanted_collection
+            ]
 
         filtered_count = len(filtered)
 
@@ -1145,7 +1155,12 @@ class RecommendationService:
                                     "for the collection."
                                 )
                             ),
-                            "reason": reason
+                            "reason": reason,
+                            "availability_type": objective.get("availability_type"),
+                            "event_dependent": objective.get("event_dependent", False),
+                            "group_recommended": objective.get("group_recommended", False),
+                            "schedule_dependent": objective.get("schedule_dependent", False),
+                            "playability_note": objective.get("playability_note")
                         }
 
                         if dependency:
@@ -1642,10 +1657,14 @@ class RecommendationService:
                             and dependency.get("selection_mode")
                             == "any"
                         ):
-                            missing_options = dependency.get(
-                                "missing_objectives",
-                                []
-                            )
+                            missing_options = [
+                                option
+                                for option in dependency.get(
+                                    "missing_objectives",
+                                    []
+                                )
+                                if option.get("available", True)
+                            ]
                             remaining_required = dependency.get(
                                 "remaining_required",
                                 max(
@@ -1714,6 +1733,20 @@ class RecommendationService:
                                     "event_dependent",
                                     False
                                 )
+
+                                for playability_field in (
+                                    "availability_type",
+                                    "repeat_required",
+                                    "group_recommended",
+                                    "schedule_dependent",
+                                    "playability_note"
+                                ):
+                                    if playability_field in option:
+                                        option_recommendation[
+                                            playability_field
+                                        ] = option[
+                                            playability_field
+                                        ]
                                 option_recommendation[
                                     "dependency_option"
                                 ] = option
@@ -2769,6 +2802,17 @@ class RecommendationService:
         if recommendation.get("time_gated"):
             score += 10
 
+        if mode == "play":
+            playability_adjustment = (
+                self._playability_adjustment(
+                    recommendation
+                )
+            )
+            score += playability_adjustment
+            recommendation[
+                "playability_adjustment"
+            ] = playability_adjustment
+
         score += recommendation.get(
             "score_adjustment",
             0
@@ -2778,6 +2822,49 @@ class RecommendationService:
             score,
             1
         )
+
+    def _playability_adjustment(
+        self,
+        recommendation: dict
+    ):
+        availability_adjustments = {
+            "direct": 22,
+            "event": -8,
+            "event_chain": -18,
+            "meta": -28,
+            "bounty": -12,
+            "world_boss": -24,
+            "multi_map": -26,
+            "story": -10,
+            "crafting": -12
+        }
+
+        adjustment = availability_adjustments.get(
+            recommendation.get(
+                "availability_type"
+            ),
+            0
+        )
+
+        if recommendation.get(
+            "repeat_required",
+            False
+        ):
+            adjustment -= 8
+
+        if recommendation.get(
+            "group_recommended",
+            False
+        ):
+            adjustment -= 8
+
+        if recommendation.get(
+            "schedule_dependent",
+            False
+        ):
+            adjustment -= 10
+
+        return adjustment
 
     def _progress_score(
         self,

@@ -1087,7 +1087,12 @@
                     "minimum_minutes": 10,
                     "ideal_minutes": 20,
                     "priority": 10,
-                    "action": "Replay the relevant trial sequence and hear the remaining arguments."
+                    "action": "Replay the relevant trial sequence and hear the remaining arguments.",
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Requires replaying the relevant story/trial sequence."
                   },
                   {
                     "achievement_id": 4228,
@@ -1108,7 +1113,12 @@
                     "ideal_minutes": 15,
                     "priority": 12,
                     "event_dependent": true,
-                    "action": "Complete the choya dance activity in the Domain of Kourna."
+                    "action": "Complete the choya dance activity in the Domain of Kourna.",
+                    "availability_type": "event",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": true,
+                    "playability_note": "Depends on the relevant choya event being available."
                   },
                   {
                     "achievement_id": 4222,
@@ -1118,7 +1128,12 @@
                     "minimum_minutes": 5,
                     "ideal_minutes": 10,
                     "priority": 13,
-                    "action": "Kick the surly crab toward the Awakened."
+                    "action": "Kick the surly crab toward the Awakened.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Direct, short achievement that can be attempted immediately."
                   },
                   {
                     "achievement_id": 4231,
@@ -1128,7 +1143,12 @@
                     "minimum_minutes": 5,
                     "ideal_minutes": 15,
                     "priority": 14,
-                    "action": "Take your roller beetle to the highest point in Kourna."
+                    "action": "Take your roller beetle to the highest point in Kourna.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Direct exploration achievement that can be attempted immediately."
                   },
                   {
                     "achievement_id": 4192,
@@ -1139,7 +1159,12 @@
                     "ideal_minutes": 15,
                     "priority": 15,
                     "event_dependent": true,
-                    "action": "Earn the silver chest in the Domain of Kourna roller beetle training."
+                    "action": "Earn the silver chest in the Domain of Kourna roller beetle training.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Short local race objective when the course is available."
                   },
                   {
                     "achievement_id": 4198,
@@ -1150,7 +1175,12 @@
                     "ideal_minutes": 20,
                     "priority": 16,
                     "event_dependent": true,
-                    "action": "Earn the gold chest in the Domain of Kourna roller beetle training."
+                    "action": "Earn the gold chest in the Domain of Kourna roller beetle training.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Local race objective; harder than Silver but directly attemptable."
                   },
                   {
                     "achievement_id": 4251,
@@ -1172,7 +1202,12 @@
                         ],
                         "note": "Valor Beyond Valor completes once both The Gandaran Service Medal and The Tyrian Service Medal are complete."
                       }
-                    ]
+                    ],
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": false,
+                    "playability_note": "The remaining Gandaran medals come from the same event chain; getting all remaining medals may take multiple attempts and is harder solo."
                   },
                   {
                     "achievement_id": 4264,
@@ -1182,7 +1217,12 @@
                     "minimum_minutes": 15,
                     "ideal_minutes": 30,
                     "priority": 18,
-                    "action": "Loot the Inquest lab enough additional times to reach 10."
+                    "action": "Loot the Inquest lab enough additional times to reach 10.",
+                    "availability_type": "meta",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": true,
+                    "playability_note": "Progress requires reaching the final stage of the Domain of Kourna meta-event."
                   },
                   {
                     "achievement_id": 4233,
@@ -1204,7 +1244,12 @@
                         ],
                         "note": "Valor Beyond Valor completes once both The Gandaran Service Medal and The Tyrian Service Medal are complete."
                       }
-                    ]
+                    ],
+                    "availability_type": "multi_map",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": true,
+                    "playability_note": "The remaining Tyrian medals require events around Tyria, including scheduled or event-dependent world-boss content."
                   },
                   {
                     "achievement_id": 4207,
@@ -1240,7 +1285,12 @@
                     "minimum_minutes": 15,
                     "ideal_minutes": 30,
                     "priority": 30,
-                    "action": "Replay the relevant story content and listen to all of Joko's taunts."
+                    "action": "Replay the relevant story content and listen to all of Joko's taunts.",
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Requires replaying the relevant story content."
                   },
                   {
                     "achievement_id": 4243,
@@ -1290,7 +1340,11 @@
                     "minimum_minutes": 5,
                     "ideal_minutes": 10,
                     "priority": 80,
-                    "action": "Complete both The Gandaran Service Medal and The Tyrian Service Medal to receive Valor Beyond Valor."
+                    "action": "Complete both The Gandaran Service Medal and The Tyrian Service Medal to receive Valor Beyond Valor.",
+                    "prerequisite_achievement_ids": [
+                      4251,
+                      4233
+                    ]
                   }
                 ],
                 "alternative": {
@@ -1402,7 +1456,11 @@
                   "event_dependent": true,
                   "note": "After obtaining the Encapsulator, start or join the Troopmarshal Olori Ogun legendary bounty and defeat him while the Encapsulator is in your inventory."
                 }
-              }
+              },
+              "availability_type": "bounty",
+              "group_recommended": true,
+              "schedule_dependent": false,
+              "playability_note": "Legendary bounty: directly startable from the bounty board, but group participation is recommended."
             },
             {
               "bit": 4,

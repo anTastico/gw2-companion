@@ -18,6 +18,11 @@ class SessionPlanner:
     NEW_GOAL_BONUS = 10
     LOW_VALUE_PENALTY = 25
     MIN_WORTHWHILE_SCORE = 70
+    LONG_TERM_MATERIAL_PENALTY = 70
+    MODERATE_MATERIAL_PENALTY = 25
+    LONG_TERM_MATERIAL_ALLOCATION = 15
+    FOCUSED_MULTI_MAP_REPEAT_SCHEDULE_PENALTY = 28
+    FOCUSED_EVENT_REPEAT_GROUP_PENALTY = 24
     MIN_MAP_SWITCH_IDEAL_RATIO = 0.75
     TIME_GATED_PLANNER_BONUS = 20
     OPENING_TIME_GATED_BONUS = 12
@@ -30,6 +35,7 @@ class SessionPlanner:
     META_DEPENDENCY_BONUS = 12
     OPTION_PRIORITY_MAX_BONUS = 8
     OPTION_PROGRESS_MAX_BONUS = 6
+    OPENING_DIRECT_BONUS = 12
 
     def __init__(self):
         self.recommendations = RecommendationService()
@@ -38,13 +44,15 @@ class SessionPlanner:
         self,
         minutes: int,
         goal: str | None = None,
-        activity: str | None = None
+        activity: str | None = None,
+        collection: str | None = None
     ):
         result = await self.recommendations.get_recommendations(
             mode="play",
             goal=goal,
             activity=activity,
             minutes=minutes,
+            collection=collection,
             full_candidate_pool=True
         )
 
@@ -127,6 +135,43 @@ class SessionPlanner:
             if not eligible:
                 break
 
+            for candidate in eligible:
+                self._apply_work_horizon(
+                    candidate=candidate,
+                    session_minutes=minutes
+                )
+
+            long_term_dependency_sources = set()
+
+            for candidate in eligible:
+                if candidate.get("work_horizon") != "long_term":
+                    continue
+
+                source = candidate.get("material_source")
+                if source:
+                    long_term_dependency_sources.add(source)
+
+                for source in candidate.get("material_sources", []):
+                    if source:
+                        long_term_dependency_sources.add(source)
+
+            for candidate in eligible:
+                related = set(candidate.get("related_objectives", []))
+                inherited = related.intersection(long_term_dependency_sources)
+
+                if inherited:
+                    candidate["work_horizon"] = "long_term"
+                    candidate["session_suitability_adjustment"] = (
+                        -self.LONG_TERM_MATERIAL_PENALTY
+                    )
+
+                    names = ", ".join(sorted(inherited))
+                    candidate["work_horizon_reason"] = (
+                        f"This option depends on {names}, which is "
+                        "currently blocked by a long-term material "
+                        "requirement."
+                    )
+
             scored = [
                 (
                     self._planner_score(
@@ -149,6 +194,9 @@ class SessionPlanner:
                         opening_step=not steps,
                         unrestricted_goal=(
                             goal is None
+                        ),
+                        focused_collection=(
+                            collection is not None
                         )
                     ),
                     candidate
@@ -274,14 +322,29 @@ class SessionPlanner:
                     best["effective_achievement_completions"]
                 )
 
-            step["map"] = self._map_key(
-                best.get("location")
+            step["map"] = (
+                None
+                if best.get("availability_type") == "multi_map"
+                else self._map_key(best.get("location"))
             )
 
             if "event_dependent" in best:
                 step["event_dependent"] = best[
                     "event_dependent"
                 ]
+
+            for playability_field in (
+                "availability_type",
+                "repeat_required",
+                "group_recommended",
+                "schedule_dependent",
+                "playability_note",
+                "playability_adjustment"
+            ):
+                if playability_field in best:
+                    step[playability_field] = best[
+                        playability_field
+                    ]
 
             if "material_item_id" in best:
                 step["material_item_id"] = best["material_item_id"]
@@ -297,6 +360,15 @@ class SessionPlanner:
 
             if "material_sources" in best:
                 step["material_sources"] = best["material_sources"]
+
+            for horizon_field in (
+                "work_horizon",
+                "work_horizon_reason",
+                "material_deficit_ratio",
+                "session_suitability_adjustment"
+            ):
+                if horizon_field in best:
+                    step[horizon_field] = best[horizon_field]
 
             if "vendor_options" in best:
                 step["vendor_options"] = best[
@@ -811,6 +883,9 @@ class SessionPlanner:
         remaining_minutes: int,
         current_location: str | None
     ):
+        if candidate.get("availability_type") == "multi_map":
+            return True
+
         location = self._map_key(
             candidate.get("location")
         )
@@ -843,6 +918,61 @@ class SessionPlanner:
             >= self.MIN_MAP_SWITCH_IDEAL_RATIO
         )
 
+    def _apply_work_horizon(
+        self,
+        candidate: dict,
+        session_minutes: int
+    ):
+        candidate.pop("work_horizon", None)
+        candidate.pop("work_horizon_reason", None)
+        candidate.pop("material_deficit_ratio", None)
+        candidate.pop("session_suitability_adjustment", None)
+
+        missing = candidate.get("material_missing")
+        required = candidate.get("material_required")
+
+        if (
+            missing is None
+            or required is None
+            or required <= 0
+            or missing <= 0
+        ):
+            return
+
+        deficit_ratio = missing / required
+        candidate["material_deficit_ratio"] = round(
+            deficit_ratio,
+            3
+        )
+
+        if missing >= 100 and deficit_ratio >= 0.50:
+            candidate["work_horizon"] = "long_term"
+            candidate["session_suitability_adjustment"] = (
+                -self.LONG_TERM_MATERIAL_PENALTY
+            )
+            candidate["work_horizon_reason"] = (
+                f"{missing} of {required} are still required; "
+                "treat this as background progression rather than "
+                "a primary session task."            )
+            return
+
+        if missing >= 50 and deficit_ratio >= 0.25:
+            candidate["work_horizon"] = "background"
+            candidate["session_suitability_adjustment"] = (
+                -self.MODERATE_MATERIAL_PENALTY
+            )
+            candidate["work_horizon_reason"] = (
+                f"{missing} of {required} are still required; "
+                "use spare session time for this unless stronger "
+                "direct objectives are exhausted."            )
+            return
+
+        candidate["work_horizon"] = "immediate"
+        candidate["session_suitability_adjustment"] = 0
+        candidate["work_horizon_reason"] = (
+            f"Only {missing} of {required} remain; this material "
+            "blocker is close enough to be useful session work."        )
+
     def _planner_score(
         self,
         candidate: dict,
@@ -854,9 +984,67 @@ class SessionPlanner:
         used_goals: set,
         selected_dependency_counts: dict,
         opening_step: bool,
-        unrestricted_goal: bool
+        unrestricted_goal: bool,
+        focused_collection: bool
     ):
         score = candidate["score"]
+
+        score += candidate.get(
+            "session_suitability_adjustment",
+            0
+        )
+
+        if focused_collection:
+            availability_type = candidate.get(
+                "availability_type"
+            )
+
+            if (
+                availability_type == "multi_map"
+                and candidate.get(
+                    "repeat_required",
+                    False
+                )
+                and candidate.get(
+                    "schedule_dependent",
+                    False
+                )
+            ):
+                score -= (
+                    self.FOCUSED_MULTI_MAP_REPEAT_SCHEDULE_PENALTY
+                )
+                candidate["focused_session_adjustment"] = -(
+                    self.FOCUSED_MULTI_MAP_REPEAT_SCHEDULE_PENALTY
+                )
+
+            elif (
+                availability_type == "event"
+                and candidate.get(
+                    "repeat_required",
+                    False
+                )
+                and candidate.get(
+                    "group_recommended",
+                    False
+                )
+            ):
+                score -= (
+                    self.FOCUSED_EVENT_REPEAT_GROUP_PENALTY
+                )
+                candidate["focused_session_adjustment"] = -(
+                    self.FOCUSED_EVENT_REPEAT_GROUP_PENALTY
+                )
+
+            else:
+                candidate["focused_session_adjustment"] = 0
+
+        if (
+            opening_step
+            and candidate.get(
+                "availability_type"
+            ) == "direct"
+        ):
+            score += self.OPENING_DIRECT_BONUS
 
         if candidate.get("time_gated"):
             score += self.TIME_GATED_PLANNER_BONUS
@@ -976,8 +1164,10 @@ class SessionPlanner:
                 3
             )
 
-        location = self._map_key(
-            candidate.get("location")
+        location = (
+            None
+            if candidate.get("availability_type") == "multi_map"
+            else self._map_key(candidate.get("location"))
         )
 
         if current_location:
@@ -1061,6 +1251,12 @@ class SessionPlanner:
             "minimum_minutes"
         ]
 
+        if recommendation.get("work_horizon") == "long_term":
+            return min(
+                self.LONG_TERM_MATERIAL_ALLOCATION,
+                remaining_minutes
+            )
+
         if ideal <= remaining_minutes:
             return ideal
 
@@ -1079,6 +1275,15 @@ class SessionPlanner:
         reasons = [
             recommendation["reason"]
         ]
+
+        work_horizon_reason = recommendation.get(
+            "work_horizon_reason"
+        )
+
+        if work_horizon_reason:
+            reasons.append(
+                work_horizon_reason
+            )
 
         material_sources = recommendation.get(
             "material_sources",
