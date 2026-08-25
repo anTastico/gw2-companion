@@ -338,9 +338,14 @@ class RecommendationService:
 
             template = max(
                 candidates,
-                key=lambda candidate: candidate.get(
-                    "progress_ratio",
-                    0
+                key=lambda candidate: (
+                    1
+                    if candidate.get("dependency_option")
+                    else 0,
+                    candidate.get(
+                        "progress_ratio",
+                        0
+                    )
                 )
             )
             merged = dict(template)
@@ -370,7 +375,6 @@ class RecommendationService:
                 merged["title"] = achievement_name
 
             merged.pop("parent_objective", None)
-            merged.pop("dependency", None)
             merged.pop("dependency_chain", None)
 
             progress = merged.get("progress")
@@ -1898,6 +1902,8 @@ class RecommendationService:
 
                             continue
 
+                        emitted_child_recommendation = False
+
                         if (
                             dependency
                             and dependency.get("tracking")
@@ -1974,10 +1980,12 @@ class RecommendationService:
                                 recommendations.append(
                                     child_recommendation
                                 )
+                                emitted_child_recommendation = True
 
-                        recommendations.append(
-                            recommendation
-                        )
+                        if not emitted_child_recommendation:
+                            recommendations.append(
+                                recommendation
+                            )
 
                     continue
 

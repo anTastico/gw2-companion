@@ -2084,137 +2084,278 @@
               "dependency": {
                 "achievement_id": 4689,
                 "name": "\"War Eternal\" Mastery",
-                "tracking": "achievement_bits",
+                "tracking": "achievement_options",
                 "required": 18,
-                "objectives": [
-                  {
-                    "bit": 0,
-                    "name": "The End"
-                  },
-                  {
-                    "bit": 1,
-                    "name": "Landfall"
-                  },
-                  {
-                    "bit": 2,
-                    "name": "Glory of Dragons"
-                  },
-                  {
-                    "bit": 3,
-                    "name": "Bleed"
-                  },
-                  {
-                    "bit": 4,
-                    "name": "Heart to Heart"
-                  },
-                  {
-                    "bit": 5,
-                    "name": "Putting Out Fires"
-                  },
-                  {
-                    "bit": 6,
-                    "name": "Life in the Underworld"
-                  },
-                  {
-                    "bit": 7,
-                    "name": "Cutting Weeds"
-                  },
-                  {
-                    "bit": 8,
-                    "name": "Salt on the Wound"
-                  },
-                  {
-                    "bit": 9,
-                    "name": "Dexterous Dodger",
-                    "activity": "story",
-                    "location": "Heart to Heart",
-                    "minimum_minutes": 20,
-                    "ideal_minutes": 40,
-                    "action": "Replay Heart to Heart and defeat Kralkatorrik without triggering any Branded traps."
-                  },
-                  {
-                    "bit": 10,
-                    "name": "Scissors of Fate"
-                  },
-                  {
-                    "bit": 11,
-                    "name": "Show Some Restraint",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 10,
-                    "ideal_minutes": 30,
-                    "action": "While mounted in Dragonfall, use Soul Binders during compatible events.",
-                    "bundle": "dragonfall",
-                    "focus_type": "active"
-                  },
-                  {
-                    "bit": 12,
-                    "name": "My Beautiful Infrastructure",
-                    "achievement_id": 4687,
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 15,
-                    "ideal_minutes": 30,
-                    "action": "Participate in bridge defense or bridge repair events in Dragonfall.",
-                    "bundle": "dragonfall",
-                    "focus_type": "opportunistic"
-                  },
-                  {
-                    "bit": 13,
-                    "name": "Championship Bout",
-                    "achievement_id": 4708,
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 20,
-                    "ideal_minutes": 45,
-                    "action": "Defeat missing champions in Dragonfall toward Championship Bout.",
-                    "bundle": "dragonfall",
-                    "focus_type": "opportunistic"
-                  },
-                  {
-                    "bit": 14,
-                    "name": "Eternally Yours",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 10,
-                    "ideal_minutes": 30,
-                    "action": "Throw Eternal Embers at foes while playing in Dragonfall.",
-                    "bundle": "dragonfall",
-                    "focus_type": "active"
-                  },
-                  {
-                    "bit": 15,
-                    "name": "Friends in High Places",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 5,
-                    "ideal_minutes": 10,
-                    "action": "Speak with Sayida or Taimi on the airship.",
-                    "bundle": "dragonfall",
-                    "focus_type": "quick"
-                  },
-                  {
-                    "bit": 16,
-                    "name": "Sniper's Nest"
-                  },
-                  {
-                    "bit": 17,
-                    "name": "Hat Trick",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 20,
-                    "ideal_minutes": 40,
-                    "action": "Defeat the required legendary creatures during the final assault against Kralkatorrik.",
-                    "bundle": "dragonfall",
-                    "focus_type": "opportunistic"
-                  }
-                ],
                 "alternative": {
                   "type": "reward_track",
                   "name": "Dragonfall Reward Track",
                   "activity": "wvw_or_pvp",
                   "action": "Complete the Dragonfall Reward Track and choose Heavy Corsair Boots from the final reward."
-                }
+                },
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "War Eternal achievement",
+                "options": [
+                  {
+                    "achievement_id": 4673,
+                    "name": "The End",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "War Eternal story",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete The End story achievement."
+                  },
+                  {
+                    "achievement_id": 4753,
+                    "name": "Landfall",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete the Landfall achievement in Dragonfall."
+                  },
+                  {
+                    "achievement_id": 4744,
+                    "name": "Glory of Dragons",
+                    "priority": 40,
+                    "activity": "achievement",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Glory of Dragons."
+                  },
+                  {
+                    "achievement_id": 4700,
+                    "name": "Bleed",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "War Eternal story",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete the Bleed achievement."
+                  },
+                  {
+                    "achievement_id": 4747,
+                    "name": "Heart to Heart",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "Heart to Heart",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Heart to Heart."
+                  },
+                  {
+                    "achievement_id": 4740,
+                    "name": "Putting Out Fires",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Burning Forest, Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Crystal Bloom events in the Burning Forest."
+                  },
+                  {
+                    "achievement_id": 4723,
+                    "name": "Life in the Underworld",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Underworld, Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Olmakhan events in the Underworld."
+                  },
+                  {
+                    "achievement_id": 4715,
+                    "name": "Cutting Weeds",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Melandru's Lost Domain, Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Mist Warden events in Melandru's Lost Domain."
+                  },
+                  {
+                    "achievement_id": 4669,
+                    "name": "Salt on the Wound",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "The End",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Salt on the Wound during The End."
+                  },
+                  {
+                    "achievement_id": 4731,
+                    "name": "Dexterous Dodger",
+                    "priority": 20,
+                    "activity": "story",
+                    "location": "Heart to Heart",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Replay Heart to Heart and defeat Kralkatorrik without triggering any Branded traps."
+                  },
+                  {
+                    "achievement_id": 4721,
+                    "name": "Scissors of Fate",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "War Eternal story",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Scissors of Fate."
+                  },
+                  {
+                    "achievement_id": 4697,
+                    "name": "Show Some Restraint",
+                    "priority": 18,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "While mounted in Dragonfall, use Soul Binders during compatible events.",
+                    "playability_note": "Progress is accumulated through repeated Soul Binder use during compatible Dragonfall play."
+                  },
+                  {
+                    "achievement_id": 4687,
+                    "name": "My Beautiful Infrastructure",
+                    "priority": 25,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Participate in bridge defense or bridge repair events in Dragonfall.",
+                    "playability_note": "Requires repeated bridge defense/repair event participation."
+                  },
+                  {
+                    "achievement_id": 4708,
+                    "name": "Championship Bout",
+                    "priority": 10,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 45,
+                    "availability_type": "meta",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": false,
+                    "event_dependent": true,
+                    "action": "Defeat missing champions in Dragonfall toward Championship Bout.",
+                    "playability_note": "Several required champions are tied to Dragonfall camp progression and the post-meta champion phase; this can overlap with Vision of Enemies: Ley-Infused Enemy."
+                  },
+                  {
+                    "achievement_id": 4722,
+                    "name": "Eternally Yours",
+                    "priority": 30,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Throw Eternal Embers at foes while playing in Dragonfall.",
+                    "playability_note": "Incremental background progress while participating in Dragonfall events."
+                  },
+                  {
+                    "achievement_id": 4663,
+                    "name": "Friends in High Places",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Speak with Sayida or Taimi on the airship."
+                  },
+                  {
+                    "achievement_id": 4737,
+                    "name": "Sniper's Nest",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "availability_type": "event",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Sniper's Nest during the relevant Dragonfall battle."
+                  },
+                  {
+                    "achievement_id": 4705,
+                    "name": "Hat Trick",
+                    "priority": 15,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "meta",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": false,
+                    "event_dependent": true,
+                    "action": "Defeat the required legendary creatures during the final assault against Kralkatorrik.",
+                    "playability_note": "Requires the Dragonfall final assault and may take multiple meta completions depending on which legendary creatures remain."
+                  }
+                ]
               }
             },
             {
@@ -2309,7 +2450,11 @@
                   "event_dependent": true,
                   "note": "After obtaining the Encapsulator, complete Break the Crystal Dragon and defeat a ley-infused champion during the bonus phase."
                 }
-              }
+              },
+              "availability_type": "meta",
+              "repeat_required": false,
+              "group_recommended": true,
+              "schedule_dependent": false
             },
             {
               "bit": 4,
