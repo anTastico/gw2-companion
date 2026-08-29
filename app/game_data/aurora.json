@@ -1663,16 +1663,19 @@
               },
               {
                 "bit": 1,
-                "name": "Gathered from jade fragments in Lake Doric",
+                "name": "Sparking Jade Shard",
                 "source_type": "Item",
                 "text": "Gathered from jade fragments in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81773,
-                "focus": "Gathering",
+                "focus": "Chance-based gathering",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Gathered from jade fragments in Lake Doric."
+                "minimum_minutes": 10,
+                "ideal_minutes": 30,
+                "action": "Mine Jade Fragment nodes across Lake Doric for a chance at the Sparking Jade Shard. Because the collection item is not guaranteed from each node and the map's resource nodes are reset-limited, it may take multiple farming passes or days.",
+                "time_gated": true,
+                "daily": true,
+                "chance_based": true
               },
               {
                 "bit": 2,
