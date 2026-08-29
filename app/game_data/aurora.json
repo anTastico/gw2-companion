@@ -951,17 +951,24 @@
               },
               {
                 "bit": 2,
-                "name": "Obtained after defeating ghostly Justiciar Hablion",
+                "name": "Hablion's Dignity",
                 "source_type": "Item",
                 "text": "Obtained after defeating ghostly Justiciar Hablion.",
                 "location": "Bloodstone Fen",
                 "source_id": 82025,
-                "focus": "Combat / bosses",
+                "focus": "Event chain / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating ghostly Justiciar Hablion."
+                "action": "Complete the Ghostly Justiciar Hablion event chain in the Colosseum of the Faithful and defeat Hablion while Bloodstone Fen Master is active. The Hablion event is preceded by the Zealot's Overlook spirit-exorcism event; after Hablion is defeated, the chain restarts roughly 30 minutes later on that map instance.",
+                "event_details": {
+                  "event": "Defeat the spirit of Justiciar Hablion",
+                  "pre_event": "Exorcise the angered spirits haunting Zealot's Overlook",
+                  "location": "Colosseum of the Faithful",
+                  "repeat_delay_minutes": 30,
+                  "notes": "The repeat delay is map-instance based rather than a fixed global schedule."
+                }
               },
               {
                 "bit": 3,
