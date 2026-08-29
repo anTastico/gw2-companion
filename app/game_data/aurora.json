@@ -2206,7 +2206,309 @@
                         "priority": 20,
                         "action": "Bring 3 Fire Orchid Blossoms to Rosewood on the ledge above the Ancient Hollow."
                       }
-                    ]
+                    ],
+                    "next_dependency": {
+                      "achievement_id": 3447,
+                      "name": "Sprouting the Druid Stone",
+                      "tracking": "achievement_bits",
+                      "required": 21,
+                      "prerequisite_achievement_id": 3445,
+                      "time_gated": true,
+                      "druid_runestones_required": 5,
+                      "objectives": [
+                        {
+                          "bit": 0,
+                          "name": "Living Druid Stone",
+                          "skin_id": 7216,
+                          "activity": "achievement",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 5,
+                          "priority": 50,
+                          "action": "Complete Awakening the Druid Stone to unlock Sprouting the Druid Stone and obtain the Living Druid Stone."
+                        },
+                        {
+                          "bit": 1,
+                          "name": "Element of the Saurians",
+                          "item_id": 81010,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 10,
+                          "ideal_minutes": 25,
+                          "priority": 10,
+                          "event_dependent": true,
+                          "group_recommended": true,
+                          "action": "Defeat the Stonehead King in the Savage Rise of Draconis Mons and loot the Element of the Saurians."
+                        },
+                        {
+                          "bit": 2,
+                          "name": "Saurian Runestone",
+                          "item_id": 81033,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 20,
+                          "ideal_minutes": 40,
+                          "priority": 1,
+                          "prerequisite_bits": [
+                            1
+                          ],
+                          "time_gated": true,
+                          "schedule_dependent": true,
+                          "daily": true,
+                          "druid_runestones_required": 1,
+                          "action": "After obtaining the Element of the Saurians, obtain a daily Druid Runestone and combine the two to create the Saurian Runestone."
+                        },
+                        {
+                          "bit": 3,
+                          "name": "Saurian Rest",
+                          "item_id": 81134,
+                          "activity": "vendor",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 5,
+                          "prerequisite_bits": [
+                            2
+                          ],
+                          "action": "Bring the Saurian Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                        },
+                        {
+                          "bit": 4,
+                          "name": "Element of the Empire",
+                          "item_id": 81174,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 10,
+                          "ideal_minutes": 25,
+                          "priority": 10,
+                          "event_dependent": true,
+                          "group_recommended": true,
+                          "action": "Defeat Emperor Mattake in Draconis Mons and loot the Element of the Empire."
+                        },
+                        {
+                          "bit": 5,
+                          "name": "Imperial Runestone",
+                          "item_id": 81032,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 20,
+                          "ideal_minutes": 40,
+                          "priority": 1,
+                          "prerequisite_bits": [
+                            4
+                          ],
+                          "time_gated": true,
+                          "schedule_dependent": true,
+                          "daily": true,
+                          "druid_runestones_required": 1,
+                          "action": "After obtaining the Element of the Empire, obtain a daily Druid Runestone and combine the two to create the Imperial Runestone."
+                        },
+                        {
+                          "bit": 6,
+                          "name": "Imperial Rest",
+                          "item_id": 81088,
+                          "activity": "vendor",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 5,
+                          "prerequisite_bits": [
+                            5
+                          ],
+                          "action": "Bring the Imperial Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                        },
+                        {
+                          "bit": 7,
+                          "name": "Element of Webby",
+                          "item_id": 81043,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 10,
+                          "ideal_minutes": 25,
+                          "priority": 10,
+                          "event_dependent": true,
+                          "group_recommended": true,
+                          "action": "Defeat the Webby Mother in Draconis Mons and loot the Element of Webby."
+                        },
+                        {
+                          "bit": 8,
+                          "name": "Webby Runestone",
+                          "item_id": 81146,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 20,
+                          "ideal_minutes": 40,
+                          "priority": 1,
+                          "prerequisite_bits": [
+                            7
+                          ],
+                          "time_gated": true,
+                          "schedule_dependent": true,
+                          "daily": true,
+                          "druid_runestones_required": 1,
+                          "action": "After obtaining the Element of Webby, obtain a daily Druid Runestone and combine the two to create the Webby Runestone."
+                        },
+                        {
+                          "bit": 9,
+                          "name": "Webby Rest",
+                          "item_id": 81131,
+                          "activity": "vendor",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 5,
+                          "prerequisite_bits": [
+                            8
+                          ],
+                          "action": "Bring the Webby Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                        },
+                        {
+                          "bit": 10,
+                          "name": "Element of the Wurm",
+                          "item_id": 81015,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 10,
+                          "ideal_minutes": 25,
+                          "priority": 10,
+                          "event_dependent": true,
+                          "group_recommended": true,
+                          "action": "Defeat the Bloodstone-Charged Lava Wurm in Draconis Mons and loot the Element of the Wurm."
+                        },
+                        {
+                          "bit": 11,
+                          "name": "Wurm Runestone",
+                          "item_id": 81059,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 20,
+                          "ideal_minutes": 40,
+                          "priority": 1,
+                          "prerequisite_bits": [
+                            10
+                          ],
+                          "time_gated": true,
+                          "schedule_dependent": true,
+                          "daily": true,
+                          "druid_runestones_required": 1,
+                          "action": "After obtaining the Element of the Wurm, obtain a daily Druid Runestone and combine the two to create the Wurm Runestone."
+                        },
+                        {
+                          "bit": 12,
+                          "name": "Wurm Rest",
+                          "item_id": 81069,
+                          "activity": "vendor",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 5,
+                          "prerequisite_bits": [
+                            11
+                          ],
+                          "action": "Bring the Wurm Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                        },
+                        {
+                          "bit": 13,
+                          "name": "Element of Arcanum",
+                          "item_id": 81083,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 10,
+                          "ideal_minutes": 25,
+                          "priority": 10,
+                          "event_dependent": true,
+                          "group_recommended": true,
+                          "action": "Defeat the Inquest Power Suit in Draconis Mons and loot the Element of Arcanum."
+                        },
+                        {
+                          "bit": 14,
+                          "name": "Arcanum Runestone",
+                          "item_id": 81196,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 20,
+                          "ideal_minutes": 40,
+                          "priority": 1,
+                          "prerequisite_bits": [
+                            13
+                          ],
+                          "time_gated": true,
+                          "schedule_dependent": true,
+                          "daily": true,
+                          "druid_runestones_required": 1,
+                          "action": "After obtaining the Element of Arcanum, obtain a daily Druid Runestone and combine the two to create the Arcanum Runestone."
+                        },
+                        {
+                          "bit": 15,
+                          "name": "Arcanum Rest",
+                          "item_id": 81137,
+                          "activity": "vendor",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 5,
+                          "prerequisite_bits": [
+                            14
+                          ],
+                          "action": "Bring the Arcanum Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                        },
+                        {
+                          "bit": 16,
+                          "name": "Charged Tribute for Kodama",
+                          "item_id": 81084,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 20,
+                          "action": "Bring 5 Fire Orchid Blossoms and 1 Charged Lodestone to Kodama in the Savage Rise."
+                        },
+                        {
+                          "bit": 17,
+                          "name": "Glacial Tribute for Liriodendron",
+                          "item_id": 81048,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 20,
+                          "action": "Bring 5 Fire Orchid Blossoms and 1 Glacial Lodestone to Liriodendron at the watering hole in the Savage Rise."
+                        },
+                        {
+                          "bit": 18,
+                          "name": "Onyx Tribute for Broadleaf",
+                          "item_id": 81021,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 20,
+                          "action": "Bring 5 Fire Orchid Blossoms and 1 Onyx Lodestone to Broadleaf on the ledge above the Savage Rise."
+                        },
+                        {
+                          "bit": 19,
+                          "name": "Molten Tribute for Rosewood",
+                          "item_id": 81125,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 20,
+                          "action": "Bring 5 Fire Orchid Blossoms and 1 Molten Lodestone to Rosewood on the ledge above the Ancient Hollow."
+                        },
+                        {
+                          "bit": 20,
+                          "name": "Propagation of the Fire Orchid",
+                          "item_id": 81149,
+                          "activity": "open_world",
+                          "location": "Draconis Mons",
+                          "minimum_minutes": 5,
+                          "ideal_minutes": 10,
+                          "priority": 20,
+                          "action": "Plant a Fire Orchid Seed in the fertile soil near Kodama in the Savage Rise of Draconis Mons."
+                        }
+                      ]
+                    }
                   }
                 }
               },
