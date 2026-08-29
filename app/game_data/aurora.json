@@ -998,17 +998,22 @@
               },
               {
                 "bit": 5,
-                "name": "Dropped by ghosts in Bloodstone Fen",
+                "name": "Aged Ectoplasm",
                 "source_type": "Item",
                 "text": "Dropped by ghosts in Bloodstone Fen.",
                 "location": "Bloodstone Fen",
                 "source_id": 81986,
-                "focus": "Combat / bosses",
+                "focus": "Chance-based / ghost farming",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Dropped by ghosts in Bloodstone Fen."
+                "action": "Defeat ghosts in Bloodstone Fen for a chance at Aged Ectoplasm. The Haunted Canyons night event is a useful high-density option, but the item can also drop from regular veteran ghosts around the Colosseum of the Faithful, so you do not need to wait for a specific event.",
+                "chance_based": true,
+                "farm_options": {
+                  "preferred": "Haunted Canyons night event for high ghost density",
+                  "alternative": "Veteran ghosts around the Colosseum of the Faithful",
+                  "notes": "The drop is not restricted to the event and is not guaranteed from each ghost."
+                }
               },
               {
                 "bit": 6,
