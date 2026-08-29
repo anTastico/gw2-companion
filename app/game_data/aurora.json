@@ -1881,10 +1881,135 @@
                 "source_id": 7218,
                 "focus": "Long-term collection",
                 "activity": "achievement",
-                "minimum_minutes": 20,
-                "ideal_minutes": 60,
+                "minimum_minutes": 10,
+                "ideal_minutes": 45,
                 "time_gated": true,
-                "action": "Progress A Henge Away from Home toward The Wayfarer's Henge."
+                "action": "Advance the current Wayfarer's Henge tier. Start with today's Druid Runestone because only one can be obtained per day, while completing other available Draconis Mons tribute steps in parallel.",
+                "dependency": {
+                  "achievement_id": 3402,
+                  "name": "The Druid Stone",
+                  "tracking": "achievement_bits",
+                  "required": 7,
+                  "chain": {
+                    "name": "The Wayfarer's Henge",
+                    "time_gated": true,
+                    "total_druid_runestones": 16,
+                    "stages": [
+                      {
+                        "achievement_id": 3402,
+                        "name": "The Druid Stone",
+                        "required": 7,
+                        "druid_runestones": 1
+                      },
+                      {
+                        "achievement_id": 3445,
+                        "name": "Awakening the Druid Stone",
+                        "required": 14,
+                        "druid_runestones": 3,
+                        "prerequisite_achievement_id": 3402
+                      },
+                      {
+                        "achievement_id": 3447,
+                        "name": "Sprouting the Druid Stone",
+                        "required": 21,
+                        "druid_runestones": 5,
+                        "prerequisite_achievement_id": 3445
+                      },
+                      {
+                        "achievement_id": 3436,
+                        "name": "A Henge Away from Home",
+                        "required": 32,
+                        "druid_runestones": 7,
+                        "prerequisite_achievement_id": 3447
+                      }
+                    ]
+                  },
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "name": "Volcano's Heart",
+                      "item_id": 81102,
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 30,
+                      "action": "Complete Heart of the Volcano and consume the Volcano's Heart."
+                    },
+                    {
+                      "bit": 1,
+                      "name": "Druid Runestone",
+                      "item_id": 81140,
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 20,
+                      "ideal_minutes": 40,
+                      "priority": 1,
+                      "time_gated": true,
+                      "schedule_dependent": true,
+                      "daily": true,
+                      "action": "Complete/access the four Draconis Mons Renown Hearts, buy one Druid Runestone Fragment from each heart vendor plus Supplymaster Hanjo, then combine the five daily fragments into one Druid Runestone. Only one Runestone can be obtained per day."
+                    },
+                    {
+                      "bit": 2,
+                      "name": "The Druid's Story",
+                      "item_id": 81073,
+                      "activity": "vendor",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 5,
+                      "prerequisite_bits": [
+                        1
+                      ],
+                      "action": "Bring the Druid Runestone to Kodama in Druid's Grotto in the Savage Rise."
+                    },
+                    {
+                      "bit": 3,
+                      "name": "A Flower for Kodama",
+                      "item_id": 81087,
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "action": "Bring one Fire Orchid Blossom from your inventory to Kodama in Druid's Grotto in the Savage Rise."
+                    },
+                    {
+                      "bit": 4,
+                      "name": "A Flower for Liriodendron",
+                      "item_id": 81178,
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "action": "Bring one Fire Orchid Blossom to Liriodendron at the watering hole in the Savage Rise."
+                    },
+                    {
+                      "bit": 5,
+                      "name": "A Flower for Broadleaf",
+                      "item_id": 81053,
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "action": "Bring one Fire Orchid Blossom from your inventory to Broadleaf on the high ledge in the western Savage Rise."
+                    },
+                    {
+                      "bit": 6,
+                      "name": "A Flower for Rosewood",
+                      "item_id": 80996,
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "action": "Bring one Fire Orchid Blossom to Rosewood on the rock bridge above Ancient Hollow Waypoint."
+                    }
+                  ]
+                }
               },
               {
                 "bit": 2,
