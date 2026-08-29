@@ -1097,17 +1097,28 @@
               },
               {
                 "bit": 10,
-                "name": "Dropped from enemies near unstable rifts",
+                "name": "Rift Residue",
                 "source_type": "Item",
                 "text": "Dropped from enemies near unstable rifts.",
                 "location": "Bloodstone Fen",
                 "source_id": 81938,
-                "focus": "Combat / bosses",
+                "focus": "Unstable rift events",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Dropped from enemies near unstable rifts."
+                "action": "Join any unstable-rift event in the Fragmented Wastes and defeat the beasts disgorged from the rift while Bloodstone Fen Master is active. Blazing, frigid, and rumbling rifts all qualify. If you are elsewhere on the map, look for a temporary Rift Entrance in Haunted Canyons or Bloodstone Maw; entering one teleports you to a currently active rift.",
+                "event_details": {
+                  "meta": "Fragmented Wastes",
+                  "events": [
+                    "Defeat beasts disgorged from the blazing unstable rift",
+                    "Defeat beasts disgorged from the frigid unstable rift",
+                    "Defeat beasts disgorged from the rumbling unstable rift"
+                  ],
+                  "location": "Fragmented Wastes",
+                  "locator": "Temporary Rift Entrances can appear in Haunted Canyons and Bloodstone Maw and teleport you to a currently active rift.",
+                  "notes": "The rifts form a continuous event series rather than a fixed global schedule."
+                }
               },
               {
                 "bit": 11,
