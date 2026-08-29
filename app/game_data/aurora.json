@@ -965,17 +965,20 @@
               },
               {
                 "bit": 3,
-                "name": "Dropped by White Mantle in Bloodstone Fen",
+                "name": "White Mantle Crest",
                 "source_type": "Item",
                 "text": "Dropped by White Mantle in Bloodstone Fen.",
                 "location": "Bloodstone Fen",
                 "source_id": 81755,
-                "focus": "Combat / bosses",
+                "focus": "White Mantle combat",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Dropped by White Mantle in Bloodstone Fen."
+                "action": "Defeat any White Mantle foe in Bloodstone Fen to obtain the White Mantle Crest. This objective is not tied to a specific event, so work on it anywhere you can efficiently fight White Mantle on the map.",
+                "farm_options": {
+                  "primary": "Any White Mantle foes in Bloodstone Fen",
+                  "notes": "No specific event is required for collection credit."
+                }
               },
               {
                 "bit": 4,
