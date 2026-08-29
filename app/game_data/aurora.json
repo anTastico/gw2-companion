@@ -1108,16 +1108,24 @@
               },
               {
                 "bit": 1,
-                "name": "Gathered from petrified stumps",
+                "name": "Petrified Burl",
                 "source_type": "Item",
                 "text": "Gathered from petrified stumps.",
                 "location": "Ember Bay",
                 "source_id": 81646,
-                "focus": "Gathering",
+                "focus": "Chance-based gathering",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Gathered from petrified stumps."
+                "minimum_minutes": 10,
+                "ideal_minutes": 30,
+                "action": "Gather Petrified Stump nodes across Ember Bay for a chance at the Petrified Burl. The drop can require multiple farming passes or days, and Ember Bay's Petrified Stumps have an account-wide daily harvest limit.",
+                "time_gated": true,
+                "daily": true,
+                "chance_based": true,
+                "account_daily_harvest_limit": {
+                  "full_nodes": 16,
+                  "additional_strikes_on_17th_node": 2,
+                  "normal_total_strikes": 50
+                }
               },
               {
                 "bit": 2,
