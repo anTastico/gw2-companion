@@ -2507,7 +2507,438 @@
                           "priority": 20,
                           "action": "Plant a Fire Orchid Seed in the fertile soil near Kodama in the Savage Rise of Draconis Mons."
                         }
-                      ]
+                      ],
+                      "next_dependency": {
+                        "achievement_id": 3436,
+                        "name": "A Henge Away from Home",
+                        "tracking": "achievement_bits",
+                        "required": 32,
+                        "prerequisite_achievement_id": 3447,
+                        "time_gated": true,
+                        "druid_runestones_required": 7,
+                        "reward_item_id": 81097,
+                        "reward_name": "The Wayfarer's Henge",
+                        "objectives": [
+                          {
+                            "bit": 0,
+                            "name": "Blooming Druid Stone",
+                            "skin_id": 7214,
+                            "activity": "achievement",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 5,
+                            "priority": 50,
+                            "action": "Complete Sprouting the Druid Stone to unlock A Henge Away from Home and obtain the Blooming Druid Stone."
+                          },
+                          {
+                            "bit": 1,
+                            "name": "Heavy Houndskin Mantle",
+                            "skin_id": 7210,
+                            "activity": "acquisition",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 20,
+                            "priority": 25,
+                            "action": "Obtain and unlock the Heavy Houndskin Mantle skin from a Houndskin Mantle Box."
+                          },
+                          {
+                            "bit": 2,
+                            "name": "Element of Aestus",
+                            "item_id": 81058,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 10,
+                            "ideal_minutes": 25,
+                            "priority": 10,
+                            "event_dependent": true,
+                            "group_recommended": true,
+                            "action": "Defeat Destroyer Aestus in Draconis Mons and loot the Element of Aestus."
+                          },
+                          {
+                            "bit": 3,
+                            "name": "Aestus Runestone",
+                            "item_id": 81047,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 20,
+                            "ideal_minutes": 40,
+                            "priority": 1,
+                            "prerequisite_bits": [
+                              2
+                            ],
+                            "time_gated": true,
+                            "schedule_dependent": true,
+                            "daily": true,
+                            "druid_runestones_required": 1,
+                            "action": "After obtaining the Element of Aestus, obtain a daily Druid Runestone and combine the two to create the Aestus Runestone."
+                          },
+                          {
+                            "bit": 4,
+                            "name": "Element of Ignis",
+                            "item_id": 81110,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 10,
+                            "ideal_minutes": 25,
+                            "priority": 10,
+                            "event_dependent": true,
+                            "group_recommended": true,
+                            "action": "Defeat Destroyer Ignis in Draconis Mons and loot the Element of Ignis."
+                          },
+                          {
+                            "bit": 5,
+                            "name": "Ignis Runestone",
+                            "item_id": 81165,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 20,
+                            "ideal_minutes": 40,
+                            "priority": 1,
+                            "prerequisite_bits": [
+                              4
+                            ],
+                            "time_gated": true,
+                            "schedule_dependent": true,
+                            "daily": true,
+                            "druid_runestones_required": 1,
+                            "action": "After obtaining the Element of Ignis, obtain a daily Druid Runestone and combine the two to create the Ignis Runestone."
+                          },
+                          {
+                            "bit": 6,
+                            "name": "Element of the Desecrator",
+                            "item_id": 81041,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 10,
+                            "ideal_minutes": 25,
+                            "priority": 10,
+                            "event_dependent": true,
+                            "group_recommended": true,
+                            "action": "Defeat the Molten Desecrator in Draconis Mons and loot the Element of the Desecrator."
+                          },
+                          {
+                            "bit": 7,
+                            "name": "Desecrator Runestone",
+                            "item_id": 81066,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 20,
+                            "ideal_minutes": 40,
+                            "priority": 1,
+                            "prerequisite_bits": [
+                              6
+                            ],
+                            "time_gated": true,
+                            "schedule_dependent": true,
+                            "daily": true,
+                            "druid_runestones_required": 1,
+                            "action": "After obtaining the Element of the Desecrator, obtain a daily Druid Runestone and combine the two to create the Desecrator Runestone."
+                          },
+                          {
+                            "bit": 8,
+                            "name": "Destroyer's Rest",
+                            "item_id": 81185,
+                            "activity": "vendor",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 5,
+                            "prerequisite_bits": [
+                              3,
+                              5,
+                              7
+                            ],
+                            "action": "Bring the Aestus, Ignis, and Desecrator Runestones to Kodama in Druid's Grotto."
+                          },
+                          {
+                            "bit": 9,
+                            "name": "Element of Fire",
+                            "item_id": 81118,
+                            "activity": "open_world",
+                            "location": "Tyria",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 10,
+                            "action": "Defeat Fire Elementals until the Element of Fire drops."
+                          },
+                          {
+                            "bit": 10,
+                            "name": "Volcanic Runestone",
+                            "item_id": 81023,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 20,
+                            "ideal_minutes": 40,
+                            "priority": 1,
+                            "prerequisite_bits": [
+                              9
+                            ],
+                            "time_gated": true,
+                            "schedule_dependent": true,
+                            "daily": true,
+                            "druid_runestones_required": 1,
+                            "action": "After obtaining the Element of Fire, obtain a daily Druid Runestone and combine the two to create the Volcanic Runestone."
+                          },
+                          {
+                            "bit": 11,
+                            "name": "Element of Water",
+                            "item_id": 81094,
+                            "activity": "open_world",
+                            "location": "Tyria",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 10,
+                            "action": "Defeat Ice Elementals until the Element of Water drops."
+                          },
+                          {
+                            "bit": 12,
+                            "name": "Glacial Runestone",
+                            "item_id": 81195,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 20,
+                            "ideal_minutes": 40,
+                            "priority": 1,
+                            "prerequisite_bits": [
+                              11
+                            ],
+                            "time_gated": true,
+                            "schedule_dependent": true,
+                            "daily": true,
+                            "druid_runestones_required": 1,
+                            "action": "After obtaining the Element of Water, obtain a daily Druid Runestone and combine the two to create the Glacial Runestone."
+                          },
+                          {
+                            "bit": 13,
+                            "name": "Element of Air",
+                            "item_id": 80999,
+                            "activity": "open_world",
+                            "location": "Tyria",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 10,
+                            "action": "Defeat Air Elementals or Sparks until the Element of Air drops."
+                          },
+                          {
+                            "bit": 14,
+                            "name": "Charged Runestone",
+                            "item_id": 81086,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 20,
+                            "ideal_minutes": 40,
+                            "priority": 1,
+                            "prerequisite_bits": [
+                              13
+                            ],
+                            "time_gated": true,
+                            "schedule_dependent": true,
+                            "daily": true,
+                            "druid_runestones_required": 1,
+                            "action": "After obtaining the Element of Air, obtain a daily Druid Runestone and combine the two to create the Charged Runestone."
+                          },
+                          {
+                            "bit": 15,
+                            "name": "Element of Earth",
+                            "item_id": 81105,
+                            "activity": "open_world",
+                            "location": "Tyria",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 10,
+                            "action": "Defeat Earth Elementals until the Element of Earth drops."
+                          },
+                          {
+                            "bit": 16,
+                            "name": "Earthen Runestone",
+                            "item_id": 81160,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 20,
+                            "ideal_minutes": 40,
+                            "priority": 1,
+                            "prerequisite_bits": [
+                              15
+                            ],
+                            "time_gated": true,
+                            "schedule_dependent": true,
+                            "daily": true,
+                            "druid_runestones_required": 1,
+                            "action": "After obtaining the Element of Earth, obtain a daily Druid Runestone and combine the two to create the Earthen Runestone."
+                          },
+                          {
+                            "bit": 17,
+                            "name": "Elemental Rest",
+                            "item_id": 81187,
+                            "activity": "vendor",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 5,
+                            "prerequisite_bits": [
+                              10,
+                              12,
+                              14,
+                              16
+                            ],
+                            "action": "Bring the Volcanic, Glacial, Charged, and Earthen Runestones to Kodama in Druid's Grotto."
+                          },
+                          {
+                            "bit": 18,
+                            "name": "Druid's Vision",
+                            "item_id": 81099,
+                            "activity": "crafting",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 15,
+                            "action": "Bring a Vision Crystal to Kodama in Druid's Grotto in Draconis Mons."
+                          },
+                          {
+                            "bit": 19,
+                            "name": "A Storm Bouquet for Kodama",
+                            "item_id": 80994,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Bring 10 Fire Orchid Blossoms and 5 Charged Lodestones to Kodama in the Savage Rise."
+                          },
+                          {
+                            "bit": 20,
+                            "name": "A Frozen Bouquet for Liriodendron",
+                            "item_id": 81080,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Bring 10 Fire Orchid Blossoms and 5 Glacial Lodestones to Liriodendron at the watering hole in the Savage Rise."
+                          },
+                          {
+                            "bit": 21,
+                            "name": "An Earthen Bouquet for Broadleaf",
+                            "item_id": 81004,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Bring 10 Fire Orchid Blossoms and 5 Onyx Lodestones to Broadleaf on the ledge above the Savage Rise."
+                          },
+                          {
+                            "bit": 22,
+                            "name": "An Infernal Bouquet for Rosewood",
+                            "item_id": 81054,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Bring 10 Fire Orchid Blossoms and 5 Molten Lodestones to Rosewood on the ledge above the Ancient Hollow."
+                          },
+                          {
+                            "bit": 23,
+                            "name": "Dierdre's Orchard",
+                            "item_id": 81180,
+                            "activity": "open_world",
+                            "location": "Mount Maelstrom",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 20,
+                            "action": "Plant 3 Fire Orchid Seeds in the garden at Dierdre's Steps in Mount Maelstrom."
+                          },
+                          {
+                            "bit": 24,
+                            "name": "Maguuma's Orchard",
+                            "item_id": 81148,
+                            "activity": "open_world",
+                            "location": "Dry Top",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 20,
+                            "action": "Plant 3 Fire Orchid Seeds in the oasis garden in Dry Top."
+                          },
+                          {
+                            "bit": 25,
+                            "name": "Melandru's Orchard",
+                            "item_id": 81029,
+                            "activity": "open_world",
+                            "location": "Cursed Shore",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 15,
+                            "priority": 20,
+                            "action": "Plant 3 Fire Orchid Seeds at the Cathedral of Verdance in Cursed Shore."
+                          },
+                          {
+                            "bit": 26,
+                            "name": "Seaside Propagation",
+                            "item_id": 81171,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Plant a Fire Orchid Seed on one of the islands of the Eastern Boiling Sea in Draconis Mons."
+                          },
+                          {
+                            "bit": 27,
+                            "name": "Wind Rider Ledge Propagation",
+                            "item_id": 81164,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Plant a Fire Orchid Seed in the fertile soil overlooking Wind Rider Ledge in Draconis Mons."
+                          },
+                          {
+                            "bit": 28,
+                            "name": "Rata Arcanum Propagation",
+                            "item_id": 81170,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Plant a Fire Orchid Seed in the bioluminescent cave above Rata Arcanum in Draconis Mons."
+                          },
+                          {
+                            "bit": 29,
+                            "name": "Seaside Ledges Propagation",
+                            "item_id": 81081,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Plant a Fire Orchid Seed on the ledge overlooking the Frothing Pedestal in Draconis Mons."
+                          },
+                          {
+                            "bit": 30,
+                            "name": "Nu II Propagation",
+                            "item_id": 80995,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Plant a Fire Orchid Seed in the fertile soil in the Nu II Vault in Draconis Mons."
+                          },
+                          {
+                            "bit": 31,
+                            "name": "Ancient Hollow Propagation",
+                            "item_id": 81150,
+                            "activity": "open_world",
+                            "location": "Draconis Mons",
+                            "minimum_minutes": 5,
+                            "ideal_minutes": 10,
+                            "priority": 20,
+                            "action": "Plant a Fire Orchid Seed in the fertile soil above the Ancient Hollow in Draconis Mons."
+                          }
+                        ]
+                      }
                     }
                   }
                 }
