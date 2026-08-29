@@ -1340,16 +1340,21 @@
               },
               {
                 "bit": 1,
-                "name": "Gathered from winterberry nodes",
+                "name": "Plump Winterberry",
                 "source_type": "Item",
                 "text": "Gathered from winterberry nodes.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81772,
-                "focus": "Gathering",
+                "focus": "Chance-based gathering",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Gathered from winterberry nodes."
+                "minimum_minutes": 10,
+                "ideal_minutes": 25,
+                "action": "Gather Winterberry Bushes across Bitterfrost Frontier for a chance at the Plump Winterberry. The bushes can be harvested approximately once per day per character, so if it does not drop in one pass, another character or a later reset can provide more attempts.",
+                "time_gated": true,
+                "daily": true,
+                "chance_based": true,
+                "per_character_daily_reset": true,
+                "map_resource_nodes": 21
               },
               {
                 "bit": 2,
