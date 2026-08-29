@@ -932,16 +932,22 @@
               },
               {
                 "bit": 1,
-                "name": "Mined from bloodstone crystals",
+                "name": "Bloodstone Chip",
                 "source_type": "Item",
                 "text": "Mined from bloodstone crystals.",
                 "location": "Bloodstone Fen",
                 "source_id": 81804,
-                "focus": "Gathering",
+                "focus": "Chance-based gathering",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Mined from bloodstone crystals."
+                "minimum_minutes": 10,
+                "ideal_minutes": 30,
+                "action": "Mine Bloodstone Crystal nodes across Bloodstone Fen for a chance at the Bloodstone Chip. The drop may require multiple farming passes or days, and Bloodstone Crystals have an account-wide daily harvest limit.",
+                "time_gated": true,
+                "daily": true,
+                "chance_based": true,
+                "account_daily_harvest_limit": {
+                  "nodes": 35
+                }
               },
               {
                 "bit": 2,
