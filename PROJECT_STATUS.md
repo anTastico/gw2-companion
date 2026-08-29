@@ -181,6 +181,70 @@ The goal is not to replace GW2Efficiency, but to provide account-aware guidance 
 - Verified live locked-state behaviour: all six collections currently show 0 progress, `unlocked=false`, `actionable=false`, and none appear in Aurora recommendations.
 - Unlocked-state recommendation behaviour is implemented but remains pending natural live validation after Sentient Seed is acquired.
 
+### Milestone 15 - Vision Dependency Depth and Field-Tested Session Planning
+
+- Deepened Living World Season 4 Vision planning one sub-collection at a time rather than treating collection objectives as flat tasks.
+- Expanded dependency-aware planning across Istan, Sandswept Isles, Kourna, Jahai Bluffs, and Dragonfall / War Eternal.
+- Added focused collection filtering to both `/recommendations` and `/session-plan`.
+- Added reusable dependency shapes and planner handling for `achievement_bits`, `achievement_options`, `achievement_set`, crafting dependencies, shared consumables, nested/sequential prerequisites, shared materials, shared achievements, completed-prerequisite `next_step` actions, projected completion effects, related objectives, and multi-prerequisite completion.
+- Added account-aware prerequisite and availability handling so locked or unavailable achievement options are not treated as immediately actionable.
+- Added playability metadata/scoring for direct work, events, event chains, metas, world bosses, multi-map work, story, crafting, bounties, repeat requirements, group recommendations, and schedule dependence.
+- Added work-horizon handling so large material deficits are treated as background progression instead of consuming unrealistic portions of short play sessions.
+- Corrected parent/child recommendation behaviour so actionable child dependencies replace misleading standalone parent tasks.
+- Preserved achievement-option context during shared-achievement consolidation so shared objectives retain both shared-dependency value and original prerequisite value.
+- Added multi-map handling that avoids false single-map bonuses and improves map-switch decisions.
+- Field-tested recommendation and session-plan behaviour repeatedly against live account progress rather than tuning from static data alone.
+
+#### Istan
+
+- Fully resolved Heavy Corsair Turban through the Daybreak Mastery prerequisite instead of treating the turban as a short standalone task.
+- Kept Brandstone Research / Astral Weapons time-gated work prominent where appropriate.
+- Verified Istan recommendations against live progress and avoided overvaluing long prerequisite chains in short sessions.
+
+#### Sandswept Isles
+
+- Added deeper shared dependency handling for Lasting Bonds and related Vision requirements.
+- Modelled shared consumable acquisition for the relevant Vision of Enemies objective.
+- Added account-aware completion effects for linked achievement progression.
+- Verified focused Sandswept planning against live account state.
+
+#### Domain of Kourna
+
+- Deepened shared dependency planning across Heavy Corsair Jerkin, Banner of the Commander, mastery-related work, Vision of Enemies: Troopmarshal Olori Ogun, and other collection objectives.
+- Added realistic bounty, event, story, meta, repeat, group, and material-work-horizon behaviour.
+- Prevented very large Inscribed Shard requirements from incorrectly dominating short sessions while preserving them as useful background progression.
+- Added projected prerequisite/completion handling and shared achievement value.
+- Repeatedly field-tested 120-minute Kourna plans while the tracked account was actively progressing the collection.
+- Froze Kourna tuning once the planner produced stable, believable plans.
+
+#### Jahai Bluffs
+
+- Added shared-consumable planning for the Death-Branded Shatterer objective.
+- Added completed-prerequisite guidance for `"A Star to Guide Us" Mastery` and Elegy Armor.
+- Correctly transitioned completed prerequisites into the appropriate vendor-purchase next step.
+- Verified against live account purchases and collection progress.
+
+#### Dragonfall / War Eternal
+
+- Replaced the old War Eternal bit-position approximation with curated `achievement_options` for the 18 achievements that actually count toward `"War Eternal" Mastery`.
+- Correctly identified the six remaining qualifying achievements from live account state.
+- Preserved the Dragonfall Reward Track as an alternative route for Heavy Corsair Boots.
+- Added realistic playability metadata to remaining War Eternal achievement options.
+- Modelled Tier 1 Mist Shard Armor as an `achievement_set` dependency for Vision of Equipment: Dragon Champion Armor.
+- Correctly recognised Championship Bout and My Beautiful Infrastructure as shared achievements advancing both Heavy Corsair Boots and Dragon Champion Armor.
+- Suppressed the fake standalone Dragon Champion Armor task while its child armor achievements remain incomplete.
+- Preserved the final 5-gold Traveling Elonian Trader purchase as the next step once one Tier 1 Mist Shard armor weight class is complete.
+- Corrected Vision of Enemies: Ley-Infused Enemy to post-meta/group-dependent work.
+- Verified Vision of Landscapes: Dragonfall as a clean direct objective.
+- Field-tested 120- and 240-minute focused Dragonfall plans against live account progress.
+- Froze Dragonfall tuning after the planner produced sensible shared-dependency and post-meta behaviour.
+
+#### Vision checkpoint
+
+- Current Vision dependency/planner work is considered complete enough to freeze pending further gameplay validation.
+- Thunderhead Peaks / All or Nothing has intentionally not received the same dependency-depth pass because the tracked account may complete that requirement through PvP reward-track progress.
+- Future Vision changes should be evidence-driven rather than proactive score tuning.
+
 ---
 
 ## Current Architecture
@@ -198,6 +262,11 @@ FastAPI
   |     |
   |     +-- RegaliaTracker
   |     +-- VisionTracker
+  |     |     +-- Nested dependency resolution
+  |     |     +-- Achievement bits/options/sets
+  |     |     +-- Shared consumables/materials/achievements
+  |     |     +-- Prerequisite and next-step state
+  |     |     +-- Projected completion effects
   |     +-- AuroraTracker
   |     |     +-- Generic achievement-bit objective resolution
   |     |     +-- Collection unlock/actionable state
@@ -206,6 +275,9 @@ FastAPI
   |     +-- Acquisition metadata
   |     +-- Session profiles
   |     +-- Ranked eligible candidate pool
+  |     +-- Collection-focused filtering
+  |     +-- Playability/work-horizon scoring
+  |     +-- Shared dependency/material recognition
   |     +-- Concise/diverse recommendation selection
   |
   +-- SessionPlanner
@@ -213,7 +285,10 @@ FastAPI
   |     +-- Time allocation
   |     +-- Location-aware planning
   |     +-- Cross-goal awareness
+  |     +-- Collection-focused planning
   |     +-- Dependency/objective focus grouping
+  |     +-- Projected completion and blocker handling
+  |     +-- Multi-map and shared-dependency awareness
   |
   +-- RequirementAnalyzer
   |     +-- Recursive recipe analysis
@@ -246,6 +321,7 @@ Static game, acquisition, session-profile, and recipe data live in `app/game_dat
 
 - `mode=progress|quick|play`
 - `goal=vision|aurora|regalia`
+- `collection=<exact collection name>` for supported focused collection planning
 - `activity=achievement|open_world|fractals|wvw|vendor|trading_post|acquisition`
 - `minutes=5..360`
 
@@ -257,23 +333,33 @@ Normal recommendation responses remain concise and diversity-limited.
 
 - `minutes=5..360`
 - `goal=vision|aurora|regalia`
+- `collection=<exact collection name>` for supported focused collection planning
 - `activity=achievement|open_world|fractals|wvw|vendor|trading_post|acquisition`
 
-The planner requests the full eligible ranked candidate pool before recommendation diversity trimming.
+The planner requests the full eligible ranked candidate pool before recommendation diversity trimming and can preserve focused collection context throughout planning.
 
 ---
 
 ## Current Development State
 
-Current branch: `main`
+Current branch: `feature/vision-dependency-depth`
 
-Latest feature merge:
+Latest verified Vision checkpoint:
 
-- `22b19b2` - Add objective-level Aurora mastery guidance
+- `028ba5e` - Deepen Dragonfall Vision dependency planning
+- `2e08dd6` - Refine Vision session planning from field testing
+- `f0b7364` - Add Jahai completed prerequisite guidance
+- `e2b7b9b` - Add Jahai shared consumable planning
+- `fe05eaf` - Add projected Kourna achievement dependencies
+- `7117236` - Add Kourna mastery dependency guidance
 
-The Aurora mastery-objective feature has been merged to `main` and the working tree was clean after merge.
+The branch is clean and pushed through `028ba5e`.
 
-Prismatic Champion's Regalia is complete for the tracked account. Regalia support remains operational, but additional Regalia dependency-depth work is now maintenance/low priority unless a future goal requires it.
+Vision dependency/planner development is now frozen pending further gameplay validation. Kourna and Dragonfall were deliberately stopped once live field tests produced sensible plans; future changes should respond to observed gameplay problems instead of continued score tuning.
+
+Thunderhead Peaks / All or Nothing remains the least-developed Vision map dependency set and may be completed through PvP rather than receiving another full dependency-depth pass.
+
+Prismatic Champion's Regalia is complete for the tracked account. Regalia support remains operational, but additional Regalia dependency-depth work is maintenance/low priority unless a future goal requires it.
 
 ---
 
@@ -320,7 +406,9 @@ Possible future improvements include carefully scoped short-lived caching, deter
 
 ### Remaining objective depth
 
-Aurora Sentient Seed prerequisites and Aurora I mastery collections now have strong objective-level coverage. Vision remains the next major area where additional dependency depth may materially improve recommendations.
+Vision now has strong dependency depth across the actively developed Living World Season 4 collections and is intentionally frozen pending gameplay validation.
+
+Aurora already has substantial objective-level coverage from the earlier Sentient Seed and Aurora I mastery work. The next development pass should resume Aurora by comparing the existing implementation against the richer generic dependency and planner capabilities learned during Vision, then fill only genuine gaps.
 
 ---
 
@@ -343,17 +431,21 @@ Optimisations should be measured where practical rather than retained solely bec
 
 ## Next Milestone
 
-Aurora I mastery objective guidance is complete and merged.
+Resume Aurora development from the substantial existing implementation rather than starting over.
 
-Recommended next priorities:
+Before changing Aurora code:
 
-- Continue expanding Vision dependency/objective depth where it materially improves planning.
-- Improve event/meta/time-gate awareness so recommendations can distinguish immediately actionable work from event-dependent work.
-- Revisit Aurora I recommendation behaviour naturally once Sentient Seed unlocks the six mastery collections.
-- Refine objective-bundle timing where overlapping objectives make summed timing too conservative.
-- Consider extracting ranked eligible candidate generation into a dedicated internal recommendation-service method if planner complexity continues to grow.
+- Review the previous Aurora development history and current `aurora.json` / `AuroraTracker` implementation.
+- Capture a fresh live `/tracker/aurora` baseline.
+- Compare Aurora's existing dependency model with the generic capabilities added and field-tested during the Vision milestone.
+- Produce an explicit gap analysis: already complete, still valid, superseded by newer generic architecture, and genuinely missing.
+- Prioritise real blockers, shared requirements, nested prerequisites, event/meta/time-gate behaviour, vendor transitions, long-term material work, and planner actionability.
+- Preserve the established rule that objective depth should improve actionable planning without turning every objective into a separate recommendation.
+- Reuse generic dependency/planner machinery wherever possible instead of introducing Aurora-specific scoring hacks.
 
-Regalia development is now low priority because the tracked account has completed Prismatic Champion's Regalia.
+Vision is frozen pending gameplay validation. Thunderhead Peaks / All or Nothing may be completed through PvP and does not need to block the Aurora return.
+
+Regalia development remains low priority because the tracked account has completed Prismatic Champion's Regalia.
 
 At the end of the next major milestone, perform another architecture/efficiency review before merging.
 
@@ -361,14 +453,13 @@ At the end of the next major milestone, perform another architecture/efficiency 
 
 ## Future Work
 
-- Expand dependency-aware tracking to additional Vision objectives.
+- Resume and finish Aurora dependency-aware planning using the generic capabilities learned during Vision.
 - Validate and refine unlocked Aurora I mastery recommendations once naturally available.
+- Revisit Vision only when gameplay exposes a genuine planning gap; complete Thunderhead dependency depth only if still useful after PvP progress.
 - Add additional legendary goals.
 - Improve handling of currencies and non-inventory requirements.
-- Expand acquisition-method modelling: craft, buy, earn, achievement rewards, PvP/WvW reward tracks, and time-gated acquisition.
-- Add event/meta awareness where useful.
-- Improve estimated effort and time-gating awareness.
-- Add planner support for grouped/meta-event tasks.
+- Continue expanding acquisition-method modelling: craft, buy, earn, achievement rewards, PvP/WvW reward tracks, vendor transitions, and time-gated acquisition.
+- Refine objective/bundle timing where overlapping event or route work makes summed timing too conservative.
 - Consider carefully scoped caching only if further latency reduction becomes worthwhile.
 - Refactor planner candidate generation away from the public recommendation response shape if the planner grows substantially.
 - Build a user-friendly frontend/dashboard.
@@ -380,13 +471,13 @@ At the end of the next major milestone, perform another architecture/efficiency 
 
 Prismatic Champion's Regalia is complete for the tracked account; its tracker remains operational.
 
-Vision tracking is operational with live achievement progress, objective-level collection data, account inventory analysis, recursive crafting requirements, Vision II tracking, and dependency-aware War Eternal progress.
+Vision tracking is operational with live achievement progress, objective-level collection data, account inventory analysis, recursive crafting requirements, Vision II tracking, collection-focused recommendations/session plans, and deep dependency-aware planning across Istan, Sandswept Isles, Kourna, Jahai Bluffs, and Dragonfall / War Eternal. The current Vision planner state has been field-tested against live account progress and is frozen pending further gameplay evidence.
 
-Aurora tracking is operational with locked-stage detection, live achievement progress, recursive crafting requirements, Living World Season 3 currency tracking, Sentient Seed prerequisite depth, and reusable achievement-bit objective guidance across all six Aurora I mastery collections.
+Aurora tracking is operational with locked-stage detection, live achievement progress, recursive crafting requirements, Living World Season 3 currency tracking, Sentient Seed prerequisite depth, and reusable achievement-bit objective guidance across all six Aurora I mastery collections. Aurora is the next active development focus and will be resumed from the existing implementation rather than rebuilt.
 
-The recommendation engine is operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work.
+The recommendation engine is operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work. Vision additionally exercises collection-focused filtering, shared dependency/material recognition, prerequisite availability, playability metadata, and background-work horizons.
 
-The session planner is operational with time allocation, map-aware planning, useful unused-time handling, cross-goal awareness, dependency-aware focus grouping, and access to the full eligible ranked candidate pool before presentation-oriented diversity trimming.
+The session planner is operational with time allocation, map-aware planning, useful unused-time handling, cross-goal awareness, collection focus, dependency-aware grouping, projected completion effects, shared-dependency value, multi-map handling, and access to the full eligible ranked candidate pool before presentation-oriented diversity trimming.
 
 The project now has a working end-to-end pipeline:
 
@@ -394,4 +485,4 @@ The project now has a working end-to-end pipeline:
 
 Recommendation and session-planning requests share one request-scoped account snapshot across all three trackers, eliminating duplicate account fetching while preserving fresh data and standalone tracker behaviour.
 
-Milestone-end architecture/efficiency reviews remain part of the development workflow and have already caught duplicate API fetching, duplicated objective-bit logic, and presentation-layer candidate trimming before those issues became deeper technical debt.
+Milestone-end architecture/efficiency reviews remain part of the development workflow and have already caught duplicate API fetching, duplicated objective-bit logic, presentation-layer candidate trimming, misleading parent tasks, and metadata loss during shared-achievement consolidation before those issues became deeper technical debt.
