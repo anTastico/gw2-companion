@@ -245,6 +245,50 @@ The goal is not to replace GW2Efficiency, but to provide account-aware guidance 
 - Thunderhead Peaks / All or Nothing has intentionally not received the same dependency-depth pass because the tracked account may complete that requirement through PvP reward-track progress.
 - Future Vision changes should be evidence-driven rather than proactive score tuning.
 
+
+### Milestone 16 - Aurora Dependency Depth and Wayfarer's Henge Planning
+
+- Resumed Aurora development from the existing implementation rather than rebuilding the tracker.
+- Captured a fresh live Aurora baseline and compared the existing tracker against the generic dependency capabilities developed during the Vision milestone.
+- Preserved the existing 87-objective Aurora I mastery framework and avoided unnecessary reclassification or scoring changes.
+- Deepened Bitterfrost Frontier planning for Gift of Aurene:
+  - Added all 8 achievement-bit objectives.
+  - Modelled the five doll components as buy-or-craft acquisition choices.
+  - Added prerequisite flow from doll components to Dragon Hatchling Doll to Aurenic Essence.
+  - Reused generic nested `achievement_bits` dependency handling rather than adding Aurora-specific planner logic.
+- Deepened Draconis Mons planning for the full Wayfarer's Henge chain:
+  - The Druid Stone - 7 objectives.
+  - Awakening the Druid Stone - 14 objectives.
+  - Sprouting the Druid Stone - 21 objectives.
+  - A Henge Away from Home - 32 objectives.
+- Added a generic sequential `next_dependency` handoff so a completed achievement-bit dependency can automatically resolve into the next achievement in a chain.
+- Added prerequisite-bit availability handling across the Henge chain so blocked turn-ins and crafted runestones do not appear actionable before their prerequisites are complete.
+- Modelled daily Druid Runestone usage across the entire Henge chain:
+  - The Druid Stone - 1.
+  - Awakening the Druid Stone - 3.
+  - Sprouting the Druid Stone - 5.
+  - A Henge Away from Home - 7.
+  - 16 total Druid Runestones across the complete chain.
+- Modelled parallel work alongside the daily gate, including flowers, bouquets, event drops, elemental drops, Vision Crystal turn-in, lodestone tributes, and Fire Orchid seed planting.
+- Modelled shared completion turn-ins such as Destroyer's Rest and Elemental Rest with multi-bit prerequisites.
+- Recorded The Wayfarer's Henge as the final reward of A Henge Away from Home.
+- Verified after every dependency-depth stage that the live tracker continued to resolve the account's current state correctly as The Druid Stone 2/7 with Druid Runestone as the next objective.
+- Kept recommendation scoring unchanged; this milestone improved actionability through data and reusable dependency structure instead of score tuning.
+- Incremental checkpoint commits:
+  - `5c55b03` - Deepen Gift of Aurene dependency planning
+  - `8031028` - Deepen Druid Stone dependency planning
+  - `1512e2b` - Add Awakening Druid Stone dependency chain
+  - `3e38f09` - Add Sprouting Druid Stone dependency chain
+  - `9aa4272` - Complete Wayfarer's Henge dependency chain
+
+#### Aurora dependency checkpoint
+
+- Gift of Aurene and the full Wayfarer's Henge chain are now represented with nested, actionable dependency depth.
+- Current live Wayfarer's Henge progress remains at The Druid Stone 2/7.
+- The generic sequential dependency transition is implemented but its natural live transition from The Druid Stone into Awakening remains pending gameplay completion of the current tier.
+- Further Aurora work should continue gap-by-gap and remain evidence-driven rather than expanding every collection pre-emptively.
+
+
 ---
 
 ## Current Architecture
@@ -269,6 +313,8 @@ FastAPI
   |     |     +-- Projected completion effects
   |     +-- AuroraTracker
   |     |     +-- Generic achievement-bit objective resolution
+  |     |     +-- Nested/sequential achievement dependencies
+  |     |     +-- Prerequisite-bit availability and next-dependency handoff
   |     |     +-- Collection unlock/actionable state
   |     |     +-- Grouped missing-objective progress
   |     |
@@ -342,22 +388,22 @@ The planner requests the full eligible ranked candidate pool before recommendati
 
 ## Current Development State
 
-Current branch: `feature/vision-dependency-depth`
+Current branch: `feature/aurora-dependency-depth`
 
-Latest verified Vision checkpoint:
+Latest verified Aurora dependency checkpoints:
 
-- `028ba5e` - Deepen Dragonfall Vision dependency planning
-- `2e08dd6` - Refine Vision session planning from field testing
-- `f0b7364` - Add Jahai completed prerequisite guidance
-- `e2b7b9b` - Add Jahai shared consumable planning
-- `fe05eaf` - Add projected Kourna achievement dependencies
-- `7117236` - Add Kourna mastery dependency guidance
+- `9aa4272` - Complete Wayfarer's Henge dependency chain
+- `3e38f09` - Add Sprouting Druid Stone dependency chain
+- `1512e2b` - Add Awakening Druid Stone dependency chain
+- `8031028` - Deepen Druid Stone dependency planning
+- `5c55b03` - Deepen Gift of Aurene dependency planning
+- `77cee81` - Document completed Vision dependency milestone
 
-The branch is clean and pushed through `028ba5e`.
+The branch is clean and pushed through `9aa4272`.
 
-Vision dependency/planner development is now frozen pending further gameplay validation. Kourna and Dragonfall were deliberately stopped once live field tests produced sensible plans; future changes should respond to observed gameplay problems instead of continued score tuning.
+Aurora dependency-depth development is now active. Gift of Aurene and the complete Wayfarer's Henge chain have received deeper nested dependency modelling using the generic machinery established during Vision.
 
-Thunderhead Peaks / All or Nothing remains the least-developed Vision map dependency set and may be completed through PvP rather than receiving another full dependency-depth pass.
+Vision dependency/planner development remains frozen pending further gameplay validation. Thunderhead Peaks / All or Nothing remains intentionally less-developed and may be completed through PvP rather than receiving a full dependency-depth pass.
 
 Prismatic Champion's Regalia is complete for the tracked account. Regalia support remains operational, but additional Regalia dependency-depth work is maintenance/low priority unless a future goal requires it.
 
@@ -368,7 +414,7 @@ Prismatic Champion's Regalia is complete for the tracked account. Regalia suppor
 Sentient Seed is currently 1/4 complete:
 
 - Conspiracy of Dunces - complete
-- Token Collector - 10/40
+- Token Collector - 20/40
 - Cin Business - 14/18
 - Lessons Learned - 0/14
 
@@ -408,7 +454,7 @@ Possible future improvements include carefully scoped short-lived caching, deter
 
 Vision now has strong dependency depth across the actively developed Living World Season 4 collections and is intentionally frozen pending gameplay validation.
 
-Aurora already has substantial objective-level coverage from the earlier Sentient Seed and Aurora I mastery work. The next development pass should resume Aurora by comparing the existing implementation against the richer generic dependency and planner capabilities learned during Vision, then fill only genuine gaps.
+Aurora already has substantial objective-level coverage from the earlier Sentient Seed and Aurora I mastery work. Gift of Aurene and the complete Wayfarer's Henge chain now also use richer nested dependency modelling. Remaining Aurora work should continue by filling only genuine planning gaps and validating the new sequential handoff naturally as gameplay reaches later Henge tiers.
 
 ---
 
@@ -431,29 +477,29 @@ Optimisations should be measured where practical rather than retained solely bec
 
 ## Next Milestone
 
-Resume Aurora development from the substantial existing implementation rather than starting over.
+Continue Aurora dependency-depth work from the completed Gift of Aurene and Wayfarer's Henge checkpoint.
 
-Before changing Aurora code:
+Next steps:
 
-- Review the previous Aurora development history and current `aurora.json` / `AuroraTracker` implementation.
-- Capture a fresh live `/tracker/aurora` baseline.
-- Compare Aurora's existing dependency model with the generic capabilities added and field-tested during the Vision milestone.
-- Produce an explicit gap analysis: already complete, still valid, superseded by newer generic architecture, and genuinely missing.
-- Prioritise real blockers, shared requirements, nested prerequisites, event/meta/time-gate behaviour, vendor transitions, long-term material work, and planner actionability.
-- Preserve the established rule that objective depth should improve actionable planning without turning every objective into a separate recommendation.
+- Re-run the Aurora gap audit against the now-deepened implementation and choose the next genuine flat or misleading dependency.
+- Prefer small metadata/dependency-driven stages over broad rewrites.
+- Preserve the existing 87-objective Aurora I mastery framework unless live gameplay exposes a concrete issue.
+- Naturally validate the generic The Druid Stone -> Awakening -> Sprouting -> A Henge Away from Home handoff as the tracked account progresses through the chain.
+- Keep long-term material deficits as background work rather than allowing them to dominate short session plans.
 - Reuse generic dependency/planner machinery wherever possible instead of introducing Aurora-specific scoring hacks.
+- Do not tune planner weights without field-test evidence.
 
-Vision is frozen pending gameplay validation. Thunderhead Peaks / All or Nothing may be completed through PvP and does not need to block the Aurora return.
+Vision remains frozen pending gameplay validation. Thunderhead Peaks / All or Nothing may be completed through PvP and does not need to block Aurora work.
 
 Regalia development remains low priority because the tracked account has completed Prismatic Champion's Regalia.
 
-At the end of the next major milestone, perform another architecture/efficiency review before merging.
+At the end of the Aurora dependency-depth milestone, perform another architecture/efficiency review before merging.
 
 ---
 
 ## Future Work
 
-- Resume and finish Aurora dependency-aware planning using the generic capabilities learned during Vision.
+- Continue Aurora dependency-aware planning gap-by-gap using the generic capabilities learned during Vision.
 - Validate and refine unlocked Aurora I mastery recommendations once naturally available.
 - Revisit Vision only when gameplay exposes a genuine planning gap; complete Thunderhead dependency depth only if still useful after PvP progress.
 - Add additional legendary goals.
@@ -473,7 +519,7 @@ Prismatic Champion's Regalia is complete for the tracked account; its tracker re
 
 Vision tracking is operational with live achievement progress, objective-level collection data, account inventory analysis, recursive crafting requirements, Vision II tracking, collection-focused recommendations/session plans, and deep dependency-aware planning across Istan, Sandswept Isles, Kourna, Jahai Bluffs, and Dragonfall / War Eternal. The current Vision planner state has been field-tested against live account progress and is frozen pending further gameplay evidence.
 
-Aurora tracking is operational with locked-stage detection, live achievement progress, recursive crafting requirements, Living World Season 3 currency tracking, Sentient Seed prerequisite depth, and reusable achievement-bit objective guidance across all six Aurora I mastery collections. Aurora is the next active development focus and will be resumed from the existing implementation rather than rebuilt.
+Aurora tracking is operational with locked-stage detection, live achievement progress, recursive crafting requirements, Living World Season 3 currency tracking, Sentient Seed prerequisite depth, reusable achievement-bit objective guidance across all six Aurora I mastery collections, nested Gift of Aurene planning, and the complete sequential Wayfarer's Henge dependency chain. Aurora remains the active development focus and is being deepened gap-by-gap rather than rebuilt.
 
 The recommendation engine is operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work. Vision additionally exercises collection-focused filtering, shared dependency/material recognition, prerequisite availability, playability metadata, and background-work horizons.
 
