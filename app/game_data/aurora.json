@@ -1053,17 +1053,23 @@
               },
               {
                 "bit": 9,
-                "name": "Obtained by killing enemies with gliding skills in Bloodstone Fen",
+                "name": "Aerial Assault",
                 "source_type": "Item",
                 "text": "Obtained by killing enemies with gliding skills in Bloodstone Fen.",
                 "location": "Bloodstone Fen",
                 "source_id": 81882,
-                "focus": "Combat / bosses",
+                "focus": "Chance-based / gliding combat",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Obtained by killing enemies with gliding skills in Bloodstone Fen."
+                "action": "Kill hostile enemies in Bloodstone Fen using the map's gliding skills for a chance to complete Aerial Assault. The collection credit is RNG-based rather than tied to a specific event or enemy type.",
+                "chance_based": true,
+                "access_setup": {
+                  "mechanic": "Bloodstone Fen gliding skills",
+                  "vendor": "Natto",
+                  "location": "Soulkeeper's Airship Waypoint",
+                  "notes": "Purchase the Bloodstone Fen gliding skills from Natto using Unbound Magic and Piles of Bloodstone Dust before attempting this objective."
+                }
               },
               {
                 "bit": 10,
