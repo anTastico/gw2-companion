@@ -979,17 +979,22 @@
               },
               {
                 "bit": 4,
-                "name": "Dropped by jade constructs in Bloodstone Fen",
+                "name": "Jade Core",
                 "source_type": "Item",
                 "text": "Dropped by jade constructs in Bloodstone Fen.",
                 "location": "Bloodstone Fen",
                 "source_id": 81704,
-                "focus": "Combat / bosses",
+                "focus": "Chance-based / jade constructs",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Dropped by jade constructs in Bloodstone Fen."
+                "action": "Defeat jade constructs for a chance at the Jade Core. Veteran Jade Bow and Jade Armor in the Dead Lab are not tied to a specific event, so they can be a practical repeatable farm instead of waiting for champion events.",
+                "chance_based": true,
+                "farm_options": {
+                  "preferred": "Veteran Jade Bow and Jade Armor in the Dead Lab",
+                  "alternative": "Champion Jade Bow or Champion Jade Armor in Bloodstone Fen",
+                  "notes": "The Jade Core is a chance drop and is not guaranteed from each jade construct."
+                }
               },
               {
                 "bit": 5,
