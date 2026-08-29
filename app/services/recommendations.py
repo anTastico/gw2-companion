@@ -2445,6 +2445,83 @@ class RecommendationService:
                             else "open_world"
                         )
 
+                        if len(group_objectives) == 1:
+                            parent_objective = group_objectives[0]
+                            dependency = parent_objective.get(
+                                "dependency"
+                            )
+
+                            if (
+                                dependency
+                                and dependency.get("tracking")
+                                == "achievement_bits"
+                                and not dependency.get("completed", False)
+                            ):
+                                next_objective = dependency.get(
+                                    "next_objective"
+                                )
+
+                                if next_objective:
+                                    recommendations.append({
+                                        "goal": "Aurora",
+                                        "type": "objective",
+                                        "title": (
+                                            f"{dependency['name']}: "
+                                            f"{next_objective['name']}"
+                                        ),
+                                        "collection": collection["name"],
+                                        "parent_objective": (
+                                            parent_objective["name"]
+                                        ),
+                                        "progress": (
+                                            f"{dependency.get('current', 0)}/"
+                                            f"{dependency.get('required', 0)}"
+                                        ),
+                                        "progress_ratio": (
+                                            dependency.get("current", 0)
+                                            / dependency.get("required", 1)
+                                            if dependency.get("required")
+                                            else 0
+                                        ),
+                                        "activity": next_objective.get(
+                                            "activity",
+                                            parent_objective.get("activity")
+                                        ),
+                                        "location": next_objective.get(
+                                            "location",
+                                            collection.get("location")
+                                        ),
+                                        "minimum_minutes": next_objective.get(
+                                            "minimum_minutes",
+                                            parent_objective.get(
+                                                "minimum_minutes",
+                                                5
+                                            )
+                                        ),
+                                        "ideal_minutes": next_objective.get(
+                                            "ideal_minutes",
+                                            parent_objective.get(
+                                                "ideal_minutes",
+                                                10
+                                            )
+                                        ),
+                                        "action": next_objective.get(
+                                            "action",
+                                            parent_objective.get("action")
+                                        ),
+                                        "reason": (
+                                            f"{parent_objective['name']} "
+                                            f"depends on {dependency['name']}, "
+                                            f"which is "
+                                            f"{dependency.get('current', 0)}/"
+                                            f"{dependency.get('required', 0)} "
+                                            "complete. This is one of the "
+                                            "currently actionable next steps."
+                                        ),
+                                        "dependency": dependency
+                                    })
+                                    continue
+
                         recommendations.append({
                             "goal": "Aurora",
                             "type": "objective_bundle",

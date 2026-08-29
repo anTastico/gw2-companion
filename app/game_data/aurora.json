@@ -1415,9 +1415,124 @@
                 "source_id": 424,
                 "focus": "Collection prerequisite",
                 "activity": "achievement",
-                "minimum_minutes": 15,
-                "ideal_minutes": 45,
-                "action": "Progress the Gift of Aurene collection."
+                "minimum_minutes": 5,
+                "ideal_minutes": 30,
+                "action": "Continue the next available Gift of Aurene step. The five doll components may be bought from the Trading Post or crafted.",
+                "dependency": {
+                  "achievement_id": 3178,
+                  "name": "Gift of Aurene",
+                  "tracking": "achievement_bits",
+                  "required": 8,
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "name": "Token of Affection",
+                      "item_id": 79731,
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 10,
+                      "action": "Complete the Precocious Aurene story step to obtain the Token of Affection."
+                    },
+                    {
+                      "bit": 1,
+                      "name": "Dragon Hatchling Doll Frame",
+                      "item_id": 79817,
+                      "activity": "trading_post",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "crafting_discipline": "Huntsman",
+                      "crafting_rating": 450,
+                      "crafting_time_gated": true,
+                      "action": "Buy the Dragon Hatchling Doll Frame from the Trading Post, or craft it with Huntsman 450. The crafting recipe is daily time-gated."
+                    },
+                    {
+                      "bit": 2,
+                      "name": "Gossamer Stuffing",
+                      "item_id": 79763,
+                      "activity": "trading_post",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "crafting_discipline": "Tailor",
+                      "crafting_rating": 450,
+                      "crafting_time_gated": true,
+                      "action": "Buy Gossamer Stuffing from the Trading Post, or craft it with Tailor 450. The crafting recipe is daily time-gated."
+                    },
+                    {
+                      "bit": 3,
+                      "name": "Dragon Hatchling Doll Hide",
+                      "item_id": 79790,
+                      "activity": "trading_post",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "crafting_discipline": "Leatherworker",
+                      "crafting_rating": 450,
+                      "crafting_time_gated": true,
+                      "action": "Buy the Dragon Hatchling Doll Hide from the Trading Post, or craft it with Leatherworker 450. The crafting recipe is daily time-gated."
+                    },
+                    {
+                      "bit": 4,
+                      "name": "Dragon Hatchling Doll Eye",
+                      "item_id": 79726,
+                      "activity": "trading_post",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "crafting_discipline": "Artificer",
+                      "crafting_rating": 450,
+                      "crafting_time_gated": true,
+                      "action": "Buy the Dragon Hatchling Doll Eye from the Trading Post, or craft it with Artificer 450. The crafting recipe is daily time-gated."
+                    },
+                    {
+                      "bit": 5,
+                      "name": "Dragon Hatchling Doll Adornments",
+                      "item_id": 79795,
+                      "activity": "trading_post",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 20,
+                      "crafting_discipline": "Jeweler",
+                      "crafting_rating": 400,
+                      "crafting_time_gated": true,
+                      "action": "Buy the Dragon Hatchling Doll Adornments from the Trading Post, or craft them with Jeweler 400. The crafting recipe is daily time-gated."
+                    },
+                    {
+                      "bit": 6,
+                      "name": "Dragon Hatchling Doll",
+                      "item_id": 79812,
+                      "activity": "acquisition",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 10,
+                      "prerequisite_bits": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                      ],
+                      "action": "With the frame, stuffing, hide, eye, and adornments in your inventory, double-click one component to assemble the Dragon Hatchling Doll."
+                    },
+                    {
+                      "bit": 7,
+                      "name": "Aurenic Essence",
+                      "item_id": 79727,
+                      "activity": "open_world",
+                      "location": "Auric Basin",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 5,
+                      "prerequisite_bits": [
+                        6
+                      ],
+                      "action": "Use the Exalted Portal Stone to reach Aurene's inner chamber in Auric Basin and present the Dragon Hatchling Doll to Aurene."
+                    }
+                  ]
+                }
               },
               {
                 "bit": 8,

@@ -100,7 +100,8 @@ class AuroraTracker:
                 ):
                     objective_progress = self._resolve_achievement_bits(
                         objective_tracking=objective_tracking,
-                        achievement_progress=progress
+                        achievement_progress=progress,
+                        account_progress=account_progress
                     )
                     collection_result["objective_progress"] = (
                         objective_progress
@@ -234,16 +235,35 @@ class AuroraTracker:
     def _resolve_achievement_bits(
         self,
         objective_tracking: dict,
-        achievement_progress: dict
+        achievement_progress: dict,
+        account_progress: dict | None = None
     ):
         completed_bits = set(
             achievement_progress.get("bits", [])
         )
         objectives = objective_tracking.get("objectives", [])
+        resolved_objectives = []
+
+        for objective in objectives:
+            resolved = dict(objective)
+            bit = objective.get("bit")
+            resolved["completed"] = bit in completed_bits
+
+            dependency = objective.get("dependency")
+            if dependency and account_progress is not None:
+                resolved["dependency"] = (
+                    self._resolve_achievement_dependency(
+                        dependency=dependency,
+                        account_progress=account_progress
+                    )
+                )
+
+            resolved_objectives.append(resolved)
+
         missing_objectives = [
             objective
-            for objective in objectives
-            if objective.get("bit") not in completed_bits
+            for objective in resolved_objectives
+            if not objective["completed"]
         ]
 
         group_by = objective_tracking.get("group_by")
@@ -251,26 +271,21 @@ class AuroraTracker:
 
         if group_by:
             for objective in missing_objectives:
-                group_name = objective.get(
-                    group_by,
-                    "Other"
-                )
-                groups.setdefault(
-                    group_name,
-                    []
-                ).append(objective)
+                group_name = objective.get(group_by, "Other")
+                groups.setdefault(group_name, []).append(objective)
 
-        current = len(objectives) - len(missing_objectives)
+        current = len(resolved_objectives) - len(missing_objectives)
 
         return {
             "current": current,
-            "required": len(objectives),
+            "required": len(resolved_objectives),
             "percent": round(
-                current / len(objectives) * 100,
+                current / len(resolved_objectives) * 100,
                 1
-            ) if objectives else 0,
+            ) if resolved_objectives else 0,
             "completed_bits": sorted(completed_bits),
             "missing_count": len(missing_objectives),
+            "objectives": resolved_objectives,
             "missing_objectives": missing_objectives,
             "missing_groups": [
                 {
@@ -280,6 +295,105 @@ class AuroraTracker:
                 }
                 for group_name, group_objectives in groups.items()
             ]
+        }
+
+    def _resolve_achievement_dependency(
+        self,
+        dependency: dict,
+        account_progress: dict
+    ):
+        tracking = dependency.get("tracking")
+
+        if tracking != "achievement_bits":
+            return {
+                "achievement_id": dependency.get("achievement_id"),
+                "name": dependency.get("name"),
+                "tracking": tracking,
+                "supported": False
+            }
+
+        achievement_id = dependency["achievement_id"]
+        progress = account_progress.get(achievement_id, {})
+        completed_bits = set(progress.get("bits", []))
+        definitions = dependency.get("objectives", [])
+        required = dependency.get("required", len(definitions))
+        resolved_objectives = []
+
+        for definition in definitions:
+            bit = definition["bit"]
+            prerequisites = definition.get("prerequisite_bits", [])
+            completed = bit in completed_bits
+            available = (
+                completed
+                or all(
+                    prerequisite_bit in completed_bits
+                    for prerequisite_bit in prerequisites
+                )
+            )
+
+            objective = dict(definition)
+            objective.update({
+                "completed": completed,
+                "available": available,
+                "prerequisites_complete": available,
+                "missing_prerequisite_bits": [
+                    prerequisite_bit
+                    for prerequisite_bit in prerequisites
+                    if prerequisite_bit not in completed_bits
+                ]
+            })
+            resolved_objectives.append(objective)
+
+        completed_objectives = [
+            objective
+            for objective in resolved_objectives
+            if objective["completed"]
+        ]
+        missing_objectives = [
+            objective
+            for objective in resolved_objectives
+            if not objective["completed"]
+        ]
+        available_objectives = [
+            objective
+            for objective in missing_objectives
+            if objective["available"]
+        ]
+
+        available_objectives.sort(
+            key=lambda objective: (
+                objective.get("priority", 50),
+                objective["bit"]
+            )
+        )
+
+        current = min(
+            progress.get("current", len(completed_objectives)),
+            required
+        )
+        completed = progress.get("done", current >= required)
+
+        return {
+            "achievement_id": achievement_id,
+            "name": dependency.get("name"),
+            "tracking": tracking,
+            "current": current,
+            "required": required,
+            "percent": round(
+                current / required * 100,
+                1
+            ) if required else 0,
+            "completed": completed,
+            "objectives": resolved_objectives,
+            "completed_objectives": completed_objectives,
+            "missing_objectives": missing_objectives,
+            "available_objectives": available_objectives,
+            "available": len(available_objectives),
+            "next_objective": (
+                available_objectives[0]
+                if available_objectives
+                else None
+            )
         }
 
     def _resolve_unlock(
@@ -333,7 +447,8 @@ class AuroraTracker:
                 requirement_result["objective_progress"] = (
                     self._resolve_achievement_bits(
                         objective_tracking=objective_tracking,
-                        achievement_progress=achievement_progress
+                        achievement_progress=achievement_progress,
+                        account_progress=account_progress
                     )
                 )
 
