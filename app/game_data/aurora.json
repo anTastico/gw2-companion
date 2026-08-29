@@ -1034,16 +1034,22 @@
               },
               {
                 "bit": 8,
-                "name": "Gathered from unbound magic nodes in Bloodstone Fen",
+                "name": "Strange Residue",
                 "source_type": "Item",
                 "text": "Gathered from unbound magic nodes in Bloodstone Fen.",
                 "location": "Bloodstone Fen",
                 "source_id": 81929,
-                "focus": "Gathering",
+                "focus": "Chance-based / Unbound Magic orbs",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Gathered from unbound magic nodes in Bloodstone Fen."
+                "minimum_minutes": 10,
+                "ideal_minutes": 25,
+                "action": "Collect floating Unbound Magic orbs around Bloodstone Fen for a chance at Strange Residue. The item is deposited randomly while collecting the orbs, so it may take multiple routes or passes.",
+                "chance_based": true,
+                "access_setup": {
+                  "mechanic": "Unbound Magic harvesting",
+                  "requires": "Complete the \"Reaper of Magic\" story chapter or unlock Unbound Magic harvesting with an Ancient Mursaat Relic or Unbound Magic Gatherer.",
+                  "notes": "Without the Unbound Magic harvesting unlock, floating Unbound Magic orbs cannot be collected."
+                }
               },
               {
                 "bit": 9,
