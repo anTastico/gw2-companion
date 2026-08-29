@@ -1074,16 +1074,27 @@
               },
               {
                 "bit": 7,
-                "name": "Sold by Natto in Bloodstone Fen",
+                "name": "Pristine Blood Ruby",
                 "source_type": "Item",
                 "text": "Sold by Natto in Bloodstone Fen.",
                 "location": "Bloodstone Fen",
                 "source_id": 81762,
-                "focus": "Vendor / purchase",
+                "focus": "Vendor / map currency",
                 "activity": "vendor",
                 "minimum_minutes": 5,
                 "ideal_minutes": 10,
-                "action": "Sold by Natto in Bloodstone Fen."
+                "action": "Buy the Pristine Blood Ruby from Natto at Pride of the Pact in Bloodstone Fen for 50 Blood Rubies and 5,000 Unbound Magic. The purchase is only available while Bloodstone Fen Master is active and is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Natto",
+                  "area": "Pride of the Pact",
+                  "location": "Bloodstone Fen",
+                  "cost": {
+                    "Blood Ruby": 50,
+                    "Unbound Magic": 5000
+                  },
+                  "requires": "Bloodstone Fen Master collection active",
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 8,
