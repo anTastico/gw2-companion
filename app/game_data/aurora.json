@@ -3055,16 +3055,23 @@
               },
               {
                 "bit": 8,
-                "name": "Found in Zinn's stashes in Draconis Mons",
+                "name": "Depleted Power Source",
                 "source_type": "Item",
                 "text": "Found in Zinn's stashes in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81697,
-                "focus": "Exploration / chests",
+                "focus": "Chance-based / Zinn's Stashes",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Found in Zinn's stashes in Draconis Mons."
+                "minimum_minutes": 10,
+                "ideal_minutes": 25,
+                "action": "Open Zinn's Stashes across Draconis Mons for a chance at the Depleted Power Source. Use an Ancient Asuran Power Source to gain the Scan special action skill and reveal nearby stashes; the collection item is not guaranteed from each stash.",
+                "chance_based": true,
+                "access_setup": {
+                  "mechanic": "Zinn's Stashes",
+                  "requires": "Ancient Asuran Power Source or active Scan special action skill",
+                  "unlock": "Technomagical Detector",
+                  "notes": "The Technomagical Detector unlock allows Ancient Asuran Power Sources to drop and be purchased. Ancient Asuran Power Sources reveal Zinn's Stashes with the Scan special action skill."
+                }
               },
               {
                 "bit": 9,
