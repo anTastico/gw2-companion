@@ -1017,17 +1017,21 @@
               },
               {
                 "bit": 6,
-                "name": "Dropped by bloodstone elementals in Bloodstone Fen",
+                "name": "Living Bloodstone",
                 "source_type": "Item",
                 "text": "Dropped by bloodstone elementals in Bloodstone Fen.",
                 "location": "Bloodstone Fen",
                 "source_id": 81862,
-                "focus": "Combat / bosses",
+                "focus": "Bloodstone Elemental farming",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Dropped by bloodstone elementals in Bloodstone Fen."
+                "action": "Defeat Bloodstone Elementals while the Bloodstone Fen Master collection is active to obtain Living Bloodstone. You do not need to wait for a specific event, and eligible Bloodstone Elementals on maps outside Bloodstone Fen can also drop it.",
+                "farm_options": {
+                  "primary": "Bloodstone Elementals in Bloodstone Fen",
+                  "alternative": "Eligible Bloodstone Elementals on other maps",
+                  "notes": "The collection must be active for the collection drop."
+                }
               },
               {
                 "bit": 7,
