@@ -2008,7 +2008,206 @@
                       "priority": 20,
                       "action": "Bring one Fire Orchid Blossom to Rosewood on the rock bridge above Ancient Hollow Waypoint."
                     }
-                  ]
+                  ],
+                  "next_dependency": {
+                    "achievement_id": 3445,
+                    "name": "Awakening the Druid Stone",
+                    "tracking": "achievement_bits",
+                    "required": 14,
+                    "prerequisite_achievement_id": 3402,
+                    "time_gated": true,
+                    "druid_runestones_required": 3,
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Druid Stone",
+                        "skin_id": 7209,
+                        "activity": "achievement",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 5,
+                        "priority": 50,
+                        "action": "Complete The Druid Stone achievement to unlock this collection and obtain the Druid Stone."
+                      },
+                      {
+                        "bit": 1,
+                        "name": "Element of the Wardbough",
+                        "item_id": 81052,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 10,
+                        "ideal_minutes": 25,
+                        "priority": 10,
+                        "event_dependent": true,
+                        "group_recommended": true,
+                        "action": "Defeat the Greater Wardbough at the Eternal Pool in Draconis Mons and loot the Element of the Wardbough."
+                      },
+                      {
+                        "bit": 2,
+                        "name": "Wardbough's Runestone",
+                        "item_id": 81168,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 20,
+                        "ideal_minutes": 40,
+                        "priority": 1,
+                        "prerequisite_bits": [
+                          1
+                        ],
+                        "time_gated": true,
+                        "schedule_dependent": true,
+                        "daily": true,
+                        "druid_runestones_required": 1,
+                        "action": "After obtaining the Element of the Wardbough, obtain today's Druid Runestone and combine the two to create Wardbough's Runestone."
+                      },
+                      {
+                        "bit": 3,
+                        "name": "Wardbough's Rest",
+                        "item_id": 81153,
+                        "activity": "vendor",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "priority": 5,
+                        "prerequisite_bits": [
+                          2
+                        ],
+                        "action": "Bring Wardbough's Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                      },
+                      {
+                        "bit": 4,
+                        "name": "Element of the Arbor",
+                        "item_id": 81114,
+                        "activity": "open_world",
+                        "location": "Brisban Wildlands",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 15,
+                        "priority": 10,
+                        "action": "Speak with the Restless Arboreal Spirit near Seraph Observers Waypoint in Brisban Wildlands to receive the Element of the Arbor."
+                      },
+                      {
+                        "bit": 5,
+                        "name": "Arboreal Runestone",
+                        "item_id": 81062,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 20,
+                        "ideal_minutes": 40,
+                        "priority": 1,
+                        "prerequisite_bits": [
+                          4
+                        ],
+                        "time_gated": true,
+                        "schedule_dependent": true,
+                        "daily": true,
+                        "druid_runestones_required": 1,
+                        "action": "After obtaining the Element of the Arbor, obtain a daily Druid Runestone and combine the two to create the Arboreal Runestone."
+                      },
+                      {
+                        "bit": 6,
+                        "name": "Arboreal Rest",
+                        "item_id": 81020,
+                        "activity": "vendor",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "priority": 5,
+                        "prerequisite_bits": [
+                          5
+                        ],
+                        "action": "Bring the Arboreal Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                      },
+                      {
+                        "bit": 7,
+                        "name": "Element of the Oakhearts",
+                        "item_id": 81050,
+                        "activity": "open_world",
+                        "location": "Queensdale",
+                        "minimum_minutes": 10,
+                        "ideal_minutes": 20,
+                        "priority": 10,
+                        "event_dependent": true,
+                        "group_recommended": true,
+                        "action": "Defeat the Rotting Ancient Oakheart near Greatheart Weald in Queensdale and loot the Element of the Oakhearts."
+                      },
+                      {
+                        "bit": 8,
+                        "name": "Oakheart's Runestone",
+                        "item_id": 81064,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 20,
+                        "ideal_minutes": 40,
+                        "priority": 1,
+                        "prerequisite_bits": [
+                          7
+                        ],
+                        "time_gated": true,
+                        "schedule_dependent": true,
+                        "daily": true,
+                        "druid_runestones_required": 1,
+                        "action": "After obtaining the Element of the Oakhearts, obtain a daily Druid Runestone and combine the two to create Oakheart's Runestone."
+                      },
+                      {
+                        "bit": 9,
+                        "name": "Oakheart's Rest",
+                        "item_id": 80998,
+                        "activity": "vendor",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "priority": 5,
+                        "prerequisite_bits": [
+                          8
+                        ],
+                        "action": "Bring Oakheart's Runestone to Kodama in Druid's Grotto in Draconis Mons."
+                      },
+                      {
+                        "bit": 10,
+                        "name": "A Bouquet for Kodama",
+                        "item_id": 81201,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "priority": 20,
+                        "action": "Bring 3 Fire Orchid Blossoms to Kodama in Druid's Grotto in the Savage Rise."
+                      },
+                      {
+                        "bit": 11,
+                        "name": "A Bouquet for Liriodendron",
+                        "item_id": 81006,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "priority": 20,
+                        "action": "Bring 3 Fire Orchid Blossoms to Liriodendron at the watering hole in the Savage Rise."
+                      },
+                      {
+                        "bit": 12,
+                        "name": "A Bouquet for Broadleaf",
+                        "item_id": 81200,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "priority": 20,
+                        "action": "Bring 3 Fire Orchid Blossoms to Broadleaf on the ledge above the Savage Rise."
+                      },
+                      {
+                        "bit": 13,
+                        "name": "A Bouquet for Rosewood",
+                        "item_id": 81035,
+                        "activity": "open_world",
+                        "location": "Draconis Mons",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "priority": 20,
+                        "action": "Bring 3 Fire Orchid Blossoms to Rosewood on the ledge above the Ancient Hollow."
+                      }
+                    ]
+                  }
                 }
               },
               {

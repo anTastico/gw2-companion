@@ -373,7 +373,7 @@ class AuroraTracker:
         )
         completed = progress.get("done", current >= required)
 
-        return {
+        resolved = {
             "achievement_id": achievement_id,
             "name": dependency.get("name"),
             "tracking": tracking,
@@ -395,6 +395,22 @@ class AuroraTracker:
                 else None
             )
         }
+
+        next_dependency = dependency.get("next_dependency")
+        if completed and next_dependency:
+            next_resolved = self._resolve_achievement_dependency(
+                dependency=next_dependency,
+                account_progress=account_progress
+            )
+            next_resolved["previous_dependency"] = {
+                "achievement_id": achievement_id,
+                "name": dependency.get("name"),
+                "completed": True
+            }
+            next_resolved["dependency_transitioned"] = True
+            return next_resolved
+
+        return resolved
 
     def _resolve_unlock(
         self,
