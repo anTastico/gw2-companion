@@ -1122,17 +1122,28 @@
               },
               {
                 "bit": 11,
-                "name": "Obtained after defeating the Unbound Guardian",
+                "name": "Shattered Guardian Binding",
                 "source_type": "Item",
                 "text": "Obtained after defeating the Unbound Guardian.",
                 "location": "Bloodstone Fen",
                 "source_id": 81890,
-                "focus": "Combat / bosses",
+                "focus": "Meta chain / legendary boss",
                 "activity": "open_world",
-                "minimum_minutes": 10,
-                "ideal_minutes": 25,
+                "minimum_minutes": 15,
+                "ideal_minutes": 35,
                 "event_dependent": true,
-                "action": "Obtained after defeating the Unbound Guardian."
+                "action": "Complete the Bloodstone Fen Jade Construct event chain, then defeat the Legendary Unbound Guardian in the Cavern of Unseen Lights while Bloodstone Fen Master is active. The Guardian appears after the four Jade Construct events are completed and must be defeated within its 15-minute event timer; loot the Large Bloodstone Chest afterward for the guaranteed Shattered Guardian Binding.",
+                "event_details": {
+                  "meta": "Bloodstone Fen Jade Construct chain",
+                  "prerequisite": "Complete the four Jade Construct events",
+                  "event": "Disperse the Unbound Guardian",
+                  "location": "Cavern of Unseen Lights",
+                  "boss_rank": "Legendary",
+                  "event_time_limit_minutes": 15,
+                  "reward": "Large Bloodstone Chest",
+                  "reward_guaranteed": true,
+                  "notes": "The Unbound Guardian appears only after the Jade Construct event chain is completed."
+                }
               }
             ],
             "group_by": "focus"
