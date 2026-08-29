@@ -3218,16 +3218,32 @@
               },
               {
                 "bit": 7,
-                "name": "Obtained from chests inside Abaddon's Reliquary",
+                "name": "Ancient Cipher",
                 "source_type": "Item",
                 "text": "Obtained from chests inside Abaddon's Reliquary.",
                 "location": "Siren's Landing",
                 "source_id": 81722,
-                "focus": "Exploration / chests",
+                "focus": "Time-gated / reliquary chests",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Obtained from chests inside Abaddon's Reliquary."
+                "minimum_minutes": 15,
+                "ideal_minutes": 30,
+                "action": "Gain the five Siren's Landing reliquary effects to open the Hidden Reliquary, then open Hidden Reliquary Chests for a chance at the Ancient Cipher. Each character can open only two of these chests per day, so this may take multiple days.",
+                "time_gated": true,
+                "schedule_dependent": true,
+                "daily": true,
+                "chance_based": true,
+                "max_chests_per_character_per_day": 2,
+                "access_setup": {
+                  "location": "Hidden Reliquary, Abaddon's Reliquary",
+                  "requires_all_five_reliquary_effects": true,
+                  "reliquaries": [
+                    "Balthazar's Reliquary",
+                    "Dwayna's Reliquary",
+                    "Grenth's Reliquary",
+                    "Lyssa's Reliquary",
+                    "Melandru's Reliquary"
+                  ]
+                }
               },
               {
                 "bit": 8,
