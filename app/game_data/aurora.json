@@ -1417,16 +1417,34 @@
               },
               {
                 "bit": 9,
-                "name": "Hidden in skritt stashes",
+                "name": "Shiny Rock",
                 "source_type": "Item",
                 "text": "Hidden in skritt stashes.",
                 "location": "Ember Bay",
                 "source_id": 81924,
-                "focus": "Exploration / chests",
+                "focus": "Skritt stash / chance drop",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Hidden in skritt stashes."
+                "minimum_minutes": 10,
+                "ideal_minutes": 25,
+                "action": "Complete the 'Help the skritt encampment' Renown Heart in Ember Bay to unlock Second-to-Last-Or-So Mate Bowz, buy a Skritt Worker Contract for 980 karma and 1 Petrified Wood, then use the contract on a Skritt Stash to receive Salvaged Debris. Open the Salvaged Debris for a chance at Shiny Rock while Ember Bay Master is active; several attempts may be needed.",
+                "chance_based": true,
+                "acquisition_details": {
+                  "vendor": "Second-to-Last-Or-So Mate Bowz",
+                  "vendor_area": "Skritt Anchorage",
+                  "vendor_unlock": "Complete the 'Help the skritt encampment' Renown Heart",
+                  "required_item": "Skritt Worker Contract",
+                  "required_item_id": 79528,
+                  "contract_cost": {
+                    "Karma": 980,
+                    "Petrified Wood": 1
+                  },
+                  "target_object": "Skritt Stash",
+                  "container": "Salvaged Debris",
+                  "container_item_id": 79432,
+                  "requires_active_collection": true,
+                  "drop_guaranteed": false,
+                  "notes": "The Shiny Rock is a chance result from Salvaged Debris, so multiple contracts and stash attempts may be required."
+                }
               },
               {
                 "bit": 10,
