@@ -1452,7 +1452,362 @@
                     ],
                     "notes": "Use the repeatable Living World Season 3 reward-track route and choose the Heavy Dragonscale Epaulets when available."
                   }
-                ]
+                ],
+                "dependency": {
+                  "achievement_id": 3123,
+                  "name": "\"Rising Flames\" Mastery",
+                  "tracking": "achievement_set",
+                  "required": 23,
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "achievement_id": 3137,
+                      "name": "Cami's Final Voyage",
+                      "activity": "collection",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 25,
+                      "action": "Collect all seven of Cami's journal entries around Ember Bay."
+                    },
+                    {
+                      "bit": 1,
+                      "achievement_id": 3129,
+                      "name": "Token Collector",
+                      "activity": "achievement",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 20,
+                      "ideal_minutes": 60,
+                      "priority": 60,
+                      "action": "Continue Token Collector by collecting the remaining Mursaat Tokens around Ember Bay. Detailed Token Collector objective progress is already tracked by Aurora's Sentient Seed data.",
+                      "existing_tracking": {
+                        "achievement_id": 3129,
+                        "source": "Sentient Seed",
+                        "tracking": "achievement_bits",
+                        "notes": "Reuse the existing detailed Token Collector progress when deeper objective guidance is needed."
+                      }
+                    },
+                    {
+                      "bit": 2,
+                      "achievement_id": 3113,
+                      "name": "Tablets of the Unseen",
+                      "activity": "collection",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 25,
+                      "action": "Read all ten Mursaat tablets around the old Mursaat fortress in Ember Bay."
+                    },
+                    {
+                      "bit": 3,
+                      "achievement_id": 3139,
+                      "name": "Dominating the Dominator",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 20,
+                      "action": "Defeat the Molten Dominator near Burning Grotto.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 4,
+                      "achievement_id": 3124,
+                      "name": "Broodmother Down By The Bay",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "priority": 20,
+                      "action": "Defeat the drake broodmother southwest of Shipwreck Beach.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 5,
+                      "achievement_id": 3148,
+                      "name": "Return of the Jade Construct",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 25,
+                      "action": "Defeat the champion jade construct associated with Caliph's Steps.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 6,
+                      "achievement_id": 3120,
+                      "name": "Krackin' Karka",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 20,
+                      "action": "Defeat the champion karka near Ashen Skerries.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 7,
+                      "achievement_id": 3126,
+                      "name": "Queen of the Fire Islands",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 20,
+                      "action": "Defeat the circus sloth near Performance Field.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 8,
+                      "achievement_id": 3121,
+                      "name": "Verm the Burnin' Wurm",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 20,
+                      "action": "Defeat Vermignus near Fractured Caldera.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 9,
+                      "achievement_id": 3110,
+                      "name": "The Friendly Ghost",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "priority": 55,
+                      "action": "Bring Captain Grumby the required ship pieces. This achievement can require repeated daily collection of ship pieces.",
+                      "time_gated": true,
+                      "daily": true
+                    },
+                    {
+                      "bit": 10,
+                      "achievement_id": 3104,
+                      "name": "Hungry Hal",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "priority": 55,
+                      "action": "Feed Hal the Hermit Ember Apples until Hungry Hal is complete; apple trees reset per character after 24 hours.",
+                      "time_gated": true,
+                      "daily": true
+                    },
+                    {
+                      "bit": 11,
+                      "achievement_id": 3128,
+                      "name": "Task Master",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 20,
+                      "ideal_minutes": 40,
+                      "priority": 30,
+                      "action": "Complete all five renown hearts in Ember Bay."
+                    },
+                    {
+                      "bit": 12,
+                      "achievement_id": 3133,
+                      "name": "Metal Mountain",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 25,
+                      "action": "Complete the Metal Mountain achievement in Ember Bay."
+                    },
+                    {
+                      "bit": 13,
+                      "achievement_id": 3119,
+                      "name": "Skip up the Volcano",
+                      "activity": "jumping_puzzle",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 20,
+                      "ideal_minutes": 60,
+                      "priority": 70,
+                      "action": "Complete the Chalice of Tears jumping puzzle in Ember Bay."
+                    },
+                    {
+                      "bit": 14,
+                      "achievement_id": 3127,
+                      "name": "Patron",
+                      "activity": "vendor",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 95,
+                      "action": "Complete Patron by making the required large gold donation to the circus. Treat this as a costly optional route rather than a preferred mastery objective."
+                    },
+                    {
+                      "bit": 15,
+                      "achievement_id": 3131,
+                      "name": "Collecting Coalescence",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 30,
+                      "action": "Participate in the three qualifying ley-line coalescence pre-events around Ember Bay.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 16,
+                      "achievement_id": 3150,
+                      "name": "Skrilla's Benefactor",
+                      "activity": "vendor",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 65,
+                      "action": "Donate to Skrilla using the achievement-qualifying dialogue option."
+                    },
+                    {
+                      "bit": 17,
+                      "achievement_id": 3145,
+                      "name": "Taimi's Game",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 15,
+                      "action": "Complete the Taimi's Game story step."
+                    },
+                    {
+                      "bit": 18,
+                      "achievement_id": 3105,
+                      "name": "Destroying Destroyers",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 15,
+                      "action": "Complete the Destroying Destroyers story step."
+                    },
+                    {
+                      "bit": 19,
+                      "achievement_id": 3138,
+                      "name": "Igneous Breach",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 15,
+                      "action": "Complete the Igneous Breach story step."
+                    },
+                    {
+                      "bit": 20,
+                      "achievement_id": 3130,
+                      "name": "Trip to the Circus",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 15,
+                      "action": "Complete the Trip to the Circus story step."
+                    },
+                    {
+                      "bit": 21,
+                      "achievement_id": 3115,
+                      "name": "The Machine in the Flame",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 15,
+                      "action": "Complete The Machine in the Flame story step."
+                    },
+                    {
+                      "bit": 22,
+                      "achievement_id": 3107,
+                      "name": "Old Foes, Old Ghosts",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 15,
+                      "action": "Complete the Old Foes, Old Ghosts story step."
+                    },
+                    {
+                      "bit": 23,
+                      "achievement_id": 3136,
+                      "name": "Dragon Vigil",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 15,
+                      "action": "Complete the Dragon Vigil story step."
+                    },
+                    {
+                      "bit": 24,
+                      "achievement_id": 3112,
+                      "name": "Maintain Aurene's Shield",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 35,
+                      "action": "Replay Dragon Vigil and keep Aurene's shield above the required health threshold."
+                    },
+                    {
+                      "bit": 25,
+                      "achievement_id": 3134,
+                      "name": "I'm Rubber; You're Destroyer",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 35,
+                      "action": "During Dragon Vigil, kill destroyers using their own pustule bombs."
+                    },
+                    {
+                      "bit": 26,
+                      "achievement_id": 3142,
+                      "name": "No Bombs Allowed",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 35,
+                      "action": "Complete the No Bombs Allowed challenge in its Rising Flames story instance."
+                    },
+                    {
+                      "bit": 27,
+                      "achievement_id": 3147,
+                      "name": "Walking on Fire",
+                      "activity": "open_world",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 30,
+                      "action": "Navigate the lava tunnel in Ember Bay without losing eligibility."
+                    },
+                    {
+                      "bit": 28,
+                      "achievement_id": 3122,
+                      "name": "Dragon Duty",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 40,
+                      "action": "Complete the Dragon Vigil story instance without being defeated."
+                    },
+                    {
+                      "bit": 29,
+                      "achievement_id": 3109,
+                      "name": "Simulation Top Ten",
+                      "activity": "story",
+                      "location": "Ember Bay",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 40,
+                      "action": "Earn a top-ten result in Taimi's simulation."
+                    }
+                  ]
+                }
               },
               {
                 "bit": 1,
