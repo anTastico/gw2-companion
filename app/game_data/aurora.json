@@ -2223,72 +2223,112 @@
               },
               {
                 "bit": 8,
-                "name": "Dropped by bloodstone-crazed centaurs",
+                "name": "Bloodstone-Warped Hoof",
                 "source_type": "Item",
                 "text": "Dropped by bloodstone-crazed centaurs.",
                 "location": "Lake Doric",
                 "source_id": 81976,
-                "focus": "Combat / bosses",
+                "focus": "Enemy farming / chance drop",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Dropped by bloodstone-crazed centaurs."
+                "action": "Kill Harathi centaurs under the Bloodstone Crazed effect, primarily in Watchtower Cliffs, while Lake Doric Master is active for a chance at the Bloodstone-Warped Hoof. This is normal enemy farming and does not require a specific event.",
+                "chance_based": true,
+                "acquisition_details": {
+                  "targets": "Harathi under the Bloodstone Crazed effect",
+                  "preferred_area": "Watchtower Cliffs",
+                  "requires_active_collection": true,
+                  "event_required": false,
+                  "reward_guaranteed": false
+                }
               },
               {
                 "bit": 9,
-                "name": "Obtained after defeating Siegemaster Immelhoof in Lake Doric",
+                "name": "Immelhoof's Heart",
                 "source_type": "Item",
                 "text": "Obtained after defeating Siegemaster Immelhoof in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 82021,
-                "focus": "Combat / bosses",
+                "focus": "Scheduled meta-event / boss",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating Siegemaster Immelhoof in Lake Doric."
+                "action": "Defeat Siegemaster Immelhoof during the White Mantle Control: Noran's Homestead event cycle while Lake Doric Master is active. Immelhoof appears around Watchtower Cliffs shortly before the Noran's Homestead attack window, so this objective is best planned around the repeating Lake Doric meta-event schedule.",
+                "schedule_dependent": true,
+                "event_details": {
+                  "meta_event": "White Mantle Control: Noran's Homestead",
+                  "boss": "Siegemaster Immelhoof",
+                  "areas": [
+                    "Watchtower Cliffs",
+                    "Harvest Cascades"
+                  ],
+                  "requires_active_collection": true,
+                  "reward_guaranteed": true,
+                  "notes": "Immelhoof is one of the Lake Doric White Mantle Control bosses and appears as part of the Noran's Homestead cycle. The map's White Mantle Control cycle repeats every two hours."
+                }
               },
               {
                 "bit": 10,
-                "name": "Obtained from Noran's Safe Room in Lake Doric",
+                "name": "Noran's Survival Kit",
                 "source_type": "Item",
                 "text": "Obtained from Noran's Safe Room in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81702,
-                "focus": "Exploration / chests",
+                "focus": "Mini-dungeon / chest",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Obtained from Noran's Safe Room in Lake Doric."
+                "minimum_minutes": 10,
+                "ideal_minutes": 25,
+                "action": "Complete the Noran's Safe Room mini-dungeon beneath Noran's Homestead and loot the final chest while Lake Doric Master is active. Buy Noran's key, collect Noran's Key Oil inside the mini-dungeon, combine them into the oiled key, then use it to open the final chest for Noran's Survival Kit.",
+                "acquisition_details": {
+                  "content": "Noran's Safe Room",
+                  "area": "Harvest Cascades",
+                  "requires_key": true,
+                  "requires_key_oil": true,
+                  "requires_active_collection": true,
+                  "reward_source": "Final chest"
+                }
               },
               {
                 "bit": 11,
-                "name": "Dropped by White Mantle defending jade cannons in Lake Doric",
+                "name": "Jade Cannon Controller",
                 "source_type": "Item",
                 "text": "Dropped by White Mantle defending jade cannons in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81817,
-                "focus": "Combat / bosses",
+                "focus": "Event enemies / chance drop",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Dropped by White Mantle defending jade cannons in Lake Doric."
+                "action": "Kill White Mantle enemies defending the jade artillery cannons in Lake Doric while Lake Doric Master is active for a chance at the Jade Cannon Controller. Focus on active jade-cannon defense locations rather than general White Mantle farming.",
+                "chance_based": true,
+                "event_details": {
+                  "target": "White Mantle defending jade artillery cannons",
+                  "requires_active_collection": true,
+                  "reward_guaranteed": false
+                }
               },
               {
                 "bit": 12,
-                "name": "Dropped by White Mantle enemies in Lake Doric",
+                "name": "Pristine White Mantle",
                 "source_type": "Item",
                 "text": "Dropped by White Mantle enemies in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81700,
-                "focus": "Combat / bosses",
+                "focus": "Enemy farming / chance drop",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Dropped by White Mantle enemies in Lake Doric."
+                "action": "Kill White Mantle enemies anywhere in Lake Doric while Lake Doric Master is active for a chance at the Pristine White Mantle. No specific event or boss is required, so this can be combined with other Lake Doric White Mantle objectives.",
+                "chance_based": true,
+                "acquisition_details": {
+                  "targets": "White Mantle enemies",
+                  "area": "Lake Doric",
+                  "requires_active_collection": true,
+                  "event_required": false,
+                  "reward_guaranteed": false
+                }
               },
               {
                 "bit": 13,
