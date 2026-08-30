@@ -2332,42 +2332,73 @@
               },
               {
                 "bit": 13,
-                "name": "Lake Doric Master skin objective 14",
+                "name": "Seraph Protector",
                 "source_type": "Skin",
                 "text": "",
                 "location": "Lake Doric",
                 "source_id": 7135,
-                "focus": "Episode mastery reward",
-                "activity": "achievement",
-                "minimum_minutes": 15,
-                "ideal_minutes": 45,
-                "action": "Obtain the required episode-mastery reward skin for this collection."
+                "focus": "Vendor purchase / map currency",
+                "activity": "vendor",
+                "minimum_minutes": 5,
+                "ideal_minutes": 15,
+                "action": "Buy the Seraph Seraph Protector from Lieutenant Bran in Doric's Landing for 50 Jade Shards and 210,000 karma, then unlock its Seraph Protector skin for Lake Doric Master.",
+                "vendor_details": {
+                  "vendor": "Lieutenant Bran",
+                  "area": "Doric's Landing",
+                  "cost": {
+                    "Jade Shard": 50,
+                    "Karma": 210000
+                  },
+                  "reward_item": "Seraph Seraph Protector",
+                  "required_skin": "Seraph Protector"
+                }
               },
               {
                 "bit": 14,
-                "name": "Lake Doric Master skin objective 15",
+                "name": "Bloodstone Savant's Staff",
                 "source_type": "Skin",
                 "text": "",
                 "location": "Lake Doric",
                 "source_id": 7118,
-                "focus": "Episode mastery reward",
-                "activity": "achievement",
-                "minimum_minutes": 15,
-                "ideal_minutes": 45,
-                "action": "Obtain the required episode-mastery reward skin for this collection."
+                "focus": "Vendor purchase / map currency",
+                "activity": "vendor",
+                "minimum_minutes": 5,
+                "ideal_minutes": 15,
+                "action": "Buy the Seraph Bloodstone Savant's Staff from Exemplar Ylan in Fort Evennia for 50 Jade Shards and 210,000 karma, then unlock its Bloodstone Savant's Staff skin for Lake Doric Master.",
+                "vendor_details": {
+                  "vendor": "Exemplar Ylan",
+                  "area": "Fort Evennia",
+                  "cost": {
+                    "Jade Shard": 50,
+                    "Karma": 210000
+                  },
+                  "reward_item": "Seraph Bloodstone Savant's Staff",
+                  "required_skin": "Bloodstone Savant's Staff"
+                }
               },
               {
                 "bit": 15,
-                "name": "Found near the graves of the Ebon Vanguard soldiers",
+                "name": "Ebon Vanguard Badge",
                 "source_type": "Item",
                 "text": "Found near the graves of the Ebon Vanguard soldiers.",
                 "location": "Lake Doric",
                 "source_id": 81686,
-                "focus": "Exploration / chests",
+                "focus": "Night mini-dungeon / event",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Found near the graves of the Ebon Vanguard soldiers."
+                "minimum_minutes": 10,
+                "ideal_minutes": 25,
+                "action": "At night in Melandru's Refuge, complete the Not All Who Wander Are Lost mini-dungeon flow: create the Ethereal Torch, speak to the ghostly Priestess of Melandru, light the six stones during her escort, pass through the opened gate, then loot the Ancient Chest while Lake Doric Master is active to obtain the Ebon Vanguard Badge. The priestess only appears at night.",
+                "event_dependent": true,
+                "schedule_dependent": true,
+                "event_details": {
+                  "content": "Not All Who Wander Are Lost",
+                  "area": "Melandru's Refuge",
+                  "npc": "Priestess of Melandru",
+                  "time_requirement": "Night",
+                  "requires_active_collection": true,
+                  "reward_source": "Ancient Chest",
+                  "notes": "The escort itself is not shown as a normal UI event. If the escort fails, the priestess can respawn again during the same night. For Aurora collection credit, complete the escort and open the chest rather than bypassing the route."
+                }
               }
             ],
             "group_by": "focus"
