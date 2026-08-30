@@ -1653,16 +1653,26 @@
               },
               {
                 "bit": 2,
-                "name": "Found in icebound chests",
+                "name": "Frozen Winterberry",
                 "source_type": "Item",
                 "text": "Found in icebound chests.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81640,
-                "focus": "Exploration / chests",
+                "focus": "Meta-event chests / chance drop",
                 "activity": "open_world",
-                "minimum_minutes": 5,
-                "ideal_minutes": 15,
-                "action": "Found in icebound chests."
+                "minimum_minutes": 10,
+                "ideal_minutes": 25,
+                "action": "Open Icebound Chests across Bitterfrost Frontier for a chance at the Frozen Winterberry while Bitterfrost Frontier Master is active. The main farmable chests spawn after a successful Beacons of Koda meta event and require Koda's Flame to thaw unless another player has already cleared the ice. These meta-event chests can be looted again on later meta completions and do not have a daily character or account limit.",
+                "chance_based": true,
+                "event_dependent": true,
+                "event_details": {
+                  "meta_event": "Beacons of Koda",
+                  "target": "Icebound Chests",
+                  "requires_kodas_flame": true,
+                  "requires_active_collection": true,
+                  "reward_guaranteed": false,
+                  "notes": "Most farmable Icebound Chests spawn after a successful Beacons of Koda meta event and disappear when the next night cycle begins. Meta-event chests are lootable once per chest spawn rather than once per daily reset; several permanent Icebound Chests elsewhere on the map have separate once-per-day-per-character limits."
+                }
               },
               {
                 "bit": 3,
