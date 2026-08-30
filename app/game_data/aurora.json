@@ -3603,17 +3603,23 @@
               },
               {
                 "bit": 7,
-                "name": "Defeat the devourer champion in Draconis Mons",
+                "name": "Ancient Asuran Wrench",
                 "source_type": "Item",
                 "text": "Defeat the devourer champion in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81698,
-                "focus": "Combat / bosses",
+                "focus": "Champion event",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Defeat the devourer champion in Draconis Mons."
+                "action": "Defeat the champion devourer inside the Burial Chamber in Draconis Mons while Draconis Mons Master is active to obtain the Ancient Asuran Wrench.",
+                "event_details": {
+                  "target": "Champion devourer",
+                  "area": "Burial Chamber",
+                  "requires_active_collection": true,
+                  "reward_guaranteed": true
+                }
               },
               {
                 "bit": 8,
@@ -3637,59 +3643,88 @@
               },
               {
                 "bit": 9,
-                "name": "Obtained after defeating the legendary destroyer Ignis in Draconis Mons",
+                "name": "Ignis Heart",
                 "source_type": "Item",
                 "text": "Obtained after defeating the legendary destroyer Ignis in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81627,
-                "focus": "Combat / bosses",
+                "focus": "Legendary boss event",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating the legendary destroyer Ignis in Draconis Mons."
+                "action": "Defeat Legendary Destroyer Ignis near the Boiling Sea while Draconis Mons Master is active to obtain Ignis Heart.",
+                "event_details": {
+                  "boss": "Legendary Destroyer Ignis",
+                  "area": "Boiling Sea",
+                  "requires_active_collection": true,
+                  "reward_guaranteed": true,
+                  "notes": "Aestus and Ignis share the daily Ancient Chest reward restriction, but the collection trophy itself is tied to defeating the correct legendary destroyer while the collection is active."
+                }
               },
               {
                 "bit": 10,
-                "name": "Obtained after defeating the legendary destroyer Aestus in Draconis Mons",
+                "name": "Aestus Heart",
                 "source_type": "Item",
                 "text": "Obtained after defeating the legendary destroyer Aestus in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81843,
-                "focus": "Combat / bosses",
+                "focus": "Legendary boss event",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating the legendary destroyer Aestus in Draconis Mons."
+                "action": "Defeat Legendary Destroyer Aestus near the Boiling Sea while Draconis Mons Master is active to obtain Aestus Heart.",
+                "event_details": {
+                  "boss": "Legendary Destroyer Aestus",
+                  "area": "Boiling Sea",
+                  "requires_active_collection": true,
+                  "reward_guaranteed": true,
+                  "notes": "Aestus and Ignis share the daily Ancient Chest reward restriction, but the collection trophy itself is tied to defeating the correct legendary destroyer while the collection is active."
+                }
               },
               {
                 "bit": 11,
-                "name": "Obtained after defeating the bloodstone-charged lava wurm in Draconis Mons",
+                "name": "Bloodstone-Charged Lava Wurm Scale",
                 "source_type": "Item",
                 "text": "Obtained after defeating the bloodstone-charged lava wurm in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81891,
-                "focus": "Combat / bosses",
+                "focus": "Group event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating the bloodstone-charged lava wurm in Draconis Mons."
+                "action": "Defeat the Bloodstone-Charged Lava Wurm in Heathen's Hold, then loot the event's Ancient Chest while Draconis Mons Master is active to obtain the Bloodstone-Charged Lava Wurm Scale.",
+                "event_details": {
+                  "event": "Kill the bloodstone-charged lava wurm",
+                  "boss": "Bloodstone-Charged Lava Wurm",
+                  "area": "Heathen's Hold",
+                  "requires_active_collection": true,
+                  "reward_source": "Ancient Chest",
+                  "reward_guaranteed": true
+                }
               },
               {
                 "bit": 12,
-                "name": "Obtained after defeating the greater spirit of nature in Draconis Mons",
+                "name": "Spirit Bough",
                 "source_type": "Item",
                 "text": "Obtained after defeating the greater spirit of nature in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81763,
-                "focus": "Combat / bosses",
+                "focus": "Group event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating the greater spirit of nature in Draconis Mons."
+                "action": "Defeat the Greater Wardbough at the Eternal Pool in Savage Rise while Draconis Mons Master is active to obtain the Spirit Bough.",
+                "event_details": {
+                  "event": "Kill the greater spirit of nature",
+                  "boss": "Greater Wardbough",
+                  "area": "Eternal Pool, Savage Rise",
+                  "requires_active_collection": true,
+                  "reward_guaranteed": true
+                }
               },
               {
                 "bit": 13,
