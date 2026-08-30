@@ -1666,59 +1666,95 @@
               },
               {
                 "bit": 3,
-                "name": "Keep the grawl busy in Bitterfrost Frontier",
+                "name": "Friend of the Grawl",
                 "source_type": "Item",
                 "text": "Keep the grawl busy in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81926,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "action": "Keep the grawl busy in Bitterfrost Frontier.",
-                "event_dependent": true
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Keep the grawl busy so they don't turn to Jormag' in Brakbrak Ice Snarl to unlock Sun Warming as a karma merchant, then buy Friend of the Grawl for 7,000 karma while Bitterfrost Frontier Master is active. The collection trophy is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Sun Warming",
+                  "area": "Brakbrak Ice Snarl",
+                  "vendor_unlock": "Complete the 'Keep the grawl busy so they don't turn to Jormag' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 4,
-                "name": "Help protect the endangered snow griffons in Bitterfrost Frontier",
+                "name": "Protector of Griffons",
                 "source_type": "Item",
                 "text": "Help protect the endangered snow griffons in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81868,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help protect the endangered snow griffons in Bitterfrost Frontier."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Help protect the endangered snow griffons' in Griffon Old Growth to unlock Woomulla as a karma merchant, then buy Protector of Griffons for 7,000 karma while Bitterfrost Frontier Master is active. The collection trophy is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Woomulla",
+                  "area": "Griffon Old Growth",
+                  "vendor_unlock": "Complete the 'Help protect the endangered snow griffons' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 5,
-                "name": "Help the quaggan farmers harvest food in Bitterfrost Frontier",
+                "name": "Friend of Quaggans",
                 "source_type": "Item",
                 "text": "Help the quaggan farmers harvest food in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81921,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help the quaggan farmers harvest food in Bitterfrost Frontier."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Help the quaggan farmers harvest food' in Dragon's Teeth Hot Springs to unlock Farmer Simooba as a karma merchant, then buy Friend of Quaggans for 7,000 karma while Bitterfrost Frontier Master is active. The collection trophy is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Farmer Simooba",
+                  "area": "Dragon's Teeth Hot Springs",
+                  "vendor_unlock": "Complete the 'Help the quaggan farmers harvest food' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 6,
-                "name": "Disrupt the Svanir in Bitterfrost Frontier",
+                "name": "Enemy of the Svanir",
                 "source_type": "Item",
                 "text": "Disrupt the Svanir in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81904,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Disrupt the Svanir in Bitterfrost Frontier."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Disrupt the Svanir' in The Svanir Hive to unlock Svanir Seer as a karma merchant, then buy Enemy of the Svanir for 7,000 karma while Bitterfrost Frontier Master is active. The collection trophy is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Svanir Seer",
+                  "area": "The Svanir Hive",
+                  "vendor_unlock": "Complete the 'Disrupt the Svanir' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 7,
