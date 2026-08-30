@@ -1199,16 +1199,42 @@
             "objectives": [
               {
                 "bit": 0,
-                "name": "Ember Bay Master skin objective 1",
+                "name": "Heavy Dragonscale Epaulets",
                 "source_type": "Skin",
                 "text": "",
                 "location": "Ember Bay",
                 "source_id": 6951,
-                "focus": "Episode mastery reward",
+                "focus": "Achievement or reward track",
                 "activity": "achievement",
                 "minimum_minutes": 15,
                 "ideal_minutes": 45,
-                "action": "Obtain the required episode-mastery reward skin for this collection."
+                "action": "Obtain the Heavy Dragonscale Epaulets skin for the collection. Complete the \"Rising Flames\" Mastery achievement and choose the heavy shoulders from the Dragonscale Epaulettes Box, or use the Ember Bay / Living World Season 3 PvP or WvW reward-track route and choose the Heavy Dragonscale Epaulets reward.",
+                "acquisition_options": [
+                  {
+                    "type": "achievement",
+                    "name": "\"Rising Flames\" Mastery",
+                    "reward": "Dragonscale Epaulettes Box",
+                    "notes": "Complete 23 Rising Flames achievements, then choose the Heavy Dragonscale Epaulets from the reward box."
+                  },
+                  {
+                    "type": "reward_track",
+                    "name": "Ember Bay Reward Track",
+                    "modes": [
+                      "PvP",
+                      "WvW"
+                    ],
+                    "notes": "Complete the dedicated Ember Bay reward track and choose the Heavy Dragonscale Epaulets reward."
+                  },
+                  {
+                    "type": "reward_track",
+                    "name": "Living World Season 3 Reward Track",
+                    "modes": [
+                      "PvP",
+                      "WvW"
+                    ],
+                    "notes": "Use the repeatable Living World Season 3 reward-track route and choose the Heavy Dragonscale Epaulets when available."
+                  }
+                ]
               },
               {
                 "bit": 1,
