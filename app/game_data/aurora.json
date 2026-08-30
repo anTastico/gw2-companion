@@ -1556,17 +1556,27 @@
               },
               {
                 "bit": 14,
-                "name": "Obtained after defeating the molten dominator",
+                "name": "Molten Domination",
                 "source_type": "Item",
                 "text": "Obtained after defeating the molten dominator.",
                 "location": "Ember Bay",
                 "source_id": 81652,
-                "focus": "Combat / bosses",
+                "focus": "Event chain / boss",
                 "activity": "open_world",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
+                "ideal_minutes": 30,
                 "event_dependent": true,
-                "action": "Obtained after defeating the molten dominator."
+                "action": "Complete the Molten Dominator event chain in Burning Grotto: first help 'Help the trapped skritt by breaking defiance on the roots holding them', then complete 'Defeat the Molten Dominator'. Defeat the Molten Dominator while Ember Bay Master is active to obtain Molten Domination. After the boss event completes, the chain has a 15-minute cooldown before the preceding event can occur again.",
+                "event_details": {
+                  "area": "Burning Grotto",
+                  "prerequisite_event": "Help the trapped skritt by breaking defiance on the roots holding them",
+                  "target_event": "Defeat the Molten Dominator",
+                  "boss": "Molten Dominator",
+                  "event_type": "Group event",
+                  "cooldown_minutes": 15,
+                  "requires_active_collection": true,
+                  "notes": "The Molten Dominator group event follows the trapped-skritt prerequisite event. After completion, the local event chain has a 15-minute cooldown before it can restart."
+                }
               }
             ],
             "group_by": "focus"
