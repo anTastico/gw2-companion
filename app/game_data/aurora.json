@@ -1477,17 +1477,28 @@
               },
               {
                 "bit": 11,
-                "name": "Obtained after defeating Vermignus",
+                "name": "Volcanic Scale",
                 "source_type": "Item",
                 "text": "Obtained after defeating Vermignus.",
                 "location": "Ember Bay",
                 "source_id": 82058,
-                "focus": "Combat / bosses",
+                "focus": "Event chain / boss",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating Vermignus."
+                "action": "Complete the Vermignus event chain in Fractured Caldera: first help 'Power up Ahadd's golem by defeating amplified Destroyers and delivering their cores', then complete 'Protect the energy relays to help Smoosh-a-Tron defeat Vermignus'. Defeat Vermignus while Ember Bay Master is active for a chance at Volcanic Scale; the trophy is not guaranteed.",
+                "chance_based": true,
+                "event_details": {
+                  "area": "Fractured Caldera",
+                  "prerequisite_event": "Power up Ahadd's golem by defeating amplified Destroyers and delivering their cores",
+                  "target_event": "Protect the energy relays to help Smoosh-a-Tron defeat Vermignus",
+                  "boss": "Vermignus",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "reward_guaranteed": false,
+                  "notes": "Volcanic Scale is obtained from Vermignus only while Ember Bay Master is active. The trophy drop is not guaranteed."
+                }
               },
               {
                 "bit": 12,
