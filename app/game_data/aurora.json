@@ -1273,16 +1273,27 @@
               },
               {
                 "bit": 3,
-                "name": "Obtained from the Chalice of Tears jumping puzzle",
+                "name": "Flask of Tears",
                 "source_type": "Item",
                 "text": "Obtained from the Chalice of Tears jumping puzzle.",
                 "location": "Ember Bay",
                 "source_id": 81791,
                 "focus": "Jumping puzzle / traversal",
                 "activity": "open_world",
-                "minimum_minutes": 15,
-                "ideal_minutes": 35,
-                "action": "Obtained from the Chalice of Tears jumping puzzle."
+                "minimum_minutes": 20,
+                "ideal_minutes": 45,
+                "action": "Complete the Chalice of Tears (Skip up the Volcano) jumping puzzle in Ember Bay while Ember Bay Master is active, triggering all five required checkpoints before looting the final reward chest. Parking a character at the chest or using Teleport to Friend does not bypass the checkpoint requirement; portals may still be used along the route.",
+                "puzzle_details": {
+                  "name": "Chalice of Tears",
+                  "achievement": "Skip up the Volcano",
+                  "area": "Sopor Titanum",
+                  "required_checkpoints": 5,
+                  "reward": "Final jumping-puzzle chest",
+                  "requires_active_collection": true,
+                  "teleport_to_friend_bypass": false,
+                  "portals_allowed": true,
+                  "notes": "All five checkpoints must be triggered in sequence for the final chest to award the Flask of Tears."
+                }
               },
               {
                 "bit": 4,
