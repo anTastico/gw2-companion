@@ -1601,16 +1601,37 @@
             "objectives": [
               {
                 "bit": 0,
-                "name": "Bitterfrost Frontier Master skin objective 1",
+                "name": "Heavy Glacial Gauntlets",
                 "source_type": "Skin",
                 "text": "",
                 "location": "Bitterfrost Frontier",
                 "source_id": 7006,
-                "focus": "Episode mastery reward",
+                "focus": "Achievement or reward track",
                 "activity": "achievement",
                 "minimum_minutes": 15,
                 "ideal_minutes": 45,
-                "action": "Obtain the required episode-mastery reward skin for this collection."
+                "action": "Obtain the Heavy Glacial Gauntlets skin for the collection. Complete '\"A Crack in the Ice\" Mastery' and choose the heavy gloves from the Glacial Gauntlets Box, or complete the Bitterfrost Frontier PvP/WvW Reward Track and choose the Glacial Gauntlets Box from the final cache.",
+                "acquisition_options": [
+                  {
+                    "type": "achievement",
+                    "name": "\"A Crack in the Ice\" Mastery",
+                    "required_achievements": 21,
+                    "reward": "Glacial Gauntlets Box",
+                    "notes": "Complete all 21 qualifying A Crack in the Ice achievements, then choose the Heavy Glacial Gauntlets from the reward box."
+                  },
+                  {
+                    "type": "reward_track",
+                    "name": "Bitterfrost Frontier Reward Track",
+                    "modes": [
+                      "PvP",
+                      "WvW"
+                    ],
+                    "repeatable": false,
+                    "unlock_requirement": "Journey to Bitterfrost Frontier",
+                    "final_reward": "Bitterfrost Frontier Cache",
+                    "notes": "Complete the non-repeatable Bitterfrost Frontier reward track and choose the Glacial Gauntlets Box from the final Bitterfrost Frontier Cache."
+                  }
+                ]
               },
               {
                 "bit": 1,
