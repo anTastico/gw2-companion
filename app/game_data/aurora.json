@@ -3498,59 +3498,95 @@
               },
               {
                 "bit": 2,
-                "name": "Help the scouting party in Draconis Mons",
+                "name": "Scouting Party Supporter",
                 "source_type": "Item",
                 "text": "Help the scouting party in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81681,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help the scouting party in Draconis Mons."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Help the scouting party' in Savage Rise, then buy Scouting Party Supporter from Tactician Tunelle for 7,000 karma while Draconis Mons Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Tactician Tunelle",
+                  "area": "Savage Rise",
+                  "heart_unlock": "Help the scouting party",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 3,
-                "name": "Help the prisoners in Draconis Mons",
+                "name": "Fiery Liberator",
                 "source_type": "Item",
                 "text": "Help the prisoners in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 81894,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help the prisoners in Draconis Mons."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Help the Prisoners' in Heathen's Hold, then buy Fiery Liberator from Escaped Prisoner Arissea for 7,000 karma while Draconis Mons Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Escaped Prisoner Arissea",
+                  "area": "Heathen's Hold",
+                  "heart_unlock": "Help the Prisoners",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 4,
-                "name": "Infiltrate the inquest in Draconis Mons",
+                "name": "Enemy of the Inquest",
                 "source_type": "Item",
                 "text": "Infiltrate the inquest in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 82031,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Infiltrate the inquest in Draconis Mons."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Infiltrate the Inquest' in Rata Arcanum, then buy Enemy of the Inquest from Mark I Golemite for 7,000 karma while Draconis Mons Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Mark I Golemite",
+                  "area": "Rata Arcanum",
+                  "heart_unlock": "Infiltrate the Inquest",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 5,
-                "name": "Assist the ancient golems in Draconis Mons",
+                "name": "Friend of Golems",
                 "source_type": "Item",
                 "text": "Assist the ancient golems in Draconis Mons.",
                 "location": "Draconis Mons",
                 "source_id": 82046,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Assist the ancient golems in Draconis Mons."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Assist the ancient golems' in Ancient Hollow, then buy Friend of Golems from Z.O.X. for 7,000 karma while Draconis Mons Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Z.O.X.",
+                  "area": "Ancient Hollow",
+                  "heart_unlock": "Assist the ancient golems",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 6,
