@@ -3769,16 +3769,50 @@
               },
               {
                 "bit": 1,
-                "name": "Purchase a god's relic backpack in Siren's Landing",
+                "name": "Supporter of the Gods",
                 "source_type": "Item",
                 "text": "Purchase a god's relic backpack in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 82017,
-                "focus": "Vendor / purchase",
+                "focus": "Vendor / major currency purchase",
                 "activity": "vendor",
-                "minimum_minutes": 5,
-                "ideal_minutes": 10,
-                "action": "Purchase a god's relic backpack in Siren's Landing."
+                "minimum_minutes": 10,
+                "ideal_minutes": 20,
+                "action": "Purchase any god relic backpack from a Siren's Landing reliquary vendor for 200 Orrian Pearls and 315,000 karma to obtain Supporter of the Gods.",
+                "vendor_details": {
+                  "purchase_options": [
+                    {
+                      "item": "Relic of Dwayna",
+                      "vendor": "King Zoran",
+                      "area": "Dwayna's Reliquary"
+                    },
+                    {
+                      "item": "Relic of Balthazar",
+                      "vendor": "Queen Yasamin",
+                      "area": "Balthazar's Reliquary"
+                    },
+                    {
+                      "item": "Relic of Grenth",
+                      "vendor": "Queen Mahtab",
+                      "area": "Grenth's Reliquary"
+                    },
+                    {
+                      "item": "Relic of Melandru",
+                      "vendor": "King Reza",
+                      "area": "Melandru's Reliquary"
+                    },
+                    {
+                      "item": "Relic of Lyssa",
+                      "vendor": "Queen Bahar",
+                      "area": "Lyssa's Reliquary"
+                    }
+                  ],
+                  "cost": {
+                    "Orrian Pearl": 200,
+                    "Karma": 315000
+                  },
+                  "any_option_completes_objective": true
+                }
               },
               {
                 "bit": 2,
@@ -3926,35 +3960,54 @@
               },
               {
                 "bit": 8,
-                "name": "Obtained after defeating the unchained wyvern in Siren's Landing",
+                "name": "Unchained Heart",
                 "source_type": "Item",
                 "text": "Obtained after defeating the unchained wyvern in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81844,
-                "focus": "Combat / bosses",
+                "focus": "Group event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating the unchained wyvern in Siren's Landing."
+                "action": "Complete the floating-artifacts event chain at Dwayna's Reliquary, defeat the Unchained Wyvern, and loot its reward chest while Siren's Landing Master is active to obtain Unchained Heart.",
+                "event_details": {
+                  "event_chain": [
+                    "Gather floating artifacts to aid Hiffa in her research",
+                    "Defeat the unchained wyvern"
+                  ],
+                  "area": "Dwayna's Reliquary",
+                  "requires_active_collection": true
+                }
               },
               {
                 "bit": 9,
-                "name": "Obtained after defeating the horrid illusion in Siren's Landing",
+                "name": "Horrid Residue",
                 "source_type": "Item",
                 "text": "Obtained after defeating the horrid illusion in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 82020,
-                "focus": "Combat / bosses",
+                "focus": "Group event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating the horrid illusion in Siren's Landing."
+                "action": "Complete the illusory-beast event chain at Lyssa's Reliquary, defeat the Horrid Illusion, then loot the Waterlogged Chest while Siren's Landing Master is active to obtain Horrid Residue.",
+                "event_details": {
+                  "event_chain": [
+                    "Defeat the illusory beast",
+                    "Kill the horrid illusion"
+                  ],
+                  "boss": "Horrid Illusion",
+                  "area": "Lyssa's Reliquary",
+                  "reward_source": "Waterlogged Chest",
+                  "reward_guaranteed": true,
+                  "requires_active_collection": true
+                }
               },
               {
                 "bit": 10,
-                "name": "Ascend the Arm of Abaddon in Siren's Landing",
+                "name": "Colossal Brazier",
                 "source_type": "Item",
                 "text": "Ascend the Arm of Abaddon in Siren's Landing.",
                 "location": "Siren's Landing",
@@ -3963,7 +4016,13 @@
                 "activity": "open_world",
                 "minimum_minutes": 15,
                 "ideal_minutes": 35,
-                "action": "Ascend the Arm of Abaddon in Siren's Landing."
+                "action": "Complete the Abaddon's Ascent jumping puzzle on the Arm of Abaddon and loot its reward chest while Siren's Landing Master is active to obtain the Colossal Brazier.",
+                "access_setup": {
+                  "jumping_puzzle": "Abaddon's Ascent",
+                  "area": "Arm of Abaddon",
+                  "reward_source": "jumping puzzle reward chest",
+                  "requires_active_collection": true
+                }
               },
               {
                 "bit": 11,
@@ -3983,59 +4042,83 @@
               },
               {
                 "bit": 12,
-                "name": "Defeat the champion Risen gorilla in Siren's Landing",
+                "name": "Orrian Gorilla Sinew",
                 "source_type": "Item",
                 "text": "Defeat the champion Risen gorilla in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81695,
-                "focus": "Combat / bosses",
+                "focus": "Shrine meta / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Defeat the champion Risen gorilla in Siren's Landing."
+                "action": "Defend the northwest shrine during the Orrian Shrine Power Grid cycle and defeat Rotted Silverback while Siren's Landing Master is active to obtain Orrian Gorilla Sinew.",
+                "event_details": {
+                  "event": "Defend the northwest shrine",
+                  "boss": "Rotted Silverback",
+                  "area": "Northwest Shrine, Balthazar's Reliquary",
+                  "requires_active_collection": true
+                }
               },
               {
                 "bit": 13,
-                "name": "Defeat the champion Risen spider in Siren's Landing",
+                "name": "Orrian Venom Glands",
                 "source_type": "Item",
                 "text": "Defeat the champion Risen spider in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81668,
-                "focus": "Combat / bosses",
+                "focus": "Shrine meta / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Defeat the champion Risen spider in Siren's Landing."
+                "action": "Defend the northeast shrine during the Orrian Shrine Power Grid cycle and defeat Spider Queen while Siren's Landing Master is active to obtain Orrian Venom Glands.",
+                "event_details": {
+                  "event": "Defend the northeast shrine",
+                  "boss": "Spider Queen",
+                  "area": "Northeast Shrine, Lyssa's Reliquary",
+                  "requires_active_collection": true
+                }
               },
               {
                 "bit": 14,
-                "name": "Defeat the champion Risen wraith in Siren's Landing",
+                "name": "Orrian Wraith Bindings",
                 "source_type": "Item",
                 "text": "Defeat the champion Risen wraith in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81907,
-                "focus": "Combat / bosses",
+                "focus": "Shrine meta / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Defeat the champion Risen wraith in Siren's Landing."
+                "action": "Defend the southwest shrine during the Orrian Shrine Power Grid cycle and defeat Spectre of Wrath while Siren's Landing Master is active to obtain Orrian Wraith Bindings.",
+                "event_details": {
+                  "event": "Defend the southwest shrine",
+                  "boss": "Spectre of Wrath",
+                  "area": "Southwest Shrine, Grenth's Reliquary",
+                  "requires_active_collection": true
+                }
               },
               {
                 "bit": 15,
-                "name": "Defeat the champion Risen drake in Siren's Landing",
+                "name": "Orrian Drake Scale",
                 "source_type": "Item",
                 "text": "Defeat the champion Risen drake in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 82024,
-                "focus": "Combat / bosses",
+                "focus": "Shrine meta / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Defeat the champion Risen drake in Siren's Landing."
+                "action": "Defend the southeast shrine during the Orrian Shrine Power Grid cycle and defeat Putrid Broodmother while Siren's Landing Master is active to obtain Orrian Drake Scale.",
+                "event_details": {
+                  "event": "Defend the southeast shrine",
+                  "boss": "Putrid Broodmother",
+                  "area": "Southeast Shrine, Melandru's Reliquary",
+                  "requires_active_collection": true
+                }
               }
             ],
             "group_by": "focus"
