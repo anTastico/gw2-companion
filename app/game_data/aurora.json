@@ -3782,73 +3782,118 @@
               },
               {
                 "bit": 2,
-                "name": "Free the magic flow in Dwayna's reliquary in Siren's Landing",
+                "name": "Favor of Dwayna",
                 "source_type": "Item",
                 "text": "Free the magic flow in Dwayna's reliquary in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81708,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Free the magic flow in Dwayna's reliquary in Siren's Landing."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart at Dwayna's Reliquary, then buy Favor of Dwayna from King Zoran for 7,000 karma while Siren's Landing Master is active.",
+                "vendor_details": {
+                  "vendor": "King Zoran",
+                  "area": "Dwayna's Reliquary",
+                  "heart_unlock": "Reclaim Dwayna's reliquary",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 3,
-                "name": "Free the magic flow in Balthazar's reliquary in Siren's Landing",
+                "name": "Favor of Balthazar",
                 "source_type": "Item",
                 "text": "Free the magic flow in Balthazar's reliquary in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81949,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Free the magic flow in Balthazar's reliquary in Siren's Landing."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart at Balthazar's Reliquary, then buy Favor of Balthazar from Queen Yasamin for 7,000 karma while Siren's Landing Master is active.",
+                "vendor_details": {
+                  "vendor": "Queen Yasamin",
+                  "area": "Balthazar's Reliquary",
+                  "heart_unlock": "Reclaim Balthazar's reliquary",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 4,
-                "name": "Free the magic flow in Grenth's reliquary in Siren's Landing",
+                "name": "Favor of Grenth",
                 "source_type": "Item",
                 "text": "Free the magic flow in Grenth's reliquary in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 82047,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Free the magic flow in Grenth's reliquary in Siren's Landing."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart at Grenth's Reliquary, then buy Favor of Grenth from Queen Mahtab for 7,000 karma while Siren's Landing Master is active.",
+                "vendor_details": {
+                  "vendor": "Queen Mahtab",
+                  "area": "Grenth's Reliquary",
+                  "heart_unlock": "Reclaim Grenth's reliquary",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 5,
-                "name": "Free the magic flow in Melandru's reliquary in Siren's Landing",
+                "name": "Favor of Melandru",
                 "source_type": "Item",
                 "text": "Free the magic flow in Melandru's reliquary in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81771,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Free the magic flow in Melandru's reliquary in Siren's Landing."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart at Melandru's Reliquary, then buy Favor of Melandru from King Reza for 7,000 karma while Siren's Landing Master is active.",
+                "vendor_details": {
+                  "vendor": "King Reza",
+                  "area": "Melandru's Reliquary",
+                  "heart_unlock": "Reclaim Melandru's reliquary",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 6,
-                "name": "Free the magic flow in Lyssa's reliquary in Siren's Landing",
+                "name": "Favor of Lyssa",
                 "source_type": "Item",
                 "text": "Free the magic flow in Lyssa's reliquary in Siren's Landing.",
                 "location": "Siren's Landing",
                 "source_id": 81795,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Free the magic flow in Lyssa's reliquary in Siren's Landing."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart at Lyssa's Reliquary, then buy Favor of Lyssa from Queen Bahar for 7,000 karma while Siren's Landing Master is active.",
+                "vendor_details": {
+                  "vendor": "Queen Bahar",
+                  "area": "Lyssa's Reliquary",
+                  "heart_unlock": "Reclaim Lyssa's reliquary",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 7,
