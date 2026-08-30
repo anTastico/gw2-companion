@@ -1448,17 +1448,32 @@
               },
               {
                 "bit": 10,
-                "name": "Assist in Skrilla's treasure hunt",
+                "name": "Tarnished Coin",
                 "source_type": "Item",
                 "text": "Assist in Skrilla's treasure hunt.",
                 "location": "Ember Bay",
                 "source_id": 81682,
-                "focus": "Events / map tasks",
+                "focus": "Event chain / escort",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Assist in Skrilla's treasure hunt."
+                "action": "Complete Skrilla's treasure-hunt event chain in Ember Bay: help fund 'Donate gold to fund Skrilla's treasure hunt', then participate in 'Defend Skrilla while she searches for treasure'. Loot the Ancient Chest at the end of the escort for the guaranteed Tarnished Coin while Ember Bay Master is active. Participation in the escort is required for the final chest.",
+                "event_details": {
+                  "area": "Skritt Anchorage",
+                  "prerequisite_event": "Donate gold to fund Skrilla's treasure hunt",
+                  "target_event": "Defend Skrilla while she searches for treasure",
+                  "community_funding_required_gold": 5,
+                  "approximate_restart_minutes": {
+                    "minimum": 5,
+                    "maximum": 10
+                  },
+                  "reward_container": "Ancient Chest",
+                  "reward_guaranteed": true,
+                  "requires_event_participation": true,
+                  "requires_active_collection": true,
+                  "notes": "The funding event begins roughly 5-10 minutes after Skrilla's previous treasure hunt. The chest from the escort is available on every successful completion, but only to participants."
+                }
               },
               {
                 "bit": 11,
