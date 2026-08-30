@@ -1297,73 +1297,123 @@
               },
               {
                 "bit": 4,
-                "name": "Win the favor of the circus in Ember Bay",
+                "name": "Friend of the Circus",
                 "source_type": "Item",
                 "text": "Win the favor of the circus in Ember Bay.",
                 "location": "Ember Bay",
                 "source_id": 81794,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Win the favor of the circus in Ember Bay."
+                "ideal_minutes": 20,
+                "action": "Complete the 'Win the favor of the circus' Renown Heart in Ember Bay to unlock Vice Chief Hernandez as a karma merchant, then buy Friend of the Circus for 7,000 karma while Ember Bay Master is active. The collection purchase is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Vice Chief Hernandez",
+                  "area": "Osprey Pillars",
+                  "location": "Ember Bay",
+                  "unlock": "Complete the 'Win the favor of the circus' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 5,
-                "name": "Assist the asuran researchers in Ember Bay",
+                "name": "Friend of the Researchers",
                 "source_type": "Item",
                 "text": "Assist the asuran researchers in Ember Bay.",
                 "location": "Ember Bay",
                 "source_id": 81620,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Assist the asuran researchers in Ember Bay."
+                "ideal_minutes": 20,
+                "action": "Complete the 'Assist the asuran researchers' Renown Heart in Ember Bay to unlock Research Assistant Ulaa as a karma merchant, then buy Friend of the Researchers for 7,000 karma while Ember Bay Master is active. The collection purchase is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Research Assistant Ulaa",
+                  "area": "Lava Flats",
+                  "location": "Ember Bay",
+                  "unlock": "Complete the 'Assist the asuran researchers' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 6,
-                "name": "Help the skritt encampment in Ember Bay",
+                "name": "Friend of the Skritt",
                 "source_type": "Item",
                 "text": "Help the skritt encampment in Ember Bay.",
                 "location": "Ember Bay",
                 "source_id": 81841,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help the skritt encampment in Ember Bay."
+                "ideal_minutes": 20,
+                "action": "Complete the 'Help the skritt encampment' Renown Heart in Ember Bay to unlock Second-to-Last-Or-So Mate Bowz as a karma merchant, then buy Friend of the Skritt for 7,000 karma while Ember Bay Master is active. The collection purchase is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Second-to-Last-Or-So Mate Bowz",
+                  "area": "Skritt Anchorage",
+                  "location": "Ember Bay",
+                  "unlock": "Complete the 'Help the skritt encampment' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 7,
-                "name": "Assist Scientist Vratt in Ember Bay",
+                "name": "Friend of Science",
                 "source_type": "Item",
                 "text": "Assist Scientist Vratt in Ember Bay.",
                 "location": "Ember Bay",
                 "source_id": 81775,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Assist Scientist Vratt in Ember Bay."
+                "ideal_minutes": 20,
+                "action": "Complete the 'Assist Scientist Vratt' Renown Heart in Ember Bay to unlock Scientist Vratt as a karma merchant, then buy Friend of Science for 7,000 karma while Ember Bay Master is active. The collection purchase is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Scientist Vratt",
+                  "area": "Fractured Caldera",
+                  "location": "Ember Bay",
+                  "unlock": "Complete the 'Assist Scientist Vratt' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 8,
-                "name": "Investigate the mursaat fortress in Ember Bay",
+                "name": "Mursaat Investigator",
                 "source_type": "Item",
                 "text": "Investigate the mursaat fortress in Ember Bay.",
                 "location": "Ember Bay",
                 "source_id": 81920,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Investigate the mursaat fortress in Ember Bay."
+                "ideal_minutes": 20,
+                "action": "Complete the 'Investigate the mursaat fortress' Renown Heart in Ember Bay to unlock Explorer Rakk as a karma merchant, then buy Mursaat Investigator for 7,000 karma while Ember Bay Master is active. The collection purchase is limited to one per account.",
+                "vendor_details": {
+                  "vendor": "Explorer Rakk",
+                  "area": "Caliph's Steps",
+                  "location": "Ember Bay",
+                  "unlock": "Complete the 'Investigate the mursaat fortress' Renown Heart",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 9,
