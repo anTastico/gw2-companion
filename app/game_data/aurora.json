@@ -1896,73 +1896,133 @@
               },
               {
                 "bit": 8,
-                "name": "Dropped by the corrupted griffon in Bitterfrost Frontier",
+                "name": "Corrupted Griffon Talon",
                 "source_type": "Item",
                 "text": "Dropped by the corrupted griffon in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81710,
-                "focus": "Combat / bosses",
+                "focus": "Recurring event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Dropped by the corrupted griffon in Bitterfrost Frontier."
+                "action": "Join a 'Defeat Jormag's Champion' event at Black Ice Pass, Blizzard Basin, or Hailstone Floe and defeat Champion Corrupted Griffon while Bitterfrost Frontier Master is active to obtain Corrupted Griffon Talon. The champion type varies between event spawns, so repeat the event at the three brazier locations until the required champion appears.",
+                "event_details": {
+                  "event": "Defeat Jormag's Champion",
+                  "areas": [
+                    "Black Ice Pass",
+                    "Blizzard Basin",
+                    "Hailstone Floe"
+                  ],
+                  "boss": "Champion Corrupted Griffon",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "notes": "The Jormag champion event can occur at each of the three brazier locations. The spawned champion can be one of several Icebrood variants, so the required boss may not appear on every event completion."
+                }
               },
               {
                 "bit": 9,
-                "name": "Dropped by the corrupted wolfmaster in Bitterfrost Frontier",
+                "name": "Corrupted Wolfmaster Whistle",
                 "source_type": "Item",
                 "text": "Dropped by the corrupted wolfmaster in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81649,
-                "focus": "Combat / bosses",
+                "focus": "Recurring event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Dropped by the corrupted wolfmaster in Bitterfrost Frontier."
+                "action": "Join a 'Defeat Jormag's Champion' event at Black Ice Pass, Blizzard Basin, or Hailstone Floe and defeat Corrupted Wolfmaster while Bitterfrost Frontier Master is active to obtain Corrupted Wolfmaster Whistle. The champion type varies between event spawns, so repeat the event at the three brazier locations until the required champion appears.",
+                "event_details": {
+                  "event": "Defeat Jormag's Champion",
+                  "areas": [
+                    "Black Ice Pass",
+                    "Blizzard Basin",
+                    "Hailstone Floe"
+                  ],
+                  "boss": "Corrupted Wolfmaster",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "notes": "The Jormag champion event can occur at each of the three brazier locations. The spawned champion can be one of several Icebrood variants, so the required boss may not appear on every event completion."
+                }
               },
               {
                 "bit": 10,
-                "name": "Dropped by the champion icebrood goliath in Bitterfrost Frontier",
+                "name": "Icebrood Goliath Sinew",
                 "source_type": "Item",
                 "text": "Dropped by the champion icebrood goliath in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81694,
-                "focus": "Combat / bosses",
+                "focus": "Recurring event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Dropped by the champion icebrood goliath in Bitterfrost Frontier."
+                "action": "Join a 'Defeat Jormag's Champion' event at Black Ice Pass, Blizzard Basin, or Hailstone Floe and defeat Champion Icebrood Goliath while Bitterfrost Frontier Master is active to obtain Icebrood Goliath Sinew. The champion type varies between event spawns, so repeat the event at the three brazier locations until the required champion appears.",
+                "event_details": {
+                  "event": "Defeat Jormag's Champion",
+                  "areas": [
+                    "Black Ice Pass",
+                    "Blizzard Basin",
+                    "Hailstone Floe"
+                  ],
+                  "boss": "Champion Icebrood Goliath",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "notes": "The Jormag champion event can occur at each of the three brazier locations. The spawned champion can be one of several Icebrood variants, so the required boss may not appear on every event completion."
+                }
               },
               {
                 "bit": 11,
-                "name": "Dropped by the champion icebrood norn in Bitterfrost Frontier",
+                "name": "Icebrood Norn Pauldrons",
                 "source_type": "Item",
                 "text": "Dropped by the champion icebrood norn in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81657,
-                "focus": "Combat / bosses",
+                "focus": "Recurring event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Dropped by the champion icebrood norn in Bitterfrost Frontier."
+                "action": "Join a 'Defeat Jormag's Champion' event at Black Ice Pass, Blizzard Basin, or Hailstone Floe and defeat Champion Icebrood Norn while Bitterfrost Frontier Master is active to obtain Icebrood Norn Pauldrons. The champion type varies between event spawns, so repeat the event at the three brazier locations until the required champion appears.",
+                "event_details": {
+                  "event": "Defeat Jormag's Champion",
+                  "areas": [
+                    "Black Ice Pass",
+                    "Blizzard Basin",
+                    "Hailstone Floe"
+                  ],
+                  "boss": "Champion Icebrood Norn",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "notes": "The Jormag champion event can occur at each of the three brazier locations. The spawned champion can be one of several Icebrood variants, so the required boss may not appear on every event completion."
+                }
               },
               {
                 "bit": 12,
-                "name": "Dropped by the champion icebrood troll in Bitterfrost Frontier",
+                "name": "Icebrood Troll Tooth",
                 "source_type": "Item",
                 "text": "Dropped by the champion icebrood troll in Bitterfrost Frontier.",
                 "location": "Bitterfrost Frontier",
                 "source_id": 81648,
-                "focus": "Combat / bosses",
+                "focus": "Recurring event / champion",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Dropped by the champion icebrood troll in Bitterfrost Frontier."
+                "action": "Join a 'Defeat Jormag's Champion' event at Black Ice Pass, Blizzard Basin, or Hailstone Floe and defeat Champion Icebrood Troll while Bitterfrost Frontier Master is active to obtain Icebrood Troll Tooth. The champion type varies between event spawns, so repeat the event at the three brazier locations until the required champion appears.",
+                "event_details": {
+                  "event": "Defeat Jormag's Champion",
+                  "areas": [
+                    "Black Ice Pass",
+                    "Blizzard Basin",
+                    "Hailstone Floe"
+                  ],
+                  "boss": "Champion Icebrood Troll",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "notes": "The Jormag champion event can occur at each of the three brazier locations. The spawned champion can be one of several Icebrood variants, so the required boss may not appear on every event completion."
+                }
               },
               {
                 "bit": 13,
