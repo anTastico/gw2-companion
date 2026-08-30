@@ -1502,17 +1502,30 @@
               },
               {
                 "bit": 12,
-                "name": "Dropped by Pirate Captain Huuhes",
+                "name": "Bottle of Skritt Spirits",
                 "source_type": "Item",
                 "text": "Dropped by Pirate Captain Huuhes.",
                 "location": "Ember Bay",
                 "source_id": 81609,
-                "focus": "Combat / bosses",
+                "focus": "Event / boss",
                 "activity": "open_world",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
+                "ideal_minutes": 30,
                 "event_dependent": true,
-                "action": "Dropped by Pirate Captain Huuhes."
+                "action": "Participate in the 'Defeat the rampaging pirate captain' group event at The Dread Shiny in Skritt Anchorage and defeat Pirate Captain Huuhes while Ember Bay Master is active to obtain Bottle of Skritt Spirits. The event has a variable reported respawn of roughly 10-30 minutes.",
+                "event_details": {
+                  "area": "Skritt Anchorage",
+                  "landmark": "The Dread Shiny",
+                  "target_event": "Defeat the rampaging pirate captain",
+                  "boss": "Pirate Captain Huuhes",
+                  "event_type": "Group event",
+                  "reported_respawn_minutes": {
+                    "minimum": 10,
+                    "maximum": 30
+                  },
+                  "requires_active_collection": true,
+                  "notes": "This is a standalone event with no prerequisite event chain. Reported spawn timing is variable rather than a fixed schedule."
+                }
               },
               {
                 "bit": 13,
