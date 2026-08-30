@@ -1529,17 +1529,30 @@
               },
               {
                 "bit": 13,
-                "name": "Obtained after defeating the sloth queen",
+                "name": "Slubling Tail",
                 "source_type": "Item",
                 "text": "Obtained after defeating the sloth queen.",
                 "location": "Ember Bay",
                 "source_id": 81760,
-                "focus": "Combat / bosses",
+                "focus": "Event chain / boss",
                 "activity": "open_world",
-                "minimum_minutes": 10,
-                "ideal_minutes": 25,
+                "minimum_minutes": 15,
+                "ideal_minutes": 30,
                 "event_dependent": true,
-                "action": "Obtained after defeating the sloth queen."
+                "action": "Complete the Sloth Queen event chain in Ember Bay: help 'Feed the sloth plant with full buckets of fresh water and rolling devil fertilizer', escort the sloth feeder to the feeding area, then complete the 'Protect the slublings from the sloth queen' group event in Performance Field. Defeat the Sloth Queen while Ember Bay Master is active to obtain Slubling Tail.",
+                "event_details": {
+                  "start_area": "Osprey Pillars",
+                  "boss_area": "Performance Field",
+                  "prerequisite_events": [
+                    "Feed the sloth plant with full buckets of fresh water and rolling devil fertilizer",
+                    "Escort the sloth feeder to the feeding area"
+                  ],
+                  "target_event": "Protect the slublings from the sloth queen",
+                  "boss": "Sloth Queen",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "notes": "The target group event is the third step of the local sloth-feeding event chain. An Ancient Chest appears after successful completion, but the collection trophy is tied to defeating the Sloth Queen while Ember Bay Master is active."
+                }
               },
               {
                 "bit": 14,
