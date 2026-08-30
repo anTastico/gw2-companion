@@ -2085,87 +2085,141 @@
               },
               {
                 "bit": 2,
-                "name": "Aid the frontline defense of Doric's Landing in Lake Doric",
+                "name": "Frontline Defender",
                 "source_type": "Item",
                 "text": "Aid the frontline defense of Doric's Landing in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81983,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Aid the frontline defense of Doric's Landing in Lake Doric."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Aid the front-line defense of Doric's Landing' in Doric's Landing, then buy Frontline Defender from Lieutenant Bran for 7,000 karma while Lake Doric Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Lieutenant Bran",
+                  "area": "Doric's Landing",
+                  "heart_unlock": "Aid the front-line defense of Doric's Landing",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 3,
-                "name": "Disrupt White Mantle forces occupying Fort Evennia in Lake Doric",
+                "name": "Fort Evennia Infiltrator",
                 "source_type": "Item",
                 "text": "Disrupt White Mantle forces occupying Fort Evennia in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81747,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Disrupt White Mantle forces occupying Fort Evennia in Lake Doric."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Disrupt White Mantle forces occupying Fort Evennia' in Fort Evennia, then buy Fort Evennia Infiltrator from Exemplar Ylan for 7,000 karma while Lake Doric Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Exemplar Ylan",
+                  "area": "Fort Evennia",
+                  "heart_unlock": "Disrupt White Mantle forces occupying Fort Evennia",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 4,
-                "name": "Help Noran around the Harvest Cascades in Lake Doric",
+                "name": "Friend of Noran",
                 "source_type": "Item",
                 "text": "Help Noran around the Harvest Cascades in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 82065,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help Noran around the Harvest Cascades in Lake Doric."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Help Noran around the Harvest Cascades' in Harvest Cascades, then buy Friend of Noran from Noran for 7,000 karma while Lake Doric Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Noran",
+                  "area": "Harvest Cascades",
+                  "heart_unlock": "Help Noran around the Harvest Cascades",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 5,
-                "name": "Help Cin Fursarai around the Lakeside Bazaar in Lake Doric",
+                "name": "Friend of Cin Fursarai",
                 "source_type": "Item",
                 "text": "Help Cin Fursarai around the Lakeside Bazaar in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81934,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help Cin Fursarai around the Lakeside Bazaar in Lake Doric."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Help Cin Fursarai around the Lakeside Bazaar' in Lakeside Bazaar, then buy Friend of Cin Fursarai from Cin Fursarai for 7,000 karma while Lake Doric Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Cin Fursarai",
+                  "area": "Lakeside Bazaar",
+                  "heart_unlock": "Help Cin Fursarai around the Lakeside Bazaar",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 6,
-                "name": "Restore normalcy in New Loamhurst in Lake Doric",
+                "name": "Friend of New Loamhurst",
                 "source_type": "Item",
                 "text": "Restore normalcy in New Loamhurst in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81982,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Restore normalcy in New Loamhurst in Lake Doric."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Restore normalcy in New Loamhurst' in New Loamhurst, then buy Friend of New Loamhurst from Elder Vern for 7,000 karma while Lake Doric Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Elder Vern",
+                  "area": "New Loamhurst",
+                  "heart_unlock": "Restore normalcy in New Loamhurst",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 7,
-                "name": "Help restore life to Saidra's Haven in Lake Doric",
+                "name": "Friend of Saidra's Haven",
                 "source_type": "Item",
                 "text": "Help restore life to Saidra's Haven in Lake Doric.",
                 "location": "Lake Doric",
                 "source_id": 81712,
-                "focus": "Events / map tasks",
-                "activity": "open_world",
+                "focus": "Renown Heart / vendor purchase",
+                "activity": "vendor",
                 "minimum_minutes": 10,
-                "ideal_minutes": 25,
-                "event_dependent": true,
-                "action": "Help restore life to Saidra's Haven in Lake Doric."
+                "ideal_minutes": 20,
+                "action": "Complete the repeatable Renown Heart 'Help restore life to Saidra's Haven' in Saidra's Haven, then buy Friend of Saidra's Haven from Baron Jon Xander for 7,000 karma while Lake Doric Master is active. The collection trophy is limited to one purchase per account.",
+                "vendor_details": {
+                  "vendor": "Baron Jon Xander",
+                  "area": "Saidra's Haven",
+                  "heart_unlock": "Help restore life to Saidra's Haven",
+                  "cost": {
+                    "Karma": 7000
+                  },
+                  "requires_active_collection": true,
+                  "account_limit": 1
+                }
               },
               {
                 "bit": 8,
