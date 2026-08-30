@@ -1259,17 +1259,26 @@
               },
               {
                 "bit": 2,
-                "name": "Obtained after defeating the pyroclastic jade construct",
+                "name": "Pyroclastic Core",
                 "source_type": "Item",
                 "text": "Obtained after defeating the pyroclastic jade construct.",
                 "location": "Ember Bay",
                 "source_id": 81671,
-                "focus": "Combat / bosses",
+                "focus": "Event chain / boss",
                 "activity": "open_world",
                 "minimum_minutes": 10,
                 "ideal_minutes": 25,
                 "event_dependent": true,
-                "action": "Obtained after defeating the pyroclastic jade construct."
+                "action": "Complete the jade-construct event chain in Caliph's Steps: first complete 'Defeat jade constructs and destroy other mursaat defenses', then complete 'Defeat the Pyroclastic Jade Construct'. Defeat the Champion Pyroclastic Jade Construct while Ember Bay Master is active to obtain Pyroclastic Core.",
+                "event_details": {
+                  "area": "Caliph's Steps",
+                  "prerequisite_event": "Defeat jade constructs and destroy other mursaat defenses",
+                  "target_event": "Defeat the Pyroclastic Jade Construct",
+                  "boss": "Champion Pyroclastic Jade Construct",
+                  "event_type": "Group event",
+                  "requires_active_collection": true,
+                  "notes": "This is a two-step local event chain in Ember Bay rather than a map meta. The collection trophy is obtained by defeating the Pyroclastic Jade Construct while Ember Bay Master is active."
+                }
               },
               {
                 "bit": 3,
