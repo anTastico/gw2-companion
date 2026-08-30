@@ -957,7 +957,225 @@
                     "reward": "Living World Season 3 cache",
                     "notes": "Use the repeatable Season 3 reward-track route and choose the Bloodstone Crown when available."
                   }
-                ]
+                ],
+                "dependency": {
+                  "achievement_id": 3050,
+                  "name": "\"Out of the Shadows\" Mastery",
+                  "tracking": "achievement_set",
+                  "required": 18,
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "name": "Eir's Memorial in Hoelbrak",
+                      "activity": "story",
+                      "location": "Hoelbrak",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "priority": 20,
+                      "action": "Complete the Eir's Memorial in Hoelbrak story step.",
+                      "achievement_id": 3042
+                    },
+                    {
+                      "bit": 1,
+                      "name": "Research in Rata Novus",
+                      "activity": "story",
+                      "location": "Rata Novus",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 20,
+                      "action": "Complete the Research in Rata Novus story step.",
+                      "achievement_id": 3054
+                    },
+                    {
+                      "bit": 2,
+                      "name": "Blood and Stone",
+                      "activity": "story",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "priority": 20,
+                      "action": "Complete the Blood and Stone story step in Bloodstone Fen.",
+                      "achievement_id": 3056
+                    },
+                    {
+                      "bit": 3,
+                      "name": "Reaper of Magic",
+                      "activity": "story",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 20,
+                      "action": "Complete the Reaper of Magic story step.",
+                      "achievement_id": 3059
+                    },
+                    {
+                      "bit": 4,
+                      "name": "A Shadow's Deeds",
+                      "activity": "story",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete the A Shadow's Deeds story step.",
+                      "achievement_id": 3074
+                    },
+                    {
+                      "bit": 5,
+                      "name": "Confessor's Stronghold",
+                      "activity": "story",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 20,
+                      "action": "Complete the Confessor's Stronghold story step.",
+                      "achievement_id": 3065
+                    },
+                    {
+                      "bit": 6,
+                      "name": "The Sky Is Falling",
+                      "activity": "story",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "priority": 35,
+                      "action": "Complete The Sky Is Falling achievement during A Shadow's Deeds.",
+                      "achievement_id": 3082
+                    },
+                    {
+                      "bit": 7,
+                      "name": "Ain't Got Time for This",
+                      "activity": "story",
+                      "location": "Rata Novus",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 15,
+                      "priority": 30,
+                      "action": "During Research in Rata Novus, bypass the magical puzzle and defeat the sentry golems.",
+                      "achievement_id": 3064
+                    },
+                    {
+                      "bit": 8,
+                      "name": "Was It Blue or Red?",
+                      "activity": "story",
+                      "location": "Rata Novus",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 15,
+                      "priority": 30,
+                      "action": "Complete the color-sequence puzzle achievement during Research in Rata Novus.",
+                      "achievement_id": 3077
+                    },
+                    {
+                      "bit": 9,
+                      "name": "Dive Master: Just Dropping By",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 15,
+                      "priority": 15,
+                      "action": "Use the diving goggles near the highest floating island in Bloodstone Fen and complete the dive.",
+                      "achievement_id": 3062
+                    },
+                    {
+                      "bit": 10,
+                      "name": "Grief Counseling",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 10,
+                      "action": "Use /yes with Alari when she reaches her existential crisis.",
+                      "achievement_id": 3049
+                    },
+                    {
+                      "bit": 11,
+                      "name": "Magic Unbound: The Gathering",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 15,
+                      "priority": 15,
+                      "action": "Collect 10 floating Unbound Magic units within 60 seconds in Bloodstone Fen.",
+                      "achievement_id": 3081
+                    },
+                    {
+                      "bit": 12,
+                      "name": "Reversal of Fortune",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 45,
+                      "action": "Fight the Ghostly Justiciar and hit him with aerial attacks when he portals you into the air.",
+                      "achievement_id": 3040
+                    },
+                    {
+                      "bit": 13,
+                      "name": "Lost Souls",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 35,
+                      "action": "Find and defeat all four ghostly champions wandering Bloodstone Fen.",
+                      "achievement_id": 3070
+                    },
+                    {
+                      "bit": 14,
+                      "name": "This Time, Stay Dead",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 30,
+                      "action": "Defeat the Ghostly Justiciar in the Colosseum of the Faithful.",
+                      "achievement_id": 3073
+                    },
+                    {
+                      "bit": 15,
+                      "name": "Mantle Pieces",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 45,
+                      "priority": 40,
+                      "action": "Defeat bloodstone-crazed White Mantle in Bloodstone Fen until the achievement is complete.",
+                      "achievement_id": 3072
+                    },
+                    {
+                      "bit": 16,
+                      "name": "Conspiracy of Dunces",
+                      "achievement_id": 3053,
+                      "activity": "achievement",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 45,
+                      "priority": 30,
+                      "action": "Complete Conspiracy of Dunces by finding the White Mantle journals."
+                    },
+                    {
+                      "bit": 17,
+                      "name": "Jade Carving",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 20,
+                      "action": "Defeat jade constructs in Bloodstone Fen until Jade Carving is complete.",
+                      "achievement_id": 3076
+                    },
+                    {
+                      "bit": 18,
+                      "name": "Available Guardian",
+                      "activity": "open_world",
+                      "location": "Bloodstone Fen",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 35,
+                      "event_dependent": true,
+                      "action": "Defeat the Unbound Guardian in the Cavern of Unseen Lights.",
+                      "achievement_id": 3088
+                    }
+                  ]
+                }
               },
               {
                 "bit": 1,

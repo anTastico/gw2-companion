@@ -304,6 +304,12 @@ class AuroraTracker:
     ):
         tracking = dependency.get("tracking")
 
+        if tracking == "achievement_set":
+            return self._resolve_achievement_set_dependency(
+                dependency=dependency,
+                account_progress=account_progress
+            )
+
         if tracking != "achievement_bits":
             return {
                 "achievement_id": dependency.get("achievement_id"),
@@ -373,12 +379,138 @@ class AuroraTracker:
         )
         completed = progress.get("done", current >= required)
 
+        if completed:
+            available_objectives = []
+
         resolved = {
             "achievement_id": achievement_id,
             "name": dependency.get("name"),
             "tracking": tracking,
             "current": current,
             "required": required,
+            "eligible": len(definitions),
+            "percent": round(
+                current / required * 100,
+                1
+            ) if required else 0,
+            "completed": completed,
+            "objectives": resolved_objectives,
+            "completed_objectives": completed_objectives,
+            "missing_objectives": missing_objectives,
+            "available_objectives": available_objectives,
+            "available": len(available_objectives),
+            "next_objective": (
+                available_objectives[0]
+                if available_objectives
+                else None
+            )
+        }
+
+        next_dependency = dependency.get("next_dependency")
+        if completed and next_dependency:
+            next_resolved = self._resolve_achievement_dependency(
+                dependency=next_dependency,
+                account_progress=account_progress
+            )
+            next_resolved["previous_dependency"] = {
+                "achievement_id": achievement_id,
+                "name": dependency.get("name"),
+                "completed": True
+            }
+            next_resolved["dependency_transitioned"] = True
+            return next_resolved
+
+        return resolved
+
+    def _resolve_achievement_set_dependency(
+        self,
+        dependency: dict,
+        account_progress: dict
+    ):
+        achievement_id = dependency["achievement_id"]
+        meta_progress = account_progress.get(achievement_id, {})
+        definitions = dependency.get("objectives", [])
+        required = dependency.get("required", len(definitions))
+        resolved_objectives = []
+
+        for definition in definitions:
+            child_id = definition["achievement_id"]
+            child_progress = account_progress.get(child_id, {})
+            completed = child_progress.get("done", False)
+
+            prerequisite_ids = definition.get(
+                "prerequisite_achievement_ids",
+                []
+            )
+            missing_prerequisite_ids = [
+                prerequisite_id
+                for prerequisite_id in prerequisite_ids
+                if not account_progress.get(
+                    prerequisite_id,
+                    {}
+                ).get("done", False)
+            ]
+
+            available = completed or not missing_prerequisite_ids
+
+            objective = dict(definition)
+            objective.update({
+                "completed": completed,
+                "available": available,
+                "prerequisites_complete": (
+                    len(missing_prerequisite_ids) == 0
+                ),
+                "missing_prerequisite_achievement_ids": (
+                    missing_prerequisite_ids
+                )
+            })
+            resolved_objectives.append(objective)
+
+        completed_objectives = [
+            objective
+            for objective in resolved_objectives
+            if objective["completed"]
+        ]
+        missing_objectives = [
+            objective
+            for objective in resolved_objectives
+            if not objective["completed"]
+        ]
+
+        direct_current = len(completed_objectives)
+        meta_current = meta_progress.get("current", direct_current)
+        current = min(
+            max(direct_current, meta_current),
+            required
+        )
+        completed = meta_progress.get(
+            "done",
+            current >= required
+        )
+
+        available_objectives = [
+            objective
+            for objective in missing_objectives
+            if objective["available"]
+        ]
+
+        available_objectives.sort(
+            key=lambda objective: (
+                objective.get("priority", 50),
+                objective.get("achievement_id", 0)
+            )
+        )
+
+        if completed:
+            available_objectives = []
+
+        resolved = {
+            "achievement_id": achievement_id,
+            "name": dependency.get("name"),
+            "tracking": "achievement_set",
+            "current": current,
+            "required": required,
+            "eligible": len(definitions),
             "percent": round(
                 current / required * 100,
                 1
