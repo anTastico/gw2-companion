@@ -3668,16 +3668,406 @@
             "objectives": [
               {
                 "bit": 0,
-                "name": "Draconis Mons Master skin objective 1",
+                "name": "Heavy Houndskin Mantle",
                 "source_type": "Skin",
-                "text": "",
+                "text": "Complete \"Flashpoint\" Mastery, or use an eligible Draconis Mons / Living World Season 3 reward-track route.",
                 "location": "Draconis Mons",
                 "source_id": 7210,
                 "focus": "Episode mastery reward",
                 "activity": "achievement",
                 "minimum_minutes": 15,
                 "ideal_minutes": 45,
-                "action": "Obtain the required episode-mastery reward skin for this collection."
+                "action": "Complete \"Flashpoint\" Mastery to obtain the Houndskin Mantle Box, or use the existing reward-track acquisition route.",
+                "dependency": {
+                  "achievement_id": 3442,
+                  "name": "\"Flashpoint\" Mastery",
+                  "tracking": "achievement_set",
+                  "required": 20,
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "achievement_id": 3423,
+                      "name": "Desecration Prevention",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Desecration Prevention for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 1,
+                      "achievement_id": 3428,
+                      "name": "Terror of the Boiling Sea",
+                      "activity": "mastery_point",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 20,
+                      "priority": 15,
+                      "action": "Complete Terror of the Boiling Sea for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 2,
+                      "achievement_id": 3398,
+                      "name": "Dinosaur King Ascension",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Dinosaur King Ascension for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 3,
+                      "achievement_id": 3437,
+                      "name": "Expensive Taste",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Expensive Taste for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 4,
+                      "achievement_id": 3410,
+                      "name": "Powerless Suit",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Powerless Suit for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 5,
+                      "achievement_id": 3407,
+                      "name": "Arachnogenesis",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Arachnogenesis for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 6,
+                      "achievement_id": 3421,
+                      "name": "Nature's Wrath",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Nature's Wrath for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 7,
+                      "achievement_id": 3424,
+                      "name": "Wurm Slurper",
+                      "activity": "mastery_point",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 20,
+                      "priority": 15,
+                      "action": "Complete Wurm Slurper for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 8,
+                      "achievement_id": 3412,
+                      "name": "Searing Ascent",
+                      "activity": "jumping_puzzle",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 20,
+                      "ideal_minutes": 60,
+                      "priority": 70,
+                      "action": "Complete Searing Ascent for \"Flashpoint\" Mastery.",
+                      "existing_tracking": {
+                        "source": "Draconis Mons Master",
+                        "tracking": "achievement_bits",
+                        "notes": "Reuse the existing Searing Ascent traversal/jumping-puzzle metadata when deeper guidance is needed."
+                      }
+                    },
+                    {
+                      "bit": 9,
+                      "achievement_id": 3395,
+                      "name": "Golemancer's Treasure",
+                      "activity": "collection",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 45,
+                      "priority": 45,
+                      "action": "Complete Golemancer's Treasure for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 10,
+                      "achievement_id": 3435,
+                      "name": "Taimi's Pet Project",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete Taimi's Pet Project for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 11,
+                      "achievement_id": 3401,
+                      "name": "Arrival and Survival",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete Arrival and Survival for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 12,
+                      "achievement_id": 3446,
+                      "name": "In Pursuit of a God",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete In Pursuit of a God for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 13,
+                      "achievement_id": 3396,
+                      "name": "Elder Druid Protection",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete Elder Druid Protection for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 14,
+                      "achievement_id": 3422,
+                      "name": "Heart of the Volcano",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete Heart of the Volcano for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 15,
+                      "achievement_id": 3433,
+                      "name": "Ring of Fire",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Ring of Fire for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 16,
+                      "achievement_id": 3406,
+                      "name": "Born for Battle",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete Born for Battle for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 17,
+                      "achievement_id": 3441,
+                      "name": "Fire Fighter",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete Fire Fighter for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 18,
+                      "achievement_id": 3403,
+                      "name": "Hot Splashes",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Hot Splashes for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 19,
+                      "achievement_id": 3439,
+                      "name": "White Hat",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete White Hat for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 20,
+                      "achievement_id": 3405,
+                      "name": "Burnin' Down the House",
+                      "activity": "story",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 20,
+                      "action": "Complete Burnin' Down the House for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 21,
+                      "achievement_id": 3420,
+                      "name": "People Watching",
+                      "activity": "mastery_point",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 20,
+                      "priority": 15,
+                      "action": "Complete People Watching for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 22,
+                      "achievement_id": 3427,
+                      "name": "Crypt Keeper",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Crypt Keeper for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 23,
+                      "achievement_id": 3430,
+                      "name": "Fancy Flying",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Fancy Flying for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 24,
+                      "achievement_id": 3408,
+                      "name": "Excess Energy",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Excess Energy for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 25,
+                      "achievement_id": 3400,
+                      "name": "Go Nuts with the Scanning",
+                      "activity": "open_world",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 30,
+                      "action": "Complete Go Nuts with the Scanning for \"Flashpoint\" Mastery."
+                    },
+                    {
+                      "bit": 26,
+                      "achievement_id": 3429,
+                      "name": "Lessons Learned",
+                      "activity": "collection",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 60,
+                      "priority": 50,
+                      "action": "Complete Lessons Learned for \"Flashpoint\" Mastery.",
+                      "existing_tracking": {
+                        "source": "Sentient Seed",
+                        "tracking": "achievement_bits",
+                        "notes": "Reuse the existing detailed Lessons Learned recorder tracking when deeper objective guidance is needed."
+                      }
+                    },
+                    {
+                      "bit": 27,
+                      "achievement_id": 3402,
+                      "name": "The Druid Stone",
+                      "activity": "collection",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 45,
+                      "priority": 80,
+                      "action": "Complete The Druid Stone for \"Flashpoint\" Mastery.",
+                      "existing_tracking": {
+                        "source": "Draconis Mons Master / Wayfarer's Henge chain",
+                        "tracking": "achievement_bits",
+                        "notes": "Reuse the existing detailed Druid Stone dependency chain when deeper objective guidance is needed."
+                      }
+                    },
+                    {
+                      "bit": 28,
+                      "achievement_id": 3445,
+                      "name": "Awakening the Druid Stone",
+                      "activity": "collection",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 45,
+                      "priority": 80,
+                      "action": "Complete Awakening the Druid Stone for \"Flashpoint\" Mastery.",
+                      "existing_tracking": {
+                        "source": "Draconis Mons Master / Wayfarer's Henge chain",
+                        "tracking": "achievement_bits",
+                        "notes": "Reuse the existing detailed Druid Stone dependency chain when deeper objective guidance is needed."
+                      }
+                    },
+                    {
+                      "bit": 29,
+                      "achievement_id": 3447,
+                      "name": "Sprouting the Druid Stone",
+                      "activity": "collection",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 45,
+                      "priority": 80,
+                      "action": "Complete Sprouting the Druid Stone for \"Flashpoint\" Mastery.",
+                      "existing_tracking": {
+                        "source": "Draconis Mons Master / Wayfarer's Henge chain",
+                        "tracking": "achievement_bits",
+                        "notes": "Reuse the existing detailed Druid Stone dependency chain when deeper objective guidance is needed."
+                      }
+                    },
+                    {
+                      "bit": 30,
+                      "achievement_id": 3436,
+                      "name": "A Henge Away from Home",
+                      "activity": "collection",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 45,
+                      "priority": 80,
+                      "action": "Complete A Henge Away from Home for \"Flashpoint\" Mastery.",
+                      "existing_tracking": {
+                        "source": "Draconis Mons Master / Wayfarer's Henge chain",
+                        "tracking": "achievement_bits",
+                        "notes": "Reuse the existing detailed Wayfarer's Henge dependency chain when deeper objective guidance is needed."
+                      }
+                    },
+                    {
+                      "bit": 31,
+                      "achievement_id": 3440,
+                      "name": "Rock Collector",
+                      "activity": "collection",
+                      "location": "Draconis Mons",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 45,
+                      "priority": 45,
+                      "action": "Complete Rock Collector for \"Flashpoint\" Mastery."
+                    }
+                  ]
+                }
               },
               {
                 "bit": 1,
