@@ -2158,6 +2158,67 @@ class RecommendationService:
 
         return dependency
 
+    def _resolve_aurora_recommendation_step(
+        self,
+        dependency: dict,
+        parent_objective: dict
+    ):
+        active_dependency = dependency
+        source_objective = parent_objective
+
+        while active_dependency:
+            tracking = active_dependency.get("tracking")
+
+            if tracking == "achievement_set":
+                next_objective = active_dependency.get(
+                    "next_objective"
+                )
+
+                if not next_objective:
+                    return (
+                        active_dependency,
+                        None,
+                        source_objective
+                    )
+
+                child_dependency = next_objective.get(
+                    "dependency"
+                )
+
+                if (
+                    child_dependency
+                    and not child_dependency.get(
+                        "completed",
+                        False
+                    )
+                ):
+                    source_objective = next_objective
+                    active_dependency = child_dependency
+                    continue
+
+                return (
+                    active_dependency,
+                    next_objective,
+                    source_objective
+                )
+
+            if tracking == "achievement_bits":
+                return (
+                    active_dependency,
+                    active_dependency.get(
+                        "next_objective"
+                    ),
+                    source_objective
+                )
+
+            return (
+                active_dependency,
+                None,
+                source_objective
+            )
+
+        return dependency, None, source_objective
+
     def _add_aurora_recommendations(
         self,
         aurora: dict,
@@ -2454,11 +2515,24 @@ class RecommendationService:
                             if (
                                 dependency
                                 and dependency.get("tracking")
-                                == "achievement_bits"
-                                and not dependency.get("completed", False)
+                                in {
+                                    "achievement_bits",
+                                    "achievement_set"
+                                }
+                                and not dependency.get(
+                                    "completed",
+                                    False
+                                )
                             ):
-                                next_objective = dependency.get(
-                                    "next_objective"
+                                (
+                                    active_dependency,
+                                    next_objective,
+                                    source_objective
+                                ) = (
+                                    self._resolve_aurora_recommendation_step(
+                                        dependency=dependency,
+                                        parent_objective=parent_objective
+                                    )
                                 )
 
                                 if next_objective:
@@ -2466,59 +2540,103 @@ class RecommendationService:
                                         "goal": "Aurora",
                                         "type": "objective",
                                         "title": (
-                                            f"{dependency['name']}: "
+                                            f"{active_dependency['name']}: "
                                             f"{next_objective['name']}"
                                         ),
                                         "collection": collection["name"],
                                         "parent_objective": (
                                             parent_objective["name"]
                                         ),
+                                        "dependency_source": (
+                                            source_objective.get(
+                                                "name",
+                                                parent_objective["name"]
+                                            )
+                                        ),
+                                        "dependency_achievement_id": (
+                                            active_dependency.get(
+                                                "achievement_id"
+                                            )
+                                        ),
+                                        "dependency_achievement_name": (
+                                            active_dependency.get(
+                                                "name"
+                                            )
+                                        ),
                                         "progress": (
-                                            f"{dependency.get('current', 0)}/"
-                                            f"{dependency.get('required', 0)}"
+                                            f"{active_dependency.get('current', 0)}/"
+                                            f"{active_dependency.get('required', 0)}"
                                         ),
                                         "progress_ratio": (
-                                            dependency.get("current", 0)
-                                            / dependency.get("required", 1)
-                                            if dependency.get("required")
+                                            active_dependency.get(
+                                                "current",
+                                                0
+                                            )
+                                            / active_dependency.get(
+                                                "required",
+                                                1
+                                            )
+                                            if active_dependency.get(
+                                                "required"
+                                            )
                                             else 0
                                         ),
                                         "activity": next_objective.get(
                                             "activity",
-                                            parent_objective.get("activity")
+                                            source_objective.get(
+                                                "activity",
+                                                parent_objective.get(
+                                                    "activity"
+                                                )
+                                            )
                                         ),
                                         "location": next_objective.get(
                                             "location",
-                                            collection.get("location")
+                                            source_objective.get(
+                                                "location",
+                                                collection.get("location")
+                                            )
                                         ),
                                         "minimum_minutes": next_objective.get(
                                             "minimum_minutes",
-                                            parent_objective.get(
+                                            source_objective.get(
                                                 "minimum_minutes",
-                                                5
+                                                parent_objective.get(
+                                                    "minimum_minutes",
+                                                    5
+                                                )
                                             )
                                         ),
                                         "ideal_minutes": next_objective.get(
                                             "ideal_minutes",
-                                            parent_objective.get(
+                                            source_objective.get(
                                                 "ideal_minutes",
-                                                10
+                                                parent_objective.get(
+                                                    "ideal_minutes",
+                                                    10
+                                                )
                                             )
                                         ),
                                         "action": next_objective.get(
                                             "action",
-                                            parent_objective.get("action")
+                                            source_objective.get(
+                                                "action",
+                                                parent_objective.get(
+                                                    "action"
+                                                )
+                                            )
                                         ),
                                         "reason": (
                                             f"{parent_objective['name']} "
-                                            f"depends on {dependency['name']}, "
+                                            f"depends on "
+                                            f"{active_dependency['name']}, "
                                             f"which is "
-                                            f"{dependency.get('current', 0)}/"
-                                            f"{dependency.get('required', 0)} "
+                                            f"{active_dependency.get('current', 0)}/"
+                                            f"{active_dependency.get('required', 0)} "
                                             "complete. This is one of the "
                                             "currently actionable next steps."
                                         ),
-                                        "dependency": dependency
+                                        "dependency": active_dependency
                                     })
                                     continue
 
