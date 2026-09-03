@@ -2204,7 +2204,246 @@
                     "final_reward": "Bitterfrost Frontier Cache",
                     "notes": "Complete the non-repeatable Bitterfrost Frontier reward track and choose the Glacial Gauntlets Box from the final Bitterfrost Frontier Cache."
                   }
-                ]
+                ],
+                "dependency": {
+                  "achievement_id": 3171,
+                  "name": "\"A Crack in the Ice\" Mastery",
+                  "tracking": "achievement_set",
+                  "required": 21,
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "achievement_id": 3221,
+                      "name": "Playing Chicken",
+                      "activity": "achievement",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 30,
+                      "action": "Complete Playing Chicken for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 1,
+                      "achievement_id": 3191,
+                      "name": "Delicious Desserts",
+                      "activity": "open_world",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 15,
+                      "priority": 20,
+                      "action": "Complete Delicious Desserts for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 2,
+                      "achievement_id": 3206,
+                      "name": "Codex: Kodan",
+                      "activity": "collection",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 25,
+                      "action": "Complete Codex: Kodan for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 3,
+                      "achievement_id": 3173,
+                      "name": "Dive Master: Cold Feet",
+                      "activity": "open_world",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "priority": 30,
+                      "action": "Complete Dive Master: Cold Feet for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 4,
+                      "achievement_id": 3212,
+                      "name": "Thorough Sampling",
+                      "activity": "collection",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 20,
+                      "ideal_minutes": 45,
+                      "priority": 35,
+                      "action": "Complete Thorough Sampling for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 5,
+                      "achievement_id": 3214,
+                      "name": "Quirky Quaggan Quest",
+                      "activity": "collection",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 35,
+                      "priority": 30,
+                      "action": "Complete Quirky Quaggan Quest for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 6,
+                      "achievement_id": 3240,
+                      "name": "Bitterfrost Frontier Insight: Griffin Old Growth",
+                      "activity": "mastery_point",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 10,
+                      "action": "Complete Bitterfrost Frontier Insight: Griffin Old Growth for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 7,
+                      "achievement_id": 3174,
+                      "name": "Bitterfrost Frontier Insight: The Bitter Cold",
+                      "activity": "mastery_point",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 15,
+                      "priority": 15,
+                      "action": "Complete Bitterfrost Frontier Insight: The Bitter Cold for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 8,
+                      "achievement_id": 3217,
+                      "name": "Bitterfrost Frontier Insight: The Svanir Hive",
+                      "activity": "mastery_point",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "priority": 10,
+                      "action": "Complete Bitterfrost Frontier Insight: The Svanir Hive for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 9,
+                      "achievement_id": 3188,
+                      "name": "Stay Unfrosty",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 35,
+                      "action": "Complete Stay Unfrosty for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 10,
+                      "achievement_id": 3179,
+                      "name": "Larva Conservationist",
+                      "activity": "achievement",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 30,
+                      "action": "Complete Larva Conservationist for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 11,
+                      "achievement_id": 3186,
+                      "name": "Vigilant",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 35,
+                      "action": "Complete Vigilant for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 12,
+                      "achievement_id": 3231,
+                      "name": "New in Box",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 30,
+                      "action": "Complete New in Box for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 13,
+                      "achievement_id": 3195,
+                      "name": "Beasts Slain Quick",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 30,
+                      "action": "Complete Beasts Slain Quick for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 14,
+                      "achievement_id": 3216,
+                      "name": "Precocious Aurene",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 15,
+                      "action": "Complete Precocious Aurene for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 15,
+                      "achievement_id": 3193,
+                      "name": "Frozen in Ice",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 15,
+                      "action": "Complete Frozen in Ice for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 16,
+                      "achievement_id": 3224,
+                      "name": "Frozen Out",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 15,
+                      "action": "Complete Frozen Out for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 17,
+                      "achievement_id": 3210,
+                      "name": "The Bitter Cold",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 15,
+                      "action": "Complete The Bitter Cold for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 18,
+                      "achievement_id": 3227,
+                      "name": "Journey to Bitterfrost Frontier",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 30,
+                      "priority": 15,
+                      "action": "Complete Journey to Bitterfrost Frontier for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 19,
+                      "achievement_id": 3182,
+                      "name": "Elixir Recipe",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 15,
+                      "action": "Complete Elixir Recipe for the A Crack in the Ice mastery."
+                    },
+                    {
+                      "bit": 20,
+                      "achievement_id": 3207,
+                      "name": "Elixir Cookin'",
+                      "activity": "story",
+                      "location": "Bitterfrost Frontier",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 25,
+                      "priority": 15,
+                      "action": "Complete Elixir Cookin' for the A Crack in the Ice mastery."
+                    }
+                  ]
+                }
               },
               {
                 "bit": 1,
