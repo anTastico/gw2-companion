@@ -493,6 +493,10 @@
             "ideal_minutes": 60,
             "action": "Complete Cin Business by finding the goods requested by Cin.",
             "objective_tracking": {
+              "definition_id": "cin_business",
+              "achievement_id": 3383,
+              "name": "Cin Business",
+              "tracking": "achievement_bits",
               "type": "achievement_bits",
               "group_by": "area",
               "objectives": [
@@ -3323,6 +3327,9 @@
                         "source": "Sentient Seed",
                         "tracking": "achievement_bits",
                         "notes": "Reuse the existing detailed Cin Business progress when deeper objective guidance is needed."
+                      },
+                      "dependency_ref": {
+                        "definition": "cin_business"
                       }
                     }
                   ]
