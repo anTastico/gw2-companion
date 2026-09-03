@@ -4005,6 +4005,10 @@
                         "source": "Draconis Mons Master / Wayfarer's Henge chain",
                         "tracking": "achievement_bits",
                         "notes": "Reuse the existing detailed Druid Stone dependency chain when deeper objective guidance is needed."
+                      },
+                      "dependency_ref": {
+                        "definition": "wayfarers_henge",
+                        "achievement_id": 3402
                       }
                     },
                     {
@@ -4021,6 +4025,10 @@
                         "source": "Draconis Mons Master / Wayfarer's Henge chain",
                         "tracking": "achievement_bits",
                         "notes": "Reuse the existing detailed Druid Stone dependency chain when deeper objective guidance is needed."
+                      },
+                      "dependency_ref": {
+                        "definition": "wayfarers_henge",
+                        "achievement_id": 3445
                       }
                     },
                     {
@@ -4037,6 +4045,10 @@
                         "source": "Draconis Mons Master / Wayfarer's Henge chain",
                         "tracking": "achievement_bits",
                         "notes": "Reuse the existing detailed Druid Stone dependency chain when deeper objective guidance is needed."
+                      },
+                      "dependency_ref": {
+                        "definition": "wayfarers_henge",
+                        "achievement_id": 3447
                       }
                     },
                     {
@@ -4053,6 +4065,10 @@
                         "source": "Draconis Mons Master / Wayfarer's Henge chain",
                         "tracking": "achievement_bits",
                         "notes": "Reuse the existing detailed Wayfarer's Henge dependency chain when deeper objective guidance is needed."
+                      },
+                      "dependency_ref": {
+                        "definition": "wayfarers_henge",
+                        "achievement_id": 3436
                       }
                     },
                     {
@@ -5137,7 +5153,8 @@
                         ]
                       }
                     }
-                  }
+                  },
+                  "definition_id": "wayfarers_henge"
                 }
               },
               {

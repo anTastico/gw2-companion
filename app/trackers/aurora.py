@@ -22,6 +22,11 @@ class AuroraTracker:
         with open(data_file, "r", encoding="utf-8") as file:
             self.data = json.load(file)
 
+        self.dependency_definitions = {}
+        self._index_dependency_definitions(
+            self.data
+        )
+
     async def progress(self, account_state=None):
         if account_state is not None:
             account_progress = account_state.achievement_by_id
@@ -232,6 +237,95 @@ class AuroraTracker:
             "summary": summary
         }
 
+    def _index_dependency_definitions(
+        self,
+        value
+    ):
+        if isinstance(value, dict):
+            definition_id = value.get("definition_id")
+            if definition_id:
+                if definition_id in self.dependency_definitions:
+                    raise ValueError(
+                        f"Duplicate Aurora dependency definition: "
+                        f"{definition_id!r}"
+                    )
+
+                self.dependency_definitions[
+                    definition_id
+                ] = value
+
+            for child in value.values():
+                self._index_dependency_definitions(
+                    child
+                )
+
+        elif isinstance(value, list):
+            for child in value:
+                self._index_dependency_definitions(
+                    child
+                )
+
+    def _get_dependency_definition(
+        self,
+        dependency_ref: dict | str
+    ):
+        if isinstance(dependency_ref, str):
+            definition_name = dependency_ref
+            achievement_id = None
+        else:
+            definition_name = dependency_ref.get(
+                "definition"
+            )
+            achievement_id = dependency_ref.get(
+                "achievement_id"
+            )
+
+        dependency = self.dependency_definitions.get(
+            definition_name
+        )
+
+        if dependency is None:
+            raise KeyError(
+                f"Unknown Aurora dependency definition: "
+                f"{definition_name!r}"
+            )
+
+        if achievement_id is None:
+            return dependency
+
+        stage = self._find_dependency_stage(
+            dependency=dependency,
+            achievement_id=achievement_id
+        )
+
+        if stage is None:
+            raise KeyError(
+                f"Aurora dependency definition "
+                f"{definition_name!r} does not contain "
+                f"achievement {achievement_id}."
+            )
+
+        return stage
+
+    def _find_dependency_stage(
+        self,
+        dependency: dict,
+        achievement_id: int
+    ):
+        if dependency.get("achievement_id") == achievement_id:
+            return dependency
+
+        next_dependency = dependency.get(
+            "next_dependency"
+        )
+        if not next_dependency:
+            return None
+
+        return self._find_dependency_stage(
+            dependency=next_dependency,
+            achievement_id=achievement_id
+        )
+
     def _resolve_achievement_bits(
         self,
         objective_tracking: dict,
@@ -250,6 +344,13 @@ class AuroraTracker:
             resolved["completed"] = bit in completed_bits
 
             dependency = objective.get("dependency")
+            dependency_ref = objective.get("dependency_ref")
+
+            if dependency_ref:
+                dependency = self._get_dependency_definition(
+                    dependency_ref
+                )
+
             if dependency and account_progress is not None:
                 resolved["dependency"] = (
                     self._resolve_achievement_dependency(
@@ -439,10 +540,40 @@ class AuroraTracker:
             child_progress = account_progress.get(child_id, {})
             completed = child_progress.get("done", False)
 
-            prerequisite_ids = definition.get(
-                "prerequisite_achievement_ids",
-                []
+            dependency_ref = definition.get(
+                "dependency_ref"
             )
+            child_dependency = None
+
+            if dependency_ref:
+                child_dependency = (
+                    self._get_dependency_definition(
+                        dependency_ref
+                    )
+                )
+
+            prerequisite_ids = list(
+                definition.get(
+                    "prerequisite_achievement_ids",
+                    []
+                )
+            )
+
+            if child_dependency:
+                referenced_prerequisite_id = (
+                    child_dependency.get(
+                        "prerequisite_achievement_id"
+                    )
+                )
+                if (
+                    referenced_prerequisite_id is not None
+                    and referenced_prerequisite_id
+                    not in prerequisite_ids
+                ):
+                    prerequisite_ids.append(
+                        referenced_prerequisite_id
+                    )
+
             missing_prerequisite_ids = [
                 prerequisite_id
                 for prerequisite_id in prerequisite_ids
@@ -469,6 +600,15 @@ class AuroraTracker:
                     missing_prerequisite_ids
                 )
             })
+
+            if child_dependency:
+                objective["dependency"] = (
+                    self._resolve_achievement_dependency(
+                        dependency=child_dependency,
+                        account_progress=account_progress
+                    )
+                )
+
             resolved_objectives.append(objective)
 
         completed_objectives = [
