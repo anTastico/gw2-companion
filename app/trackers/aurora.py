@@ -329,19 +329,20 @@ class AuroraTracker:
             bit = definition["bit"]
             prerequisites = definition.get("prerequisite_bits", [])
             completed = bit in completed_bits
+            prerequisites_complete = all(
+                prerequisite_bit in completed_bits
+                for prerequisite_bit in prerequisites
+            )
             available = (
-                completed
-                or all(
-                    prerequisite_bit in completed_bits
-                    for prerequisite_bit in prerequisites
-                )
+                not completed
+                and prerequisites_complete
             )
 
             objective = dict(definition)
             objective.update({
                 "completed": completed,
                 "available": available,
-                "prerequisites_complete": available,
+                "prerequisites_complete": prerequisites_complete,
                 "missing_prerequisite_bits": [
                     prerequisite_bit
                     for prerequisite_bit in prerequisites
@@ -451,15 +452,19 @@ class AuroraTracker:
                 ).get("done", False)
             ]
 
-            available = completed or not missing_prerequisite_ids
+            prerequisites_complete = (
+                len(missing_prerequisite_ids) == 0
+            )
+            available = (
+                not completed
+                and prerequisites_complete
+            )
 
             objective = dict(definition)
             objective.update({
                 "completed": completed,
                 "available": available,
-                "prerequisites_complete": (
-                    len(missing_prerequisite_ids) == 0
-                ),
+                "prerequisites_complete": prerequisites_complete,
                 "missing_prerequisite_achievement_ids": (
                     missing_prerequisite_ids
                 )
