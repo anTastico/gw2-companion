@@ -32,6 +32,10 @@
             "ideal_minutes": 60,
             "action": "Complete Token Collector by collecting the mursaat tokens scattered around Ember Bay.",
             "objective_tracking": {
+              "definition_id": "token_collector",
+              "achievement_id": 3129,
+              "name": "Token Collector",
+              "tracking": "achievement_bits",
               "type": "achievement_bits",
               "group_by": "area",
               "objectives": [
@@ -1485,6 +1489,9 @@
                         "source": "Sentient Seed",
                         "tracking": "achievement_bits",
                         "notes": "Reuse the existing detailed Token Collector progress when deeper objective guidance is needed."
+                      },
+                      "dependency_ref": {
+                        "definition": "token_collector"
                       }
                     },
                     {
