@@ -730,6 +730,10 @@
             "ideal_minutes": 60,
             "action": "Complete Lessons Learned by finding all 14 lost golemancer recordings in Draconis Mons.",
             "objective_tracking": {
+              "definition_id": "lessons_learned",
+              "achievement_id": 3429,
+              "name": "Lessons Learned",
+              "tracking": "achievement_bits",
               "type": "achievement_bits",
               "group_by": "area",
               "objectives": [
@@ -4003,6 +4007,9 @@
                         "source": "Sentient Seed",
                         "tracking": "achievement_bits",
                         "notes": "Reuse the existing detailed Lessons Learned recorder tracking when deeper objective guidance is needed."
+                      },
+                      "dependency_ref": {
+                        "definition": "lessons_learned"
                       }
                     },
                     {
