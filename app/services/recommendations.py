@@ -2219,6 +2219,105 @@ class RecommendationService:
 
         return dependency, None, source_objective
 
+    def _append_aurora_acquisition_options(
+        self,
+        collection: dict,
+        objective: dict,
+        progress: str,
+        progress_ratio: float,
+        recommendations: list,
+        include_achievement: bool = True
+    ):
+        acquisition_options = objective.get(
+            "acquisition_options",
+            []
+        )
+        appended = 0
+
+        for option in acquisition_options:
+            option_type = option.get("type")
+
+            if (
+                option_type == "achievement"
+                and not include_achievement
+            ):
+                continue
+
+            modes = option.get("modes", [])
+
+            if option_type == "reward_track":
+                activity = (
+                    "wvw"
+                    if "WvW" in modes
+                    else "achievement"
+                )
+            else:
+                activity = "achievement"
+
+            action_parts = []
+
+            unlock_requirement = (
+                option.get("unlock")
+                or option.get("unlock_requirement")
+            )
+            reward = (
+                option.get("reward")
+                or option.get("final_reward")
+            )
+
+            if unlock_requirement:
+                action_parts.append(
+                    f"Unlock: {unlock_requirement}."
+                )
+
+            if option.get("notes"):
+                action_parts.append(
+                    option["notes"]
+                )
+
+            if reward:
+                action_parts.append(
+                    f"Target reward: {reward}."
+                )
+
+            recommendations.append({
+                "goal": "Aurora",
+                "type": "objective",
+                "title": (
+                    f"{objective['name']}: "
+                    f"{option.get('name', 'Acquisition option')}"
+                ),
+                "collection": collection["name"],
+                "parent_objective": objective["name"],
+                "progress": progress,
+                "progress_ratio": progress_ratio,
+                "activity": activity,
+                "location": objective.get(
+                    "location",
+                    collection.get("location")
+                ),
+                "minimum_minutes": None,
+                "ideal_minutes": None,
+                "action": (
+                    " ".join(action_parts)
+                    if action_parts
+                    else objective.get(
+                        "action",
+                        "Use this acquisition route."
+                    )
+                ),
+                "reason": (
+                    f"{objective['name']} can be obtained through "
+                    f"{option.get('name', 'this acquisition route')} "
+                    f"for {collection['name']}."
+                ),
+                "acquisition_option": option,
+                "acquisition_modes": modes
+            })
+            appended += 1
+
+        return appended
+
     def _add_aurora_recommendations(
         self,
         aurora: dict,
@@ -2536,6 +2635,18 @@ class RecommendationService:
                                 )
 
                                 if next_objective:
+                                    self._append_aurora_acquisition_options(
+                                        collection=collection,
+                                        objective=parent_objective,
+                                        progress=(
+                                            f"{objective_current}/"
+                                            f"{objective_required}"
+                                        ),
+                                        progress_ratio=objective_ratio,
+                                        recommendations=recommendations,
+                                        include_achievement=False
+                                    )
+
                                     recommendations.append({
                                         "goal": "Aurora",
                                         "type": "objective",
@@ -2639,6 +2750,25 @@ class RecommendationService:
                                         "dependency": active_dependency
                                     })
                                     continue
+
+                            acquisition_option_count = (
+                                self._append_aurora_acquisition_options(
+                                    collection=collection,
+                                    objective=parent_objective,
+                                    progress=(
+                                        f"{objective_current}/"
+                                        f"{objective_required}"
+                                    ),
+                                    progress_ratio=objective_ratio,
+                                    recommendations=recommendations,
+                                    include_achievement=(
+                                        dependency is None
+                                    )
+                                )
+                            )
+
+                            if acquisition_option_count:
+                                continue
 
                         recommendations.append({
                             "goal": "Aurora",

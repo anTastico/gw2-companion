@@ -270,6 +270,16 @@ class SessionPlanner:
                     "objectives"
                 ]
 
+            if "acquisition_option" in best:
+                step["acquisition_option"] = best[
+                    "acquisition_option"
+                ]
+
+            if "acquisition_modes" in best:
+                step["acquisition_modes"] = best[
+                    "acquisition_modes"
+                ]
+
             if "progress" in best:
                 step["progress"] = best[
                     "progress"
