@@ -1187,8 +1187,11 @@ class RecommendationService:
                                 )
                                 recommendation["title"] = (
                                     completed_next_step.get(
-                                        "name",
-                                        objective["name"]
+                                        "display_name",
+                                        completed_next_step.get(
+                                            "name",
+                                            objective["name"]
+                                        )
                                     )
                                 )
                                 recommendation["activity"] = (
@@ -1222,6 +1225,34 @@ class RecommendationService:
                                     )
                                 )
                                 recommendation["dependency_ready"] = True
+
+                                next_step_required = (
+                                    completed_next_step.get(
+                                        "required"
+                                    )
+                                )
+                                next_step_current = (
+                                    completed_next_step.get(
+                                        "current"
+                                    )
+                                )
+
+                                if (
+                                    next_step_required is not None
+                                    and next_step_current is not None
+                                ):
+                                    recommendation["progress"] = (
+                                        f"{next_step_current}/"
+                                        f"{next_step_required}"
+                                    )
+                                    recommendation[
+                                        "progress_ratio"
+                                    ] = (
+                                        next_step_current
+                                        / next_step_required
+                                        if next_step_required
+                                        else 1
+                                    )
 
                             next_dependency_objective = (
                                 dependency.get("next_objective")

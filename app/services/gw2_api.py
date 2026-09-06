@@ -86,6 +86,9 @@ class GW2Client:
     async def get_account_recipes(self):
         return await self.get("/account/recipes")
 
+    async def get_account_skins(self):
+        return await self.get("/account/skins")
+
     async def get_achievement(self, achievement_id: int):
         return await self.get(f"/achievements/{achievement_id}")
 

@@ -38,10 +38,14 @@ class VisionTracker:
         if account_state is not None:
             item_counts = account_state.item_counts
             recipe_ids = account_state.recipe_ids
+            skin_ids = account_state.skin_ids
         else:
             item_counts = await self.inventory.get_item_counts()
             recipe_ids = set(
                 await self.client.get_account_recipes()
+            )
+            skin_ids = set(
+                await self.client.get_account_skins()
             )
 
         stages = []
@@ -210,7 +214,8 @@ class VisionTracker:
                                 dependency=dependency,
                                 account_progress=account_progress,
                                 item_counts=item_counts,
-                                recipe_ids=recipe_ids
+                                recipe_ids=recipe_ids,
+                                skin_ids=skin_ids
                             )
 
                         objectives.append(
@@ -345,7 +350,8 @@ class VisionTracker:
         dependency: dict,
         account_progress: dict,
         item_counts: dict,
-        recipe_ids: set
+        recipe_ids: set,
+        skin_ids: set
     ):
         achievement_id = dependency.get(
             "achievement_id"
@@ -1117,7 +1123,8 @@ class VisionTracker:
                     dependency=prerequisite,
                     account_progress=account_progress,
                     item_counts=item_counts,
-                    recipe_ids=recipe_ids
+                    recipe_ids=recipe_ids,
+                    skin_ids=skin_ids
                 )
             )
             dependency_result["blocked_by_prerequisite"] = (
@@ -1151,8 +1158,92 @@ class VisionTracker:
             if field in dependency:
                 dependency_result[field] = dependency[field]
 
+        next_step = dependency_result.get(
+            "next_step"
+        )
+
+        if (
+            next_step
+            and next_step.get("type") == "skin_count"
+        ):
+            eligible_skin_ids = set(
+                next_step.get("skin_ids", [])
+            )
+            required_skins = next_step.get(
+                "required",
+                0
+            )
+            unlocked_eligible = sorted(
+                eligible_skin_ids & skin_ids
+            )
+            current_skins = min(
+                len(unlocked_eligible),
+                required_skins
+            )
+            remaining_skins = max(
+                required_skins - current_skins,
+                0
+            )
+
+            resolved_next_step = dict(
+                next_step
+            )
+            resolved_next_step.update({
+                "current": current_skins,
+                "remaining": remaining_skins,
+                "completed": (
+                    current_skins >= required_skins
+                ),
+                "unlocked_skin_ids": (
+                    unlocked_eligible
+                )
+            })
+
+            target_name = resolved_next_step.get(
+                "name",
+                "eligible skins"
+            )
+
+            if remaining_skins > 0:
+                resolved_next_step["display_name"] = (
+                    f"Acquire {remaining_skins} more "
+                    f"{target_name}"
+                )
+                resolved_next_step["action"] = (
+                    resolved_next_step.get(
+                        "action"
+                    )
+                    or (
+                        f"Unlock {remaining_skins} more "
+                        f"{target_name}."
+                    )
+                )
+            else:
+                resolved_next_step["display_name"] = (
+                    resolved_next_step.get(
+                        "completion_name",
+                        target_name
+                    )
+                )
+                resolved_next_step["action"] = (
+                    resolved_next_step.get(
+                        "completion_action"
+                    )
+                    or resolved_next_step.get(
+                        "action"
+                    )
+                    or resolved_next_step.get(
+                        "note"
+                    )
+                )
+
+            dependency_result["next_step"] = (
+                resolved_next_step
+            )
+
         if (
             dependency_result.get("sequential")
+            and not dependency_result.get("completed", False)
             and dependency_result.get("missing_objectives")
         ):
             dependency_result["next_objective"] = (
