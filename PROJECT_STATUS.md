@@ -289,6 +289,79 @@ The goal is not to replace GW2Efficiency, but to provide account-aware guidance 
 - Further Aurora work should continue gap-by-gap and remain evidence-driven rather than expanding every collection pre-emptively.
 
 
+### Milestone 17 - Aurora Dependency Normalisation and Reuse
+
+- Completed the second Aurora dependency-depth pass across all six Living World Season 3 mastery reward requirements.
+- Added generic `achievement_set` tracking for episode mastery meta-achievements whose API progress cannot be represented reliably by meta-achievement bit positions.
+- Modelled all six episode mastery reward dependencies with live child-achievement state and required completion thresholds:
+  - `"Out of the Shadows" Mastery` - 18 of 19 eligible achievements required.
+  - `"Rising Flames" Mastery` - 23 of 30 eligible achievements required.
+  - `"A Crack in the Ice" Mastery` - 21 of 21 eligible achievements required.
+  - `"The Head of the Snake" Mastery` - 28 of 39 eligible achievements required.
+  - `"Flashpoint" Mastery` - 20 of 32 eligible achievements required.
+  - `"One Path Ends" Mastery` - 36 of 42 eligible achievements required.
+- Added reusable dependency definitions using `definition_id` and `dependency_ref` so detailed achievement tracking is defined once and referenced wherever multiple goals depend on it.
+- Reused canonical detailed tracking for:
+  - Token Collector.
+  - Cin Business.
+  - Lessons Learned.
+  - The full Wayfarer's Henge chain.
+- Preserved the canonical Wayfarer's Henge definition under Draconis Mons Master while Flashpoint mastery children reference the appropriate Henge stage.
+- Normalised dependency state semantics:
+  - `available` means unfinished and currently actionable.
+  - `prerequisites_complete` reports prerequisite state independently of completion.
+- Removed stale `existing_tracking` metadata from Searing Ascent and Abaddon's Ascent rather than inventing dependency references to detail that does not exist.
+- Updated Aurora recommendations to traverse reusable dependencies down to the currently actionable nested objective.
+- Preserved objective context in session-plan steps instead of dropping rich recommendation objective metadata at the planner boundary.
+- Added alternate acquisition-route recommendations from `acquisition_options`.
+  - Achievement and reward-track routes can be represented as separate candidates for the same collection objective.
+  - Reward-track alternatives preserve their PvP/WvW mode metadata without inventing account-aware reward-track progress.
+  - Current public activity filtering still uses the existing WvW activity bucket for alternatives that include WvW; first-class PvP activity support remains future work.
+- Normalised Aurora playability metadata immediately before scoring:
+  - Existing explicit `availability_type` remains authoritative.
+  - `event_dependent=true` maps to `availability_type="event"` when no explicit type exists.
+  - Single active dependency/objective metadata can carry schedule, group, playability, and time-gate context into scoring.
+  - Multi-objective bundles remain conservative rather than inheriting event dependence from only one child.
+- Kept all existing scoring constants unchanged; the pass focused on schema consistency, reuse, and correct consumption of existing metadata.
+- Completed the final Pass 3 architecture/duplication review with no additional dependency abstraction or scoring rewrite required.
+- Key checkpoint commits:
+  - `e8489d8` - Normalize dependency availability semantics
+  - `c95c1de` - Add reusable Aurora dependency references
+  - `6a7a7df` - Consume reusable Aurora dependencies in recommendations
+  - `5f8bc20` - Reuse Token Collector dependency tracking
+  - `a8cf9f5` - Reuse Cin Business dependency tracking
+  - `c37a197` - Reuse Lessons Learned dependency tracking
+  - `cc5c1a5` - Remove stale Aurora tracking metadata
+  - `76e5c2b` - Preserve objective context in session plans
+  - `e22d287` - Add Aurora acquisition route recommendations
+  - `5475e44` - Normalize Aurora playability metadata
+
+#### Aurora Pass 3 checkpoint
+
+- Aurora dependency-depth architecture is now considered clean enough to freeze pending natural gameplay validation.
+- Locked mastery collections continue to expose tracking state without leaking into recommendations.
+- Current live recommendations remain correctly focused on unfinished Sentient Seed work: Cin Business 14/18 and Token Collector 20/40.
+- Unlocked mastery recommendation behaviour, reusable nested dependency traversal, and later Wayfarer's Henge stage handoffs remain candidates for natural validation as the account progresses.
+- Future Aurora changes should be driven by live planning gaps rather than broader pre-emptive expansion or score tuning.
+
+
+### Milestone 18 - Vision Live Skin-Unlock Progress
+
+- Corrected completed-dependency handling so a definitively completed prerequisite no longer emits a stale child `next_objective` when historical API bit state is incomplete.
+- Preserved raw child-bit uncertainty rather than falsely marking every optional child objective complete.
+- Added generic account-aware `skin_count` support.
+- Added `/account/skins` to shared account state and use live unlocked skin IDs when resolving skin-count requirements.
+- Resolved and stored the 32 eligible Astral/Stellar weapon skins for Vision of Equipment: Astral Weapons.
+- Vision now reports live Astral/Stellar progress and the actual number of additional eligible skins required.
+- Verified live account state at 4/6 eligible Astral/Stellar skins, producing the actionable recommendation `Acquire 2 more Astral or Stellar weapon skins`.
+- Preserved the correct post-unlock action to speak to Yasna for the Vision collection item.
+- The tracked account has now completed the Thunderhead Peaks reward track route that was intentionally left open during the earlier Vision dependency-depth milestone.
+- The account is currently gathering the final materials for remaining Astral/Stellar and Dragonsblood weapon-skin requirements.
+- Vision remains frozen unless live gameplay exposes a genuine planning problem; trivial end-stage Vision II mastery-kneeling steps do not currently justify deeper modelling.
+- Checkpoint commit:
+  - `5695215` - Track Vision skin unlock progress
+
+
 ---
 
 ## Current Architecture
@@ -312,13 +385,16 @@ FastAPI
   |     |     +-- Prerequisite and next-step state
   |     |     +-- Projected completion effects
   |     +-- AuroraTracker
-  |     |     +-- Generic achievement-bit objective resolution
+  |     |     +-- Generic achievement-bit/set objective resolution
   |     |     +-- Nested/sequential achievement dependencies
-  |     |     +-- Prerequisite-bit availability and next-dependency handoff
+  |     |     +-- Reusable definition/reference dependency registry
+  |     |     +-- Prerequisite availability and next-dependency handoff
   |     |     +-- Collection unlock/actionable state
   |     |     +-- Grouped missing-objective progress
   |     |
-  |     +-- Acquisition metadata
+  |     +-- Acquisition-route alternatives
+  |     +-- Aurora playability metadata normalisation
+  |     +-- Account-aware skin-count requirements
   |     +-- Session profiles
   |     +-- Ranked eligible candidate pool
   |     +-- Collection-focused filtering
@@ -390,20 +466,26 @@ The planner requests the full eligible ranked candidate pool before recommendati
 
 Current branch: `feature/aurora-dependency-depth`
 
-Latest verified Aurora dependency checkpoints:
+Latest verified checkpoints:
 
+- `5475e44` - Normalize Aurora playability metadata
+- `5695215` - Track Vision skin unlock progress
+- `e22d287` - Add Aurora acquisition route recommendations
+- `76e5c2b` - Preserve objective context in session plans
+- `c37a197` - Reuse Lessons Learned dependency tracking
+- `a8cf9f5` - Reuse Cin Business dependency tracking
+- `5f8bc20` - Reuse Token Collector dependency tracking
+- `6a7a7df` - Consume reusable Aurora dependencies in recommendations
+- `c95c1de` - Add reusable Aurora dependency references
+- `e8489d8` - Normalize dependency availability semantics
+- `6ebb85a` - Complete Aurora mastery dependency expansion
 - `9aa4272` - Complete Wayfarer's Henge dependency chain
-- `3e38f09` - Add Sprouting Druid Stone dependency chain
-- `1512e2b` - Add Awakening Druid Stone dependency chain
-- `8031028` - Deepen Druid Stone dependency planning
-- `5c55b03` - Deepen Gift of Aurene dependency planning
-- `77cee81` - Document completed Vision dependency milestone
 
-The branch is clean and pushed through `9aa4272`.
+The branch is clean and pushed through `5475e44` before this documentation update.
 
-Aurora dependency-depth development is now active. Gift of Aurene and the complete Wayfarer's Henge chain have received deeper nested dependency modelling using the generic machinery established during Vision.
+Aurora dependency-depth Passes 1, 2, and 3 are complete. The implementation now combines the existing 87-objective Aurora I mastery framework with threshold-aware `achievement_set` dependencies, reusable dependency definitions/references, nested recommendation traversal, alternate acquisition routes, preserved planner objective context, and normalised playability metadata.
 
-Vision dependency/planner development remains frozen pending further gameplay validation. Thunderhead Peaks / All or Nothing remains intentionally less-developed and may be completed through PvP rather than receiving a full dependency-depth pass.
+Vision dependency/planner development remains frozen pending gameplay evidence. The tracked account has completed the Thunderhead Peaks reward-track route and live Astral/Stellar skin-count tracking now reports 4/6 eligible skins unlocked, leaving 2 more required for that Vision objective. Dragonsblood weapon-skin crafting also remains active account work.
 
 Prismatic Champion's Regalia is complete for the tracked account. Regalia support remains operational, but additional Regalia dependency-depth work is maintenance/low priority unless a future goal requires it.
 
@@ -418,7 +500,9 @@ Sentient Seed is currently 1/4 complete:
 - Cin Business - 14/18
 - Lessons Learned - 0/14
 
-The six Aurora I mastery collections remain locked until Sentient Seed is acquired. Their 87 objective definitions are already present and will become actionable automatically once the stage unlocks.
+The six Aurora I mastery collections remain locked until Sentient Seed is acquired. Their 87 objective definitions and deeper episode-mastery dependencies are already present and will become actionable automatically once the stage unlocks.
+
+Current live Aurora recommendations correctly surface only unfinished Sentient Seed work, including the four remaining Cin Business locations and grouped Token Collector work. Locked mastery collections and their alternate acquisition routes do not leak into the actionable recommendation pool.
 
 Design rules:
 
@@ -428,17 +512,29 @@ Design rules:
 
 `recommendation diversity != planner candidate diversity`
 
+`define detailed dependency once -> reference it everywhere else`
+
+`availability metadata should be normalised before scoring, not duplicated in every constructor`
+
 ---
 
 ## Known Limitations / Technical Debt
 
 ### Aurora I unlocked-state validation
 
-The mastery-objective implementation has been fully validated while the collections are locked. The grouped recommendation path for unlocked collections is implemented but has not yet been exercised against natural live account progress because Sentient Seed has not yet been acquired.
+The mastery-objective implementation has been fully validated while the collections are locked. The grouped recommendation path, `achievement_set` mastery dependencies, reusable dependency references, and acquisition alternatives are implemented but still need natural live validation once Aurora: Awakening unlocks.
+
+### First-class PvP planning
+
+Acquisition alternatives can preserve `modes: ["PvP", "WvW"]`, but the public activity filter and session profiles do not yet have a dedicated PvP activity/profile. Alternatives that include WvW currently use the existing WvW activity bucket. Do not add first-class PvP scoring merely because a reward-track route exists; revisit this when the tracked account has a real Aurora or other planning need for PvP-specific sessions.
 
 ### Objective-bundle timing
 
-Aurora mastery bundles now sum per-objective timing metadata. This is more accurate than count-based timing, but it may still overestimate work when several objectives naturally overlap in the same event chain or route. Future refinement can account for overlap, event schedules, and time gates.
+Aurora mastery bundles sum per-objective timing metadata. This is more accurate than count-based timing, but it may still overestimate work when several objectives naturally overlap in the same event chain or route. Future refinement can account for overlap when live planning evidence shows a meaningful problem.
+
+### Rich contextual metadata
+
+Aurora data contains useful descriptive fields such as `event_details`, vendor/access details, `chance_based`, and `daily`. These are preserved as context but are not all direct scoring inputs. Do not invent score penalties or bonuses for them without field-test evidence.
 
 ### Recommendation candidate API boundary
 
@@ -450,11 +546,10 @@ Duplicate account fetching has been resolved by `AccountState`. Remaining latenc
 
 Possible future improvements include carefully scoped short-lived caching, determining whether every recommendation mode requires character inventory, and graceful partial-state handling when a non-critical ArenaNet endpoint fails.
 
-### Remaining objective depth
+### Natural dependency-transition validation
 
-Vision now has strong dependency depth across the actively developed Living World Season 4 collections and is intentionally frozen pending gameplay validation.
+The reusable dependency/reference architecture and sequential Wayfarer's Henge chain are implemented. Natural transitions into later Aurora mastery and Henge stages should be validated as gameplay reaches them rather than simulated into additional architecture.
 
-Aurora already has substantial objective-level coverage from the earlier Sentient Seed and Aurora I mastery work. Gift of Aurene and the complete Wayfarer's Henge chain now also use richer nested dependency modelling. Remaining Aurora work should continue by filling only genuine planning gaps and validating the new sequential handoff naturally as gameplay reaches later Henge tiers.
 
 ---
 
@@ -477,34 +572,32 @@ Optimisations should be measured where practical rather than retained solely bec
 
 ## Next Milestone
 
-Continue Aurora dependency-depth work from the completed Gift of Aurene and Wayfarer's Henge checkpoint.
+Aurora dependency-depth Passes 1-3 are complete and should now be treated as a stable checkpoint rather than an invitation for more speculative depth.
 
-Next steps:
+Immediate next steps:
 
-- Re-run the Aurora gap audit against the now-deepened implementation and choose the next genuine flat or misleading dependency.
-- Prefer small metadata/dependency-driven stages over broad rewrites.
-- Preserve the existing 87-objective Aurora I mastery framework unless live gameplay exposes a concrete issue.
-- Naturally validate the generic The Druid Stone -> Awakening -> Sprouting -> A Henge Away from Home handoff as the tracked account progresses through the chain.
-- Keep long-term material deficits as background work rather than allowing them to dominate short session plans.
-- Reuse generic dependency/planner machinery wherever possible instead of introducing Aurora-specific scoring hacks.
+- Use natural gameplay to validate Aurora unlocked-state recommendations once Sentient Seed is completed.
+- Validate reusable dependency transitions and later Wayfarer's Henge stages when the account actually reaches them.
+- Review Aurora acquisition alternatives before deciding whether any mastery rewards should be pursued through PvP/WvW.
+- Add first-class PvP activity/profile support only if that review or later gameplay creates a concrete planning need.
+- Keep Vision frozen while the tracked account finishes remaining Astral/Stellar and Dragonsblood weapon-skin work; deepen Vision II only if the planner proves misleading.
+- Preserve generic dependency/planner machinery and avoid Aurora-specific scoring hacks.
 - Do not tune planner weights without field-test evidence.
 
-Vision remains frozen pending gameplay validation. Thunderhead Peaks / All or Nothing may be completed through PvP and does not need to block Aurora work.
+With the dependency-depth architecture stabilised, the next larger product milestone should be chosen from an actual user-facing planning need rather than another broad static-data expansion.
 
-Regalia development remains low priority because the tracked account has completed Prismatic Champion's Regalia.
-
-At the end of the Aurora dependency-depth milestone, perform another architecture/efficiency review before merging.
 
 ---
 
 ## Future Work
 
-- Continue Aurora dependency-aware planning gap-by-gap using the generic capabilities learned during Vision.
 - Validate and refine unlocked Aurora I mastery recommendations once naturally available.
-- Revisit Vision only when gameplay exposes a genuine planning gap; complete Thunderhead dependency depth only if still useful after PvP progress.
+- Validate later Wayfarer's Henge dependency transitions through natural account progress.
+- Revisit Vision only when gameplay exposes a genuine planning gap; the Thunderhead reward-track route is already complete.
+- Add first-class PvP planning only when a concrete account goal makes it useful.
 - Add additional legendary goals.
 - Improve handling of currencies and non-inventory requirements.
-- Continue expanding acquisition-method modelling: craft, buy, earn, achievement rewards, PvP/WvW reward tracks, vendor transitions, and time-gated acquisition.
+- Continue expanding acquisition-method modelling only where real goals require it: craft, buy, earn, achievement rewards, PvP/WvW reward tracks, vendor transitions, and time-gated acquisition.
 - Refine objective/bundle timing where overlapping event or route work makes summed timing too conservative.
 - Consider carefully scoped caching only if further latency reduction becomes worthwhile.
 - Refactor planner candidate generation away from the public recommendation response shape if the planner grows substantially.
@@ -517,11 +610,11 @@ At the end of the Aurora dependency-depth milestone, perform another architectur
 
 Prismatic Champion's Regalia is complete for the tracked account; its tracker remains operational.
 
-Vision tracking is operational with live achievement progress, objective-level collection data, account inventory analysis, recursive crafting requirements, Vision II tracking, collection-focused recommendations/session plans, and deep dependency-aware planning across Istan, Sandswept Isles, Kourna, Jahai Bluffs, and Dragonfall / War Eternal. The current Vision planner state has been field-tested against live account progress and is frozen pending further gameplay evidence.
+Vision tracking is operational with live achievement progress, objective-level collection data, account inventory analysis, recursive crafting requirements, Vision II tracking, collection-focused recommendations/session plans, deep dependency-aware planning across the actively developed Living World Season 4 collections, and account-aware skin-unlock counts. The tracked account has completed the Thunderhead reward-track route and currently has 4/6 eligible Astral/Stellar weapon skins unlocked. Vision remains frozen pending further gameplay evidence.
 
-Aurora tracking is operational with locked-stage detection, live achievement progress, recursive crafting requirements, Living World Season 3 currency tracking, Sentient Seed prerequisite depth, reusable achievement-bit objective guidance across all six Aurora I mastery collections, nested Gift of Aurene planning, and the complete sequential Wayfarer's Henge dependency chain. Aurora remains the active development focus and is being deepened gap-by-gap rather than rebuilt.
+Aurora tracking is operational with locked-stage detection, live achievement progress, recursive crafting requirements, Living World Season 3 currency tracking, Sentient Seed prerequisite depth, reusable achievement-bit and achievement-set guidance across all six Aurora I mastery collections, nested Gift of Aurene planning, the complete sequential Wayfarer's Henge dependency chain, reusable dependency definitions/references, alternate acquisition routes, and normalised playability metadata. Aurora dependency-depth Passes 1-3 are complete and the architecture is now frozen pending natural gameplay validation.
 
-The recommendation engine is operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work. Vision additionally exercises collection-focused filtering, shared dependency/material recognition, prerequisite availability, playability metadata, and background-work horizons.
+The recommendation engine is operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work. It supports collection-focused filtering, shared dependency/material recognition, prerequisite availability, playability metadata, acquisition alternatives, background-work horizons, and account-aware next-step resolution.
 
 The session planner is operational with time allocation, map-aware planning, useful unused-time handling, cross-goal awareness, collection focus, dependency-aware grouping, projected completion effects, shared-dependency value, multi-map handling, and access to the full eligible ranked candidate pool before presentation-oriented diversity trimming.
 
