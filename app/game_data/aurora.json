@@ -3799,12 +3799,7 @@
                       "minimum_minutes": 20,
                       "ideal_minutes": 60,
                       "priority": 70,
-                      "action": "Complete Searing Ascent for \"Flashpoint\" Mastery.",
-                      "existing_tracking": {
-                        "source": "Draconis Mons Master",
-                        "tracking": "achievement_bits",
-                        "notes": "Reuse the existing Searing Ascent traversal/jumping-puzzle metadata when deeper guidance is needed."
-                      }
+                      "action": "Complete Searing Ascent for \"Flashpoint\" Mastery."
                     },
                     {
                       "bit": 9,
@@ -5760,12 +5755,7 @@
                       "minimum_minutes": 20,
                       "ideal_minutes": 60,
                       "priority": 70,
-                      "action": "Complete Abaddon's Ascent for \"One Path Ends\" Mastery.",
-                      "existing_tracking": {
-                        "source": "Siren's Landing Master",
-                        "tracking": "achievement_bits",
-                        "notes": "Reuse the existing Siren's Landing Abaddon's Ascent / Colossal Brazier planning metadata when deeper guidance is needed."
-                      }
+                      "action": "Complete Abaddon's Ascent for \"One Path Ends\" Mastery."
                     },
                     {
                       "bit": 28,
