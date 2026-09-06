@@ -265,6 +265,11 @@ class SessionPlanner:
                     "collection_progress"
                 ]
 
+            if "objectives" in best:
+                step["objectives"] = best[
+                    "objectives"
+                ]
+
             if "progress" in best:
                 step["progress"] = best[
                     "progress"
