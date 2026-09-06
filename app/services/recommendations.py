@@ -95,6 +95,10 @@ class RecommendationService:
                 recommendation
             )
 
+            self._normalize_aurora_playability(
+                recommendation
+            )
+
             self._score_recommendation(
                 recommendation,
                 mode
@@ -2995,6 +2999,81 @@ class RecommendationService:
             recommendation["ideal_minutes"] = (
                 profile["ideal_minutes"]
             )
+
+    def _normalize_aurora_playability(
+        self,
+        recommendation: dict
+    ):
+        if recommendation.get("goal") != "Aurora":
+            return
+
+        sources = [
+            recommendation
+        ]
+
+        acquisition_option = recommendation.get(
+            "acquisition_option"
+        )
+        if acquisition_option:
+            sources.append(
+                acquisition_option
+            )
+
+        dependency = recommendation.get(
+            "dependency"
+        )
+        if dependency:
+            next_objective = dependency.get(
+                "next_objective"
+            )
+            if next_objective:
+                sources.append(
+                    next_objective
+                )
+
+        objectives = recommendation.get(
+            "objectives",
+            []
+        )
+        if len(objectives) == 1:
+            sources.append(
+                objectives[0]
+            )
+
+        metadata_fields = (
+            "availability_type",
+            "event_dependent",
+            "repeat_required",
+            "group_recommended",
+            "schedule_dependent",
+            "playability_note",
+            "time_gated",
+            "time_gate"
+        )
+
+        for field in metadata_fields:
+            if field in recommendation:
+                continue
+
+            for source in sources[1:]:
+                if field in source:
+                    recommendation[field] = (
+                        source[field]
+                    )
+                    break
+
+        if (
+            recommendation.get(
+                "availability_type"
+            ) is None
+            and recommendation.get(
+                "event_dependent",
+                False
+            )
+        ):
+            recommendation[
+                "availability_type"
+            ] = "event"
 
     def _apply_time_fit(
         self,
