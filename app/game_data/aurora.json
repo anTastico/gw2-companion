@@ -1204,6 +1204,7 @@
                 "time_gated": true,
                 "daily": true,
                 "chance_based": true,
+                "daily_opportunity_type": "soft_cap",
                 "account_daily_harvest_limit": {
                   "nodes": 35
                 }
@@ -1839,6 +1840,7 @@
                 "time_gated": true,
                 "daily": true,
                 "chance_based": true,
+                "daily_opportunity_type": "soft_cap",
                 "account_daily_harvest_limit": {
                   "full_nodes": 16,
                   "additional_strikes_on_17th_node": 2,
@@ -2475,6 +2477,7 @@
                 "time_gated": true,
                 "daily": true,
                 "chance_based": true,
+                "daily_opportunity_type": "soft_cap",
                 "per_character_daily_reset": true,
                 "map_resource_nodes": 21
               },
@@ -2866,6 +2869,7 @@
                 "time_gated": true,
                 "daily": true,
                 "chance_based": true,
+                "daily_opportunity_type": "limited_attempt",
                 "per_character_daily_reset": true,
                 "daily_chests_per_character": 5
               }
@@ -3353,7 +3357,8 @@
                 "action": "Mine Jade Fragment nodes across Lake Doric for a chance at the Sparking Jade Shard. Because the collection item is not guaranteed from each node and the map's resource nodes are reset-limited, it may take multiple farming passes or days.",
                 "time_gated": true,
                 "daily": true,
-                "chance_based": true
+                "chance_based": true,
+                "daily_opportunity_type": "soft_cap"
               },
               {
                 "bit": 2,
@@ -4177,6 +4182,7 @@
                       "time_gated": true,
                       "schedule_dependent": true,
                       "daily": true,
+                      "daily_opportunity_type": "hard_gate",
                       "action": "Complete/access the four Draconis Mons Renown Hearts, buy one Druid Runestone Fragment from each heart vendor plus Supplymaster Hanjo, then combine the five daily fragments into one Druid Runestone. Only one Runestone can be obtained per day."
                     },
                     {
@@ -5417,7 +5423,8 @@
                 "action": "Gather Primordial Orchid nodes across Draconis Mons for a chance at the Albino Orchid Blossom. Because the collection item is not guaranteed from each node and Primordial Orchids are reset-limited, it may take multiple farming passes or days.",
                 "time_gated": true,
                 "daily": true,
-                "chance_based": true
+                "chance_based": true,
+                "daily_opportunity_type": "soft_cap"
               }
             ],
             "group_by": "focus"
@@ -5689,7 +5696,14 @@
                       "minimum_minutes": 10,
                       "ideal_minutes": 30,
                       "priority": 40,
-                      "action": "Complete Roll for Greed for \"One Path Ends\" Mastery."
+                      "time_gated": true,
+                      "schedule_dependent": true,
+                      "daily": true,
+                      "optional_for_dependency": true,
+                      "daily_opportunity_type": "optional",
+                      "daily_chests_required": 10,
+                      "max_chests_per_character_per_day": 2,
+                      "action": "Open Hidden Reliquary Chests in Abaddon's Reliquary to progress Roll for Greed. Ten chests are required and each character can open only two per day. This achievement is optional for the One Path Ends mastery threshold, so prefer combining it with Ancient Cipher attempts rather than treating it as mandatory."
                     },
                     {
                       "bit": 22,
@@ -6092,6 +6106,7 @@
                 "schedule_dependent": true,
                 "daily": true,
                 "chance_based": true,
+                "daily_opportunity_type": "limited_attempt",
                 "max_chests_per_character_per_day": 2,
                 "access_setup": {
                   "location": "Hidden Reliquary, Abaddon's Reliquary",
@@ -6185,7 +6200,8 @@
                 "action": "Gather Orrian Oyster nodes across Siren's Landing for a chance at the Orrian Nacre. Because the drop is random and available resource nodes are limited by gathering resets, it may take multiple farming passes or days.",
                 "time_gated": true,
                 "daily": true,
-                "chance_based": true
+                "chance_based": true,
+                "daily_opportunity_type": "soft_cap"
               },
               {
                 "bit": 12,

@@ -3048,7 +3048,14 @@ class RecommendationService:
             "schedule_dependent",
             "playability_note",
             "time_gated",
-            "time_gate"
+            "time_gate",
+            "daily",
+            "chance_based",
+            "per_character_daily_reset",
+            "daily_chests_per_character",
+            "max_chests_per_character_per_day",
+            "optional_for_dependency",
+            "daily_opportunity_type"
         )
 
         for field in metadata_fields:
@@ -3245,6 +3252,17 @@ class RecommendationService:
         if recommendation.get("time_gated"):
             score += 10
 
+        daily_opportunity_adjustment = (
+            self._daily_opportunity_adjustment(
+                recommendation
+            )
+        )
+        score += daily_opportunity_adjustment
+        if daily_opportunity_adjustment:
+            recommendation[
+                "daily_opportunity_adjustment"
+            ] = daily_opportunity_adjustment
+
         if mode == "play":
             playability_adjustment = (
                 self._playability_adjustment(
@@ -3264,6 +3282,26 @@ class RecommendationService:
         recommendation["score"] = round(
             score,
             1
+        )
+
+    def _daily_opportunity_adjustment(
+        self,
+        recommendation: dict
+    ):
+        opportunity_type = recommendation.get(
+            "daily_opportunity_type"
+        )
+
+        adjustments = {
+            "hard_gate": 25,
+            "limited_attempt": 18,
+            "soft_cap": 4,
+            "optional": 4
+        }
+
+        return adjustments.get(
+            opportunity_type,
+            0
         )
 
     def _playability_adjustment(
