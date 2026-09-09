@@ -10,11 +10,32 @@ class SessionPlanner:
     }
 
     LOCATION_BONUS = 20
+    LOCATION_SECOND_BONUS = 10
+    LOCATION_LATE_BONUS = 0
     MAP_SWITCH_PENALTY = 18
+    MAP_SWITCH_PENALTY_AFTER_BLOCK = 8
+    MAP_BLOCK_MINUTES = 45
     NEW_GOAL_BONUS = 10
     LOW_VALUE_PENALTY = 25
     MIN_WORTHWHILE_SCORE = 70
+    LONG_TERM_MATERIAL_PENALTY = 70
+    MODERATE_MATERIAL_PENALTY = 25
+    LONG_TERM_MATERIAL_ALLOCATION = 15
+    FOCUSED_MULTI_MAP_REPEAT_SCHEDULE_PENALTY = 28
+    FOCUSED_EVENT_REPEAT_GROUP_PENALTY = 24
     MIN_MAP_SWITCH_IDEAL_RATIO = 0.75
+    TIME_GATED_PLANNER_BONUS = 20
+    OPENING_TIME_GATED_BONUS = 12
+    DEPENDENCY_BLOCKER_BONUS = 12
+    DEPENDENCY_READY_BONUS = 60
+    SHARED_MATERIAL_BONUS = 15
+    SHARED_DEPENDENCY_BONUS = 15
+    COMPLETION_EFFECT_BONUS = 15
+    RELATED_OBJECTIVE_BONUS = 12
+    META_DEPENDENCY_BONUS = 12
+    OPTION_PRIORITY_MAX_BONUS = 8
+    OPTION_PROGRESS_MAX_BONUS = 6
+    OPENING_DIRECT_BONUS = 12
 
     def __init__(self):
         self.recommendations = RecommendationService()
@@ -23,13 +44,15 @@ class SessionPlanner:
         self,
         minutes: int,
         goal: str | None = None,
-        activity: str | None = None
+        activity: str | None = None,
+        collection: str | None = None
     ):
         result = await self.recommendations.get_recommendations(
             mode="play",
             goal=goal,
             activity=activity,
             minutes=minutes,
+            collection=collection,
             full_candidate_pool=True
         )
 
@@ -63,10 +86,26 @@ class SessionPlanner:
         steps = []
         remaining_minutes = minutes
         current_location = None
+        current_location_minutes = 0
+        current_location_steps = 0
         used_low_value_activity = False
         used_goals = set()
+        selected_dependency_counts = {}
+        projected_completed_achievement_ids = set()
 
         while candidates:
+            for candidate in candidates:
+                self._apply_vendor_option(
+                    candidate=candidate,
+                    current_location=current_location
+                )
+                self._apply_projected_completion_effects(
+                    candidate=candidate,
+                    projected_completed_achievement_ids=(
+                        projected_completed_achievement_ids
+                    )
+                )
+
             eligible = [
                 candidate
                 for candidate in candidates
@@ -78,11 +117,60 @@ class SessionPlanner:
                         remaining_minutes=remaining_minutes,
                         current_location=current_location
                     )
+                    and self._dependency_option_slot_available(
+                        candidate=candidate,
+                        selected_dependency_counts=(
+                            selected_dependency_counts
+                        )
+                    )
+                    and (
+                        candidate.get(
+                            "dependency_achievement_id"
+                        )
+                        not in projected_completed_achievement_ids
+                    )
                 )
             ]
 
             if not eligible:
                 break
+
+            for candidate in eligible:
+                self._apply_work_horizon(
+                    candidate=candidate,
+                    session_minutes=minutes
+                )
+
+            long_term_dependency_sources = set()
+
+            for candidate in eligible:
+                if candidate.get("work_horizon") != "long_term":
+                    continue
+
+                source = candidate.get("material_source")
+                if source:
+                    long_term_dependency_sources.add(source)
+
+                for source in candidate.get("material_sources", []):
+                    if source:
+                        long_term_dependency_sources.add(source)
+
+            for candidate in eligible:
+                related = set(candidate.get("related_objectives", []))
+                inherited = related.intersection(long_term_dependency_sources)
+
+                if inherited:
+                    candidate["work_horizon"] = "long_term"
+                    candidate["session_suitability_adjustment"] = (
+                        -self.LONG_TERM_MATERIAL_PENALTY
+                    )
+
+                    names = ", ".join(sorted(inherited))
+                    candidate["work_horizon_reason"] = (
+                        f"This option depends on {names}, which is "
+                        "currently blocked by a long-term material "
+                        "requirement."
+                    )
 
             scored = [
                 (
@@ -90,12 +178,25 @@ class SessionPlanner:
                         candidate=candidate,
                         remaining_minutes=remaining_minutes,
                         current_location=current_location,
+                        current_location_minutes=(
+                            current_location_minutes
+                        ),
+                        current_location_steps=(
+                            current_location_steps
+                        ),
                         used_low_value_activity=(
                             used_low_value_activity
                         ),
                         used_goals=used_goals,
+                        selected_dependency_counts=(
+                            selected_dependency_counts
+                        ),
+                        opening_step=not steps,
                         unrestricted_goal=(
                             goal is None
+                        ),
+                        focused_collection=(
+                            collection is not None
                         )
                     ),
                     candidate
@@ -130,6 +231,8 @@ class SessionPlanner:
                 "goal": best["goal"],
                 "type": best["type"],
                 "title": best["title"],
+                "score": best["score"],
+                "planner_score": round(planner_score, 1),
                 "activity": best["activity"],
                 "location": best.get(
                     "location"
@@ -162,9 +265,134 @@ class SessionPlanner:
                     "collection_progress"
                 ]
 
+            if "objectives" in best:
+                step["objectives"] = best[
+                    "objectives"
+                ]
+
+            if "acquisition_option" in best:
+                step["acquisition_option"] = best[
+                    "acquisition_option"
+                ]
+
+            if "acquisition_modes" in best:
+                step["acquisition_modes"] = best[
+                    "acquisition_modes"
+                ]
+
             if "progress" in best:
                 step["progress"] = best[
                     "progress"
+                ]
+
+            if "time_gated" in best:
+                step["time_gated"] = best["time_gated"]
+
+            if best.get("time_gate"):
+                step["time_gate"] = best["time_gate"]
+
+            if "parent_objective" in best:
+                step["parent_objective"] = best["parent_objective"]
+
+            if "parent_objectives" in best:
+                step["parent_objectives"] = best["parent_objectives"]
+
+            if "shared_dependency_count" in best:
+                step["shared_dependency_count"] = (
+                    best["shared_dependency_count"]
+                )
+
+            if "dependency_achievement_id" in best:
+                step["dependency_achievement_id"] = (
+                    best["dependency_achievement_id"]
+                )
+
+            if "completion_effects" in best:
+                step["completion_effects"] = (
+                    best["completion_effects"]
+                )
+
+            if "related_objectives" in best:
+                step["related_objectives"] = (
+                    best["related_objectives"]
+                )
+
+            if "related_objective_count" in best:
+                step["related_objective_count"] = (
+                    best["related_objective_count"]
+                )
+
+            if "completion_effect_count" in best:
+                step["completion_effect_count"] = (
+                    best["completion_effect_count"]
+                )
+
+            if "projected_completion_effects" in best:
+                step["projected_completion_effects"] = (
+                    best["projected_completion_effects"]
+                )
+
+            if "effective_achievement_completions" in best:
+                step["effective_achievement_completions"] = (
+                    best["effective_achievement_completions"]
+                )
+
+            step["map"] = (
+                None
+                if best.get("availability_type") == "multi_map"
+                else self._map_key(best.get("location"))
+            )
+
+            if "event_dependent" in best:
+                step["event_dependent"] = best[
+                    "event_dependent"
+                ]
+
+            for playability_field in (
+                "availability_type",
+                "repeat_required",
+                "group_recommended",
+                "schedule_dependent",
+                "playability_note",
+                "playability_adjustment"
+            ):
+                if playability_field in best:
+                    step[playability_field] = best[
+                        playability_field
+                    ]
+
+            if "material_item_id" in best:
+                step["material_item_id"] = best["material_item_id"]
+
+            if "material_required" in best:
+                step["material_required"] = best["material_required"]
+
+            if "material_owned" in best:
+                step["material_owned"] = best["material_owned"]
+
+            if "material_missing" in best:
+                step["material_missing"] = best["material_missing"]
+
+            if "material_sources" in best:
+                step["material_sources"] = best["material_sources"]
+
+            for horizon_field in (
+                "work_horizon",
+                "work_horizon_reason",
+                "material_deficit_ratio",
+                "session_suitability_adjustment"
+            ):
+                if horizon_field in best:
+                    step[horizon_field] = best[horizon_field]
+
+            if "vendor_options" in best:
+                step["vendor_options"] = best[
+                    "vendor_options"
+                ]
+
+            if "selected_vendor_option" in best:
+                step["selected_vendor_option"] = best[
+                    "selected_vendor_option"
                 ]
 
             if "dependency" in best:
@@ -190,16 +418,77 @@ class SessionPlanner:
 
             remaining_minutes -= allocated_minutes
 
-            location = best.get(
-                "location"
+            location = self._map_key(
+                best.get("location")
             )
 
             if location:
-                current_location = location
+                if location == current_location:
+                    current_location_minutes += allocated_minutes
+                    current_location_steps += 1
+                else:
+                    current_location = location
+                    current_location_minutes = allocated_minutes
+                    current_location_steps = 1
 
             used_goals.add(
                 best["goal"]
             )
+
+            dependency = best.get("dependency") or {}
+            if (
+                dependency.get("tracking")
+                == "achievement_options"
+                and best.get("dependency_option")
+            ):
+                dependency_key = (
+                    dependency.get("achievement_id")
+                    or dependency.get("name")
+                )
+                selected_dependency_counts[
+                    dependency_key
+                ] = (
+                    selected_dependency_counts.get(
+                        dependency_key,
+                        0
+                    )
+                    + best.get(
+                        "effective_achievement_completions",
+                        1
+                    )
+                )
+
+            selected_achievement_id = best.get(
+                "dependency_achievement_id"
+            )
+
+            if selected_achievement_id is not None:
+                projected_completed_achievement_ids.add(
+                    selected_achievement_id
+                )
+
+            for effect in best.get(
+                "completion_effects",
+                []
+            ):
+                if (
+                    effect.get("active")
+                    and effect.get(
+                        "projected_completes_achievement",
+                        effect.get(
+                            "completes_achievement",
+                            False
+                        )
+                    )
+                ):
+                    target_achievement_id = effect.get(
+                        "achievement_id"
+                    )
+
+                    if target_achievement_id is not None:
+                        projected_completed_achievement_ids.add(
+                            target_achievement_id
+                        )
 
             if (
                 best["activity"]
@@ -247,6 +536,224 @@ class SessionPlanner:
             "locations": locations,
             "steps": steps
         }
+
+    def _apply_projected_completion_effects(
+        self,
+        candidate: dict,
+        projected_completed_achievement_ids: set
+    ):
+        effects = candidate.get(
+            "completion_effects",
+            []
+        )
+
+        if not effects:
+            return
+
+        candidate_achievement_id = candidate.get(
+            "dependency_achievement_id"
+        )
+
+        projected_with_candidate = set(
+            projected_completed_achievement_ids
+        )
+
+        if candidate_achievement_id is not None:
+            projected_with_candidate.add(
+                candidate_achievement_id
+            )
+
+        projected_effects = []
+
+        for effect in effects:
+            projected_effect = dict(effect)
+            projected_completes = effect.get(
+                "completes_achievement",
+                False
+            )
+
+            if (
+                effect.get("active")
+                and effect.get("effect")
+                == "complete_when_all"
+            ):
+                prerequisite_ids = set(
+                    effect.get(
+                        "prerequisite_achievement_ids",
+                        []
+                    )
+                )
+                projected_completes = bool(
+                    prerequisite_ids
+                    and prerequisite_ids.issubset(
+                        projected_with_candidate
+                    )
+                )
+
+            projected_effect[
+                "projected_completes_achievement"
+            ] = projected_completes
+
+            projected_effects.append(
+                projected_effect
+            )
+
+        candidate["completion_effects"] = projected_effects
+
+        projected_completed_names = [
+            effect.get("name")
+            for effect in projected_effects
+            if (
+                effect.get("active")
+                and effect.get(
+                    "projected_completes_achievement",
+                    False
+                )
+                and effect.get("name")
+            )
+        ]
+
+        if projected_completed_names:
+            reason = candidate.get("reason", "")
+
+            for effect_name in projected_completed_names:
+                advances_text = (
+                    f"Completing it also advances {effect_name}."
+                )
+                completes_text = (
+                    f"Completing it also completes {effect_name}."
+                )
+
+                if advances_text in reason:
+                    reason = reason.replace(
+                        advances_text,
+                        completes_text,
+                        1
+                    )
+
+            candidate["reason"] = reason
+
+        completing_effects = [
+            effect
+            for effect in projected_effects
+            if (
+                effect.get("active")
+                and effect.get(
+                    "projected_completes_achievement",
+                    False
+                )
+            )
+        ]
+
+        candidate["completion_effect_count"] = len(
+            completing_effects
+        )
+
+        qualifying_effects = [
+            effect
+            for effect in completing_effects
+            if effect.get(
+                "counts_toward_same_dependency",
+                False
+            )
+        ]
+
+        candidate[
+            "effective_achievement_completions"
+        ] = 1 + len(qualifying_effects)
+
+        if completing_effects:
+            candidate[
+                "projected_completion_effects"
+            ] = completing_effects
+        else:
+            candidate.pop(
+                "projected_completion_effects",
+                None
+            )
+
+    def _apply_vendor_option(
+        self,
+        candidate: dict,
+        current_location: str | None
+    ):
+        vendor_options = candidate.get(
+            "vendor_options",
+            []
+        )
+
+        if not vendor_options:
+            return
+
+        selected = vendor_options[0]
+
+        if current_location:
+            for option in vendor_options:
+                if (
+                    self._map_key(
+                        option.get("location")
+                    )
+                    == current_location
+                ):
+                    selected = option
+                    break
+
+        candidate["selected_vendor_option"] = selected
+        candidate["location"] = selected.get(
+            "location",
+            candidate.get("location")
+        )
+        candidate["minimum_minutes"] = selected.get(
+            "minimum_minutes",
+            candidate.get("minimum_minutes")
+        )
+        candidate["ideal_minutes"] = selected.get(
+            "ideal_minutes",
+            candidate.get("ideal_minutes")
+        )
+
+        item_count = candidate.get(
+            "immediate_missing"
+        )
+        dependency = candidate.get(
+            "dependency",
+            {}
+        )
+        item_name = dependency.get(
+            "name",
+            "shared consumable"
+        )
+
+        if item_count:
+            plural = "s" if item_count != 1 else ""
+            selected_action = selected.get(
+                "action",
+                ""
+            )
+
+            vendor_phrase = ""
+
+            if " from " in selected_action:
+                vendor_phrase = (
+                    selected_action
+                    .split(" from ", 1)[1]
+                    .split(" before ", 1)[0]
+                    .rstrip(".")
+                )
+
+            if vendor_phrase:
+                candidate["action"] = (
+                    f"Buy {item_count} {item_name}{plural} "
+                    f"from {vendor_phrase}."
+                )
+            else:
+                candidate["action"] = (
+                    f"Buy {item_count} {item_name}{plural}."
+                )
+        elif selected.get("action"):
+            candidate["action"] = selected[
+                "action"
+            ]
 
     def _dependency_focus(
         self,
@@ -341,14 +848,61 @@ class SessionPlanner:
             if items
         }
 
+    def _map_key(
+        self,
+        location: str | None
+    ):
+        if not location:
+            return None
+
+        if "," in location:
+            return location.rsplit(",", 1)[-1].strip()
+
+        return location.strip()
+
+    def _dependency_option_slot_available(
+        self,
+        candidate: dict,
+        selected_dependency_counts: dict
+    ):
+        dependency = candidate.get("dependency") or {}
+
+        if (
+            dependency.get("tracking")
+            != "achievement_options"
+            or not candidate.get("dependency_option")
+        ):
+            return True
+
+        dependency_key = (
+            dependency.get("achievement_id")
+            or dependency.get("name")
+        )
+
+        remaining_required = dependency.get(
+            "remaining_required",
+            0
+        )
+
+        return (
+            selected_dependency_counts.get(
+                dependency_key,
+                0
+            )
+            < remaining_required
+        )
+
     def _map_switch_is_worthwhile(
         self,
         candidate: dict,
         remaining_minutes: int,
         current_location: str | None
     ):
-        location = candidate.get(
-            "location"
+        if candidate.get("availability_type") == "multi_map":
+            return True
+
+        location = self._map_key(
+            candidate.get("location")
         )
 
         if (
@@ -379,27 +933,272 @@ class SessionPlanner:
             >= self.MIN_MAP_SWITCH_IDEAL_RATIO
         )
 
+    def _apply_work_horizon(
+        self,
+        candidate: dict,
+        session_minutes: int
+    ):
+        candidate.pop("work_horizon", None)
+        candidate.pop("work_horizon_reason", None)
+        candidate.pop("material_deficit_ratio", None)
+        candidate.pop("session_suitability_adjustment", None)
+
+        missing = candidate.get("material_missing")
+        required = candidate.get("material_required")
+
+        if (
+            missing is None
+            or required is None
+            or required <= 0
+            or missing <= 0
+        ):
+            return
+
+        deficit_ratio = missing / required
+        candidate["material_deficit_ratio"] = round(
+            deficit_ratio,
+            3
+        )
+
+        if missing >= 100 and deficit_ratio >= 0.50:
+            candidate["work_horizon"] = "long_term"
+            candidate["session_suitability_adjustment"] = (
+                -self.LONG_TERM_MATERIAL_PENALTY
+            )
+            candidate["work_horizon_reason"] = (
+                f"{missing} of {required} are still required; "
+                "treat this as background progression rather than "
+                "a primary session task."            )
+            return
+
+        if missing >= 50 and deficit_ratio >= 0.25:
+            candidate["work_horizon"] = "background"
+            candidate["session_suitability_adjustment"] = (
+                -self.MODERATE_MATERIAL_PENALTY
+            )
+            candidate["work_horizon_reason"] = (
+                f"{missing} of {required} are still required; "
+                "use spare session time for this unless stronger "
+                "direct objectives are exhausted."            )
+            return
+
+        candidate["work_horizon"] = "immediate"
+        candidate["session_suitability_adjustment"] = 0
+        candidate["work_horizon_reason"] = (
+            f"Only {missing} of {required} remain; this material "
+            "blocker is close enough to be useful session work."        )
+
     def _planner_score(
         self,
         candidate: dict,
         remaining_minutes: int,
         current_location: str | None,
+        current_location_minutes: int,
+        current_location_steps: int,
         used_low_value_activity: bool,
         used_goals: set,
-        unrestricted_goal: bool
+        selected_dependency_counts: dict,
+        opening_step: bool,
+        unrestricted_goal: bool,
+        focused_collection: bool
     ):
         score = candidate["score"]
 
-        location = candidate.get(
-            "location"
+        score += candidate.get(
+            "session_suitability_adjustment",
+            0
+        )
+
+        if focused_collection:
+            availability_type = candidate.get(
+                "availability_type"
+            )
+
+            if (
+                availability_type == "multi_map"
+                and candidate.get(
+                    "repeat_required",
+                    False
+                )
+                and candidate.get(
+                    "schedule_dependent",
+                    False
+                )
+            ):
+                score -= (
+                    self.FOCUSED_MULTI_MAP_REPEAT_SCHEDULE_PENALTY
+                )
+                candidate["focused_session_adjustment"] = -(
+                    self.FOCUSED_MULTI_MAP_REPEAT_SCHEDULE_PENALTY
+                )
+
+            elif (
+                availability_type == "event"
+                and candidate.get(
+                    "repeat_required",
+                    False
+                )
+                and candidate.get(
+                    "group_recommended",
+                    False
+                )
+            ):
+                score -= (
+                    self.FOCUSED_EVENT_REPEAT_GROUP_PENALTY
+                )
+                candidate["focused_session_adjustment"] = -(
+                    self.FOCUSED_EVENT_REPEAT_GROUP_PENALTY
+                )
+
+            else:
+                candidate["focused_session_adjustment"] = 0
+
+        if (
+            opening_step
+            and candidate.get(
+                "availability_type"
+            ) == "direct"
+        ):
+            score += self.OPENING_DIRECT_BONUS
+
+        if candidate.get("time_gated"):
+            score += self.TIME_GATED_PLANNER_BONUS
+
+            if opening_step:
+                score += self.OPENING_TIME_GATED_BONUS
+
+        dependency = candidate.get("dependency") or {}
+        blocker = dependency.get("primary_blocker") or {}
+
+        if blocker:
+            score += self.DEPENDENCY_BLOCKER_BONUS
+
+            blocker_clearable_now = any((
+                dependency.get("ready_to_acquire") is True,
+                dependency.get("can_acquire_now") is True,
+                dependency.get("ready_to_craft") is True
+            ))
+
+            if blocker_clearable_now:
+                score += self.DEPENDENCY_READY_BONUS
+
+        if (
+            dependency.get("tracking")
+            == "achievement_options"
+            and candidate.get("dependency_option")
+        ):
+            dependency_key = (
+                dependency.get("achievement_id")
+                or dependency.get("name")
+            )
+            selected_count = (
+                selected_dependency_counts.get(
+                    dependency_key,
+                    0
+                )
+            )
+            remaining_required = dependency.get(
+                "remaining_required",
+                0
+            )
+
+            if selected_count < remaining_required:
+                score += self.META_DEPENDENCY_BONUS
+
+                dependency_option = (
+                    candidate.get("dependency_option")
+                    or {}
+                )
+                option_priority = dependency_option.get(
+                    "priority"
+                )
+                if option_priority is not None:
+                    # Lower numeric priority means a better option.
+                    # Cap the effect so data priority guides rather
+                    # than dictates the whole session.
+                    priority_bonus = max(
+                        0,
+                        self.OPTION_PRIORITY_MAX_BONUS
+                        - ((option_priority - 10) / 5)
+                    )
+                    score += min(
+                        self.OPTION_PRIORITY_MAX_BONUS,
+                        priority_bonus
+                    )
+
+                option_progress_ratio = candidate.get(
+                    "option_progress_ratio"
+                )
+                if option_progress_ratio is not None:
+                    score += (
+                        option_progress_ratio
+                        * self.OPTION_PROGRESS_MAX_BONUS
+                    )
+
+        material_sources = candidate.get(
+            "material_sources",
+            []
+        )
+
+        if len(material_sources) > 1:
+            score += self.SHARED_MATERIAL_BONUS * min(
+                len(material_sources) - 1,
+                3
+            )
+
+        shared_dependency_count = candidate.get(
+            "shared_dependency_count",
+            1
+        )
+
+        if shared_dependency_count > 1:
+            score += self.SHARED_DEPENDENCY_BONUS * min(
+                shared_dependency_count - 1,
+                3
+            )
+
+        completion_effect_count = candidate.get(
+            "completion_effect_count",
+            0
+        )
+
+        if completion_effect_count > 0:
+            score += self.COMPLETION_EFFECT_BONUS * min(
+                completion_effect_count,
+                3
+            )
+
+        related_objective_count = candidate.get(
+            "related_objective_count",
+            0
+        )
+
+        if related_objective_count > 0:
+            score += self.RELATED_OBJECTIVE_BONUS * min(
+                related_objective_count,
+                3
+            )
+
+        location = (
+            None
+            if candidate.get("availability_type") == "multi_map"
+            else self._map_key(candidate.get("location"))
         )
 
         if current_location:
             if location == current_location:
-                score += self.LOCATION_BONUS
+                if current_location_steps <= 1:
+                    score += self.LOCATION_BONUS
+                elif current_location_steps == 2:
+                    score += self.LOCATION_SECOND_BONUS
+                else:
+                    score += self.LOCATION_LATE_BONUS
 
             elif location:
-                score -= self.MAP_SWITCH_PENALTY
+                if current_location_minutes >= self.MAP_BLOCK_MINUTES:
+                    score -= self.MAP_SWITCH_PENALTY_AFTER_BLOCK
+                else:
+                    score -= self.MAP_SWITCH_PENALTY
 
         if (
             unrestricted_goal
@@ -467,6 +1266,12 @@ class SessionPlanner:
             "minimum_minutes"
         ]
 
+        if recommendation.get("work_horizon") == "long_term":
+            return min(
+                self.LONG_TERM_MATERIAL_ALLOCATION,
+                remaining_minutes
+            )
+
         if ideal <= remaining_minutes:
             return ideal
 
@@ -486,8 +1291,40 @@ class SessionPlanner:
             recommendation["reason"]
         ]
 
-        location = recommendation.get(
-            "location"
+        work_horizon_reason = recommendation.get(
+            "work_horizon_reason"
+        )
+
+        if work_horizon_reason:
+            reasons.append(
+                work_horizon_reason
+            )
+
+        material_sources = recommendation.get(
+            "material_sources",
+            []
+        )
+
+        if len(material_sources) > 1:
+            reasons.append(
+                "This material advances "
+                + str(len(material_sources))
+                + " Vision requirements at once."
+            )
+
+        dependency = recommendation.get(
+            "dependency"
+        ) or {}
+
+        if dependency.get("primary_blocker"):
+            reasons.append(
+                "It also clears the current blocker for "
+                + dependency.get("name", "this dependency")
+                + "."
+            )
+
+        location = self._map_key(
+            recommendation.get("location")
         )
 
         if (

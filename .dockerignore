@@ -4,3 +4,7 @@
 __pycache__
 *.pyc
 .vscode
+.env
+*-live.json
+patch_*.py
+fix_*.py

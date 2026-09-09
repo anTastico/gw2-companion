@@ -10,6 +10,8 @@ class AccountState:
     achievements: list
     achievement_by_id: dict
     item_counts: dict
+    recipe_ids: set
+    skin_ids: set
 
     @classmethod
     async def load(cls, client: GW2Client | None = None):
@@ -29,13 +31,17 @@ class AccountState:
             bank,
             materials,
             shared_inventory,
-            characters
+            characters,
+            recipes,
+            skins
         ) = await asyncio.gather(
             client.get_account_achievements(),
             client.get_bank(),
             client.get_materials(),
             client.get_shared_inventory(),
-            client.get_characters()
+            client.get_characters(),
+            client.get_account_recipes(),
+            client.get_account_skins()
         )
 
         item_counts = {}
@@ -78,5 +84,7 @@ class AccountState:
                 achievement["id"]: achievement
                 for achievement in achievements
             },
-            item_counts=item_counts
+            item_counts=item_counts,
+            recipe_ids=set(recipes),
+            skin_ids=set(skins)
         )

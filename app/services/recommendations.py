@@ -42,6 +42,7 @@ class RecommendationService:
         goal: str | None = None,
         activity: str | None = None,
         minutes: int | None = None,
+        collection: str | None = None,
         full_candidate_pool: bool = False
     ):
         account_state = await AccountState.load()
@@ -73,12 +74,28 @@ class RecommendationService:
             recommendations
         )
 
+        recommendations = self._consolidate_material_requirements(
+            recommendations
+        )
+
+        recommendations = self._consolidate_achievement_dependencies(
+            recommendations
+        )
+
+        recommendations = self._consolidate_shared_consumable_purchases(
+            recommendations
+        )
+
         for recommendation in recommendations:
             self._classify_activity(
                 recommendation
             )
 
             self._add_session_profile(
+                recommendation
+            )
+
+            self._normalize_aurora_playability(
                 recommendation
             )
 
@@ -105,6 +122,15 @@ class RecommendationService:
             goal=goal,
             activity=activity
         )
+
+        if collection is not None:
+            wanted_collection = collection.casefold()
+            filtered = [
+                recommendation
+                for recommendation in filtered
+                if recommendation.get("collection", "").casefold()
+                == wanted_collection
+            ]
 
         filtered_count = len(filtered)
 
@@ -196,6 +222,501 @@ class RecommendationService:
             "top_recommendation": None,
             "recommendations": []
         }
+
+    def _consolidate_material_requirements(
+        self,
+        recommendations: list
+    ):
+        grouped = {}
+        passthrough = []
+
+        for recommendation in recommendations:
+            item_id = recommendation.get("material_item_id")
+            if item_id is None:
+                passthrough.append(recommendation)
+                continue
+
+            key = (recommendation.get("goal"), item_id)
+            grouped.setdefault(key, []).append(recommendation)
+
+        consolidated = list(passthrough)
+
+        for candidates in grouped.values():
+            if len(candidates) == 1:
+                consolidated.append(candidates[0])
+                continue
+
+            total_required = sum(
+                candidate.get("material_required", 0)
+                for candidate in candidates
+            )
+            owned_values = {
+                candidate.get("material_owned", 0)
+                for candidate in candidates
+            }
+            if len(owned_values) != 1:
+                raise RuntimeError(
+                    "Conflicting owned counts while consolidating material recommendations."
+                )
+
+            owned = owned_values.pop()
+            missing = max(total_required - owned, 0)
+            template = max(
+                candidates,
+                key=lambda candidate: (
+                    1 if candidate.get("dependency") else 0,
+                    candidate.get("material_required", 0)
+                )
+            )
+            merged = dict(template)
+            material_name = merged.get("material_name", "material")
+
+            sources = []
+            for candidate in candidates:
+                source = candidate.get("material_source")
+                if source and source not in sources:
+                    sources.append(source)
+
+            merged.update({
+                "title": f"Acquire {missing} more {material_name}",
+                "progress": f"{owned}/{total_required}",
+                "progress_ratio": (owned / total_required if total_required else 1),
+                "material_owned": owned,
+                "material_required": total_required,
+                "material_missing": missing,
+                "material_sources": sources,
+                "parent_objective": None,
+                "reason": (
+                    f"{total_required} {material_name} are required across "
+                    f"{len(candidates)} Vision requirements; {owned} are currently owned."
+                )
+            })
+
+            acquisition = self._get_acquisition_metadata(
+                merged["material_item_id"]
+            )
+            if acquisition.get("activity"):
+                merged["activity"] = acquisition["activity"]
+            if acquisition.get("location"):
+                merged["location"] = acquisition["location"]
+            if acquisition.get("action"):
+                merged["action"] = (
+                    f"Acquire {missing} more {material_name}. "
+                    f"{acquisition['action']}"
+                )
+
+            consolidated.append(merged)
+
+        return consolidated
+
+    def _consolidate_achievement_dependencies(
+        self,
+        recommendations: list
+    ):
+        grouped = {}
+        passthrough = []
+
+        for recommendation in recommendations:
+            achievement_id = recommendation.get(
+                "dependency_achievement_id"
+            )
+
+            if achievement_id is None:
+                passthrough.append(recommendation)
+                continue
+
+            key = (
+                recommendation.get("goal"),
+                achievement_id
+            )
+            grouped.setdefault(key, []).append(
+                recommendation
+            )
+
+        consolidated = list(passthrough)
+
+        for candidates in grouped.values():
+            if len(candidates) == 1:
+                consolidated.append(candidates[0])
+                continue
+
+            template = max(
+                candidates,
+                key=lambda candidate: (
+                    1
+                    if candidate.get("dependency_option")
+                    else 0,
+                    candidate.get(
+                        "progress_ratio",
+                        0
+                    )
+                )
+            )
+            merged = dict(template)
+
+            parent_objectives = []
+            for candidate in candidates:
+                source = candidate.get(
+                    "dependency_source"
+                )
+                if source and source not in parent_objectives:
+                    parent_objectives.append(source)
+
+            merged["parent_objectives"] = parent_objectives
+            merged["shared_dependency_count"] = len(
+                parent_objectives
+            )
+
+            achievement_name = next(
+                (
+                    candidate.get("dependency_achievement_name")
+                    for candidate in candidates
+                    if candidate.get("dependency_achievement_name")
+                ),
+                None
+            )
+            if achievement_name:
+                merged["title"] = achievement_name
+
+            merged.pop("parent_objective", None)
+            merged.pop("dependency_chain", None)
+
+            progress = merged.get("progress")
+            source_text = (
+                " and ".join(parent_objectives)
+                if len(parent_objectives) <= 2
+                else (
+                    ", ".join(parent_objectives[:-1])
+                    + f", and {parent_objectives[-1]}"
+                )
+            )
+
+            merged["reason"] = (
+                f"{merged['title']} advances "
+                f"{len(parent_objectives)} Vision dependencies: "
+                f"{source_text}."
+                + (
+                    f" Current progress is {progress}."
+                    if progress
+                    else ""
+                )
+            )
+
+            consolidated.append(merged)
+
+        return consolidated
+
+    def _consolidate_shared_consumable_purchases(
+        self,
+        recommendations: list
+    ):
+        grouped = {}
+        passthrough = []
+
+        for recommendation in recommendations:
+            dependency = recommendation.get("dependency") or {}
+
+            if (
+                dependency.get("tracking") != "shared_consumable"
+                or dependency.get("item_id") is None
+                or (dependency.get("primary_blocker") or {}).get("kind")
+                != "vendor_purchase"
+            ):
+                passthrough.append(recommendation)
+                continue
+
+            key = (
+                recommendation.get("goal"),
+                dependency["item_id"]
+            )
+            grouped.setdefault(key, []).append(recommendation)
+
+        consolidated = list(passthrough)
+
+        for candidates in grouped.values():
+            if len(candidates) == 1:
+                consolidated.append(candidates[0])
+                continue
+
+            dependencies = [candidate["dependency"] for candidate in candidates]
+
+            owned_values = {
+                dependency.get("owned", 0)
+                for dependency in dependencies
+            }
+            shared_required_values = {
+                dependency.get("shared_required")
+                for dependency in dependencies
+            }
+
+            if len(owned_values) != 1 or len(shared_required_values) != 1:
+                consolidated.extend(candidates)
+                continue
+
+            owned = owned_values.pop()
+            shared_required = shared_required_values.pop()
+
+            immediate_required = sum(
+                dependency.get("objective_required", 1)
+                for dependency in dependencies
+            )
+            immediate_missing = max(immediate_required - owned, 0)
+
+            template_dependency = dependencies[0]
+            shared_materials = template_dependency.get("shared_materials", [])
+            aggregate_materials = []
+            can_acquire_all_now = True
+
+            for material in shared_materials:
+                shared_count = material.get("required", 0)
+                per_unit = (
+                    shared_count / shared_required
+                    if shared_required
+                    else 0
+                )
+                required = int(round(per_unit * immediate_missing))
+                material_owned = material.get("owned", 0)
+                missing = max(required - material_owned, 0)
+
+                aggregate_materials.append({
+                    **material,
+                    "required": required,
+                    "missing": missing,
+                    "completed": missing == 0
+                })
+
+                if missing > 0:
+                    can_acquire_all_now = False
+
+            immediate_material_blockers = [
+                material
+                for material in aggregate_materials
+                if material.get("missing", 0) > 0
+            ]
+
+            immediate_material_blockers.sort(
+                key=lambda material: (
+                    material.get("priority", 50),
+                    -material.get("missing", 0)
+                )
+            )
+
+            template = dict(candidates[0])
+            dependency = dict(template_dependency)
+            blocker = dict(dependency.get("primary_blocker") or {})
+
+            parent_objectives = []
+            for candidate in candidates:
+                parent = candidate.get("parent_objective")
+                if parent and parent not in parent_objectives:
+                    parent_objectives.append(parent)
+
+            vendor_options = []
+            seen_vendor_locations = set()
+
+            for candidate in candidates:
+                candidate_dependency = (
+                    candidate.get("dependency")
+                    or {}
+                )
+                candidate_blocker = (
+                    candidate_dependency.get("primary_blocker")
+                    or {}
+                )
+                vendor_location = candidate_blocker.get(
+                    "location"
+                )
+
+                if (
+                    not vendor_location
+                    or vendor_location in seen_vendor_locations
+                ):
+                    continue
+
+                seen_vendor_locations.add(
+                    vendor_location
+                )
+                vendor_options.append({
+                    "location": vendor_location,
+                    "minimum_minutes": candidate_blocker.get(
+                        "minimum_minutes",
+                        candidate.get("minimum_minutes")
+                    ),
+                    "ideal_minutes": candidate_blocker.get(
+                        "ideal_minutes",
+                        candidate.get("ideal_minutes")
+                    ),
+                    "action": candidate_blocker.get(
+                        "action",
+                        candidate.get("action")
+                    )
+                })
+
+            blocker.update({
+                "required": immediate_required,
+                "owned": owned,
+                "missing": immediate_missing
+            })
+
+            primary_immediate_blocker = None
+
+            if immediate_material_blockers:
+                material = immediate_material_blockers[0]
+                primary_immediate_blocker = {
+                    "kind": "material",
+                    "item_id": material.get("item_id"),
+                    "name": material.get("name"),
+                    "required": material.get("required", 0),
+                    "owned": material.get("owned", 0),
+                    "missing": material.get("missing", 0),
+                    "priority": material.get("priority", 50),
+                    "activity": material.get("activity", "acquisition"),
+                    "location": material.get("location"),
+                    "minimum_minutes": material.get("minimum_minutes", 10),
+                    "ideal_minutes": material.get("ideal_minutes", 30),
+                    "action": material.get(
+                        "action",
+                        f"Acquire {material.get('missing', 0)} more {material.get('name', 'material')}."
+                    ),
+                    "completed": False
+                }
+
+            dependency.update({
+                "progress": (
+                    f"{min(owned, immediate_required)}/"
+                    f"{immediate_required}"
+                ),
+                "current": min(owned, immediate_required),
+                "required": immediate_required,
+                "remaining_required": immediate_missing,
+                "objective_required": immediate_required,
+                "percent": round(
+                    min(owned, immediate_required)
+                    / immediate_required
+                    * 100,
+                    1
+                ) if immediate_required else 0,
+                "completed": owned >= immediate_required,
+                "missing_count": (
+                    len(immediate_material_blockers)
+                    if immediate_material_blockers
+                    else (1 if immediate_missing > 0 else 0)
+                ),
+                "can_acquire_now": can_acquire_all_now,
+                "ready_to_acquire": (
+                    immediate_missing > 0
+                    and can_acquire_all_now
+                ),
+                "objective_materials": aggregate_materials,
+                "missing_objective_materials": immediate_material_blockers,
+                "primary_blocker": (
+                    primary_immediate_blocker
+                    or blocker
+                )
+            })
+
+            item_name = dependency.get("name", "shared consumable")
+            plural = "s" if immediate_missing != 1 else ""
+
+            vendor_locations = [
+                option["location"]
+                for option in vendor_options
+            ]
+
+            if can_acquire_all_now:
+                template.update({
+                    "title": (
+                        f"Buy {immediate_missing} {item_name}{plural}"
+                        if immediate_missing != 1
+                        else f"Buy {item_name}"
+                    ),
+                    "parent_objectives": parent_objectives,
+                    "shared_dependency_count": len(parent_objectives),
+                    "dependency": dependency,
+                    "immediate_required": immediate_required,
+                    "immediate_missing": immediate_missing,
+                    "vendor_options": vendor_options,
+                    "action": (
+                        f"Buy {immediate_missing} {item_name}{plural} "
+                        "from a Memory Essence Encapsulator vendor to prepare "
+                        "the currently modelled Vision of Enemies objectives."
+                    ),
+                    "reason": (
+                        f"{len(parent_objectives)} incomplete Vision of Enemies "
+                        f"objectives currently require {immediate_required} "
+                        f"{item_name}{'s' if immediate_required != 1 else ''}; "
+                        f"{owned} are currently owned. You have the materials "
+                        f"needed to acquire all {immediate_missing} immediate "
+                        f"requirement{'s' if immediate_missing != 1 else ''}. "
+                        f"Across Vision of Enemies, {shared_required} are needed "
+                        "in total."
+                        + (
+                            " Available vendor locations: "
+                            + "; ".join(vendor_locations)
+                            + "."
+                            if vendor_locations
+                            else ""
+                        )
+                    )
+                })
+            else:
+                material = primary_immediate_blocker
+                material_name = material.get("name", "required material")
+                material_missing = material.get("missing", 0)
+                acquisition = self._get_acquisition_metadata(
+                    material.get("item_id")
+                )
+
+                template.update({
+                    "title": (
+                        f"Acquire {material_missing} more {material_name}"
+                    ),
+                    "parent_objectives": parent_objectives,
+                    "shared_dependency_count": len(parent_objectives),
+                    "dependency": dependency,
+                    "immediate_required": immediate_required,
+                    "immediate_missing": immediate_missing,
+                    "material_item_id": material.get("item_id"),
+                    "material_name": material_name,
+                    "material_owned": material.get("owned", 0),
+                    "material_required": material.get("required", 0),
+                    "material_missing": material_missing,
+                    "activity": acquisition.get(
+                        "activity",
+                        material.get("activity", "acquisition")
+                    ),
+                    "location": acquisition.get(
+                        "location",
+                        material.get("location")
+                    ),
+                    "minimum_minutes": material.get("minimum_minutes", 10),
+                    "ideal_minutes": material.get("ideal_minutes", 30),
+                    "action": (
+                        f"Acquire {material_missing} more {material_name}. "
+                        + acquisition.get(
+                            "action",
+                            material.get("action", "")
+                        )
+                    ).strip(),
+                    "reason": (
+                        f"{len(parent_objectives)} incomplete Vision of Enemies "
+                        f"objectives currently require {immediate_required} "
+                        f"{item_name}{'s' if immediate_required != 1 else ''}. "
+                        f"You are {material_missing} {material_name} short of "
+                        "the materials needed for the full immediate batch. "
+                        f"After clearing this blocker, buy "
+                        f"{immediate_missing} {item_name}{plural}. "
+                        f"Across Vision of Enemies, {shared_required} are "
+                        "needed in total."
+                    )
+                })
+
+                template.pop("vendor_options", None)
+
+            template.pop("parent_objective", None)
+            consolidated.append(template)
+
+        return consolidated
 
     def _filter_recommendations(
         self,
@@ -508,8 +1029,15 @@ class RecommendationService:
 
                 if missing_objectives is not None:
                     for objective in missing_objectives:
-                        dependency = objective.get(
+                        dependency_chain = objective.get(
                             "dependency"
+                        )
+                        dependency = (
+                            self._active_vision_dependency(
+                                dependency_chain
+                            )
+                            if dependency_chain
+                            else None
                         )
 
                         if dependency:
@@ -535,13 +1063,63 @@ class RecommendationService:
                                 )
                             )
 
-                            reason = (
-                                f"{dependency['name']} is "
-                                f"{dependency.get('current', 0)}/"
-                                f"{required} complete, with "
-                                f"{len(missing_dependency_objectives)} "
-                                f"objectives remaining."
+                            remaining_required = max(
+                                required - dependency.get("current", 0),
+                                0
                             )
+
+                            next_dependency_objective = (
+                                dependency.get("next_objective")
+                                if dependency.get("sequential")
+                                else None
+                            )
+
+                            if dependency.get("completion_mode") == "threshold":
+                                available = dependency.get(
+                                    "available",
+                                    len(dependency.get("objectives", []))
+                                )
+                                reason = (
+                                    f"{dependency['name']} has "
+                                    f"{dependency.get('current', 0)}/"
+                                    f"{required} required unlocks. "
+                                    f"Acquire {remaining_required} more "
+                                    f"from {available} available options."
+                                )
+                            else:
+                                reason = (
+                                    f"{dependency['name']} is "
+                                    f"{dependency.get('current', 0)}/"
+                                    f"{required} complete, with "
+                                    f"{len(missing_dependency_objectives)} "
+                                    f"objectives remaining."
+                                )
+
+                            if next_dependency_objective:
+                                reason += (
+                                    " The dependency is sequential; "
+                                    f"the next step is "
+                                    f"{next_dependency_objective['name']}."
+                                )
+
+                            if dependency.get("time_gated"):
+                                reason += (
+                                    " Starting this time-gated dependency "
+                                    "early avoids delaying later progress."
+                                )
+
+                            completed_next_step = (
+                                dependency.get("next_step")
+                                if dependency.get("completed")
+                                else None
+                            )
+
+                            if completed_next_step:
+                                reason = (
+                                    f"{dependency['name']} is complete. "
+                                    f"The unlocked next step is "
+                                    f"{completed_next_step.get('name', 'available now')}."
+                                )
                         else:
                             progress_ratio = (
                                 self._collection_progress_ratio(
@@ -585,10 +1163,403 @@ class RecommendationService:
                                     "for the collection."
                                 )
                             ),
-                            "reason": reason
+                            "reason": reason,
+                            "availability_type": objective.get("availability_type"),
+                            "event_dependent": objective.get("event_dependent", False),
+                            "group_recommended": objective.get("group_recommended", False),
+                            "schedule_dependent": objective.get("schedule_dependent", False),
+                            "playability_note": objective.get("playability_note")
                         }
 
                         if dependency:
+                            recommendation["time_gated"] = (
+                                dependency.get("time_gated", False)
+                            )
+                            recommendation["time_gate"] = (
+                                dependency.get("time_gate")
+                            )
+
+                            completed_next_step = (
+                                dependency.get("next_step")
+                                if dependency.get("completed")
+                                else None
+                            )
+
+                            if completed_next_step:
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+                                recommendation["title"] = (
+                                    completed_next_step.get(
+                                        "display_name",
+                                        completed_next_step.get(
+                                            "name",
+                                            objective["name"]
+                                        )
+                                    )
+                                )
+                                recommendation["activity"] = (
+                                    completed_next_step.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    )
+                                )
+                                recommendation["location"] = (
+                                    completed_next_step.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                )
+                                recommendation["minimum_minutes"] = (
+                                    completed_next_step.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    )
+                                )
+                                recommendation["ideal_minutes"] = (
+                                    completed_next_step.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    )
+                                )
+                                recommendation["action"] = (
+                                    completed_next_step.get(
+                                        "action",
+                                        objective.get("action")
+                                    )
+                                )
+                                recommendation["dependency_ready"] = True
+
+                                next_step_required = (
+                                    completed_next_step.get(
+                                        "required"
+                                    )
+                                )
+                                next_step_current = (
+                                    completed_next_step.get(
+                                        "current"
+                                    )
+                                )
+
+                                if (
+                                    next_step_required is not None
+                                    and next_step_current is not None
+                                ):
+                                    recommendation["progress"] = (
+                                        f"{next_step_current}/"
+                                        f"{next_step_required}"
+                                    )
+                                    recommendation[
+                                        "progress_ratio"
+                                    ] = (
+                                        next_step_current
+                                        / next_step_required
+                                        if next_step_required
+                                        else 1
+                                    )
+
+                            next_dependency_objective = (
+                                dependency.get("next_objective")
+                                if dependency.get("sequential")
+                                else None
+                            )
+
+                            if next_dependency_objective:
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+                                recommendation[
+                                    "dependency_achievement_id"
+                                ] = dependency.get("achievement_id")
+                                recommendation[
+                                    "dependency_achievement_name"
+                                ] = dependency.get("name")
+                                recommendation[
+                                    "dependency_source"
+                                ] = objective["name"]
+                                recommendation["title"] = (
+                                    f"{dependency['name']}: "
+                                    f"{next_dependency_objective['name']}"
+                                )
+                                recommendation["location"] = (
+                                    next_dependency_objective.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                )
+                                recommendation["minimum_minutes"] = (
+                                    next_dependency_objective.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    )
+                                )
+                                recommendation["ideal_minutes"] = (
+                                    next_dependency_objective.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    )
+                                )
+                                recommendation["action"] = (
+                                    next_dependency_objective.get(
+                                        "action",
+                                        objective.get("action")
+                                    )
+                                )
+
+                            if (
+                                dependency.get("completion_mode")
+                                == "threshold"
+                                and dependency.get("selection_mode")
+                                == "any"
+                            ):
+                                missing_options = (
+                                    missing_dependency_objectives
+                                )
+                                representative = (
+                                    missing_options[0]
+                                    if missing_options
+                                    else {}
+                                )
+
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+                                plural = (
+                                    "s" if remaining_required != 1 else ""
+                                )
+                                option_noun = dependency.get(
+                                    "option_noun",
+                                    "Dragonsblood weapon skin"
+                                )
+                                if (
+                                    dependency.get("tracking")
+                                    == "achievement_options"
+                                    and representative
+                                ):
+                                    recommendation["title"] = (
+                                        f"{dependency['name']}: "
+                                        f"{representative['name']}"
+                                    )
+                                else:
+                                    recommendation["title"] = (
+                                        f"{dependency['name']}: Acquire "
+                                        f"{remaining_required} more "
+                                        f"{option_noun}{plural}"
+                                    )
+                                recommendation["activity"] = (
+                                    representative.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    )
+                                )
+                                recommendation["location"] = (
+                                    representative.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                )
+                                recommendation["minimum_minutes"] = (
+                                    representative.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    )
+                                )
+                                recommendation["ideal_minutes"] = (
+                                    representative.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    )
+                                )
+                                if (
+                                    dependency.get("tracking")
+                                    == "achievement_options"
+                                    and representative
+                                ):
+                                    recommendation["action"] = (
+                                        representative.get(
+                                            "action",
+                                            objective.get("action")
+                                        )
+                                    )
+                                    recommendation["reason"] = (
+                                        f"{dependency['name']} is "
+                                        f"{dependency.get('current', 0)}/"
+                                        f"{dependency.get('required', 0)}. "
+                                        f"Complete {remaining_required} more "
+                                        f"{option_noun}{plural}; "
+                                        f"{representative.get('name')} is "
+                                        "currently the highest-priority option."
+                                    )
+                                else:
+                                    recommendation["action"] = (
+                                        f"Unlock any {remaining_required} of the "
+                                        f"{len(missing_options)} remaining "
+                                        f"{option_noun}{plural}."
+                                    )
+                                recommendation["options"] = (
+                                    missing_options
+                                )
+
+                            if dependency.get("tracking") == "shared_consumable":
+                                blocker = dependency.get("primary_blocker")
+                                shared_blocker = dependency.get("shared_primary_blocker")
+
+                                recommendation["parent_objective"] = objective["name"]
+
+                                if blocker:
+                                    if blocker.get("kind") == "material":
+                                        recommendation["title"] = (
+                                            f"Acquire {blocker['missing']} more {blocker['name']}"
+                                        )
+                                    elif blocker.get("kind") == "vendor_purchase":
+                                        recommendation["title"] = (
+                                            f"Buy {blocker['name']}"
+                                        )
+                                    else:
+                                        recommendation["title"] = blocker.get(
+                                            "name",
+                                            objective["name"]
+                                        )
+
+                                    recommendation["activity"] = blocker.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    )
+                                    recommendation["location"] = blocker.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                    recommendation["minimum_minutes"] = blocker.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    )
+                                    recommendation["ideal_minutes"] = blocker.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    )
+                                    recommendation["action"] = blocker.get(
+                                        "action",
+                                        objective.get("action")
+                                    )
+                                    recommendation["event_dependent"] = blocker.get(
+                                        "event_dependent",
+                                        False
+                                    )
+
+                                reason = (
+                                    f"{objective['name']} requires "
+                                    f"{dependency['objective_required']} "
+                                    f"{dependency['name']}."
+                                )
+
+                                if dependency.get("ready_to_acquire"):
+                                    reason += (
+                                        " You already have the materials "
+                                        "needed for this objective."
+                                    )
+
+                                if shared_blocker:
+                                    reason += (
+                                        f" Across {dependency.get('shared_scope', 'Vision')}, "
+                                        f"{dependency['shared_required']} are needed in total; "
+                                        f"you still need {shared_blocker['missing']} more "
+                                        f"{shared_blocker['name']} for the full shared requirement."
+                                    )
+
+                                recommendation["reason"] = reason
+
+                            if dependency.get("tracking") == "crafting":
+                                blocker = dependency.get("primary_blocker")
+
+                                recommendation["parent_objective"] = (
+                                    objective["name"]
+                                )
+
+                                if blocker:
+                                    acquisition = self.acquisition.get(
+                                        str(blocker.get("item_id")),
+                                        {}
+                                    )
+
+                                    if blocker.get("kind") == "material":
+                                        recommendation["title"] = (
+                                            f"Acquire {blocker['missing']} more "
+                                            f"{blocker['name']}"
+                                        )
+                                        recommendation["material_item_id"] = blocker["item_id"]
+                                        recommendation["material_name"] = blocker["name"]
+                                        recommendation["material_owned"] = blocker["owned"]
+                                        recommendation["material_required"] = blocker["required"]
+                                        recommendation["material_source"] = objective["name"]
+                                    else:
+                                        recommendation["title"] = blocker["name"]
+
+                                    recommendation["activity"] = (
+                                        acquisition.get(
+                                            "activity",
+                                            blocker.get(
+                                                "activity",
+                                                objective.get("activity")
+                                            )
+                                        )
+                                    )
+                                    recommendation["location"] = (
+                                        acquisition.get(
+                                            "location",
+                                            blocker.get(
+                                                "location",
+                                                objective.get("location")
+                                            )
+                                        )
+                                    )
+                                    recommendation["minimum_minutes"] = (
+                                        blocker.get(
+                                            "minimum_minutes",
+                                            objective.get("minimum_minutes")
+                                        )
+                                    )
+                                    recommendation["ideal_minutes"] = (
+                                        blocker.get(
+                                            "ideal_minutes",
+                                            objective.get("ideal_minutes")
+                                        )
+                                    )
+
+                                    acquisition_action = acquisition.get("action")
+                                    blocker_action = blocker.get("action")
+
+                                    if (
+                                        blocker.get("kind") == "material"
+                                        and acquisition_action
+                                    ):
+                                        recommendation["action"] = (
+                                            f"Acquire {blocker['missing']} more "
+                                            f"{blocker['name']}. "
+                                            f"{acquisition_action}"
+                                        )
+                                    else:
+                                        recommendation["action"] = (
+                                            blocker_action
+                                            or objective.get("action")
+                                        )
+
+                                missing_materials = dependency.get(
+                                    "missing_materials",
+                                    []
+                                )
+                                missing_recipes = dependency.get(
+                                    "missing_recipes",
+                                    []
+                                )
+
+                                recommendation["reason"] = (
+                                    f"{dependency['name']} has "
+                                    f"{len(missing_materials)} material "
+                                    f"shortage(s) and "
+                                    f"{len(missing_recipes)} locked "
+                                    "recipe(s) remaining."
+                                )
+
                             recommendation["dependency"] = {
                                 "achievement_id": dependency.get(
                                     "achievement_id"
@@ -600,6 +1571,11 @@ class RecommendationService:
                                     f"{dependency.get('current', 0)}/"
                                     f"{required}"
                                 ),
+                                "current": dependency.get(
+                                    "current",
+                                    0
+                                ),
+                                "required": required,
                                 "percent": dependency.get(
                                     "percent"
                                 ),
@@ -615,12 +1591,436 @@ class RecommendationService:
                                 ),
                                 "alternative": dependency.get(
                                     "alternative"
-                                )
+                                ),
+                                "time_gated": dependency.get(
+                                    "time_gated",
+                                    False
+                                ),
+                                "time_gate": dependency.get(
+                                    "time_gate"
+                                ),
+                                "sequential": dependency.get(
+                                    "sequential",
+                                    False
+                                ),
+                                "next_objective": dependency.get(
+                                    "next_objective"
+                                ),
+                                "unlocks": dependency.get(
+                                    "unlocks"
+                                ),
+                                "next_step": dependency.get(
+                                    "next_step"
+                                ),
+                                "completion_mode": dependency.get(
+                                    "completion_mode"
+                                ),
+                                "selection_mode": dependency.get(
+                                    "selection_mode"
+                                ),
+                                "available": dependency.get(
+                                    "available"
+                                ),
+                                "remaining_required": remaining_required,
+                                "tracking": dependency.get("tracking"),
+                                "item_id": dependency.get("item_id"),
+                                "owned": dependency.get("owned"),
+                                "recipe_id": dependency.get("recipe_id"),
+                                "recipe_known": dependency.get("recipe_known"),
+                                "materials": dependency.get("materials"),
+                                "missing_materials": dependency.get(
+                                    "missing_materials"
+                                ),
+                                "recipe_unlocks": dependency.get(
+                                    "recipe_unlocks"
+                                ),
+                                "missing_recipes": dependency.get(
+                                    "missing_recipes"
+                                ),
+                                "ready_to_craft": dependency.get(
+                                    "ready_to_craft"
+                                ),
+                                "primary_blocker": dependency.get(
+                                    "primary_blocker"
+                                ),
+                                "objective_required": dependency.get(
+                                    "objective_required"
+                                ),
+                                "shared_required": dependency.get(
+                                    "shared_required"
+                                ),
+                                "shared_scope": dependency.get(
+                                    "shared_scope"
+                                ),
+                                "can_acquire_now": dependency.get(
+                                    "can_acquire_now"
+                                ),
+                                "ready_to_acquire": dependency.get(
+                                    "ready_to_acquire"
+                                ),
+                                "objective_materials": dependency.get(
+                                    "objective_materials"
+                                ),
+                                "missing_objective_materials": dependency.get(
+                                    "missing_objective_materials"
+                                ),
+                                "shared_materials": dependency.get(
+                                    "shared_materials"
+                                ),
+                                "missing_shared_materials": dependency.get(
+                                    "missing_shared_materials"
+                                ),
+                                "shared_primary_blocker": dependency.get(
+                                    "shared_primary_blocker"
+                                ),
+                                "recommended_options": dependency.get(
+                                    "recommended_options"
+                                ),
+                                "option_noun": dependency.get("option_noun")
                             }
 
-                        recommendations.append(
-                            recommendation
-                        )
+                        if (
+                            dependency_chain
+                            and dependency_chain is not dependency
+                        ):
+                            recommendation["dependency_chain"] = (
+                                dependency_chain
+                            )
+
+                        if (
+                            dependency
+                            and dependency.get("tracking")
+                            == "achievement_options"
+                            and dependency.get("completion_mode")
+                            == "threshold"
+                            and dependency.get("selection_mode")
+                            == "any"
+                        ):
+                            missing_options = [
+                                option
+                                for option in dependency.get(
+                                    "missing_objectives",
+                                    []
+                                )
+                                if option.get("available", True)
+                            ]
+                            remaining_required = dependency.get(
+                                "remaining_required",
+                                max(
+                                    dependency.get("required", 0)
+                                    - dependency.get("current", 0),
+                                    0
+                                )
+                            )
+
+                            option_window = min(
+                                len(missing_options),
+                                max(
+                                    remaining_required * 2,
+                                    remaining_required,
+                                    1
+                                )
+                            )
+
+                            for option_index, option in enumerate(
+                                missing_options[:option_window]
+                            ):
+                                option_recommendation = dict(
+                                    recommendation
+                                )
+
+                                option_recommendation["title"] = (
+                                    f"{dependency['name']}: "
+                                    f"{option['name']}"
+                                )
+                                option_recommendation[
+                                    "parent_objective"
+                                ] = objective["name"]
+                                option_recommendation["activity"] = (
+                                    option.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    )
+                                )
+                                option_recommendation["location"] = (
+                                    option.get(
+                                        "location",
+                                        objective.get("location")
+                                    )
+                                )
+                                option_recommendation[
+                                    "minimum_minutes"
+                                ] = option.get(
+                                    "minimum_minutes",
+                                    objective.get("minimum_minutes")
+                                )
+                                option_recommendation[
+                                    "ideal_minutes"
+                                ] = option.get(
+                                    "ideal_minutes",
+                                    objective.get("ideal_minutes")
+                                )
+                                option_recommendation["action"] = (
+                                    option.get(
+                                        "action",
+                                        objective.get("action")
+                                    )
+                                )
+                                option_recommendation[
+                                    "event_dependent"
+                                ] = option.get(
+                                    "event_dependent",
+                                    False
+                                )
+
+                                for playability_field in (
+                                    "availability_type",
+                                    "repeat_required",
+                                    "group_recommended",
+                                    "schedule_dependent",
+                                    "playability_note"
+                                ):
+                                    if playability_field in option:
+                                        option_recommendation[
+                                            playability_field
+                                        ] = option[
+                                            playability_field
+                                        ]
+                                option_recommendation[
+                                    "dependency_option"
+                                ] = option
+                                option_recommendation[
+                                    "dependency_achievement_id"
+                                ] = option.get("achievement_id")
+                                option_recommendation[
+                                    "dependency_achievement_name"
+                                ] = option.get("name")
+                                option_recommendation[
+                                    "dependency_source"
+                                ] = objective["name"]
+                                option_recommendation[
+                                    "dependency_option_rank"
+                                ] = option_index + 1
+
+                                related_objectives = option.get(
+                                    "related_objectives",
+                                    []
+                                )
+
+                                if related_objectives:
+                                    option_recommendation[
+                                        "related_objectives"
+                                    ] = related_objectives
+                                    option_recommendation[
+                                        "related_objective_count"
+                                    ] = len(
+                                        related_objectives
+                                    )
+
+                                active_completion_effects = option.get(
+                                    "active_completion_effects",
+                                    []
+                                )
+
+                                if active_completion_effects:
+                                    option_recommendation[
+                                        "completion_effects"
+                                    ] = active_completion_effects
+                                    immediate_completion_effects = [
+                                        effect
+                                        for effect in active_completion_effects
+                                        if effect.get(
+                                            "completes_achievement",
+                                            False
+                                        )
+                                    ]
+
+                                    option_recommendation[
+                                        "completion_effect_count"
+                                    ] = len(
+                                        immediate_completion_effects
+                                    )
+                                    qualifying_completion_effects = [
+                                        effect
+                                        for effect in active_completion_effects
+                                        if (
+                                            effect.get(
+                                                "completes_achievement",
+                                                False
+                                            )
+                                            and effect.get(
+                                                "counts_toward_same_dependency",
+                                                False
+                                            )
+                                        )
+                                    ]
+
+                                    option_recommendation[
+                                        "effective_achievement_completions"
+                                    ] = (
+                                        1
+                                        + len(
+                                            qualifying_completion_effects
+                                        )
+                                    )
+
+                                option_recommendation[
+                                    "score_adjustment"
+                                ] = (
+                                    -4
+                                    if option.get(
+                                        "event_dependent",
+                                        False
+                                    )
+                                    else 0
+                                )
+
+                                option_recommendation["reason"] = (
+                                    f"{dependency['name']} is "
+                                    f"{dependency.get('current', 0)}/"
+                                    f"{dependency.get('required', 0)}. "
+                                    f"Complete {remaining_required} more "
+                                    f"{dependency.get('option_noun', 'option')}"
+                                    f"{'s' if remaining_required != 1 else ''}. "
+                                    f"{option['name']} is one of the "
+                                    "highest-priority remaining options."
+                                )
+
+                                if active_completion_effects:
+                                    effect_names = [
+                                        effect["name"]
+                                        for effect in active_completion_effects
+                                    ]
+                                    option_recommendation["reason"] += (
+                                        " Completing it also advances "
+                                        + (
+                                            " and ".join(effect_names)
+                                            if len(effect_names) <= 2
+                                            else (
+                                                ", ".join(effect_names[:-1])
+                                                + f", and {effect_names[-1]}"
+                                            )
+                                        )
+                                        + "."
+                                    )
+
+                                if related_objectives:
+                                    option_recommendation["reason"] += (
+                                        " This work also advances "
+                                        + (
+                                            " and ".join(related_objectives)
+                                            if len(related_objectives) <= 2
+                                            else (
+                                                ", ".join(related_objectives[:-1])
+                                                + f", and {related_objectives[-1]}"
+                                            )
+                                        )
+                                        + "."
+                                    )
+
+                                option_required = option.get("required")
+                                if option_required:
+                                    option_recommendation["progress"] = (
+                                        f"{option.get('current', 0)}/"
+                                        f"{option_required}"
+                                    )
+                                    option_recommendation[
+                                        "option_progress_ratio"
+                                    ] = (
+                                        option.get("current", 0)
+                                        / option_required
+                                    )
+
+                                recommendations.append(
+                                    option_recommendation
+                                )
+
+                            continue
+
+                        emitted_child_recommendation = False
+
+                        if (
+                            dependency
+                            and dependency.get("tracking")
+                            in {"achievement_bits", "achievement_set"}
+                        ):
+                            for child in missing_dependency_objectives:
+                                child_achievement_id = child.get(
+                                    "achievement_id"
+                                )
+
+                                if child_achievement_id is None:
+                                    continue
+
+                                child_recommendation = dict(
+                                    recommendation
+                                )
+                                child_recommendation.update({
+                                    "type": "objective",
+                                    "title": child["name"],
+                                    "parent_objective": objective["name"],
+                                    "dependency_achievement_id": (
+                                        child_achievement_id
+                                    ),
+                                    "dependency_source": objective["name"],
+                                    "activity": child.get(
+                                        "activity",
+                                        objective.get("activity")
+                                    ),
+                                    "location": child.get(
+                                        "location",
+                                        objective.get("location")
+                                    ),
+                                    "minimum_minutes": child.get(
+                                        "minimum_minutes",
+                                        objective.get("minimum_minutes")
+                                    ),
+                                    "ideal_minutes": child.get(
+                                        "ideal_minutes",
+                                        objective.get("ideal_minutes")
+                                    ),
+                                    "action": child.get(
+                                        "action",
+                                        objective.get("action")
+                                    ),
+                                    "event_dependent": child.get(
+                                        "event_dependent",
+                                        False
+                                    ),
+                                    "reason": (
+                                        f"{child['name']} is required for "
+                                        f"{objective['name']}."
+                                    )
+                                })
+
+                                child_required = child.get(
+                                    "required"
+                                )
+
+                                if child_required:
+                                    child_current = child.get(
+                                        "current",
+                                        0
+                                    )
+                                    child_recommendation["progress"] = (
+                                        f"{child_current}/{child_required}"
+                                    )
+                                    child_recommendation[
+                                        "progress_ratio"
+                                    ] = (
+                                        child_current
+                                        / child_required
+                                    )
+
+                                recommendations.append(
+                                    child_recommendation
+                                )
+                                emitted_child_recommendation = True
+
+                        if not emitted_child_recommendation:
+                            recommendations.append(
+                                recommendation
+                            )
 
                     continue
 
@@ -728,6 +2128,11 @@ class RecommendationService:
                     "type",
                     "material"
                 ),
+                "material_item_id": material["id"],
+                "material_name": material["name"],
+                "material_owned": material["owned"],
+                "material_required": material["required"],
+                "material_source": "Vision crafting requirements",
                 "title": (
                     f"Acquire {material['missing']} "
                     f"more {material['name']}"
@@ -744,6 +2149,15 @@ class RecommendationService:
                 "activity": metadata.get(
                     "activity"
                 ),
+                "location": metadata.get(
+                    "location"
+                ),
+                "minimum_minutes": metadata.get(
+                    "minimum_minutes"
+                ),
+                "ideal_minutes": metadata.get(
+                    "ideal_minutes"
+                ),
                 "action": metadata.get(
                     "action",
                     "Acquire the remaining "
@@ -754,6 +2168,190 @@ class RecommendationService:
                     "required for Vision."
                 )
             })
+
+    def _active_vision_dependency(
+        self,
+        dependency: dict
+    ):
+        active = dependency
+
+        while active:
+            prerequisite = active.get(
+                "prerequisite"
+            )
+
+            if (
+                not prerequisite
+                or prerequisite.get(
+                    "completed",
+                    False
+                )
+            ):
+                return active
+
+            active = prerequisite
+
+        return dependency
+
+    def _resolve_aurora_recommendation_step(
+        self,
+        dependency: dict,
+        parent_objective: dict
+    ):
+        active_dependency = dependency
+        source_objective = parent_objective
+
+        while active_dependency:
+            tracking = active_dependency.get("tracking")
+
+            if tracking == "achievement_set":
+                next_objective = active_dependency.get(
+                    "next_objective"
+                )
+
+                if not next_objective:
+                    return (
+                        active_dependency,
+                        None,
+                        source_objective
+                    )
+
+                child_dependency = next_objective.get(
+                    "dependency"
+                )
+
+                if (
+                    child_dependency
+                    and not child_dependency.get(
+                        "completed",
+                        False
+                    )
+                ):
+                    source_objective = next_objective
+                    active_dependency = child_dependency
+                    continue
+
+                return (
+                    active_dependency,
+                    next_objective,
+                    source_objective
+                )
+
+            if tracking == "achievement_bits":
+                return (
+                    active_dependency,
+                    active_dependency.get(
+                        "next_objective"
+                    ),
+                    source_objective
+                )
+
+            return (
+                active_dependency,
+                None,
+                source_objective
+            )
+
+        return dependency, None, source_objective
+
+    def _append_aurora_acquisition_options(
+        self,
+        collection: dict,
+        objective: dict,
+        progress: str,
+        progress_ratio: float,
+        recommendations: list,
+        include_achievement: bool = True
+    ):
+        acquisition_options = objective.get(
+            "acquisition_options",
+            []
+        )
+        appended = 0
+
+        for option in acquisition_options:
+            option_type = option.get("type")
+
+            if (
+                option_type == "achievement"
+                and not include_achievement
+            ):
+                continue
+
+            modes = option.get("modes", [])
+
+            if option_type == "reward_track":
+                activity = (
+                    "wvw"
+                    if "WvW" in modes
+                    else "achievement"
+                )
+            else:
+                activity = "achievement"
+
+            action_parts = []
+
+            unlock_requirement = (
+                option.get("unlock")
+                or option.get("unlock_requirement")
+            )
+            reward = (
+                option.get("reward")
+                or option.get("final_reward")
+            )
+
+            if unlock_requirement:
+                action_parts.append(
+                    f"Unlock: {unlock_requirement}."
+                )
+
+            if option.get("notes"):
+                action_parts.append(
+                    option["notes"]
+                )
+
+            if reward:
+                action_parts.append(
+                    f"Target reward: {reward}."
+                )
+
+            recommendations.append({
+                "goal": "Aurora",
+                "type": "objective",
+                "title": (
+                    f"{objective['name']}: "
+                    f"{option.get('name', 'Acquisition option')}"
+                ),
+                "collection": collection["name"],
+                "parent_objective": objective["name"],
+                "progress": progress,
+                "progress_ratio": progress_ratio,
+                "activity": activity,
+                "location": objective.get(
+                    "location",
+                    collection.get("location")
+                ),
+                "minimum_minutes": None,
+                "ideal_minutes": None,
+                "action": (
+                    " ".join(action_parts)
+                    if action_parts
+                    else objective.get(
+                        "action",
+                        "Use this acquisition route."
+                    )
+                ),
+                "reason": (
+                    f"{objective['name']} can be obtained through "
+                    f"{option.get('name', 'this acquisition route')} "
+                    f"for {collection['name']}."
+                ),
+                "acquisition_option": option,
+                "acquisition_modes": modes
+            })
+            appended += 1
+
+        return appended
 
     def _add_aurora_recommendations(
         self,
@@ -1042,6 +2640,171 @@ class RecommendationService:
                             else "open_world"
                         )
 
+                        if len(group_objectives) == 1:
+                            parent_objective = group_objectives[0]
+                            dependency = parent_objective.get(
+                                "dependency"
+                            )
+
+                            if (
+                                dependency
+                                and dependency.get("tracking")
+                                in {
+                                    "achievement_bits",
+                                    "achievement_set"
+                                }
+                                and not dependency.get(
+                                    "completed",
+                                    False
+                                )
+                            ):
+                                (
+                                    active_dependency,
+                                    next_objective,
+                                    source_objective
+                                ) = (
+                                    self._resolve_aurora_recommendation_step(
+                                        dependency=dependency,
+                                        parent_objective=parent_objective
+                                    )
+                                )
+
+                                if next_objective:
+                                    self._append_aurora_acquisition_options(
+                                        collection=collection,
+                                        objective=parent_objective,
+                                        progress=(
+                                            f"{objective_current}/"
+                                            f"{objective_required}"
+                                        ),
+                                        progress_ratio=objective_ratio,
+                                        recommendations=recommendations,
+                                        include_achievement=False
+                                    )
+
+                                    recommendations.append({
+                                        "goal": "Aurora",
+                                        "type": "objective",
+                                        "title": (
+                                            f"{active_dependency['name']}: "
+                                            f"{next_objective['name']}"
+                                        ),
+                                        "collection": collection["name"],
+                                        "parent_objective": (
+                                            parent_objective["name"]
+                                        ),
+                                        "dependency_source": (
+                                            source_objective.get(
+                                                "name",
+                                                parent_objective["name"]
+                                            )
+                                        ),
+                                        "dependency_achievement_id": (
+                                            active_dependency.get(
+                                                "achievement_id"
+                                            )
+                                        ),
+                                        "dependency_achievement_name": (
+                                            active_dependency.get(
+                                                "name"
+                                            )
+                                        ),
+                                        "progress": (
+                                            f"{active_dependency.get('current', 0)}/"
+                                            f"{active_dependency.get('required', 0)}"
+                                        ),
+                                        "progress_ratio": (
+                                            active_dependency.get(
+                                                "current",
+                                                0
+                                            )
+                                            / active_dependency.get(
+                                                "required",
+                                                1
+                                            )
+                                            if active_dependency.get(
+                                                "required"
+                                            )
+                                            else 0
+                                        ),
+                                        "activity": next_objective.get(
+                                            "activity",
+                                            source_objective.get(
+                                                "activity",
+                                                parent_objective.get(
+                                                    "activity"
+                                                )
+                                            )
+                                        ),
+                                        "location": next_objective.get(
+                                            "location",
+                                            source_objective.get(
+                                                "location",
+                                                collection.get("location")
+                                            )
+                                        ),
+                                        "minimum_minutes": next_objective.get(
+                                            "minimum_minutes",
+                                            source_objective.get(
+                                                "minimum_minutes",
+                                                parent_objective.get(
+                                                    "minimum_minutes",
+                                                    5
+                                                )
+                                            )
+                                        ),
+                                        "ideal_minutes": next_objective.get(
+                                            "ideal_minutes",
+                                            source_objective.get(
+                                                "ideal_minutes",
+                                                parent_objective.get(
+                                                    "ideal_minutes",
+                                                    10
+                                                )
+                                            )
+                                        ),
+                                        "action": next_objective.get(
+                                            "action",
+                                            source_objective.get(
+                                                "action",
+                                                parent_objective.get(
+                                                    "action"
+                                                )
+                                            )
+                                        ),
+                                        "reason": (
+                                            f"{parent_objective['name']} "
+                                            f"depends on "
+                                            f"{active_dependency['name']}, "
+                                            f"which is "
+                                            f"{active_dependency.get('current', 0)}/"
+                                            f"{active_dependency.get('required', 0)} "
+                                            "complete. This is one of the "
+                                            "currently actionable next steps."
+                                        ),
+                                        "dependency": active_dependency
+                                    })
+                                    continue
+
+                            acquisition_option_count = (
+                                self._append_aurora_acquisition_options(
+                                    collection=collection,
+                                    objective=parent_objective,
+                                    progress=(
+                                        f"{objective_current}/"
+                                        f"{objective_required}"
+                                    ),
+                                    progress_ratio=objective_ratio,
+                                    recommendations=recommendations,
+                                    include_achievement=(
+                                        dependency is None
+                                    )
+                                )
+                            )
+
+                            if acquisition_option_count:
+                                continue
+
                         recommendations.append({
                             "goal": "Aurora",
                             "type": "objective_bundle",
@@ -1237,6 +3000,88 @@ class RecommendationService:
                 profile["ideal_minutes"]
             )
 
+    def _normalize_aurora_playability(
+        self,
+        recommendation: dict
+    ):
+        if recommendation.get("goal") != "Aurora":
+            return
+
+        sources = [
+            recommendation
+        ]
+
+        acquisition_option = recommendation.get(
+            "acquisition_option"
+        )
+        if acquisition_option:
+            sources.append(
+                acquisition_option
+            )
+
+        dependency = recommendation.get(
+            "dependency"
+        )
+        if dependency:
+            next_objective = dependency.get(
+                "next_objective"
+            )
+            if next_objective:
+                sources.append(
+                    next_objective
+                )
+
+        objectives = recommendation.get(
+            "objectives",
+            []
+        )
+        if len(objectives) == 1:
+            sources.append(
+                objectives[0]
+            )
+
+        metadata_fields = (
+            "availability_type",
+            "event_dependent",
+            "repeat_required",
+            "group_recommended",
+            "schedule_dependent",
+            "playability_note",
+            "time_gated",
+            "time_gate",
+            "daily",
+            "chance_based",
+            "per_character_daily_reset",
+            "daily_chests_per_character",
+            "max_chests_per_character_per_day",
+            "optional_for_dependency",
+            "daily_opportunity_type"
+        )
+
+        for field in metadata_fields:
+            if field in recommendation:
+                continue
+
+            for source in sources[1:]:
+                if field in source:
+                    recommendation[field] = (
+                        source[field]
+                    )
+                    break
+
+        if (
+            recommendation.get(
+                "availability_type"
+            ) is None
+            and recommendation.get(
+                "event_dependent",
+                False
+            )
+        ):
+            recommendation[
+                "availability_type"
+            ] = "event"
+
     def _apply_time_fit(
         self,
         recommendation: dict,
@@ -1404,10 +3249,103 @@ class RecommendationService:
             else "low"
         )
 
+        if recommendation.get("time_gated"):
+            score += 10
+
+        daily_opportunity_adjustment = (
+            self._daily_opportunity_adjustment(
+                recommendation
+            )
+        )
+        score += daily_opportunity_adjustment
+        if daily_opportunity_adjustment:
+            recommendation[
+                "daily_opportunity_adjustment"
+            ] = daily_opportunity_adjustment
+
+        if mode == "play":
+            playability_adjustment = (
+                self._playability_adjustment(
+                    recommendation
+                )
+            )
+            score += playability_adjustment
+            recommendation[
+                "playability_adjustment"
+            ] = playability_adjustment
+
+        score += recommendation.get(
+            "score_adjustment",
+            0
+        )
+
         recommendation["score"] = round(
             score,
             1
         )
+
+    def _daily_opportunity_adjustment(
+        self,
+        recommendation: dict
+    ):
+        opportunity_type = recommendation.get(
+            "daily_opportunity_type"
+        )
+
+        adjustments = {
+            "hard_gate": 25,
+            "limited_attempt": 18,
+            "soft_cap": 4,
+            "optional": 4
+        }
+
+        return adjustments.get(
+            opportunity_type,
+            0
+        )
+
+    def _playability_adjustment(
+        self,
+        recommendation: dict
+    ):
+        availability_adjustments = {
+            "direct": 22,
+            "event": -8,
+            "event_chain": -18,
+            "meta": -28,
+            "bounty": -12,
+            "world_boss": -24,
+            "multi_map": -26,
+            "story": -10,
+            "crafting": -12
+        }
+
+        adjustment = availability_adjustments.get(
+            recommendation.get(
+                "availability_type"
+            ),
+            0
+        )
+
+        if recommendation.get(
+            "repeat_required",
+            False
+        ):
+            adjustment -= 8
+
+        if recommendation.get(
+            "group_recommended",
+            False
+        ):
+            adjustment -= 8
+
+        if recommendation.get(
+            "schedule_dependent",
+            False
+        ):
+            adjustment -= 10
+
+        return adjustment
 
     def _progress_score(
         self,

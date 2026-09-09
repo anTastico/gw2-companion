@@ -14,9 +14,169 @@
               "name": "Heavy Corsair Turban",
               "activity": "achievement",
               "location": "Domain of Istan",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Heavy Corsair Turban required for this collection."
+              "minimum_minutes": 5,
+              "ideal_minutes": 30,
+              "action": "Finish \"Daybreak\" Mastery by completing enough remaining Daybreak achievements.",
+              "dependency": {
+                "achievement_id": 3988,
+                "name": "\"Daybreak\" Mastery",
+                "tracking": "achievement_options",
+                "required": 30,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "Daybreak achievement",
+                "activity": "achievement",
+                "location": "Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 30,
+                "action": "Complete enough remaining Daybreak achievements to finish \"Daybreak\" Mastery.",
+                "options": [
+                  {
+                    "achievement_id": 3960,
+                    "name": "Istan Dives",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 10,
+                    "action": "Finish the remaining diving-goggle locations in the Domain of Istan.",
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Corsair Flotilla diving goggles",
+                        "action": "Find and use the diving goggles on the captain's ship in the Corsair Flotilla."
+                      },
+                      {
+                        "bit": 1,
+                        "name": "Modri Caverns diving goggles",
+                        "action": "Find and use the diving goggles in the Modri Caverns."
+                      },
+                      {
+                        "bit": 2,
+                        "name": "Champion's Dawn diving goggles",
+                        "action": "Find and use the diving goggles in Champion's Dawn."
+                      },
+                      {
+                        "bit": 3,
+                        "name": "Ancient Royal Docks diving goggles",
+                        "action": "Find and use the diving goggles above the Ancient Royal Docks."
+                      }
+                    ]
+                  },
+                  {
+                    "achievement_id": 3989,
+                    "name": "Sunk Cost",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "priority": 15,
+                    "event_dependent": true,
+                    "action": "Destroy the remaining Corsair ship during the Palawadan raid.",
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Scoundrel's Bounty"
+                      },
+                      {
+                        "bit": 1,
+                        "name": "The Marauder"
+                      },
+                      {
+                        "bit": 2,
+                        "name": "The Red Dagger"
+                      }
+                    ]
+                  },
+                  {
+                    "achievement_id": 4019,
+                    "name": "Istani Bounty Hunter",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 20,
+                    "action": "Complete the remaining Domain of Istan bounties.",
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Lady Shamshir"
+                      },
+                      {
+                        "bit": 1,
+                        "name": "Matriarch Shrilliss"
+                      },
+                      {
+                        "bit": 2,
+                        "name": "Simoom the Accursed"
+                      },
+                      {
+                        "bit": 3,
+                        "name": "Suneh Stormbringer"
+                      },
+                      {
+                        "bit": 4,
+                        "name": "Smoldge"
+                      }
+                    ]
+                  },
+                  {
+                    "achievement_id": 3978,
+                    "name": "Lightspeed Reflector",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 12,
+                    "action": "Rotate all mirrors at the top of the Astralarium within 30 seconds."
+                  },
+                  {
+                    "achievement_id": 3959,
+                    "name": "Rest in Peace",
+                    "activity": "open_world",
+                    "location": "Champion's Dawn, Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 25,
+                    "event_dependent": true,
+                    "action": "Defeat the Champion Mordant Crescent Graveraiser in Champion's Dawn."
+                  },
+                  {
+                    "achievement_id": 4008,
+                    "name": "Race to the Finish: Domain of Istan",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 30,
+                    "event_dependent": true,
+                    "action": "Finish the race to Issnur Bay in first, second, or third place."
+                  },
+                  {
+                    "achievement_id": 4012,
+                    "name": "Belligerent Brawl",
+                    "activity": "open_world",
+                    "location": "Corsair Flotilla, Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 22,
+                    "action": "Defeat a Corsair captain while under the effects of Mehdi's Monstrous Grogs."
+                  },
+                  {
+                    "achievement_id": 3958,
+                    "name": "Corsair Keepsakes",
+                    "activity": "open_world",
+                    "location": "Corsair Flotilla, Domain of Istan",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 35,
+                    "action": "Find the remaining Corsair keepsakes around the flotilla."
+                  }
+                ],
+                "reward": {
+                  "name": "Heavy Corsair Turban"
+                }
+              }
             },
             {
               "bit": 1,
@@ -43,7 +203,64 @@
               "location": "Domain of Istan",
               "minimum_minutes": 15,
               "ideal_minutes": 30,
-              "action": "Defeat Warden Amala while carrying a Memory Essence Encapsulator."
+              "action": "Carry a Memory Essence Encapsulator and defeat Warden Amala during the Sunspear Uprising encounter in the Domain of Istan.",
+              "event_dependent": true,
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Chalon Docks, Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Alaleh",
+                "action": "Buy a Memory Essence Encapsulator from Alaleh at Chalon Docks before fighting Warden Amala.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ]
+              }
             },
             {
               "bit": 4,
@@ -61,7 +278,179 @@
               "location": "Domain of Istan",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward obtaining the required Astral or Stellar weapon skins for this collection."
+              "action": "Complete Brandstone Research first, then unlock six Astral or Stellar weapon skins and speak to Yasna.",
+              "dependency": {
+                "achievement_id": 4000,
+                "name": "Brandstone Research",
+                "tracking": "achievement_bits",
+                "required": 7,
+                "time_gated": true,
+                "time_gate": "One Brandstone Research task can be completed per day; the full achievement takes at least 7 days.",
+                "objectives": [
+                  {
+                    "bit": 0,
+                    "name": "Kralkatite Research",
+                    "activity": "vendor",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Bring 10 Kralkatite Ore to Yasna in the Astralarium.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 1,
+                    "name": "Branded Residue Research",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Collect 10 Branded Residues from Branded creatures and bring them to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 2,
+                    "name": "Miasma Research",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Use Yasna's Particle Collector at a Brandstone Impact Site, then return the filled collector to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 3,
+                    "name": "Powdered Gemstone Research",
+                    "activity": "open_world",
+                    "location": "Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Collect 10 Powdered Rose Quartz from Brandstone Chunks and bring it to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 4,
+                    "name": "Treatise on Astral Alignments",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Access the restricted archives via Archivist Salwa, collect the Treatise on Astral Alignments, and return it to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  },
+                  {
+                    "bit": 5,
+                    "name": "Mirror Calibration Readings",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Complete Akili's mirror-calibration event at the Astralarium and return to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 6,
+                    "name": "Blazing Kralkatite",
+                    "activity": "open_world",
+                    "location": "The Astralarium, Domain of Istan",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Combine 10 Kralkatite Ore and 5 Powdered Rose Quartz at the Beam of Light atop the Astralarium, then bring the result to Yasna.",
+                    "bundle": "Brandstone Research",
+                    "focus_type": "daily_research"
+                  }
+                ],
+                "unlocks": {
+                  "type": "vendor_recipes",
+                  "name": "Astral weapon recipes",
+                  "vendor": "Yasna",
+                  "location": "The Astralarium, Domain of Istan"
+                },
+                "next_step": {
+                  "type": "skin_count",
+                  "name": "Astral or Stellar weapon skins",
+                  "required": 6,
+                  "note": "After Brandstone Research, unlock six Astral or Stellar weapon skins, then speak to Yasna for the Vision collection item.",
+                  "skin_ids": [
+                    7840,
+                    7903,
+                    7838,
+                    7883,
+                    7837,
+                    7859,
+                    7875,
+                    7842,
+                    7864,
+                    7880,
+                    7877,
+                    7893,
+                    7891,
+                    7851,
+                    7856,
+                    7901,
+                    7853,
+                    7852,
+                    7866,
+                    7915,
+                    7830,
+                    7843,
+                    7832,
+                    7890,
+                    7912,
+                    7906,
+                    7896,
+                    7876,
+                    7829,
+                    7899,
+                    7908,
+                    7865
+                  ],
+                  "skin_names": [
+                    "Astral Cleaver",
+                    "Astral Razor",
+                    "Astral Knobkerrie",
+                    "Astral Revolver",
+                    "Astral Scepter",
+                    "Astral Khopesh",
+                    "Astral Apparatus",
+                    "Astral Disk",
+                    "Astral Beacon",
+                    "Astral Harbinger",
+                    "Astral Avenger",
+                    "Astral Orrery",
+                    "Astral Longbow",
+                    "Astral Cannon",
+                    "Astral Short Bow",
+                    "Astral Spire",
+                    "Stellar Cleaver",
+                    "Stellar Razor",
+                    "Stellar Knobkerrie",
+                    "Stellar Revolver",
+                    "Stellar Scepter",
+                    "Stellar Khopesh",
+                    "Stellar Apparatus",
+                    "Stellar Disk",
+                    "Stellar Beacon",
+                    "Stellar Harbinger",
+                    "Stellar Avenger",
+                    "Stellar Orrery",
+                    "Stellar Longbow",
+                    "Stellar Cannon",
+                    "Stellar Short Bow",
+                    "Stellar Spire"
+                  ],
+                  "action": "Unlock the remaining Astral or Stellar weapon skins, then speak to Yasna for the Vision collection item.",
+                  "completion_name": "Speak to Yasna for Vision of Equipment: Astral Weapons",
+                  "completion_action": "You have at least six eligible Astral or Stellar weapon skins unlocked. Speak to Yasna in the Astralarium for the Vision collection item."
+                },
+                "sequential": true
+              }
             },
             {
               "bit": 6,
@@ -84,9 +473,280 @@
               "name": "Olmakhan Mantle",
               "activity": "achievement",
               "location": "Sandswept Isles",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Olmakhan Mantle through the A Bug in the System mastery achievement or Sandswept Isles Reward Track."
+              "minimum_minutes": 5,
+              "ideal_minutes": 30,
+              "action": "Finish \"A Bug in the System\" Mastery by completing enough remaining qualifying achievements, or use the Sandswept Isles Reward Track alternative.",
+              "dependency": {
+                "achievement_id": 4093,
+                "name": "\"A Bug in the System\" Mastery",
+                "tracking": "achievement_options",
+                "required": 35,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "A Bug in the System achievement",
+                "activity": "achievement",
+                "location": "Sandswept Isles",
+                "minimum_minutes": 5,
+                "ideal_minutes": 30,
+                "action": "Complete enough remaining \"A Bug in the System\" achievements to reach 35 and obtain the Olmakhan Mantle Box.",
+                "options": [
+                  {
+                    "achievement_id": 4133,
+                    "name": "Sandswept Isles Legendary Hunter",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 10,
+                    "event_dependent": true,
+                    "action": "Defeat the remaining legendary bounty in the Sandswept Isles."
+                  },
+                  {
+                    "achievement_id": 4105,
+                    "name": "Track Record",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 11,
+                    "event_dependent": true,
+                    "action": "Complete the remaining Sandswept Isles race."
+                  },
+                  {
+                    "achievement_id": 4117,
+                    "name": "Honorary Olmakhan",
+                    "activity": "open_world",
+                    "location": "The Hunting Grounds, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 12,
+                    "action": "Defeat the remaining prestige hunting targets in the Olmakhan hunting grounds."
+                  },
+                  {
+                    "achievement_id": 4139,
+                    "name": "The Specimen Chamber",
+                    "activity": "open_world",
+                    "location": "Specimen Chamber, Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 13,
+                    "event_dependent": true,
+                    "action": "Defeat the remaining champion simulacrums in the Specimen Chamber."
+                  },
+                  {
+                    "achievement_id": 4100,
+                    "name": "Magnetic Attraction",
+                    "activity": "open_world",
+                    "location": "Magnetics Lab, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 14,
+                    "action": "Collect the remaining magneton particles in the Magnetics Lab."
+                  },
+                  {
+                    "achievement_id": 4136,
+                    "name": "Race to the Finish: Inquest Facility",
+                    "activity": "open_world",
+                    "location": "Inquest Facility, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 15,
+                    "event_dependent": true,
+                    "action": "Finish the Inquest Facility race in first, second, or third place.",
+                    "completion_effects": [
+                      {
+                        "achievement_id": 4105,
+                        "name": "Track Record",
+                        "effect": "complete_bit",
+                        "bit": 1,
+                        "note": "Completing the Inquest Facility race also completes the missing Inquest Facility Race objective for Track Record."
+                      }
+                    ]
+                  },
+                  {
+                    "achievement_id": 4142,
+                    "name": "The Queen and I",
+                    "activity": "open_world",
+                    "location": "Driftwood Jetty, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 16,
+                    "event_dependent": true,
+                    "action": "Slay the champion beetle queen near Driftwood Jetty."
+                  },
+                  {
+                    "achievement_id": 4127,
+                    "name": "Wyvern Whacker",
+                    "activity": "open_world",
+                    "location": "Western Complex, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 17,
+                    "event_dependent": true,
+                    "action": "Slay the champion Branded wyvern outside the Western Complex."
+                  },
+                  {
+                    "achievement_id": 4110,
+                    "name": "Light Speed",
+                    "activity": "open_world",
+                    "location": "Invariant Enclave Lab, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 18,
+                    "action": "Activate all four door controls in the Invariant Enclave Lab in under 35 seconds."
+                  },
+                  {
+                    "achievement_id": 4149,
+                    "name": "Three Golem Monte",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 19,
+                    "event_dependent": true,
+                    "action": "Choose the correct golem in every round of the Golem Eye Exam event."
+                  },
+                  {
+                    "achievement_id": 4101,
+                    "name": "Stimulus and Response",
+                    "activity": "open_world",
+                    "location": "Comms Lab, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 20,
+                    "action": "Solve the comms lab hive-mind experiment in only three steps."
+                  },
+                  {
+                    "achievement_id": 4102,
+                    "name": "Tales of Elona",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 21,
+                    "action": "Visit Ewyn at his retreat and listen to his story."
+                  },
+                  {
+                    "achievement_id": 4144,
+                    "name": "Lasting Bonds: Where We Come From",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "priority": 22,
+                    "action": "Continue Lasting Bonds: Where We Come From; this also advances the Olmakhan Bandolier dependency."
+                  },
+                  {
+                    "achievement_id": 4109,
+                    "name": "Drones Disabled",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 35,
+                    "action": "Replay the relevant story instance and disable the drones in lab Sigma-05."
+                  },
+                  {
+                    "achievement_id": 4137,
+                    "name": "Gate-Crasher",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 36,
+                    "action": "Replay Tracking the Scientist and reach the tracking network hub quickly without provoking the Inquest."
+                  },
+                  {
+                    "achievement_id": 4126,
+                    "name": "I Make This Golem Look Good",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 37,
+                    "action": "Replay Tracking the Scientist and remain undetected while infiltrating the Inquest facility inside a golem."
+                  },
+                  {
+                    "achievement_id": 4090,
+                    "name": "Saving Skritt",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 38,
+                    "action": "Replay the relevant story instance, find Subject S in the poisonous corridor, and evacuate him to the airship."
+                  },
+                  {
+                    "achievement_id": 4120,
+                    "name": "X-T3R-M1N-8",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 39,
+                    "action": "Replay A Kindness Repaid and defeat the Mark II Beta Exterminator Golem in under three minutes."
+                  },
+                  {
+                    "achievement_id": 4130,
+                    "name": "Talk to the Fist",
+                    "activity": "story",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 45,
+                    "action": "Replay Tracking the Scientist and choose the combative responses during questioning by the Inquest guards."
+                  },
+                  {
+                    "achievement_id": 4141,
+                    "name": "Rebooting IG-6417",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 80,
+                    "action": "Download the next available software module needed to repair IG-6417."
+                  },
+                  {
+                    "achievement_id": 4108,
+                    "name": "Redeeming IG-6417",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 90,
+                    "action": "After Rebooting IG-6417 is complete, upload recordings to teach IG-6417 how to be heroic."
+                  },
+                  {
+                    "achievement_id": 4106,
+                    "name": "Lasting Bonds: What We Do Here",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "priority": 95,
+                    "action": "After Lasting Bonds: Where We Come From is complete, continue Lasting Bonds: What We Do Here."
+                  },
+                  {
+                    "achievement_id": 4112,
+                    "name": "Lasting Bonds: What Comes Next",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 40,
+                    "priority": 96,
+                    "action": "After Lasting Bonds: What We Do Here is complete, continue Lasting Bonds: What Comes Next."
+                  }
+                ],
+                "alternative": {
+                  "type": "reward_track",
+                  "name": "Sandswept Isles Reward Track",
+                  "activity": "wvw_or_pvp",
+                  "action": "Complete the Sandswept Isles Reward Track and choose the Olmakhan Mantle from the final reward."
+                },
+                "reward": {
+                  "name": "Olmakhan Mantle"
+                }
+              }
             },
             {
               "bit": 1,
@@ -110,10 +770,77 @@
               "bit": 3,
               "name": "Vision of Enemies: Kuda's Subjects",
               "activity": "open_world",
-              "location": "Sandswept Isles",
+              "location": "Specimen Chamber, Sandswept Isles",
               "minimum_minutes": 15,
               "ideal_minutes": 30,
-              "action": "Defeat Kuda's test subjects in the Specimen Chamber while carrying a Memory Essence Encapsulator."
+              "action": "Carry a Memory Essence Encapsulator and defeat Kuda's test subjects during the Specimen Chamber encounter in the Sandswept Isles.",
+              "event_dependent": true,
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Chalon Docks, Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Alaleh",
+                "action": "Buy a Memory Essence Encapsulator from Alaleh at Chalon Docks before doing the Specimen Chamber encounter for Kuda's Subjects.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ],
+                "next_step": {
+                  "type": "event_kill",
+                  "name": "Kuda's Subjects",
+                  "activity": "open_world",
+                  "location": "Specimen Chamber, Sandswept Isles",
+                  "minimum_minutes": 15,
+                  "ideal_minutes": 30,
+                  "event_dependent": true,
+                  "note": "After obtaining the Encapsulator, complete the Specimen Chamber encounter and defeat Kuda's test subjects."
+                }
+              }
             },
             {
               "bit": 4,
@@ -131,7 +858,259 @@
               "location": "Sandswept Isles",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward acquiring the Reinforced Olmakhan Bandolier."
+              "action": "Complete the three Lasting Bonds collections to obtain the Reinforced Olmakhan Bandolier.",
+              "dependency": {
+                "achievement_id": 4112,
+                "name": "Lasting Bonds: What Comes Next",
+                "tracking": "achievement_bits",
+                "required": 8,
+                "sequential": true,
+                "prerequisite": {
+                  "achievement_id": 4106,
+                  "name": "Lasting Bonds: What We Do Here",
+                  "tracking": "achievement_bits",
+                  "required": 9,
+                  "sequential": true,
+                  "prerequisite": {
+                    "achievement_id": 4144,
+                    "name": "Lasting Bonds: Where We Come From",
+                    "tracking": "achievement_bits",
+                    "required": 6,
+                    "sequential": true,
+                    "objectives": [
+                      {
+                        "bit": 0,
+                        "name": "Simple Olmakhan Bandolier",
+                        "activity": "story",
+                        "location": "Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Complete the story episode \"A Bug in the System\" to receive the Simple Olmakhan Bandolier."
+                      },
+                      {
+                        "bit": 1,
+                        "name": "We Carry Her Loss Together",
+                        "activity": "open_world",
+                        "location": "Atholma, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Turn in the Simple Olmakhan Bandolier to Efi near the southern gate of Atholma."
+                      },
+                      {
+                        "bit": 2,
+                        "name": "We Sing Her Story",
+                        "activity": "open_world",
+                        "location": "Atholma, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Speak with Lorekeeper Rhosan on the north end of Atholma."
+                      },
+                      {
+                        "bit": 3,
+                        "name": "Laughter on the Wind",
+                        "activity": "open_world",
+                        "location": "Jemandi Market, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Speak with Marlen near Jemandi Market."
+                      },
+                      {
+                        "bit": 4,
+                        "name": "The Good We Do In Life",
+                        "activity": "open_world",
+                        "location": "Olma's Legacy, Sandswept Isles",
+                        "minimum_minutes": 5,
+                        "ideal_minutes": 10,
+                        "action": "Find Ewyn's retreat east of Olma's Legacy."
+                      },
+                      {
+                        "bit": 5,
+                        "name": "Olmakhan Songbook",
+                        "activity": "open_world",
+                        "location": "Specimen Chamber, Sandswept Isles",
+                        "minimum_minutes": 10,
+                        "ideal_minutes": 20,
+                        "action": "Explore above the Specimen Chamber using your jackal."
+                      }
+                    ],
+                    "reward": {
+                      "name": "Handwoven Olmakhan Bandolier"
+                    }
+                  },
+                  "objectives": [
+                    {
+                      "bit": 0,
+                      "name": "Handwoven Olmakhan Bandolier",
+                      "activity": "achievement",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Complete Lasting Bonds: Where We Come From to receive the Handwoven Olmakhan Bandolier."
+                    },
+                    {
+                      "bit": 1,
+                      "name": "The Storm That Consumes All",
+                      "activity": "open_world",
+                      "location": "Atholma, Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Turn in the Handwoven Olmakhan Bandolier to Efi near the southern gate of Atholma."
+                    },
+                    {
+                      "bit": 2,
+                      "name": "Old Stonehoof's Stone Hoof",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Defeat the legendary bounty Old Stonehoof and collect the bounty reward.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 3,
+                      "name": "Ironshell's Shell Fragment",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Defeat the legendary bounty Ironshell and collect the bounty reward.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 4,
+                      "name": "Smashed Vase",
+                      "activity": "open_world",
+                      "location": "The Ruined Paths, Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Defeat the Spirit of the Storm in the Ruined Paths.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 5,
+                      "name": "Artificial Diamond",
+                      "activity": "open_world",
+                      "location": "The Hunting Grounds, Sandswept Isles",
+                      "minimum_minutes": 10,
+                      "ideal_minutes": 20,
+                      "action": "Defeat elementals in the Hunting Grounds until the Artificial Diamond drops.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 6,
+                      "name": "Luminescent Seaweed",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 15,
+                      "ideal_minutes": 30,
+                      "action": "Gather from eerie driftwood after the Gathering Storms meta.",
+                      "event_dependent": true
+                    },
+                    {
+                      "bit": 7,
+                      "name": "Nakis and Zohaqan's Tree",
+                      "activity": "open_world",
+                      "location": "Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Find the location where Zohaqan would watch the sunrise."
+                    },
+                    {
+                      "bit": 8,
+                      "name": "Inquest Manual on Choleric Elemental Energy",
+                      "activity": "vendor",
+                      "location": "Magnetics Lab, Sandswept Isles",
+                      "minimum_minutes": 5,
+                      "ideal_minutes": 10,
+                      "action": "Purchase the Inquest Manual from Researcher Thale near the Magnetics Lab."
+                    }
+                  ],
+                  "reward": {
+                    "name": "Pocketed Olmakhan Bandolier"
+                  }
+                },
+                "objectives": [
+                  {
+                    "bit": 0,
+                    "name": "Pocketed Olmakhan Bandolier",
+                    "activity": "achievement",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Complete Lasting Bonds: What We Do Here to receive the Pocketed Olmakhan Bandolier."
+                  },
+                  {
+                    "bit": 1,
+                    "name": "Hope for Tomorrow",
+                    "activity": "open_world",
+                    "location": "Atholma, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Turn in the Pocketed Olmakhan Bandolier to Efi near the southern gate of Atholma."
+                  },
+                  {
+                    "bit": 2,
+                    "name": "Starcaller's Aetheric Gland",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "action": "Defeat the legendary hydra bounty Starcaller and collect the bounty reward.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 3,
+                    "name": "Seneb the Desecrated's Locket",
+                    "activity": "open_world",
+                    "location": "Sandswept Isles",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "action": "Defeat the legendary mummy bounty Seneb the Desecrated and collect the bounty reward.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 4,
+                    "name": "Nakis's Bracelet",
+                    "activity": "open_world",
+                    "location": "Specimen Chamber, Sandswept Isles",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Gain access to the Specimen Chamber and investigate it.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 5,
+                    "name": "Zohaqan's Letter",
+                    "activity": "open_world",
+                    "location": "Whispering Grottos, Elon Riverlands",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Loot the chest in the depths of a cave in the Whispering Grottos of Elon Riverlands."
+                  },
+                  {
+                    "bit": 6,
+                    "name": "Olmakhan Bow of Force",
+                    "activity": "open_world",
+                    "location": "Specimen Chamber, Sandswept Isles",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "action": "Defeat both bosses in the Specimen Chamber.",
+                    "event_dependent": true
+                  },
+                  {
+                    "bit": 7,
+                    "name": "Shadow and Sun",
+                    "activity": "open_world",
+                    "location": "Atholma, Sandswept Isles",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Bring the Olmakhan Bow of Force to Efi."
+                  }
+                ],
+                "reward": {
+                  "name": "Reinforced Olmakhan Bandolier"
+                }
+              }
             },
             {
               "bit": 6,
@@ -154,9 +1133,307 @@
               "name": "Heavy Corsair Jerkin",
               "activity": "achievement",
               "location": "Domain of Kourna",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Heavy Corsair Jerkin through the Long Live the Lich mastery achievement or Domain of Kourna Reward Track."
+              "minimum_minutes": 5,
+              "ideal_minutes": 30,
+              "action": "Finish \"Long Live the Lich\" Mastery by completing enough remaining qualifying achievements, or use the Domain of Kourna Reward Track alternative.",
+              "dependency": {
+                "achievement_id": 4195,
+                "name": "\"Long Live the Lich\" Mastery",
+                "tracking": "achievement_options",
+                "required": 38,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "Long Live the Lich achievement",
+                "activity": "achievement",
+                "location": "Domain of Kourna",
+                "minimum_minutes": 5,
+                "ideal_minutes": 30,
+                "action": "Complete enough remaining \"Long Live the Lich\" achievements to reach 38 and obtain the Corsair Jerkin Box.",
+                "options": [
+                  {
+                    "achievement_id": 4246,
+                    "name": "Loquacious Orator",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "priority": 10,
+                    "action": "Replay the relevant trial sequence and hear the remaining arguments.",
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Requires replaying the relevant story/trial sequence."
+                  },
+                  {
+                    "achievement_id": 4228,
+                    "name": "Domain of Kourna Insight: Dunlon Springs",
+                    "activity": "open_world",
+                    "location": "Dunlon Springs, Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 11,
+                    "action": "Discover the Dunlon Springs Mastery Insight."
+                  },
+                  {
+                    "achievement_id": 4203,
+                    "name": "Dances with Cacti",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 12,
+                    "event_dependent": true,
+                    "action": "Complete the choya dance activity in the Domain of Kourna.",
+                    "availability_type": "event",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": true,
+                    "playability_note": "Depends on the relevant choya event being available."
+                  },
+                  {
+                    "achievement_id": 4222,
+                    "name": "Crab Kickin'",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 13,
+                    "action": "Kick the surly crab toward the Awakened.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Direct, short achievement that can be attempted immediately."
+                  },
+                  {
+                    "achievement_id": 4231,
+                    "name": "I Can See My House...",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 14,
+                    "action": "Take your roller beetle to the highest point in Kourna.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Direct exploration achievement that can be attempted immediately."
+                  },
+                  {
+                    "achievement_id": 4192,
+                    "name": "Roller Beetle Training: Silver",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "priority": 15,
+                    "event_dependent": true,
+                    "action": "Earn the silver chest in the Domain of Kourna roller beetle training.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Short local race objective when the course is available."
+                  },
+                  {
+                    "achievement_id": 4198,
+                    "name": "Roller Beetle Training: Gold",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 20,
+                    "priority": 16,
+                    "event_dependent": true,
+                    "action": "Earn the gold chest in the Domain of Kourna roller beetle training.",
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Local race objective; harder than Silver but directly attemptable."
+                  },
+                  {
+                    "achievement_id": 4251,
+                    "name": "The Gandaran Service Medal",
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 40,
+                    "priority": 17,
+                    "action": "Complete the remaining Gandaran campaign medal objectives.",
+                    "completion_effects": [
+                      {
+                        "achievement_id": 4258,
+                        "name": "Valor Beyond Valor",
+                        "effect": "complete_when_all",
+                        "prerequisite_achievement_ids": [
+                          4251,
+                          4233
+                        ],
+                        "note": "Valor Beyond Valor completes once both The Gandaran Service Medal and The Tyrian Service Medal are complete."
+                      }
+                    ],
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": false,
+                    "playability_note": "The remaining Gandaran medals come from the same event chain; getting all remaining medals may take multiple attempts and is harder solo."
+                  },
+                  {
+                    "achievement_id": 4264,
+                    "name": "Taking All Their Secrets",
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 18,
+                    "action": "Loot the Inquest lab enough additional times to reach 10.",
+                    "availability_type": "meta",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": true,
+                    "playability_note": "Progress requires reaching the final stage of the Domain of Kourna meta-event."
+                  },
+                  {
+                    "achievement_id": 4233,
+                    "name": "The Tyrian Service Medal",
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 45,
+                    "priority": 19,
+                    "action": "Complete the remaining Tyrian campaign medal objectives.",
+                    "completion_effects": [
+                      {
+                        "achievement_id": 4258,
+                        "name": "Valor Beyond Valor",
+                        "effect": "complete_when_all",
+                        "prerequisite_achievement_ids": [
+                          4251,
+                          4233
+                        ],
+                        "note": "Valor Beyond Valor completes once both The Gandaran Service Medal and The Tyrian Service Medal are complete."
+                      }
+                    ],
+                    "availability_type": "multi_map",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": true,
+                    "playability_note": "The remaining Tyrian medals require events around Tyria, including scheduled or event-dependent world-boss content."
+                  },
+                  {
+                    "achievement_id": 4207,
+                    "name": "More Than a Hero",
+                    "activity": "crafting",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "priority": 20,
+                    "action": "Continue the Banner of the Commander crafting dependency; crafting the Banner also completes More Than a Hero.",
+                    "related_objectives": [
+                      "Banner of the Commander"
+                    ]
+                  },
+                  {
+                    "achievement_id": 4186,
+                    "name": "More than a Hero, a Symbol",
+                    "activity": "crafting",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 40,
+                    "priority": 21,
+                    "action": "After Banner of the Commander, craft the Banner of the Dauntless Commander to complete More than a Hero, a Symbol.",
+                    "related_objectives": [
+                      "Banner of the Commander"
+                    ]
+                  },
+                  {
+                    "achievement_id": 4217,
+                    "name": "Captive Audience",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 30,
+                    "action": "Replay the relevant story content and listen to all of Joko's taunts.",
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "playability_note": "Requires replaying the relevant story content."
+                  },
+                  {
+                    "achievement_id": 4243,
+                    "name": "Dexterous and Flexible",
+                    "activity": "story",
+                    "location": "Moon Fortress, Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 31,
+                    "action": "Replay the Moon Fortress section and avoid every laser trap."
+                  },
+                  {
+                    "achievement_id": 4188,
+                    "name": "Glory Hog",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "priority": 32,
+                    "action": "Replay the relevant story section and plant all seeds before Canach helps."
+                  },
+                  {
+                    "achievement_id": 4220,
+                    "name": "Silent but Deadly",
+                    "activity": "story",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "priority": 33,
+                    "action": "Replay the infiltration section without raising suspicion enough to spawn champions."
+                  },
+                  {
+                    "achievement_id": 4234,
+                    "name": "Thing That Wouldn't Leave",
+                    "activity": "open_world",
+                    "location": "Awakened Inquest plague research lab, Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 25,
+                    "priority": 34,
+                    "action": "Overstay your welcome in the Awakened Inquest plague research lab."
+                  },
+                  {
+                    "achievement_id": 4258,
+                    "name": "Valor Beyond Valor",
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "priority": 80,
+                    "action": "Complete both The Gandaran Service Medal and The Tyrian Service Medal to receive Valor Beyond Valor.",
+                    "prerequisite_achievement_ids": [
+                      4251,
+                      4233
+                    ]
+                  }
+                ],
+                "alternative": {
+                  "type": "reward_track",
+                  "name": "Domain of Kourna Reward Track",
+                  "activity": "wvw_or_pvp",
+                  "action": "Complete the Domain of Kourna Reward Track and choose the Heavy Corsair Jerkin from the final reward."
+                },
+                "reward": {
+                  "name": "Heavy Corsair Jerkin"
+                },
+                "excluded_option_groups": [
+                  {
+                    "name": "Field Tech Turret Dynamics",
+                    "reason": "The FTT achievement tree is prerequisite-heavy and is intentionally excluded from the flat option pool until it has nested dependency modelling."
+                  }
+                ]
+              }
             },
             {
               "bit": 1,
@@ -183,7 +1460,78 @@
               "location": "Domain of Kourna",
               "minimum_minutes": 15,
               "ideal_minutes": 30,
-              "action": "Defeat the legendary bounty Troopmarshal Olori Ogun while carrying a Memory Essence Encapsulator."
+              "action": "Carry a Memory Essence Encapsulator and defeat the legendary bounty Troopmarshal Olori Ogun in the Domain of Kourna.",
+              "event_dependent": true,
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Allied Encampment, Domain of Kourna",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Nalar",
+                "action": "Buy a Memory Essence Encapsulator from Nalar at the Allied Encampment before fighting Troopmarshal Olori Ogun.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ],
+                "next_step": {
+                  "type": "bounty_kill",
+                  "name": "Troopmarshal Olori Ogun",
+                  "activity": "open_world",
+                  "location": "Domain of Kourna",
+                  "minimum_minutes": 15,
+                  "ideal_minutes": 30,
+                  "event_dependent": true,
+                  "note": "After obtaining the Encapsulator, start or join the Troopmarshal Olori Ogun legendary bounty and defeat him while the Encapsulator is in your inventory."
+                }
+              },
+              "availability_type": "bounty",
+              "group_recommended": true,
+              "schedule_dependent": false,
+              "playability_note": "Legendary bounty: directly startable from the bounty board, but group participation is recommended."
             },
             {
               "bit": 4,
@@ -201,7 +1549,165 @@
               "location": "Domain of Kourna",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward crafting the Banner of the Commander required for this collection."
+              "action": "Resolve the Banner of the Commander crafting tree, including recipe unlocks and missing materials.",
+              "dependency": {
+                "name": "Banner of the Commander",
+                "tracking": "crafting",
+                "item_id": 88057,
+                "required": 1,
+                "recipe_id": 12700,
+                "activity": "crafting",
+                "location": "Domain of Kourna",
+                "minimum_minutes": 5,
+                "ideal_minutes": 15,
+                "materials": [
+                  {
+                    "item_id": 87645,
+                    "name": "Inscribed Shard",
+                    "required": 100,
+                    "priority": 10,
+                    "activity": "open_world",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 60,
+                    "action": "Earn Inscribed Shards in Domain of Kourna."
+                  },
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "required": 15,
+                    "priority": 60,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Globs of Ectoplasm."
+                  },
+                  {
+                    "item_id": 19725,
+                    "name": "Ancient Wood Log",
+                    "required": 10,
+                    "priority": 60,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Ancient Wood Logs."
+                  },
+                  {
+                    "item_id": 88023,
+                    "name": "Vial of Awakened Blood",
+                    "required": 1,
+                    "priority": 20,
+                    "activity": "achievement",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "action": "Complete Rude Awakening if needed to obtain the Vial of Awakened Blood."
+                  },
+                  {
+                    "item_id": 19746,
+                    "name": "Bolt of Gossamer",
+                    "required": 5,
+                    "priority": 40,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "action": "Craft or acquire the remaining Bolts of Gossamer."
+                  },
+                  {
+                    "item_id": 19790,
+                    "name": "Spool of Gossamer Thread",
+                    "required": 100,
+                    "priority": 30,
+                    "activity": "vendor",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Buy the remaining Spools of Gossamer Thread from a crafting vendor."
+                  },
+                  {
+                    "item_id": 87153,
+                    "name": "Olmakhan Latigo Strap",
+                    "required": 5,
+                    "priority": 20,
+                    "activity": "vendor",
+                    "location": "Allied Encampment, Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Buy the remaining Olmakhan Latigo Straps from Nalar for Volatile Magic."
+                  },
+                  {
+                    "item_id": 19685,
+                    "name": "Orichalcum Ingot",
+                    "required": 25,
+                    "priority": 70,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Orichalcum Ingots."
+                  },
+                  {
+                    "item_id": 20323,
+                    "name": "Unidentified Dye",
+                    "required": 20,
+                    "priority": 70,
+                    "activity": "trading_post",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Acquire the remaining Unidentified Dyes."
+                  }
+                ],
+                "recipe_unlocks": [
+                  {
+                    "recipe_id": 12700,
+                    "name": "Recipe: Banner of the Commander",
+                    "required": true,
+                    "priority": 5,
+                    "activity": "vendor",
+                    "location": "Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Learn Recipe: Banner of the Commander before crafting the back item."
+                  },
+                  {
+                    "recipe_id": 12706,
+                    "recipe_item_id": 87988,
+                    "name": "Recipe: Banner Pennon",
+                    "required": true,
+                    "priority": 15,
+                    "activity": "vendor",
+                    "location": "Allied Encampment, Domain of Kourna",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Buy Recipe: Banner Pennon from Lady Camilla for 100 Inscribed Shards.",
+                    "costs": [
+                      {
+                        "item_id": 87645,
+                        "name": "Inscribed Shard",
+                        "count": 100
+                      }
+                    ]
+                  }
+                ],
+                "components": [
+                  {
+                    "item_id": 87668,
+                    "name": "Lacquered Banner Pole",
+                    "required": 1
+                  },
+                  {
+                    "item_id": 87925,
+                    "name": "Banner Pennon",
+                    "required": 1,
+                    "recipe_id": 12706
+                  }
+                ],
+                "next_step": {
+                  "type": "craft",
+                  "name": "Banner of the Commander",
+                  "item_id": 88057,
+                  "recipe_id": 12700,
+                  "note": "When all materials and recipe unlocks are ready, craft Banner of the Commander with a level 500 Armorsmith, Leatherworker, or Tailor."
+                }
+              }
             },
             {
               "bit": 6,
@@ -222,11 +1728,37 @@
             {
               "bit": 0,
               "name": "Updated Record of Joko's Deeds",
-              "activity": "achievement",
-              "location": "Jahai Bluffs",
-              "minimum_minutes": 15,
-              "ideal_minutes": 45,
-              "action": "Work toward obtaining the Updated Record of Joko's Deeds after completing the A Star to Guide Us mastery achievement."
+              "activity": "vendor",
+              "location": "Yatendi Village, Jahai Bluffs",
+              "minimum_minutes": 5,
+              "ideal_minutes": 10,
+              "action": "Buy the Updated Record of Joko's Deeds from Trader Hyacinth at Yatendi Village.",
+              "dependency": {
+                "achievement_id": 4359,
+                "name": "\"A Star to Guide Us\" Mastery",
+                "tracking": "achievement",
+                "required": 38,
+                "activity": "achievement",
+                "location": "Jahai Bluffs",
+                "minimum_minutes": 15,
+                "ideal_minutes": 45,
+                "action": "Complete \"A Star to Guide Us\" Mastery to unlock the Updated Record of Joko's Deeds.",
+                "next_step": {
+                  "type": "vendor_purchase",
+                  "name": "Buy Updated Record of Joko's Deeds",
+                  "activity": "vendor",
+                  "vendor": "Trader Hyacinth",
+                  "location": "Yatendi Village, Jahai Bluffs",
+                  "minimum_minutes": 5,
+                  "ideal_minutes": 10,
+                  "cost": {
+                    "gold": 8,
+                    "volatile_magic": 50
+                  },
+                  "action": "Buy the Updated Record of Joko's Deeds from Trader Hyacinth at Yatendi Village.",
+                  "note": "\"A Star to Guide Us\" Mastery must be complete before Trader Hyacinth offers the item."
+                }
+              }
             },
             {
               "bit": 1,
@@ -253,7 +1785,74 @@
               "location": "Jahai Bluffs",
               "minimum_minutes": 15,
               "ideal_minutes": 30,
-              "action": "Defeat the Death-Branded Shatterer while carrying a Memory Essence Encapsulator."
+              "action": "Carry a Memory Essence Encapsulator and defeat the Death-Branded Shatterer in Jahai Bluffs.",
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Yatendi Village, Jahai Bluffs",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Trader Hyacinth",
+                "action": "Buy a Memory Essence Encapsulator from Trader Hyacinth at Yatendi Village before fighting the Death-Branded Shatterer.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ],
+                "next_step": {
+                  "type": "event_kill",
+                  "name": "Death-Branded Shatterer",
+                  "activity": "open_world",
+                  "location": "Jahai Bluffs",
+                  "minimum_minutes": 15,
+                  "ideal_minutes": 30,
+                  "event_dependent": true,
+                  "note": "After obtaining the Encapsulator, defeat the Death-Branded Shatterer in Jahai Bluffs while the Encapsulator is in your inventory."
+                }
+              },
+              "event_dependent": true
             },
             {
               "bit": 4,
@@ -341,7 +1940,193 @@
               "location": "Thunderhead Peaks",
               "minimum_minutes": 30,
               "ideal_minutes": 60,
-              "action": "Work toward obtaining six different Dragonsblood weapon skins."
+              "action": "Unlock any six different Dragonsblood weapon skins, then return to Forge Master Hilina for the Vision collection item.",
+              "dependency": {
+                "achievement_id": 4577,
+                "name": "Journeyman of the Forge",
+                "tracking": "achievement_bits",
+                "required": 6,
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "available": 16,
+                "objectives": [
+                  {
+                    "bit": 0,
+                    "name": "Dragonsblood Axe",
+                    "skin_id": 8596,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Axe skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 1,
+                    "name": "Dragonsblood Dagger",
+                    "skin_id": 8597,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Dagger skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 2,
+                    "name": "Dragonsblood Focus",
+                    "skin_id": 8601,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Focus skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 3,
+                    "name": "Dragonsblood Greatsword",
+                    "skin_id": 8615,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Greatsword skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 4,
+                    "name": "Dragonsblood Hammer",
+                    "skin_id": 8593,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Hammer skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 5,
+                    "name": "Dragonsblood Longbow",
+                    "skin_id": 8583,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Longbow skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 6,
+                    "name": "Dragonsblood Mace",
+                    "skin_id": 8613,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Mace skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 7,
+                    "name": "Dragonsblood Pistol",
+                    "skin_id": 8611,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Pistol skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 8,
+                    "name": "Dragonsblood Rifle",
+                    "skin_id": 8614,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Rifle skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 9,
+                    "name": "Dragonsblood Scepter",
+                    "skin_id": 8555,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Scepter skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 10,
+                    "name": "Dragonsblood Shield",
+                    "skin_id": 8568,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Shield skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 11,
+                    "name": "Dragonsblood Short Bow",
+                    "skin_id": 8610,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Short Bow skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 12,
+                    "name": "Dragonsblood Staff",
+                    "skin_id": 8564,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Staff skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 13,
+                    "name": "Dragonsblood Sword",
+                    "skin_id": 8554,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Sword skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 14,
+                    "name": "Dragonsblood Torch",
+                    "skin_id": 8605,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Torch skin toward the six different Dragonsblood weapons required for Vision."
+                  },
+                  {
+                    "bit": 15,
+                    "name": "Dragonsblood Warhorn",
+                    "skin_id": 8572,
+                    "activity": "crafting",
+                    "location": "Thunderhead Peaks",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Unlock the Dragonsblood Warhorn skin toward the six different Dragonsblood weapons required for Vision."
+                  }
+                ],
+                "prerequisite": {
+                  "achievement_id": 4513,
+                  "name": "Dragonsblood",
+                  "tracking": "achievement",
+                  "required": 1,
+                  "action": "Complete the Dragonsblood achievement by creating and testing a prototype Dragonsblood weapon."
+                },
+                "next_step": {
+                  "type": "vendor_purchase",
+                  "name": "Vision of Equipment: Dragonsblood Weapons",
+                  "vendor": "Forge Master Hilina",
+                  "location": "Thunderhead Peaks",
+                  "cost": "5 gold",
+                  "note": "After unlocking six different Dragonsblood weapon skins, return to Forge Master Hilina for the Vision collection item."
+                }
+              }
             },
             {
               "bit": 6,
@@ -370,135 +2155,278 @@
               "dependency": {
                 "achievement_id": 4689,
                 "name": "\"War Eternal\" Mastery",
-                "tracking": "achievement_bits",
+                "tracking": "achievement_options",
                 "required": 18,
-                "objectives": [
-                  {
-                    "bit": 0,
-                    "name": "The End"
-                  },
-                  {
-                    "bit": 1,
-                    "name": "Landfall"
-                  },
-                  {
-                    "bit": 2,
-                    "name": "Glory of Dragons"
-                  },
-                  {
-                    "bit": 3,
-                    "name": "Bleed"
-                  },
-                  {
-                    "bit": 4,
-                    "name": "Heart to Heart"
-                  },
-                  {
-                    "bit": 5,
-                    "name": "Putting Out Fires"
-                  },
-                  {
-                    "bit": 6,
-                    "name": "Life in the Underworld"
-                  },
-                  {
-                    "bit": 7,
-                    "name": "Cutting Weeds"
-                  },
-                  {
-                    "bit": 8,
-                    "name": "Salt on the Wound"
-                  },
-                  {
-                    "bit": 9,
-                    "name": "Dexterous Dodger",
-                    "activity": "story",
-                    "location": "Heart to Heart",
-                    "minimum_minutes": 20,
-                    "ideal_minutes": 40,
-                    "action": "Replay Heart to Heart and defeat Kralkatorrik without triggering any Branded traps."
-                  },
-                  {
-                    "bit": 10,
-                    "name": "Scissors of Fate"
-                  },
-                  {
-                    "bit": 11,
-                    "name": "Show Some Restraint",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 10,
-                    "ideal_minutes": 30,
-                    "action": "While mounted in Dragonfall, use Soul Binders during compatible events.",
-                    "bundle": "dragonfall",
-                    "focus_type": "active"
-                  },
-                  {
-                    "bit": 12,
-                    "name": "My Beautiful Infrastructure",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 15,
-                    "ideal_minutes": 30,
-                    "action": "Participate in bridge defense or bridge repair events in Dragonfall.",
-                    "bundle": "dragonfall",
-                    "focus_type": "opportunistic"
-                  },
-                  {
-                    "bit": 13,
-                    "name": "Championship Bout",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 20,
-                    "ideal_minutes": 45,
-                    "action": "Defeat missing champions in Dragonfall toward Championship Bout.",
-                    "bundle": "dragonfall",
-                    "focus_type": "opportunistic"
-                  },
-                  {
-                    "bit": 14,
-                    "name": "Eternally Yours",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 10,
-                    "ideal_minutes": 30,
-                    "action": "Throw Eternal Embers at foes while playing in Dragonfall.",
-                    "bundle": "dragonfall",
-                    "focus_type": "active"
-                  },
-                  {
-                    "bit": 15,
-                    "name": "Friends in High Places",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 5,
-                    "ideal_minutes": 10,
-                    "action": "Speak with Sayida or Taimi on the airship.",
-                    "bundle": "dragonfall",
-                    "focus_type": "quick"
-                  },
-                  {
-                    "bit": 16,
-                    "name": "Sniper's Nest"
-                  },
-                  {
-                    "bit": 17,
-                    "name": "Hat Trick",
-                    "activity": "open_world",
-                    "location": "Dragonfall",
-                    "minimum_minutes": 20,
-                    "ideal_minutes": 40,
-                    "action": "Defeat the required legendary creatures during the final assault against Kralkatorrik.",
-                    "bundle": "dragonfall",
-                    "focus_type": "opportunistic"
-                  }
-                ],
                 "alternative": {
                   "type": "reward_track",
                   "name": "Dragonfall Reward Track",
                   "activity": "wvw_or_pvp",
                   "action": "Complete the Dragonfall Reward Track and choose Heavy Corsair Boots from the final reward."
-                }
+                },
+                "completion_mode": "threshold",
+                "selection_mode": "any",
+                "option_noun": "War Eternal achievement",
+                "options": [
+                  {
+                    "achievement_id": 4673,
+                    "name": "The End",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "War Eternal story",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete The End story achievement."
+                  },
+                  {
+                    "achievement_id": 4753,
+                    "name": "Landfall",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete the Landfall achievement in Dragonfall."
+                  },
+                  {
+                    "achievement_id": 4744,
+                    "name": "Glory of Dragons",
+                    "priority": 40,
+                    "activity": "achievement",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 20,
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Glory of Dragons."
+                  },
+                  {
+                    "achievement_id": 4700,
+                    "name": "Bleed",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "War Eternal story",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete the Bleed achievement."
+                  },
+                  {
+                    "achievement_id": 4747,
+                    "name": "Heart to Heart",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "Heart to Heart",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Heart to Heart."
+                  },
+                  {
+                    "achievement_id": 4740,
+                    "name": "Putting Out Fires",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Burning Forest, Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Crystal Bloom events in the Burning Forest."
+                  },
+                  {
+                    "achievement_id": 4723,
+                    "name": "Life in the Underworld",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Underworld, Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Olmakhan events in the Underworld."
+                  },
+                  {
+                    "achievement_id": 4715,
+                    "name": "Cutting Weeds",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Melandru's Lost Domain, Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 35,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Mist Warden events in Melandru's Lost Domain."
+                  },
+                  {
+                    "achievement_id": 4669,
+                    "name": "Salt on the Wound",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "The End",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Salt on the Wound during The End."
+                  },
+                  {
+                    "achievement_id": 4731,
+                    "name": "Dexterous Dodger",
+                    "priority": 20,
+                    "activity": "story",
+                    "location": "Heart to Heart",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Replay Heart to Heart and defeat Kralkatorrik without triggering any Branded traps."
+                  },
+                  {
+                    "achievement_id": 4721,
+                    "name": "Scissors of Fate",
+                    "priority": 40,
+                    "activity": "story",
+                    "location": "War Eternal story",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "availability_type": "story",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Scissors of Fate."
+                  },
+                  {
+                    "achievement_id": 4697,
+                    "name": "Show Some Restraint",
+                    "priority": 18,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "While mounted in Dragonfall, use Soul Binders during compatible events.",
+                    "playability_note": "Progress is accumulated through repeated Soul Binder use during compatible Dragonfall play."
+                  },
+                  {
+                    "achievement_id": 4687,
+                    "name": "My Beautiful Infrastructure",
+                    "priority": 25,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Participate in bridge defense or bridge repair events in Dragonfall.",
+                    "playability_note": "Requires repeated bridge defense/repair event participation."
+                  },
+                  {
+                    "achievement_id": 4708,
+                    "name": "Championship Bout",
+                    "priority": 10,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 45,
+                    "availability_type": "meta",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": false,
+                    "event_dependent": true,
+                    "action": "Defeat missing champions in Dragonfall toward Championship Bout.",
+                    "playability_note": "Several required champions are tied to Dragonfall camp progression and the post-meta champion phase; this can overlap with Vision of Enemies: Ley-Infused Enemy."
+                  },
+                  {
+                    "achievement_id": 4722,
+                    "name": "Eternally Yours",
+                    "priority": 30,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "availability_type": "event",
+                    "repeat_required": true,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Throw Eternal Embers at foes while playing in Dragonfall.",
+                    "playability_note": "Incremental background progress while participating in Dragonfall events."
+                  },
+                  {
+                    "achievement_id": 4663,
+                    "name": "Friends in High Places",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "availability_type": "direct",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Speak with Sayida or Taimi on the airship."
+                  },
+                  {
+                    "achievement_id": 4737,
+                    "name": "Sniper's Nest",
+                    "priority": 40,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 15,
+                    "availability_type": "event",
+                    "repeat_required": false,
+                    "group_recommended": false,
+                    "schedule_dependent": false,
+                    "action": "Complete Sniper's Nest during the relevant Dragonfall battle."
+                  },
+                  {
+                    "achievement_id": 4705,
+                    "name": "Hat Trick",
+                    "priority": 15,
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 40,
+                    "availability_type": "meta",
+                    "repeat_required": true,
+                    "group_recommended": true,
+                    "schedule_dependent": false,
+                    "event_dependent": true,
+                    "action": "Defeat the required legendary creatures during the final assault against Kralkatorrik.",
+                    "playability_note": "Requires the Dragonfall final assault and may take multiple meta completions depending on which legendary creatures remain."
+                  }
+                ]
               }
             },
             {
@@ -524,9 +2452,80 @@
               "name": "Vision of Enemies: Ley-Infused Enemy",
               "activity": "open_world",
               "location": "Dragonfall",
-              "minimum_minutes": 15,
-              "ideal_minutes": 30,
-              "action": "Defeat a required ley-infused champion in Dragonfall while carrying a Memory Essence Encapsulator."
+              "minimum_minutes": 20,
+              "ideal_minutes": 45,
+              "action": "Carry a Memory Essence Encapsulator and defeat a ley-infused champion during the Dragonfall post-meta bonus phase after Break the Crystal Dragon.",
+              "event_dependent": true,
+              "dependency": {
+                "name": "Memory Essence Encapsulator",
+                "tracking": "shared_consumable",
+                "item_id": 91024,
+                "objective_required": 1,
+                "shared_required": 6,
+                "shared_scope": "Vision of Enemies",
+                "activity": "vendor",
+                "location": "Chalon Docks, Domain of Istan",
+                "minimum_minutes": 5,
+                "ideal_minutes": 10,
+                "vendor": "Alaleh",
+                "action": "Buy a Memory Essence Encapsulator from Alaleh at Chalon Docks before doing the Dragonfall post-meta ley-infused champion.",
+                "per_unit_cost": [
+                  {
+                    "item_id": 19721,
+                    "name": "Glob of Ectoplasm",
+                    "count": 50,
+                    "priority": 10,
+                    "activity": "acquisition",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Acquire Globs of Ectoplasm through trading, salvage, or other normal sources."
+                  },
+                  {
+                    "item_id": 12834,
+                    "name": "Orichalcum Filigree",
+                    "count": 10,
+                    "priority": 20,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Orichalcum Filigrees with Jeweler."
+                  },
+                  {
+                    "item_id": 49523,
+                    "name": "Lesser Vision Crystal",
+                    "count": 1,
+                    "priority": 30,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft a Lesser Vision Crystal if needed."
+                  },
+                  {
+                    "item_id": 46743,
+                    "name": "Xunlai Electrum Ingot",
+                    "count": 3,
+                    "priority": 25,
+                    "activity": "crafting",
+                    "minimum_minutes": 5,
+                    "ideal_minutes": 10,
+                    "action": "Craft Xunlai Electrum Ingots if needed."
+                  }
+                ],
+                "next_step": {
+                  "type": "event_kill",
+                  "name": "Ley-Infused Enemy",
+                  "activity": "open_world",
+                  "location": "Dragonfall",
+                  "minimum_minutes": 20,
+                  "ideal_minutes": 45,
+                  "event_dependent": true,
+                  "note": "After obtaining the Encapsulator, complete Break the Crystal Dragon and defeat a ley-infused champion during the bonus phase."
+                }
+              },
+              "availability_type": "meta",
+              "repeat_required": false,
+              "group_recommended": true,
+              "schedule_dependent": false
             },
             {
               "bit": 4,
@@ -542,9 +2541,88 @@
               "name": "Vision of Equipment: Dragon Champion Armor",
               "activity": "achievement",
               "location": "Dragonfall",
-              "minimum_minutes": 30,
-              "ideal_minutes": 60,
-              "action": "Work toward completing one weight class of Tier 1 Mist Shard armor."
+              "minimum_minutes": 20,
+              "ideal_minutes": 45,
+              "action": "Complete the remaining Mist Shard armor reward achievements for one weight class, then buy the Vision collection item from the Traveling Elonian Trader.",
+              "dependency": {
+                "name": "Tier 1 Mist Shard Armor",
+                "tracking": "achievement_set",
+                "required": 6,
+                "objectives": [
+                  {
+                    "achievement_id": 4686,
+                    "name": "Chasing Waterfalls",
+                    "reward": "Mist Shard Helm",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Find the remaining waterfalls in Dragonfall to complete Chasing Waterfalls."
+                  },
+                  {
+                    "achievement_id": 4740,
+                    "name": "Putting Out Fires",
+                    "reward": "Mist Shard Shoulders",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Complete Putting Out Fires for the Mist Shard shoulder reward."
+                  },
+                  {
+                    "achievement_id": 4708,
+                    "name": "Championship Bout",
+                    "reward": "Mist Shard Coat",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 20,
+                    "ideal_minutes": 45,
+                    "action": "Defeat the remaining Dragonfall champions toward Championship Bout.",
+                    "bundle": "dragonfall",
+                    "focus_type": "opportunistic"
+                  },
+                  {
+                    "achievement_id": 4687,
+                    "name": "My Beautiful Infrastructure",
+                    "reward": "Mist Shard Gloves",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 15,
+                    "ideal_minutes": 30,
+                    "action": "Participate in the remaining bridge defense or bridge repair events in Dragonfall.",
+                    "bundle": "dragonfall",
+                    "focus_type": "opportunistic"
+                  },
+                  {
+                    "achievement_id": 4723,
+                    "name": "Life in the Underworld",
+                    "reward": "Mist Shard Leggings",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Complete Life in the Underworld for the Mist Shard legging reward."
+                  },
+                  {
+                    "achievement_id": 4715,
+                    "name": "Cutting Weeds",
+                    "reward": "Mist Shard Boots",
+                    "activity": "open_world",
+                    "location": "Dragonfall",
+                    "minimum_minutes": 10,
+                    "ideal_minutes": 30,
+                    "action": "Complete Cutting Weeds for the Mist Shard boot reward."
+                  }
+                ],
+                "next_step": {
+                  "type": "vendor_purchase",
+                  "name": "Vision of Equipment: Dragon Champion Armor",
+                  "vendor": "Traveling Elonian Trader",
+                  "location": "Pact Command, Dragonfall",
+                  "cost": "5 gold",
+                  "note": "After unlocking one complete weight class of Tier 1 Mist Shard armor, buy the Vision collection item from the Traveling Elonian Trader."
+                }
+              }
             },
             {
               "bit": 6,

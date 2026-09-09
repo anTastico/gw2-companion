@@ -1,15 +1,13 @@
 services:
   gw2-companion:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/antastico/gw2-companion:aurora-dependency-depth
     container_name: gw2-companion
 
     environment:
       GW2_API_KEY: ${GW2_API_KEY:?GW2_API_KEY must be set}
 
     ports:
-      - "8000:8000"
+      - "8001:8000"
 
     healthcheck:
       test:
