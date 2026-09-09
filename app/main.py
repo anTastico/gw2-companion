@@ -40,6 +40,13 @@ def root():
     }
 
 
+@app.get("/health")
+def health():
+    return {
+        "status": "ok"
+    }
+
+
 @app.get("/account")
 async def account():
     return await gw2.get_account()
