@@ -7,7 +7,7 @@ services:
       GW2_API_KEY: ${GW2_API_KEY:?GW2_API_KEY must be set}
 
     ports:
-      - "8000:8000"
+      - "8001:8000"
 
     healthcheck:
       test:
