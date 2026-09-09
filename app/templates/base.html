@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}GW2 Companion{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/app.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">GW2</div>
+                <div>
+                    <div class="brand-name">GW2 Companion</div>
+                    <div class="brand-subtitle">Account-aware planning</div>
+                </div>
+            </div>
+
+            <div class="connection-pill">
+                <span class="status-dot" aria-hidden="true"></span>
+                Backend connected
+            </div>
+        </header>
+
+        <main class="page">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="footer">
+            GW2 Companion · v{{ app_version }}
+        </footer>
+    </div>
+</body>
+</html>

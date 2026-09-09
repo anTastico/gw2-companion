@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}GW2 Companion · Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">YOUR COMPANION</p>
+        <h1>What should I work on tonight?</h1>
+        <p class="hero-copy">
+            Turn your live account progress into a useful plan for the time you actually have.
+        </p>
+    </div>
+
+    <div class="session-buttons" aria-label="Session length">
+        <button type="button" disabled>30 min</button>
+        <button type="button" disabled>60 min</button>
+        <button type="button" disabled>90 min</button>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">ACTIVE GOALS</p>
+            <h2>Legendary progress</h2>
+        </div>
+        <span class="muted">Live data wiring is next</span>
+    </div>
+
+    <div class="goal-grid">
+        <article class="card goal-card">
+            <div class="card-topline">
+                <span class="goal-name">Aurora</span>
+                <span class="badge badge-active">Active</span>
+            </div>
+            <div class="progress-track"><span style="width: 28%"></span></div>
+            <p class="card-copy">Living World Season 3 mastery collections and Wayfarer's Henge planning.</p>
+        </article>
+
+        <article class="card goal-card">
+            <div class="card-topline">
+                <span class="goal-name">Vision</span>
+                <span class="badge">Tracked</span>
+            </div>
+            <div class="progress-track"><span style="width: 72%"></span></div>
+            <p class="card-copy">Vision collections, weapon skins, crafting requirements, and dependencies.</p>
+        </article>
+
+        <article class="card goal-card">
+            <div class="card-topline">
+                <span class="goal-name">Prismatic Champion's Regalia</span>
+                <span class="badge badge-complete">Complete</span>
+            </div>
+            <div class="progress-track"><span style="width: 100%"></span></div>
+            <p class="card-copy">Tracker remains available for reference and regression testing.</p>
+        </article>
+    </div>
+</section>
+
+<section class="dashboard-grid">
+    <article class="card panel">
+        <div class="section-heading compact">
+            <div>
+                <p class="eyebrow">TONIGHT</p>
+                <h2>Session plan</h2>
+            </div>
+        </div>
+
+        <div class="empty-state">
+            <div class="empty-icon" aria-hidden="true">◎</div>
+            <h3>Choose your play time</h3>
+            <p>The next step will connect these buttons to the existing <code>/session-plan</code> endpoint.</p>
+        </div>
+    </article>
+
+    <article class="card panel">
+        <div class="section-heading compact">
+            <div>
+                <p class="eyebrow">DAILY PRIORITIES</p>
+                <h2>Don't miss today's window</h2>
+            </div>
+        </div>
+
+        <div class="priority-list">
+            <div class="priority-row">
+                <span class="priority-rank">1</span>
+                <div>
+                    <strong>Druid Runestone</strong>
+                    <p>Hard daily gate · Draconis Mons</p>
+                </div>
+            </div>
+
+            <div class="priority-row">
+                <span class="priority-rank">2</span>
+                <div>
+                    <strong>Limited daily attempts</strong>
+                    <p>Crystallized Suet and Ancient Cipher</p>
+                </div>
+            </div>
+
+            <div class="priority-row muted-row">
+                <span class="priority-rank">3</span>
+                <div>
+                    <strong>Soft-cap gathering</strong>
+                    <p>Useful after the time-sensitive work is done</p>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">M6.1</p>
+            <h2>Frontend skeleton online</h2>
+        </div>
+    </div>
+
+    <article class="card milestone-card">
+        <div>
+            <strong>FastAPI + Jinja2</strong>
+            <p>One application, one container, and the existing backend remains the source of truth.</p>
+        </div>
+        <span class="badge badge-active">Ready for live data</span>
+    </article>
+</section>
+{% endblock %}

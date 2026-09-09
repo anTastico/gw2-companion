@@ -1,6 +1,7 @@
 from typing import Literal
 
 from fastapi import FastAPI, Query
+from fastapi.staticfiles import StaticFiles
 
 from app.services.gw2_api import GW2Client
 from app.services.account_inventory import AccountInventory
@@ -10,6 +11,7 @@ from app.services.session_planner import SessionPlanner
 from app.trackers.regalia import RegaliaTracker
 from app.trackers.vision import VisionTracker
 from app.trackers.aurora import AuroraTracker
+from app.web.routes import router as web_router
 
 
 gw2 = GW2Client()
@@ -29,6 +31,15 @@ app = FastAPI(
     description="A self-hosted Guild Wars 2 companion.",
     version="0.1.0"
 )
+
+
+app.mount(
+    "/static",
+    StaticFiles(directory="app/static"),
+    name="static"
+)
+
+app.include_router(web_router)
 
 
 @app.get("/")
