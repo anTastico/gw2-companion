@@ -56,7 +56,11 @@
 
     <div class="goal-grid">
         {% for goal in goals %}
+        {% if goal.key in ["aurora", "vision"] %}
+        <a class="card goal-card goal-card-link" href="/app/goal/{{ goal.key }}">
+        {% else %}
         <article class="card goal-card">
+        {% endif %}
             <div class="card-topline">
                 <span class="goal-name">{{ goal.name }}</span>
                 <span class="badge {{ goal.badge_class }}">{{ goal.badge_label }}</span>
@@ -86,7 +90,16 @@
             {% endif %}
 
             <p class="card-copy">{{ goal.description }}</p>
+
+            {% if goal.key in ["aurora", "vision"] %}
+            <div class="goal-card-cta">View goal details →</div>
+            {% endif %}
+
+        {% if goal.key in ["aurora", "vision"] %}
+        </a>
+        {% else %}
         </article>
+        {% endif %}
         {% endfor %}
     </div>
 </section>

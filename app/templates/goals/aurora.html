@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}GW2 Companion - Aurora{% endblock %}
+
+{% block content %}
+<section class="goal-detail-hero">
+    <a class="back-link" href="/app">← Back to dashboard</a>
+    <p class="eyebrow">LEGENDARY GOAL</p>
+    <h1>{{ goal_name }}</h1>
+
+    {% set achievement = summary.achievement_progress %}
+    <div class="goal-detail-summary">
+        <div>
+            <span>Overall achievement progress</span>
+            <strong>{{ achievement.current }} / {{ achievement.max }}</strong>
+        </div>
+        <div>
+            <span>Tracker status</span>
+            <strong>{{ summary.status|replace("_", " ")|title }}</strong>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">STAGES</p>
+            <h2>Current progress</h2>
+        </div>
+    </div>
+
+    <div class="detail-stage-list">
+        {% for stage in stages %}
+        <article class="card detail-stage">
+            <div class="detail-stage-header">
+                <div>
+                    <span class="detail-status">{{ stage.status|replace("_", " ")|title }}</span>
+                    <h2>{{ stage.name }}</h2>
+                </div>
+                <strong>{{ stage.current }} / {{ stage.max }} · {{ stage.percent }}%</strong>
+            </div>
+
+            <div class="progress-track detail-progress">
+                <span style="width: {{ stage.percent }}%"></span>
+            </div>
+
+            {% if stage.collections %}
+            <div class="collection-list">
+                {% for collection in stage.collections %}
+                <div class="collection-row">
+                    <div>
+                        <strong>{{ collection.name }}</strong>
+                        <span class="collection-state collection-{{ collection.status }}">
+                            {{ collection.status|title }}
+                        </span>
+                    </div>
+                    <div class="collection-progress">
+                        {{ collection.current }} / {{ collection.max }}
+                        · {{ collection.percent }}%
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">CRAFTING</p>
+            <h2>Required components</h2>
+        </div>
+    </div>
+
+    <div class="card crafting-table">
+        {% for item in crafting %}
+        <div class="crafting-row">
+            <div>
+                <strong>{{ item.name }}</strong>
+                <span>{{ "Complete" if item.completed else "Missing" }}</span>
+            </div>
+            <strong>{{ item.owned }} / {{ item.required }}</strong>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

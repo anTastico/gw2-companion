@@ -246,6 +246,154 @@ async def web_session_plan(
     )
 
 
+def _collection_status(collection: dict) -> str:
+    if collection.get("completed", False):
+        return "complete"
+
+    if collection.get("current", 0) > 0:
+        return "active"
+
+    if collection.get("unlocked") is False:
+        return "locked"
+
+    if collection.get("actionable") is False:
+        return "blocked"
+
+    return "active"
+
+
+def _collection_view(collection: dict) -> dict:
+    maximum = collection.get("max", 0)
+    current = collection.get("current", 0)
+
+    if collection.get("completed", False) and maximum:
+        current = maximum
+
+    progress = _progress(current, maximum)
+
+    return {
+        "name": collection.get("name", "Unnamed collection"),
+        "status": _collection_status(collection),
+        "unlocked": collection.get("unlocked", True),
+        "actionable": collection.get("actionable", True),
+        "completed": collection.get("completed", False),
+        "missing_count": len(collection.get("missing_objectives", [])),
+        **progress,
+    }
+
+
+def _crafting_view(crafting: list[dict]) -> list[dict]:
+    rows = []
+
+    for item in crafting:
+        required = item.get("required", 0)
+        owned = item.get("owned", 0)
+
+        rows.append({
+            "name": item.get("name", "Unknown item"),
+            "owned": owned,
+            "required": required,
+            "completed": item.get(
+                "completed",
+                owned >= required if required else False,
+            ),
+        })
+
+    return rows
+
+
+@router.get("/app/goal/aurora", name="web_goal_aurora")
+async def web_goal_aurora(request: Request):
+    account_state = await AccountState.load(client=gw2)
+    progress = await aurora.progress(
+        account_state=account_state
+    )
+
+    stages = []
+    for stage in progress.get("stages", []):
+        stages.append({
+            "name": stage.get("name", "Unnamed stage"),
+            "status": stage.get("status", "in_progress"),
+            "current": stage.get("current", 0),
+            "max": stage.get("max", 0),
+            "percent": stage.get("percent", 0),
+            "collections": [
+                _collection_view(collection)
+                for collection in stage.get("collections", [])
+            ],
+        })
+
+    return templates.TemplateResponse(
+        request=request,
+        name="goals/aurora.html",
+        context={
+            "page_title": "Aurora",
+            "app_version": "0.1.0",
+            "goal_name": progress.get("name", "Aurora"),
+            "summary": progress.get("summary", {}),
+            "stages": stages,
+            "crafting": _crafting_view(
+                progress.get("crafting", [])
+            ),
+        },
+    )
+
+
+@router.get("/app/goal/vision", name="web_goal_vision")
+async def web_goal_vision(request: Request):
+    account_state = await AccountState.load(client=gw2)
+    progress = await vision.progress(
+        account_state=account_state
+    )
+
+    stages = []
+    for stage in progress.get("stages", []):
+        stage_complete = _vision_stage_completed(stage)
+        stage_current = _vision_stage_current(stage)
+
+        stages.append({
+            "name": stage.get("name", "Unnamed stage"),
+            "status": (
+                "completed"
+                if stage_complete
+                else "in_progress"
+            ),
+            "current": stage_current,
+            "max": stage.get("max", 0),
+            "percent": round(
+                stage_current / stage.get("max", 0) * 100,
+                1,
+            ) if stage.get("max", 0) else 0,
+            "collections": [
+                _collection_view(collection)
+                for collection in stage.get("collections", [])
+            ],
+        })
+
+    return templates.TemplateResponse(
+        request=request,
+        name="goals/vision.html",
+        context={
+            "page_title": "Vision",
+            "app_version": "0.1.0",
+            "goal_name": progress.get("name", "Vision"),
+            "summary": progress.get("summary", {}),
+            "stages": stages,
+            "current_phase": next(
+                (
+                    stage["name"]
+                    for stage in stages
+                    if stage["status"] != "completed"
+                ),
+                "Collections complete",
+            ),
+            "crafting": _crafting_view(
+                progress.get("crafting", [])
+            ),
+        },
+    )
+
+
 @router.get("/app", name="web_dashboard")
 async def dashboard(request: Request):
     account_state = await AccountState.load(client=gw2)

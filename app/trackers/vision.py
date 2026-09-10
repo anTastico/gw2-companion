@@ -93,6 +93,12 @@ class VisionTracker:
                     current >= max_steps
                 )
 
+                # ArenaNet can report an achievement as definitively done
+                # without retaining its historical bit/count detail.
+                # Completed collections still represent full progress.
+                if completed:
+                    current = max_steps
+
                 collection_result = {
                     "id": collection["id"],
                     "name": collection["name"],
