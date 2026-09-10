@@ -120,47 +120,55 @@
             </div>
         </div>
 
+        {% if daily_priorities %}
         <div class="priority-list">
-            <div class="priority-row">
-                <span class="priority-rank">1</span>
-                <div>
-                    <strong>Druid Runestone</strong>
-                    <p>Hard daily gate · Draconis Mons</p>
-                </div>
-            </div>
+            {% for priority in daily_priorities %}
+            <div class="priority-row priority-{{ priority.type }}">
+                <span class="priority-rank">{{ loop.index }}</span>
+                <div class="priority-content">
+                    <div class="priority-title-row">
+                        <strong>{{ priority.title }}</strong>
+                        {% if priority.goal %}
+                        <span class="priority-goal">{{ priority.goal }}</span>
+                        {% endif %}
+                    </div>
 
-            <div class="priority-row">
-                <span class="priority-rank">2</span>
-                <div>
-                    <strong>Limited daily attempts</strong>
-                    <p>Crystallized Suet and Ancient Cipher</p>
-                </div>
-            </div>
+                    <p>{{ priority.details }}</p>
 
-            <div class="priority-row muted-row">
-                <span class="priority-rank">3</span>
-                <div>
-                    <strong>Soft-cap gathering</strong>
-                    <p>Useful after the time-sensitive work is done</p>
+                    {% if priority.action %}
+                    <p class="priority-action">{{ priority.action }}</p>
+                    {% endif %}
                 </div>
             </div>
+            {% endfor %}
         </div>
+        {% else %}
+        <div class="empty-state daily-empty">
+            <div class="empty-icon" aria-hidden="true">✓</div>
+            <h3>No daily priorities right now</h3>
+            <p>
+                The recommendation engine did not find any unfinished
+                daily-limited work for your tracked goals.
+            </p>
+        </div>
+        {% endif %}
     </article>
 </section>
 
 <section class="section">
     <div class="section-heading">
         <div>
-            <p class="eyebrow">M6.2</p>
-            <h2>Live dashboard data online</h2>
+            <p class="eyebrow">M6.4</p>
+            <h2>Live planning dashboard online</h2>
         </div>
     </div>
 
     <article class="card milestone-card">
         <div>
-            <strong>Account + tracker data</strong>
+            <strong>Account + goals + planning</strong>
             <p>
-                The dashboard is now rendering live account and goal progress from the backend.
+                Account progress, session plans, and daily priorities now
+                come from the live backend planning stack.
             </p>
         </div>
         <span class="badge badge-active">Live</span>

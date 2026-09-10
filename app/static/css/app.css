@@ -339,3 +339,54 @@ code { color: #c9ddff; }
         text-align: left;
     }
 }
+
+.priority-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.priority-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.priority-goal {
+    flex: 0 0 auto;
+    color: var(--accent-strong);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.priority-action {
+    margin-top: 7px !important;
+    color: var(--text) !important;
+    line-height: 1.4;
+}
+
+.priority-hard_gate {
+    border-color: rgba(215, 168, 74, 0.42);
+}
+
+.priority-limited_attempt {
+    border-color: rgba(114, 167, 255, 0.30);
+}
+
+.priority-soft_cap {
+    opacity: 0.82;
+}
+
+.daily-empty {
+    min-height: 220px;
+}
+
+@media (max-width: 560px) {
+    .priority-title-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+}

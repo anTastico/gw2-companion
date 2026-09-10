@@ -4,6 +4,7 @@ from fastapi import APIRouter, Query, Request
 from fastapi.templating import Jinja2Templates
 
 from app.services.account_state import AccountState
+from app.services.recommendations import RecommendationService
 from app.services.session_planner import SessionPlanner
 from app.services.gw2_api import GW2Client
 from app.trackers.aurora import AuroraTracker
@@ -20,6 +21,7 @@ gw2 = GW2Client()
 aurora = AuroraTracker()
 vision = VisionTracker()
 regalia = RegaliaTracker()
+recommendations = RecommendationService()
 session_planner = SessionPlanner()
 
 
@@ -130,6 +132,85 @@ def _all_crafting_complete(crafting: list[dict]) -> bool:
     )
 
 
+DAILY_PRIORITY_LABELS = {
+    "hard_gate": "Hard daily gate",
+    "limited_attempt": "Limited daily attempt",
+    "soft_cap": "Daily soft cap",
+    "optional": "Optional daily route",
+}
+
+
+def _daily_priority_view(recommendation: dict) -> dict:
+    opportunity_type = recommendation.get(
+        "daily_opportunity_type",
+        "daily",
+    )
+
+    details = []
+
+    label = DAILY_PRIORITY_LABELS.get(
+        opportunity_type,
+        "Daily opportunity",
+    )
+    details.append(label)
+
+    location = recommendation.get("location")
+    if location:
+        details.append(location)
+
+    progress = recommendation.get("progress")
+    if progress:
+        details.append(progress)
+
+    return {
+        "title": recommendation.get(
+            "title",
+            "Daily opportunity",
+        ),
+        "goal": recommendation.get("goal"),
+        "type": opportunity_type,
+        "details": " · ".join(details),
+        "action": recommendation.get("action"),
+        "score": recommendation.get("score"),
+    }
+
+
+def _select_daily_priorities(
+    recommendations_result: dict,
+    limit: int = 3,
+) -> list[dict]:
+    daily = [
+        recommendation
+        for recommendation in recommendations_result.get(
+            "recommendations",
+            [],
+        )
+        if recommendation.get("daily_opportunity_type")
+    ]
+
+    priority_order = {
+        "hard_gate": 0,
+        "limited_attempt": 1,
+        "soft_cap": 2,
+        "optional": 3,
+    }
+
+    daily.sort(
+        key=lambda recommendation: (
+            priority_order.get(
+                recommendation.get("daily_opportunity_type"),
+                99,
+            ),
+            -recommendation.get("score", 0),
+        )
+    )
+
+    return [
+        _daily_priority_view(recommendation)
+        for recommendation in daily[:limit]
+    ]
+
+
 def _plan_step_view(step: dict) -> dict:
     return {
         "order": step.get("order"),
@@ -179,6 +260,15 @@ async def dashboard(request: Request):
     )
     regalia_progress = await regalia.progress(
         account_state=account_state
+    )
+
+    recommendations_result = await recommendations.get_recommendations(
+        mode="progress",
+        full_candidate_pool=True,
+        account_state=account_state,
+    )
+    daily_priorities = _select_daily_priorities(
+        recommendations_result
     )
 
     aurora_summary = aurora_progress["summary"]
@@ -323,5 +413,6 @@ async def dashboard(request: Request):
             "app_version": "0.1.0",
             "account": account,
             "goals": goals,
+            "daily_priorities": daily_priorities,
         },
     )

@@ -43,9 +43,11 @@ class RecommendationService:
         activity: str | None = None,
         minutes: int | None = None,
         collection: str | None = None,
-        full_candidate_pool: bool = False
+        full_candidate_pool: bool = False,
+        account_state: AccountState | None = None
     ):
-        account_state = await AccountState.load()
+        if account_state is None:
+            account_state = await AccountState.load()
 
         regalia = await self.regalia.progress(
             account_state=account_state
