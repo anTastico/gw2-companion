@@ -1,0 +1,59 @@
+{% if plan.match_found and steps %}
+<div class="plan-summary">
+    <div>
+        <span class="plan-kicker">{{ plan.minutes }} minute plan</span>
+        <strong>{{ plan.allocated_minutes }} min allocated</strong>
+    </div>
+
+    {% if plan.locations %}
+    <div class="plan-location">
+        {% if plan.locations|length == 1 %}
+        {{ plan.locations[0] }}
+        {% else %}
+        {{ plan.locations|join(" → ") }}
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+<div class="plan-steps">
+    {% for step in steps %}
+    <article class="plan-step">
+        <div class="plan-step-number">{{ step.order }}</div>
+
+        <div class="plan-step-body">
+            <div class="plan-step-topline">
+                <div>
+                    <span class="plan-step-goal">{{ step.goal }}</span>
+                    <h3>{{ step.title }}</h3>
+                </div>
+                <span class="plan-minutes">{{ step.allocated_minutes }} min</span>
+            </div>
+
+            <div class="plan-meta">
+                {% if step.location %}
+                <span>{{ step.location }}</span>
+                {% endif %}
+                {% if step.time_gated %}
+                <span class="plan-tag">Time gated</span>
+                {% endif %}
+            </div>
+
+            {% if step.action %}
+            <p class="plan-action">{{ step.action }}</p>
+            {% endif %}
+
+            {% if step.reason %}
+            <p class="plan-reason">{{ step.reason }}</p>
+            {% endif %}
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-icon" aria-hidden="true">–</div>
+    <h3>No useful plan found</h3>
+    <p>{{ plan.message or "Nothing currently fits this session length." }}</p>
+</div>
+{% endif %}

@@ -171,3 +171,171 @@ code { color: #c9ddff; }
 .overall-progress span:last-child {
     text-align: right;
 }
+
+.session-buttons button {
+    cursor: pointer;
+    transition:
+        border-color 120ms ease,
+        background 120ms ease,
+        transform 120ms ease;
+}
+
+.session-buttons button:hover:not(:disabled) {
+    border-color: rgba(215, 168, 74, 0.55);
+    transform: translateY(-1px);
+}
+
+.session-buttons button.selected {
+    border-color: rgba(215, 168, 74, 0.72);
+    background: rgba(215, 168, 74, 0.12);
+    color: var(--accent-strong);
+}
+
+.plan-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.018);
+}
+
+.plan-summary strong,
+.plan-kicker {
+    display: block;
+}
+
+.plan-kicker {
+    margin-bottom: 3px;
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.plan-location {
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-align: right;
+}
+
+.plan-steps {
+    display: grid;
+    gap: 12px;
+}
+
+.plan-step {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 14px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.018);
+}
+
+.plan-step-number {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: rgba(215, 168, 74, 0.10);
+    color: var(--accent-strong);
+    font-weight: 800;
+}
+
+.plan-step-topline {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.plan-step-goal {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--accent-strong);
+    font-size: 0.69rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.plan-step h3 {
+    margin-bottom: 0;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.plan-minutes {
+    flex: 0 0 auto;
+    padding: 5px 8px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text);
+    font-size: 0.73rem;
+    font-weight: 760;
+}
+
+.plan-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.plan-tag {
+    color: var(--accent-strong);
+}
+
+.plan-action {
+    margin: 12px 0 0;
+    color: var(--text);
+    line-height: 1.48;
+}
+
+.plan-reason {
+    margin: 7px 0 0;
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.loading-mark {
+    animation: pulse-plan 900ms ease-in-out infinite alternate;
+}
+
+.error-state .empty-icon {
+    color: #ef7070;
+}
+
+@keyframes pulse-plan {
+    from {
+        opacity: 0.35;
+        transform: scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.04);
+    }
+}
+
+@media (max-width: 560px) {
+    .plan-summary,
+    .plan-step-topline {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .plan-location {
+        text-align: left;
+    }
+}

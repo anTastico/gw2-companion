@@ -1,9 +1,10 @@
 from pathlib import Path
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Query, Request
 from fastapi.templating import Jinja2Templates
 
 from app.services.account_state import AccountState
+from app.services.session_planner import SessionPlanner
 from app.services.gw2_api import GW2Client
 from app.trackers.aurora import AuroraTracker
 from app.trackers.vision import VisionTracker
@@ -19,6 +20,7 @@ gw2 = GW2Client()
 aurora = AuroraTracker()
 vision = VisionTracker()
 regalia = RegaliaTracker()
+session_planner = SessionPlanner()
 
 
 def _progress(current: int, maximum: int) -> dict:
@@ -125,6 +127,41 @@ def _all_crafting_complete(crafting: list[dict]) -> bool:
     return bool(crafting) and all(
         item.get("completed", False)
         for item in crafting
+    )
+
+
+def _plan_step_view(step: dict) -> dict:
+    return {
+        "order": step.get("order"),
+        "title": step.get("title", "Untitled step"),
+        "goal": step.get("goal"),
+        "location": step.get("location"),
+        "allocated_minutes": step.get("allocated_minutes", 0),
+        "action": step.get("action"),
+        "reason": step.get("reason"),
+        "time_gated": step.get("time_gated", False),
+    }
+
+
+@router.get("/app/session-plan", name="web_session_plan")
+async def web_session_plan(
+    request: Request,
+    minutes: int = Query(ge=5, le=360),
+):
+    plan = await session_planner.build_plan(
+        minutes=minutes
+    )
+
+    return templates.TemplateResponse(
+        request=request,
+        name="partials/session_plan.html",
+        context={
+            "plan": plan,
+            "steps": [
+                _plan_step_view(step)
+                for step in plan.get("steps", [])
+            ],
+        },
     )
 
 
