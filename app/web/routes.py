@@ -262,22 +262,73 @@ def _collection_status(collection: dict) -> str:
     return "active"
 
 
+def _objective_view(objective: dict) -> dict:
+    dependency = objective.get("dependency") or {}
+    next_step = dependency.get("next_step") or {}
+    next_objective = dependency.get("next_objective") or {}
+
+    dependency_title = (
+        next_step.get("name")
+        or next_objective.get("name")
+        or dependency.get("name")
+    )
+
+    dependency_action = (
+        next_step.get("action")
+        or next_objective.get("action")
+        or dependency.get("action")
+    )
+
+    return {
+        "name": objective.get("name", "Unnamed objective"),
+        "completed": objective.get("completed", False),
+        "action": objective.get("action"),
+        "location": objective.get("location"),
+        "activity": objective.get("activity"),
+        "dependency_title": dependency_title,
+        "dependency_action": dependency_action,
+    }
+
+
 def _collection_view(collection: dict) -> dict:
     maximum = collection.get("max", 0)
     current = collection.get("current", 0)
+    completed = collection.get("completed", False)
 
-    if collection.get("completed", False) and maximum:
+    if completed and maximum:
         current = maximum
 
     progress = _progress(current, maximum)
+
+    if completed:
+        raw_missing_objectives = []
+    elif collection.get("missing_objectives") is not None:
+        raw_missing_objectives = collection.get(
+            "missing_objectives",
+            [],
+        )
+    else:
+        raw_missing_objectives = (
+            collection.get("objective_progress", {})
+            .get("missing_objectives", [])
+        )
+
+    missing_objectives = [
+        _objective_view(objective)
+        for objective in raw_missing_objectives
+    ]
 
     return {
         "name": collection.get("name", "Unnamed collection"),
         "status": _collection_status(collection),
         "unlocked": collection.get("unlocked", True),
         "actionable": collection.get("actionable", True),
-        "completed": collection.get("completed", False),
-        "missing_count": len(collection.get("missing_objectives", [])),
+        "completed": completed,
+        "missing_count": len(missing_objectives),
+        "missing_objectives": missing_objectives,
+        "tracking": collection.get("tracking"),
+        "action": collection.get("action"),
+        "location": collection.get("location"),
         **progress,
     }
 

@@ -47,18 +47,72 @@
             {% if stage.collections %}
             <div class="collection-list">
                 {% for collection in stage.collections %}
-                <div class="collection-row">
-                    <div>
-                        <strong>{{ collection.name }}</strong>
-                        <span class="collection-state collection-{{ collection.status }}">
-                            {{ collection.status|title }}
-                        </span>
+                <details class="collection-detail" {% if collection.status == "active" and collection.missing_count %}open{% endif %}>
+                    <summary class="collection-row">
+                        <div>
+                            <strong>{{ collection.name }}</strong>
+                            <span class="collection-state collection-{{ collection.status }}">
+                                {{ collection.status|title }}
+                            </span>
+                        </div>
+
+                        <div class="collection-progress">
+                            {{ collection.current }} / {{ collection.max }}
+                            · {{ collection.percent }}%
+                            {% if collection.missing_count %}
+                            · {{ collection.missing_count }} missing
+                            {% endif %}
+                        </div>
+                    </summary>
+
+                    {% if collection.missing_objectives %}
+                    <div class="objective-list">
+                        {% for objective in collection.missing_objectives %}
+                        <article class="objective-row">
+                            <div class="objective-topline">
+                                <strong>{{ objective.name }}</strong>
+
+                                {% if objective.activity %}
+                                <span class="objective-activity">
+                                    {{ objective.activity|replace("_", " ")|title }}
+                                </span>
+                                {% endif %}
+                            </div>
+
+                            {% if objective.location %}
+                            <div class="objective-location">{{ objective.location }}</div>
+                            {% endif %}
+
+                            {% if objective.action %}
+                            <p>{{ objective.action }}</p>
+                            {% endif %}
+
+                            {% if objective.dependency_title %}
+                            <div class="dependency-box">
+                                <span class="dependency-label">Next dependency</span>
+                                <strong>{{ objective.dependency_title }}</strong>
+
+                                {% if objective.dependency_action %}
+                                <p>{{ objective.dependency_action }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </article>
+                        {% endfor %}
                     </div>
-                    <div class="collection-progress">
-                        {{ collection.current }} / {{ collection.max }}
-                        · {{ collection.percent }}%
+                    {% elif collection.completed %}
+                    <div class="collection-complete-note">
+                        Collection complete.
                     </div>
-                </div>
+                    {% elif collection.action %}
+                    <div class="collection-simple-detail">
+                        {% if collection.location %}
+                        <div class="objective-location">{{ collection.location }}</div>
+                        {% endif %}
+                        <p>{{ collection.action }}</p>
+                    </div>
+                    {% endif %}
+                </details>
                 {% endfor %}
             </div>
             {% endif %}

@@ -572,3 +572,141 @@ code { color: #c9ddff; }
         flex-direction: column;
     }
 }
+
+.collection-detail {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.012);
+}
+
+.collection-detail + .collection-detail {
+    margin-top: 9px;
+}
+
+.collection-detail .collection-row {
+    border: 0;
+    border-radius: 0;
+    cursor: pointer;
+    list-style: none;
+}
+
+.collection-detail .collection-row::-webkit-details-marker {
+    display: none;
+}
+
+.collection-detail .collection-row::after {
+    content: "â–¾";
+    flex: 0 0 auto;
+    margin-left: 8px;
+    color: var(--muted);
+    transition: transform 120ms ease;
+}
+
+.collection-detail[open] .collection-row::after {
+    transform: rotate(180deg);
+}
+
+.objective-list {
+    display: grid;
+    gap: 10px;
+    padding: 0 12px 12px;
+}
+
+.objective-row {
+    padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.012);
+}
+
+.objective-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.objective-activity {
+    color: var(--accent-strong);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.objective-location {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.objective-row p {
+    margin: 9px 0 0;
+    color: var(--text);
+    line-height: 1.48;
+}
+
+.dependency-box {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-left: 3px solid rgba(215, 168, 74, 0.58);
+    border-radius: 8px;
+    background: rgba(215, 168, 74, 0.05);
+}
+
+.dependency-box strong,
+.dependency-label {
+    display: block;
+}
+
+.dependency-label {
+    margin-bottom: 3px;
+    color: var(--accent-strong);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.dependency-box p {
+    color: var(--muted);
+    font-size: 0.82rem;
+}
+
+.collection-complete-note {
+    padding: 10px 14px 12px;
+    border-top: 1px solid var(--border);
+    color: var(--green);
+    font-size: 0.78rem;
+}
+
+@media (max-width: 700px) {
+    .objective-topline {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+.collection-detail .collection-progress {
+    margin-left: auto;
+    text-align: right;
+}
+
+.collection-simple-detail {
+    padding: 10px 14px 14px;
+    border-top: 1px solid var(--border);
+}
+
+.collection-simple-detail p {
+    margin: 7px 0 0;
+    color: var(--text);
+    line-height: 1.48;
+}
+
+@media (max-width: 700px) {
+    .collection-detail .collection-progress {
+        margin-left: 0;
+        text-align: left;
+    }
+}
