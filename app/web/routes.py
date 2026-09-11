@@ -15,6 +15,11 @@ from app.trackers.regalia import RegaliaTracker
 APP_DIR = Path(__file__).resolve().parents[1]
 templates = Jinja2Templates(directory=str(APP_DIR / "templates"))
 
+STATIC_CSS = APP_DIR / "static" / "css" / "app.css"
+templates.env.globals["asset_version"] = int(
+    STATIC_CSS.stat().st_mtime
+)
+
 router = APIRouter()
 
 gw2 = GW2Client()
@@ -339,15 +344,39 @@ def _crafting_view(crafting: list[dict]) -> list[dict]:
     for item in crafting:
         required = item.get("required", 0)
         owned = item.get("owned", 0)
+        completed = item.get(
+            "completed",
+            owned >= required if required else False,
+        )
+
+        missing_materials = [
+            {
+                "name": material.get(
+                    "name",
+                    f"Item {material.get('id', '?')}",
+                ),
+                "owned": material.get("owned", 0),
+                "required": material.get("required", 0),
+                "missing": material.get("missing", 0),
+            }
+            for material in item.get("missing_materials", [])
+            if material.get("missing", 0) > 0
+        ]
+
+        missing_materials.sort(
+            key=lambda material: (
+                -material["missing"],
+                material["name"],
+            )
+        )
 
         rows.append({
             "name": item.get("name", "Unknown item"),
             "owned": owned,
             "required": required,
-            "completed": item.get(
-                "completed",
-                owned >= required if required else False,
-            ),
+            "completed": completed,
+            "missing_materials": missing_materials,
+            "missing_material_count": len(missing_materials),
         })
 
     return rows

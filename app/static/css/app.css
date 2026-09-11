@@ -596,7 +596,7 @@ code { color: #c9ddff; }
 }
 
 .collection-detail .collection-row::after {
-    content: "â–¾";
+    content: "\25BE";
     flex: 0 0 auto;
     margin-left: 8px;
     color: var(--muted);
@@ -707,6 +707,98 @@ code { color: #c9ddff; }
 @media (max-width: 700px) {
     .collection-detail .collection-progress {
         margin-left: 0;
+        text-align: left;
+    }
+}
+
+/* M6.7 crafting drill-down */
+.crafting-detail {
+    border-bottom: 1px solid var(--border);
+}
+
+.crafting-detail:last-child {
+    border-bottom: 0;
+}
+
+.crafting-detail .crafting-row {
+    border: 0;
+    cursor: pointer;
+    list-style: none;
+}
+
+.crafting-detail .crafting-row::-webkit-details-marker {
+    display: none;
+}
+
+.crafting-detail .crafting-row::after {
+    content: "\25BE";
+    flex: 0 0 auto;
+    margin-left: 8px;
+    color: var(--muted);
+    transition: transform 120ms ease;
+}
+
+.crafting-detail[open] .crafting-row::after {
+    transform: rotate(180deg);
+}
+
+.crafting-detail .crafting-row > strong {
+    margin-left: auto;
+}
+
+.crafting-material-list {
+    display: grid;
+    gap: 1px;
+    padding: 0 12px 12px;
+}
+
+.crafting-material-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 11px 14px;
+    border-top: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.012);
+}
+
+.crafting-material-row span {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 0.75rem;
+}
+
+.crafting-material-count {
+    flex: 0 0 auto;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+.crafting-note {
+    padding: 10px 14px 12px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.crafting-note-complete {
+    color: var(--green);
+}
+
+@media (max-width: 700px) {
+    .crafting-detail .crafting-row > strong {
+        margin-left: 0;
+    }
+
+    .crafting-material-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .crafting-material-count {
         text-align: left;
     }
 }

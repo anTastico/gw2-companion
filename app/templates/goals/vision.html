@@ -131,13 +131,44 @@
 
     <div class="card crafting-table">
         {% for item in crafting %}
-        <div class="crafting-row">
-            <div>
-                <strong>{{ item.name }}</strong>
-                <span>{{ "Complete" if item.completed else "Missing" }}</span>
+        <details class="crafting-detail">
+            <summary class="crafting-row">
+                <div>
+                    <strong>{{ item.name }}</strong>
+                    <span>
+                        {{ "Complete" if item.completed else "Missing" }}
+                        {% if item.missing_material_count %}
+                        · {{ item.missing_material_count }} materials needed
+                        {% endif %}
+                    </span>
+                </div>
+                <strong>{{ item.owned }} / {{ item.required }}</strong>
+            </summary>
+
+            {% if item.missing_materials %}
+            <div class="crafting-material-list">
+                {% for material in item.missing_materials %}
+                <div class="crafting-material-row">
+                    <div>
+                        <strong>{{ material.name }}</strong>
+                        <span>{{ material.missing }} still needed</span>
+                    </div>
+                    <div class="crafting-material-count">
+                        {{ material.owned }} / {{ material.required }}
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            <strong>{{ item.owned }} / {{ item.required }}</strong>
-        </div>
+            {% elif item.completed %}
+            <div class="crafting-note crafting-note-complete">
+                Component complete.
+            </div>
+            {% else %}
+            <div class="crafting-note">
+                No material breakdown is available for this component yet.
+            </div>
+            {% endif %}
+        </details>
         {% endfor %}
     </div>
 </section>
