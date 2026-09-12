@@ -176,6 +176,11 @@ def _daily_priority_view(recommendation: dict) -> dict:
         "type": opportunity_type,
         "details": " · ".join(details),
         "action": recommendation.get("action"),
+        "reason": recommendation.get("reason"),
+        "value": recommendation.get("value"),
+        "effort": recommendation.get("effort"),
+        "time_gated": recommendation.get("time_gated", False),
+        "playability_note": recommendation.get("playability_note"),
         "score": recommendation.get("score"),
     }
 

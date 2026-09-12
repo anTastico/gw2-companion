@@ -44,7 +44,10 @@
             {% endif %}
 
             {% if step.reason %}
-            <p class="plan-reason">{{ step.reason }}</p>
+            <div class="plan-reason">
+                <span class="recommendation-label">Why recommended</span>
+                <p>{{ step.reason }}</p>
+            </div>
             {% endif %}
         </div>
     </article>

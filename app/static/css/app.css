@@ -802,3 +802,95 @@ code { color: #c9ddff; }
         text-align: left;
     }
 }
+
+/* M6.8 recommendation explanations */
+.priority-explanation {
+    margin-top: 10px;
+    border-top: 1px solid rgba(146, 163, 181, 0.16);
+    padding-top: 8px;
+}
+
+.priority-explanation > summary {
+    width: fit-content;
+    cursor: pointer;
+    list-style: none;
+    color: var(--accent-strong);
+    font-size: 0.74rem;
+    font-weight: 760;
+}
+
+.priority-explanation > summary::-webkit-details-marker {
+    display: none;
+}
+
+.priority-explanation > summary::after {
+    content: "\25BE";
+    display: inline-block;
+    margin-left: 6px;
+    color: var(--muted);
+    transition: transform 120ms ease;
+}
+
+.priority-explanation[open] > summary::after {
+    transform: rotate(180deg);
+}
+
+.priority-explanation-body {
+    margin-top: 9px;
+    padding: 10px 12px;
+    border-left: 2px solid rgba(215, 168, 74, 0.42);
+    border-radius: 8px;
+    background: rgba(215, 168, 74, 0.035);
+}
+
+.priority-explanation-body > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.48;
+}
+
+.priority-explanation-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 9px;
+}
+
+.priority-explanation-meta span {
+    padding: 3px 7px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.018);
+    font-size: 0.66rem;
+    font-weight: 700;
+}
+
+.priority-playability-note {
+    margin-top: 9px !important;
+}
+
+.plan-reason {
+    margin-top: 9px;
+    padding: 9px 11px;
+    border-left: 2px solid rgba(215, 168, 74, 0.38);
+    border-radius: 7px;
+    background: rgba(215, 168, 74, 0.035);
+}
+
+.plan-reason p {
+    margin: 4px 0 0;
+    color: var(--muted);
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
+.recommendation-label {
+    display: block;
+    color: var(--accent-strong);
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}

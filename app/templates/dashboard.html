@@ -151,6 +151,38 @@
                     {% if priority.action %}
                     <p class="priority-action">{{ priority.action }}</p>
                     {% endif %}
+
+                    {% if priority.reason or priority.playability_note %}
+                    <details class="priority-explanation">
+                        <summary>Why this?</summary>
+
+                        <div class="priority-explanation-body">
+                            {% if priority.reason %}
+                            <p>{{ priority.reason }}</p>
+                            {% endif %}
+
+                            <div class="priority-explanation-meta">
+                                {% if priority.value %}
+                                <span>Value: {{ priority.value|title }}</span>
+                                {% endif %}
+
+                                {% if priority.effort %}
+                                <span>Effort: {{ priority.effort|title }}</span>
+                                {% endif %}
+
+                                {% if priority.time_gated %}
+                                <span>Time gated</span>
+                                {% endif %}
+                            </div>
+
+                            {% if priority.playability_note %}
+                            <p class="priority-playability-note">
+                                {{ priority.playability_note }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
