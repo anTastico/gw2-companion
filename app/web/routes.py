@@ -343,6 +343,60 @@ def _collection_view(collection: dict) -> dict:
     }
 
 
+def _format_coin(copper: int) -> str:
+    copper = max(int(copper or 0), 0)
+    gold, remainder = divmod(copper, 10000)
+    silver, copper_value = divmod(remainder, 100)
+
+    parts = []
+
+    if gold:
+        parts.append(f"{gold}g")
+    if silver or gold:
+        parts.append(f"{silver}s")
+    parts.append(f"{copper_value}c")
+
+    return " ".join(parts)
+
+
+def _acquisition_cost_view(cost: dict) -> dict:
+    owned = cost.get("owned", 0)
+    required = cost.get("required", 0)
+    missing = cost.get("missing", 0)
+    is_coin = (
+        cost.get("kind") == "currency"
+        and cost.get("id") == 1
+    )
+
+    return {
+        "name": cost.get("name", "Unknown cost"),
+        "kind": cost.get("kind", "item"),
+        "owned": owned,
+        "required": required,
+        "missing": missing,
+        "owned_display": _format_coin(owned) if is_coin else str(owned),
+        "required_display": _format_coin(required) if is_coin else str(required),
+        "missing_display": _format_coin(missing) if is_coin else str(missing),
+        "display": cost.get("display"),
+        "ready": missing == 0,
+    }
+
+
+def _acquisition_option_view(option: dict) -> dict:
+    return {
+        "name": option.get("name", "Acquisition route"),
+        "vendor": option.get("vendor"),
+        "location": option.get("location"),
+        "daily_limit": option.get("daily_limit"),
+        "units_needed": option.get("units_needed", 0),
+        "can_afford": option.get("can_afford", False),
+        "costs": [
+            _acquisition_cost_view(cost)
+            for cost in option.get("costs", [])
+        ],
+    }
+
+
 def _crafting_view(crafting: list[dict]) -> list[dict]:
     rows = []
 
@@ -354,8 +408,21 @@ def _crafting_view(crafting: list[dict]) -> list[dict]:
             owned >= required if required else False,
         )
 
-        missing_materials = [
-            {
+        missing_materials = []
+
+        for material in item.get("missing_materials", []):
+            if material.get("missing", 0) <= 0:
+                continue
+
+            acquisition_options = [
+                _acquisition_option_view(option)
+                for option in material.get(
+                    "acquisition_options",
+                    [],
+                )
+            ]
+
+            missing_materials.append({
                 "name": material.get(
                     "name",
                     f"Item {material.get('id', '?')}",
@@ -363,10 +430,11 @@ def _crafting_view(crafting: list[dict]) -> list[dict]:
                 "owned": material.get("owned", 0),
                 "required": material.get("required", 0),
                 "missing": material.get("missing", 0),
-            }
-            for material in item.get("missing_materials", [])
-            if material.get("missing", 0) > 0
-        ]
+                "acquisition_options": acquisition_options,
+                "achievement_acquisition": material.get(
+                    "achievement_acquisition"
+                ),
+            })
 
         missing_materials.sort(
             key=lambda material: (
@@ -382,6 +450,9 @@ def _crafting_view(crafting: list[dict]) -> list[dict]:
             "completed": completed,
             "missing_materials": missing_materials,
             "missing_material_count": len(missing_materials),
+            "achievement_acquisition": item.get(
+                "achievement_acquisition"
+            ),
         })
 
     return rows

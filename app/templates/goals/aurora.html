@@ -4,7 +4,7 @@
 
 {% block content %}
 <section class="goal-detail-hero">
-    <a class="back-link" href="/app">← Back to dashboard</a>
+    <a class="back-link" href="/app">&larr; Back to dashboard</a>
     <p class="eyebrow">LEGENDARY GOAL</p>
     <h1>{{ goal_name }}</h1>
 
@@ -47,7 +47,7 @@
             {% if stage.collections %}
             <div class="collection-list">
                 {% for collection in stage.collections %}
-                <details class="collection-detail" {% if collection.status == "active" and collection.missing_count %}open{% endif %}>
+                <details class="collection-detail">
                     <summary class="collection-row">
                         <div>
                             <strong>{{ collection.name }}</strong>
@@ -148,20 +148,119 @@
             {% if item.missing_materials %}
             <div class="crafting-material-list">
                 {% for material in item.missing_materials %}
-                <div class="crafting-material-row">
-                    <div>
-                        <strong>{{ material.name }}</strong>
-                        <span>{{ material.missing }} still needed</span>
+                <div class="crafting-material-entry">
+                    <div class="crafting-material-row">
+                        <div>
+                            <strong>{{ material.name }}</strong>
+                            <span>{{ material.missing }} still needed</span>
+                        </div>
+                        <div class="crafting-material-count">
+                            {{ material.owned }} / {{ material.required }}
+                        </div>
                     </div>
-                    <div class="crafting-material-count">
-                        {{ material.owned }} / {{ material.required }}
+
+                    {% if material.acquisition_options %}
+                    <div class="acquisition-list">
+                        <div class="acquisition-heading">Acquisition options</div>
+
+                        {% for option in material.acquisition_options %}
+                        <details class="acquisition-option">
+                            <summary class="acquisition-summary">
+                                <div>
+                                    <strong>{{ option.name }}</strong>
+                                    <span>
+                                        {{ "Affordable now" if option.can_afford else "More resources needed" }}
+                                    </span>
+                                </div>
+
+                                {% if option.daily_limit %}
+                                <span class="acquisition-limit">
+                                    {{ option.daily_limit }}/day
+                                </span>
+                                {% endif %}
+                            </summary>
+
+                            <div class="acquisition-body">
+                                {% if option.vendor or option.location %}
+                                <div class="acquisition-location">
+                                    {% if option.vendor %}{{ option.vendor }}{% endif %}
+                                    {% if option.vendor and option.location %} · {% endif %}
+                                    {% if option.location %}{{ option.location }}{% endif %}
+                                </div>
+                                {% endif %}
+
+                                <div class="acquisition-cost-list">
+                                    {% for cost in option.costs %}
+                                    <div class="acquisition-cost-row">
+                                        <div>
+                                            <strong>{{ cost.name }}</strong>
+                                            {% if cost.display %}
+                                            <span>{{ cost.display }}</span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="acquisition-cost-status">
+                                            <strong>
+                                                {{ cost.owned_display }} / {{ cost.required_display }}
+                                            </strong>
+                                            <span class="{{ 'cost-ready' if cost.ready else 'cost-missing' }}">
+                                                {% if cost.ready %}
+                                                Ready
+                                                {% else %}
+                                                {{ cost.missing_display }} needed
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </details>
+                        {% endfor %}
                     </div>
+                    {% endif %}
+
+                    {% if material.achievement_acquisition %}
+                    {% set achievement_route = material.achievement_acquisition %}
+                    <div class="achievement-acquisition">
+                        <div>
+                            <span class="achievement-acquisition-label">Achievement reward</span>
+                            <strong>Earned by completing {{ achievement_route.achievement_name }}</strong>
+                        </div>
+                        {% if achievement_route.max %}
+                        <div class="achievement-acquisition-progress">
+                            <strong>{{ achievement_route.current }} / {{ achievement_route.max }}</strong>
+                            <span>
+                                {{ achievement_route.percent }}%
+                                · {{ achievement_route.status|replace("_", " ")|title }}
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
                 </div>
                 {% endfor %}
             </div>
             {% elif item.completed %}
             <div class="crafting-note crafting-note-complete">
                 Component complete.
+            </div>
+            {% elif item.achievement_acquisition %}
+            {% set achievement_route = item.achievement_acquisition %}
+            <div class="achievement-acquisition achievement-acquisition-component">
+                <div>
+                    <span class="achievement-acquisition-label">Achievement reward</span>
+                    <strong>Earned by completing {{ achievement_route.achievement_name }}</strong>
+                </div>
+                {% if achievement_route.max %}
+                <div class="achievement-acquisition-progress">
+                    <strong>{{ achievement_route.current }} / {{ achievement_route.max }}</strong>
+                    <span>
+                        {{ achievement_route.percent }}%
+                        · {{ achievement_route.status|replace("_", " ")|title }}
+                    </span>
+                </div>
+                {% endif %}
             </div>
             {% else %}
             <div class="crafting-note">

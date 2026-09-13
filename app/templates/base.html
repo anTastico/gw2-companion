@@ -9,13 +9,19 @@
 <body>
     <div class="app-shell">
         <header class="topbar">
-            <div class="brand">
+            <a class="brand brand-link" href="/app">
                 <div class="brand-mark" aria-hidden="true">GW2</div>
                 <div>
                     <div class="brand-name">GW2 Companion</div>
                     <div class="brand-subtitle">Account-aware planning</div>
                 </div>
-            </div>
+            </a>
+
+            <nav class="topnav" aria-label="Primary navigation">
+                <a href="/app">Dashboard</a>
+                <a href="/app/goal/aurora">Aurora</a>
+                <a href="/app/goal/vision">Vision</a>
+            </nav>
 
             <div class="connection-pill">
                 <span class="status-dot" aria-hidden="true"></span>
