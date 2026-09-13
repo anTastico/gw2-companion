@@ -479,6 +479,10 @@ Static game, acquisition, session-profile, and recipe data live in `app/game_dat
 - `/requirements/{item_id}`
 - `/recommendations`
 - `/session-plan`
+- `/app`
+- `/app/session-plan?minutes=30|60|90`
+- `/app/goal/vision`
+- `/app/goal/aurora`
 
 ### Recommendation Query Options
 
@@ -507,38 +511,56 @@ The planner requests the full eligible ranked candidate pool before recommendati
 
 ## Current Development State
 
-Current branch: `feature/aurora-dependency-depth`
+Current branch: `feature/web-frontend`
 
 Latest verified checkpoints:
 
+- `af546d2` - Fix legendary completion and Henge daily tracking
+- `301e15e` - Update project status for frontend MVP
+- `b702126` - Polish goal crafting drill-downs
+- `a33a0a1` - Add account-aware crafting acquisitions
+- `3c8ae62` - Add recommendation explanations
+- `2d413ed` - Add crafting component drill-down
+- `79d64c4` - Publish frontend branch Docker image
+- `f1226d0` - Add goal detail pages
+- `255d68e` - Add expandable goal collection details
+- `5695215` - Track Vision skin unlock progress
+- `89c835f` - Prioritize Aurora daily opportunities
 - `60e2d36` - Use port 8001 for Portainer deployment
 - `30038a3` - Add automated Docker image publishing
 - `acc130c` - Prepare Docker deployment for Portainer
-- `89c835f` - Prioritize Aurora daily opportunities
-- `5695215` - Track Vision skin unlock progress
-- `5475e44` - Normalize Aurora playability metadata
-- `e22d287` - Add Aurora acquisition route recommendations
-- `76e5c2b` - Preserve objective context in session plans
-- `c37a197` - Reuse Lessons Learned dependency tracking
-- `a8cf9f5` - Reuse Cin Business dependency tracking
-- `5f8bc20` - Reuse Token Collector dependency tracking
-- `6a7a7df` - Consume reusable Aurora dependencies in recommendations
-- `c95c1de` - Add reusable Aurora dependency references
-- `e8489d8` - Normalize dependency availability semantics
-- `9aa4272` - Complete Wayfarer's Henge dependency chain
 
-The branch is clean and pushed through `60e2d36` before this documentation update.
+The web frontend MVP is now implemented on `feature/web-frontend` and has been repeatedly validated against the live account and local Docker runtime.
 
-Aurora dependency-depth Passes 1, 2, and 3 are complete and the natural Sentient Seed unlock transition has now been validated live. All six Aurora I mastery collections became actionable correctly, reusable nested dependencies resolve in real account state, and daily-opportunity prioritisation keeps hard daily gates ahead of softer repeatable work without broad scoring retuning.
+Frontend capabilities now include:
 
-Vision dependency/planner development remains frozen pending gameplay evidence. Live Astral/Stellar skin-count tracking reports 4/6 eligible skins unlocked, leaving 2 more required; Dragonsblood weapon-skin crafting also remains active account work.
+- Server-rendered Jinja2 UI inside the existing FastAPI application.
+- Account summary dashboard.
+- Active goal cards for Vision, Aurora, and Regalia.
+- 30 / 60 / 90 minute session-plan shortcuts.
+- Live daily-priority recommendations with "Why this?" explanations.
+- Dedicated Vision and Aurora goal-detail pages.
+- Expandable collection/objective drill-downs.
+- Expandable crafting-component and missing-material drill-downs.
+- Compact navigation and shell polish.
+- Automatic CSS cache-busting using the stylesheet modification time.
+- Backend-owned tracker/planner logic; templates remain presentation-only.
 
-Prismatic Champion's Regalia is complete for the tracked account and remains maintenance/low priority.
+Crafting/account-state capabilities added during frontend field testing:
 
-The backend is now deployed and validated as a self-hosted Portainer stack at `http://192.168.68.13:8001`, with GitHub Actions publishing to GHCR and Portainer able to re-pull/redeploy updates.
+- `/account/wallet` is included in shared `AccountState`.
+- `/account/legendaryarmory` is included in shared `AccountState` so final legendary ownership can be distinguished from consumed crafting intermediates.
+- Wallet currencies are available to requirement analysis alongside inventory items.
+- `acquisitions.json` describes factual non-recipe acquisition routes separately from recipes.
+- Acquisition options calculate live owned / required / missing costs and affordability.
+- Coin costs are formatted as gold / silver / copper in the frontend.
+- Daily acquisition limits can be displayed without treating them as recommendation scores.
+- Static "preferred route" metadata was deliberately removed; route recommendation must come from account-aware planning, not data ordering.
+- Gift of the Mists now preserves Gift of Glory and Gift of War as real intermediate items instead of flattening their currencies.
+- Crystalline Ingot now has a real recipe node rather than being treated as an unexplained leaf.
+- Aurora crafting can bridge achievement-reward items back to live Aurora stage progress.
 
-
----
+The feature branch image is currently published with the temporary `web-frontend` GHCR tag so Portainer can run the frontend branch before merge. After merge, the workflow/tag should be restored to the production `main` path.
 
 ## Current Aurora State
 
@@ -546,48 +568,42 @@ Sentient Seed has been completed and Aurora: Awakening is naturally unlocked.
 
 Current top-level stage state:
 
-- Aurora: Awakening - in progress, 2/87.
+- Aurora: Awakening - in progress, 22/87 (25.3%).
 - Aurora II: Empowering - locked, 0/21.
 
-All six Aurora I mastery collections are now `unlocked=true` and `actionable=true`.
+All six Aurora I mastery collections are unlocked and actionable. Natural gameplay has now progressed further into the Wayfarer's Henge chain and exposed a recurring-daily modelling gap that has been fixed and field-tested.
 
-Current live dependency state:
+Current crafting state from live account testing:
 
-- Bloodstone Fen Master - 1/12; `"Out of the Shadows" Mastery` complete at 18/18 required.
-- Ember Bay Master - 1/15; `"Rising Flames" Mastery` complete at 23/23 required.
-- Bitterfrost Frontier Master - 0/14; `"A Crack in the Ice" Mastery` 17/21, Gift of Aurene 1/8.
-- Lake Doric Master - 0/16; `"The Head of the Snake" Mastery` 20/28.
-- Draconis Mons Master - 0/14; `"Flashpoint" Mastery` 17/20, The Druid Stone 2/7.
-- Siren's Landing Master - 0/16; `"One Path Ends" Mastery` 24/36.
+- Spark of Sentience - 0/1; correctly identified as an achievement reward from Aurora II: Empowering rather than a recipe.
+- Mystic Tribute - 0/1 after its shared materials/intermediates were consumed by the completed Vision craft; the resulting large missing-material list is intentionally preserved as a useful collection/shopping list.
+- Gift of Sentience - 0/1; missing leaves continue to expose live account shortages and Gift of Valor progress.
+- Gift of Valor - linked to live Aurora: Awakening progress rather than shown as a dead-end material.
+- Gift of Draconic Mastery - 0/1; current missing leaf is Bloodstone Shard.
+- Bloodstone Shard - account-aware acquisition route correctly recognises the Spirit Shard wallet balance and current affordability.
+- Gift of War ownership is respected through the corrected Gift of the Mists recipe tree, so already-completed intermediate work no longer creates a false 250 Memory of Battle requirement.
 
-The first natural unlocked-state recommendation test passed: no stale Sentient Seed work, no locked Aurora II leakage, no completed-meta optional-child leakage, and nested achievement-set / Gift of Aurene / Wayfarer's Henge work surfaced correctly.
+Design rules reinforced by live crafting work:
 
-Daily-opportunity prioritisation is now live. Hard daily gates such as Druid Runestone are deliberately favoured over freely repeatable progress, while limited-attempt and soft-cap daily work receive smaller bonuses appropriate to their planning value.
+`recipe structure should preserve real intermediate items`
 
-The live 60-minute Aurora planner produced a sensible Draconis Mons-focused plan: Druid Runestone first, then Albino Orchid gathering.
+`acquisition route != recipe`
 
-Design rules:
+`static acquisition data describes facts -> recommendation logic decides preference`
 
-`objective depth != one recommendation per objective`
+`achievement reward requirements should link back to live tracker progress`
 
-`locked tracking data != actionable recommendation`
-
-`recommendation diversity != planner candidate diversity`
-
-`define detailed dependency once -> reference it everywhere else`
-
-`availability metadata should be normalised before scoring, not duplicated in every constructor`
-
-`daily opportunity priority should reflect the cost of missing today's window`
-
+`frontend presents account-aware analysis -> frontend does not recalculate it`
 
 ## Known Limitations / Technical Debt
 
 ### Aurora later-stage natural transition validation
 
-The natural Sentient Seed -> Aurora: Awakening unlock transition has now been validated successfully. The six mastery collections, `achievement_set` dependencies, reusable dependency references, acquisition alternatives, and nested recommendation traversal all survived the real unlock transition.
+The natural Sentient Seed -> Aurora: Awakening unlock transition has been validated successfully. The six mastery collections, `achievement_set` dependencies, reusable dependency references, acquisition alternatives, and nested recommendation traversal all survived the real unlock transition.
 
-Later natural transitions still need to be observed as gameplay reaches them, especially the sequential Wayfarer's Henge handoff from The Druid Stone into Awakening the Druid Stone and later Henge stages.
+Natural gameplay has now progressed beyond the original first Druid Runestone stage. This exposed that `druid_runestones_required` metadata was not being consumed by recommendation logic after the first Henge tier. The tracker now emits an ongoing Druid Runestone `hard_gate` daily while future Wayfarer's Henge steps still consume Runestones. Because the ArenaNet account API cannot reliably prove whether today's Runestone was already obtained and consumed, the daily remains visible as informational priority context but is excluded from `SessionPlanner` allocation. This behaviour has been validated against the live account.
+
+Later individual Henge stage handoffs should still be observed naturally as gameplay reaches them.
 
 ### First-class PvP planning
 
@@ -637,69 +653,84 @@ Optimisations should be measured where practical rather than retained solely bec
 
 ## Next Milestone
 
-### Milestone 21 - Web Frontend MVP
+### Milestone 21 - Web Frontend MVP - COMPLETE
 
-The backend deployment milestone is complete. The next product milestone is a user-facing web frontend that consumes the existing FastAPI endpoints rather than duplicating tracker or recommendation logic.
-
-Initial frontend scope:
+The original frontend MVP scope is complete:
 
 - Account summary/dashboard.
-- Active goal overview for Vision, Aurora, and Regalia.
-- Prominent "What should I work on tonight?" flow.
-- 30 / 60 / 90 minute session-plan shortcuts.
-- Top recommendations with clear goal, location, timing, and reason/context.
-- Daily-opportunity callouts.
-- Goal-detail views that reuse tracker output.
-- LAN-first deployment through the existing self-hosted stack.
+- Vision, Aurora, and Regalia goal overview.
+- 30 / 60 / 90 minute session planning.
+- Live recommendation explanations and daily priorities.
+- Vision and Aurora goal-detail views.
+- Expandable collection/objective details.
+- Expandable crafting/material details.
+- Account-aware wallet/acquisition routes.
+- Achievement-reward bridging for Aurora crafting requirements.
+- LAN-first deployment through the existing Docker / GHCR / Portainer stack.
 
-Frontend design rules:
+Frontend design rules remain:
 
-`frontend presents planner output -> backend remains source of truth`
+`frontend presents planner/tracker output -> backend remains source of truth`
 
-`do not duplicate tracker/dependency logic in templates or JavaScript`
+`do not duplicate tracker/dependency/acquisition logic in templates or JavaScript`
 
-`ship a useful MVP before adding rich interactivity`
+`compact by default -> detail on demand`
 
-`keep the deployment path compatible with the existing GHCR -> Portainer workflow`
+`static data describes facts -> account-aware services make decisions`
 
-Before implementation, inspect the current FastAPI structure and choose the smallest clean frontend architecture that fits the existing application.
+### Immediate Closeout
 
+Before starting another product milestone:
+
+- Completed: pushed `feature/web-frontend` through `af546d2`.
+- Completed: re-pulled/redeployed the exact feature image in Portainer and smoke-tested Vision completion, Aurora daily priorities, the 60-minute planner, and Aurora crafting/material output.
+- Next: merge `feature/web-frontend` into `main`.
+- Restore GitHub Actions from the temporary `feature/web-frontend` / `:web-frontend` publishing path to the production `main` image path.
+- Re-deploy production from the merged `main` image and perform a final smoke test.
+
+### After Merge
+
+Further development should remain evidence-driven. Priorities are likely to come from real gameplay use of the new UI rather than pre-emptive architecture expansion. Candidate areas include acquisition-route ranking based on current account state, additional acquisition coverage when real goals need it, later Aurora dependency-transition validation, and additional legendary goals.
 
 ## Future Work
 
 - Continue validating Aurora recommendations as real account progress reaches later mastery and Henge stages.
 - Validate later Wayfarer's Henge dependency transitions through natural account progress.
-- Revisit Vision only when gameplay exposes a genuine planning gap; the Thunderhead reward-track route is already complete.
+- Revisit Vision planner tuning only when gameplay exposes a genuine gap; Vision collection progress is complete.
+- Let recommendation logic rank acquisition routes only when there is enough account-aware evidence to do so; do not restore static preferred-route flags.
+- Expand acquisition-method coverage only where real goals require it: craft, buy, earn, achievement rewards, PvP/WvW reward tracks, vendor transitions, currencies, and time-gated acquisition.
+- Consider exposing `units_affordable` / today's daily capacity for limited acquisition routes if real use shows the current all-units affordability flag is insufficient.
 - Add first-class PvP planning only when a concrete account goal makes it useful.
 - Add additional legendary goals.
-- Improve handling of currencies and non-inventory requirements.
-- Continue expanding acquisition-method modelling only where real goals require it: craft, buy, earn, achievement rewards, PvP/WvW reward tracks, vendor transitions, and time-gated acquisition.
 - Refine objective/bundle timing where overlapping event or route work makes summed timing too conservative.
 - Consider carefully scoped caching only if further latency reduction becomes worthwhile.
 - Refactor planner candidate generation away from the public recommendation response shape if the planner grows substantially.
-- Build and iterate the user-friendly frontend/dashboard.
-- Keep the GHCR -> Portainer deployment workflow simple and repeatable as the frontend is added.
-
----
+- Keep the GHCR -> Portainer deployment workflow simple and repeatable after restoring the production `main` path.
 
 ## Current State
 
 Prismatic Champion's Regalia is complete for the tracked account; its tracker remains operational.
 
-Vision tracking is operational with live achievement progress, objective-level collection data, account inventory analysis, recursive crafting requirements, Vision II tracking, collection-focused recommendations/session plans, deep dependency-aware planning across the actively developed Living World Season 4 collections, and account-aware skin-unlock counts. The tracked account has completed the Thunderhead reward-track route and currently has 4/6 eligible Astral/Stellar weapon skins unlocked. Vision remains frozen pending further gameplay evidence.
+Vision is complete for the tracked account: Vision I: Awakening is 42/42 and Vision II: Farsight is 20/20, for 62/62 collection progress, and the final legendary has been crafted. Final completion is now determined from live Legendary Armory ownership rather than the presence of consumed intermediate components. After the final craft, the dashboard correctly reports Vision as Complete and the four top-level crafting components remain logically satisfied instead of regressing to missing.
 
-Aurora tracking is operational with live achievement progress, recursive crafting requirements, Living World Season 3 currency tracking, reusable achievement-bit and achievement-set guidance across all six unlocked Aurora I mastery collections, nested Gift of Aurene planning, the complete sequential Wayfarer's Henge dependency chain, reusable dependency definitions/references, alternate acquisition routes, normalised playability metadata, and daily-opportunity prioritisation. The natural Sentient Seed -> Aurora: Awakening transition has been validated successfully; later Henge-stage transitions remain evidence-driven future validation.
+Vision live crafting field tests also validated the wallet/acquisition model before completion. The Funerary Incense drill-down can compare Elegy Mosaic, Trade Contract, Vabbi heart-vendor, and Crystalline Ingot routes against current inventory and wallet balances without declaring a static preferred route.
 
-The recommendation engine is operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work. It supports collection-focused filtering, shared dependency/material recognition, prerequisite availability, playability metadata, acquisition alternatives, background-work horizons, and account-aware next-step resolution.
+Aurora tracking is operational with Aurora: Awakening currently at 22/87 and Aurora II: Empowering locked at 0/21. The tracker retains reusable achievement-bit / achievement-set dependency guidance, Gift of Aurene depth, the full sequential Wayfarer's Henge chain, reusable dependency definitions/references, normalised playability metadata, and daily-opportunity prioritisation. Recurring Druid Runestone pressure now remains visible as a hard daily gate throughout later Henge progress without consuming session-plan time when today's acquisition state cannot be proven. Aurora crafting continues to distinguish recipes, ordinary materials, vendor/currency acquisitions, and achievement-reward items; Spark of Sentience and Gift of Valor link back to their live Aurora achievement stages.
 
-The session planner is operational with time allocation, map-aware planning, useful unused-time handling, cross-goal awareness, collection focus, dependency-aware grouping, projected completion effects, shared-dependency value, multi-map handling, and access to the full eligible ranked candidate pool before presentation-oriented diversity trimming.
+The recommendation engine remains operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work. It supports collection-focused filtering, shared dependency/material recognition, prerequisite availability, playability metadata, acquisition alternatives, background-work horizons, and account-aware next-step resolution.
 
-The project now has a working end-to-end application and deployment pipeline:
+The session planner remains operational with time allocation, map-aware planning, useful unused-time handling, cross-goal awareness, collection focus, dependency-aware grouping, projected completion effects, shared-dependency value, multi-map handling, and access to the full eligible ranked candidate pool before presentation-oriented diversity trimming.
 
-`game data -> shared live account state -> trackers -> ranked candidates -> recommendations/session plans`
+The project now has a working user-facing frontend as part of the existing FastAPI application. The dashboard, goal pages, session controls, recommendation explanations, collection drill-downs, crafting drill-downs, wallet-backed acquisition options, and compact navigation have all been exercised against live account state.
 
-`git push -> GitHub Actions -> GHCR image -> Portainer re-pull/redeploy -> http://192.168.68.13:8001`
+The application/deployment flow is now:
 
-Recommendation and session-planning requests share one request-scoped account snapshot across all three trackers, eliminating duplicate account fetching while preserving fresh data and standalone tracker behaviour.
+`game data + acquisition data -> shared live account state -> trackers / requirement analysis -> recommendations / session plans -> FastAPI/Jinja frontend`
 
-Milestone-end architecture/efficiency reviews remain part of the development workflow and have already caught duplicate API fetching, duplicated objective-bit logic, presentation-layer candidate trimming, misleading parent tasks, and metadata loss during shared-achievement consolidation before those issues became deeper technical debt.
+`feature push -> GitHub Actions -> GHCR feature image -> Portainer re-pull/redeploy -> http://192.168.68.13:8001`
+
+After the frontend branch is merged, the publishing path should return to the production `main` workflow/tag.
+
+Recommendation, session-planning, tracker, and frontend requests can share request-scoped account state, including wallet currencies, Legendary Armory ownership, inventory holdings, achievements, recipes, and skins where required. This preserves fresh account-aware behaviour while avoiding unnecessary duplicate account fetching inside a single request.
+
+Milestone-end architecture/efficiency reviews remain part of the development workflow and have now also caught flattened crafting intermediates, missing wallet context, misleading non-recipe material leaves, and static acquisition preference before those became permanent architecture.

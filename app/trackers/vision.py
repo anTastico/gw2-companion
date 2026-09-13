@@ -37,10 +37,22 @@ class VisionTracker:
 
         if account_state is not None:
             item_counts = account_state.item_counts
+            wallet_counts = account_state.wallet_counts
+            legendary_armory_counts = (
+                account_state.legendary_armory_counts
+            )
             recipe_ids = account_state.recipe_ids
             skin_ids = account_state.skin_ids
         else:
             item_counts = await self.inventory.get_item_counts()
+            wallet_counts = {
+                currency["id"]: currency.get("value", 0)
+                for currency in await self.client.get_account_wallet()
+            }
+            legendary_armory_counts = {
+                item["id"]: item.get("count", 0)
+                for item in await self.client.get_account_legendary_armory()
+            }
             recipe_ids = set(
                 await self.client.get_account_recipes()
             )
@@ -92,6 +104,12 @@ class VisionTracker:
                     "done",
                     current >= max_steps
                 )
+
+                # ArenaNet can report an achievement as definitively done
+                # without retaining its historical bit/count detail.
+                # Completed collections still represent full progress.
+                if completed:
+                    current = max_steps
 
                 collection_result = {
                     "id": collection["id"],
@@ -268,22 +286,38 @@ class VisionTracker:
                 "collections": collections
             })
 
+        final_item = self.data.get("final_item", {})
+        final_item_id = final_item.get("id")
+        final_item_owned = (
+            final_item_id is not None
+            and legendary_armory_counts.get(final_item_id, 0) > 0
+        )
+
         crafting = []
 
         for item in self.data["crafting"]:
-            owned = item_counts.get(
+            actual_owned = item_counts.get(
                 item["id"],
                 0
             )
 
             required = item["required"]
+            completed = (
+                final_item_owned
+                or actual_owned >= required
+            )
+            owned = (
+                required
+                if final_item_owned
+                else actual_owned
+            )
 
             crafting_item = {
                 "id": item["id"],
                 "name": item["name"],
                 "owned": owned,
                 "required": required,
-                "completed": owned >= required
+                "completed": completed
             }
 
             if (
@@ -292,7 +326,8 @@ class VisionTracker:
             ):
                 analysis = await self.requirements.analyze_recipe(
                     item_id=item["id"],
-                    item_counts=item_counts
+                    item_counts=item_counts,
+                    wallet_counts=wallet_counts
                 )
 
                 crafting_item["missing_materials"] = (
@@ -309,10 +344,14 @@ class VisionTracker:
             if str(item["id"]) in self.requirements.recipes
         ]
 
-        missing_materials = await self.requirements.analyze_recipes(
-            item_ids=recipe_ids,
-            item_counts=item_counts
-        )
+        if final_item_owned:
+            missing_materials = []
+        else:
+            missing_materials = await self.requirements.analyze_recipes(
+                item_ids=recipe_ids,
+                item_counts=item_counts,
+                wallet_counts=wallet_counts
+            )
 
         achievement_current = sum(
             stage["current"]
@@ -325,6 +364,20 @@ class VisionTracker:
         )
 
         summary = {
+            "status": (
+                "completed"
+                if final_item_owned
+                else (
+                    "ready_to_craft"
+                    if achievement_current >= achievement_max
+                    else "in_progress"
+                )
+            ),
+            "final_item": {
+                "id": final_item_id,
+                "name": final_item.get("name", "Vision"),
+                "owned": final_item_owned
+            },
             "achievement_progress": {
                 "current": achievement_current,
                 "max": achievement_max,
@@ -340,6 +393,7 @@ class VisionTracker:
 
         return {
             "name": self.data["name"],
+            "completed": final_item_owned,
             "stages": stages,
             "crafting": crafting,
             "summary": summary

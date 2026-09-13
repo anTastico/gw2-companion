@@ -62,6 +62,10 @@ class SessionPlanner:
                 "recommendations",
                 []
             )
+            if not recommendation.get(
+                "informational_daily",
+                False
+            )
         ]
 
         if not candidates:

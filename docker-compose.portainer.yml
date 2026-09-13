@@ -1,6 +1,6 @@
 services:
   gw2-companion:
-    image: ghcr.io/antastico/gw2-companion:aurora-dependency-depth
+    image: ghcr.io/antastico/gw2-companion:web-frontend
     container_name: gw2-companion
 
     environment:

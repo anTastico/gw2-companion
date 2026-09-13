@@ -45,6 +45,15 @@ class AuroraTracker:
             if account_state is not None
             else await self.inventory.get_item_counts()
         )
+
+        if account_state is not None:
+            wallet_counts = account_state.wallet_counts
+        else:
+            wallet_counts = {
+                currency["id"]: currency.get("value", 0)
+                for currency in await self.client.get_account_wallet()
+            }
+
         stages = []
 
         for stage in self.data["stages"]:
@@ -151,6 +160,44 @@ class AuroraTracker:
 
             stages.append(stage_result)
 
+        stage_by_achievement_id = {
+            stage_data["achievement_id"]: stage_result
+            for stage_data, stage_result in zip(
+                self.data["stages"],
+                stages,
+            )
+            if stage_data.get("achievement_id") is not None
+        }
+        achievement_rewards = self.data.get(
+            "achievement_rewards",
+            {},
+        )
+
+        def achievement_acquisition(item_id):
+            reward = achievement_rewards.get(str(item_id))
+            if not reward:
+                return None
+
+            stage = stage_by_achievement_id.get(
+                reward["achievement_id"]
+            )
+            if stage is None:
+                return {
+                    "type": "achievement_reward",
+                    "achievement_id": reward["achievement_id"],
+                    "achievement_name": reward["achievement_name"],
+                }
+
+            return {
+                "type": "achievement_reward",
+                "achievement_id": reward["achievement_id"],
+                "achievement_name": reward["achievement_name"],
+                "status": stage.get("status"),
+                "current": stage.get("current", 0),
+                "max": stage.get("max", 0),
+                "percent": stage.get("percent", 0),
+            }
+
         crafting = []
 
         for item in self.data["crafting"]:
@@ -165,15 +212,38 @@ class AuroraTracker:
                 "completed": owned >= required
             }
 
+            if not crafting_item["completed"]:
+                acquisition = achievement_acquisition(
+                    item["id"]
+                )
+                if acquisition:
+                    crafting_item[
+                        "achievement_acquisition"
+                    ] = acquisition
+
             if (
                 str(item["id"]) in self.requirements.recipes
                 and not crafting_item["completed"]
             ):
                 analysis = await self.requirements.analyze_recipe(
                     item_id=item["id"],
-                    item_counts=item_counts
+                    item_counts=item_counts,
+                    wallet_counts=wallet_counts
                 )
-                crafting_item["missing_materials"] = analysis["missing_materials"]
+                missing_materials = analysis["missing_materials"]
+
+                for material in missing_materials:
+                    acquisition = achievement_acquisition(
+                        material.get("id")
+                    )
+                    if acquisition:
+                        material[
+                            "achievement_acquisition"
+                        ] = acquisition
+
+                crafting_item["missing_materials"] = (
+                    missing_materials
+                )
 
             crafting.append(crafting_item)
 
@@ -185,7 +255,8 @@ class AuroraTracker:
 
         missing_materials = await self.requirements.analyze_recipes(
             item_ids=recipe_ids,
-            item_counts=item_counts
+            item_counts=item_counts,
+            wallet_counts=wallet_counts
         )
 
         achievement_current = sum(stage["current"] for stage in stages)
@@ -216,6 +287,16 @@ class AuroraTracker:
 
             break
 
+        daily_opportunities = []
+
+        druid_runestone = self._druid_runestone_daily_opportunity(
+            account_progress=account_progress,
+            item_counts=item_counts,
+            stages=stages
+        )
+        if druid_runestone is not None:
+            daily_opportunities.append(druid_runestone)
+
         summary = {
             "status": tracker_status,
             "achievement_progress": {
@@ -234,7 +315,129 @@ class AuroraTracker:
             "name": self.data["name"],
             "stages": stages,
             "crafting": crafting,
+            "daily_opportunities": daily_opportunities,
             "summary": summary
+        }
+
+    def _druid_runestone_daily_opportunity(
+        self,
+        account_progress: dict,
+        item_counts: dict,
+        stages: list
+    ):
+        awakening_unlocked = any(
+            stage.get("name") == "Aurora: Awakening"
+            and stage.get("status") != "locked"
+            for stage in stages
+        )
+        if not awakening_unlocked:
+            return None
+
+        remaining_uses = 0
+
+        def scan(value, achievement_id=None):
+            nonlocal remaining_uses
+
+            if isinstance(value, dict):
+                local_achievement_id = value.get(
+                    "achievement_id",
+                    achievement_id
+                )
+
+                runestones_required = value.get(
+                    "druid_runestones_required",
+                    0
+                )
+
+                if runestones_required:
+                    bit = value.get("bit")
+                    progress = account_progress.get(
+                        local_achievement_id,
+                        {}
+                    )
+                    completed_bits = set(
+                        progress.get("bits", [])
+                    )
+                    completed = (
+                        progress.get("done", False)
+                        or (
+                            bit is not None
+                            and bit in completed_bits
+                        )
+                    )
+
+                    if not completed:
+                        remaining_uses += runestones_required
+
+                for child in value.values():
+                    scan(child, local_achievement_id)
+
+            elif isinstance(value, list):
+                for child in value:
+                    scan(child, achievement_id)
+
+        wayfarers_henge = self.dependency_definitions.get(
+            "wayfarers_henge"
+        )
+        if wayfarers_henge is None:
+            return None
+
+        scan(wayfarers_henge)
+
+        if remaining_uses <= 0:
+            return None
+
+        druid_runestone_item_id = 81140
+        owned = item_counts.get(
+            druid_runestone_item_id,
+            0
+        )
+
+        if owned > 0:
+            action = (
+                "You currently hold a Druid Runestone. Use it for the "
+                "next Wayfarer's Henge step when that step is available."
+            )
+            playability_note = (
+                "A Druid Runestone is already in your inventory."
+            )
+        else:
+            action = (
+                "Keep the Druid Runestone daily in mind while progressing "
+                "Wayfarer's Henge. The account API cannot reliably tell "
+                "whether today's one-per-day Runestone has already been "
+                "obtained and consumed."
+            )
+            playability_note = (
+                "Only one Druid Runestone can be obtained per day; the "
+                "API cannot reliably expose whether today's one has "
+                "already been used."
+            )
+
+        return {
+            "goal": "Aurora",
+            "type": "daily_gate",
+            "title": "Wayfarer's Henge: Druid Runestone",
+            "collection": "Draconis Mons Master",
+            "progress": f"{remaining_uses} future use(s) remaining",
+            "progress_ratio": 0,
+            "activity": "open_world",
+            "location": "Draconis Mons",
+            "minimum_minutes": 0,
+            "ideal_minutes": 0,
+            "action": action,
+            "reason": (
+                f"{remaining_uses} remaining Wayfarer's Henge step(s) "
+                "still consume a Druid Runestone. The one-per-day limit "
+                "makes this an ongoing hard gate even when today's "
+                "Runestone may already have been used."
+            ),
+            "time_gated": True,
+            "schedule_dependent": True,
+            "daily": True,
+            "daily_opportunity_type": "hard_gate",
+            "informational_daily": True,
+            "playability_note": playability_note
         }
 
     def _index_dependency_definitions(

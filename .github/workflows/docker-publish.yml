@@ -3,7 +3,7 @@ name: Publish Docker image
 on:
   push:
     branches:
-      - feature/aurora-dependency-depth
+      - feature/web-frontend
   workflow_dispatch:
 
 permissions:
@@ -35,5 +35,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/antastico/gw2-companion:aurora-dependency-depth
+            ghcr.io/antastico/gw2-companion:web-frontend
             ghcr.io/antastico/gw2-companion:${{ github.sha }}

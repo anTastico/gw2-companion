@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+
+{% block title %}GW2 Companion - Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">YOUR COMPANION</p>
+        <h1>What should I work on tonight?</h1>
+        <p class="hero-copy">
+            Turn your live account progress into a useful plan for the time you actually have.
+        </p>
+    </div>
+
+    <div class="session-buttons" aria-label="Session length">
+        <button type="button" data-session-minutes="30">30 min</button>
+        <button type="button" data-session-minutes="60">60 min</button>
+        <button type="button" data-session-minutes="90">90 min</button>
+    </div>
+</section>
+
+<section class="account-strip">
+    <div>
+        <p class="eyebrow">ACCOUNT</p>
+        <strong class="account-name">{{ account.account_name }}</strong>
+    </div>
+
+    <div class="account-stats">
+        <div class="account-stat">
+            <span>Fractal</span>
+            <strong>{{ account.fractal_level }}</strong>
+        </div>
+        <div class="account-stat">
+            <span>WvW Rank</span>
+            <strong>{{ account.wvw_rank }}</strong>
+        </div>
+        <div class="account-stat">
+            <span>Daily AP</span>
+            <strong>{{ account.daily_ap }}</strong>
+        </div>
+        <div class="account-stat">
+            <span>Monthly AP</span>
+            <strong>{{ account.monthly_ap }}</strong>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">ACTIVE GOALS</p>
+            <h2>Legendary progress</h2>
+        </div>
+        <span class="muted">Live account data</span>
+    </div>
+
+    <div class="goal-grid">
+        {% for goal in goals %}
+        {% if goal.key in ["aurora", "vision"] %}
+        <a class="card goal-card goal-card-link" href="/app/goal/{{ goal.key }}">
+        {% else %}
+        <article class="card goal-card">
+        {% endif %}
+            <div class="card-topline">
+                <span class="goal-name">{{ goal.name }}</span>
+                <span class="badge {{ goal.badge_class }}">{{ goal.badge_label }}</span>
+            </div>
+
+            {% if goal.focus_label %}
+            <div class="goal-focus">{{ goal.focus_label }}</div>
+            {% endif %}
+
+            <div class="progress-meta">
+                <span>{{ goal.current }} / {{ goal.max }}</span>
+                <strong>{{ goal.percent }}%</strong>
+            </div>
+
+            <div class="progress-track">
+                <span style="width: {{ goal.percent }}%"></span>
+            </div>
+
+            {% if goal.overall %}
+            <div class="overall-progress">
+                <span>Overall tracker</span>
+                <span>
+                    {{ goal.overall.current }} / {{ goal.overall.max }}
+                    · {{ goal.overall.percent }}%
+                </span>
+            </div>
+            {% endif %}
+
+            <p class="card-copy">{{ goal.description }}</p>
+
+            {% if goal.key in ["aurora", "vision"] %}
+            <div class="goal-card-cta">View goal details →</div>
+            {% endif %}
+
+        {% if goal.key in ["aurora", "vision"] %}
+        </a>
+        {% else %}
+        </article>
+        {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="dashboard-grid">
+    <article class="card panel">
+        <div class="section-heading compact">
+            <div>
+                <p class="eyebrow">TONIGHT</p>
+                <h2>Session plan</h2>
+            </div>
+        </div>
+
+        <div id="session-plan-panel">
+            <div class="empty-state">
+                <div class="empty-icon" aria-hidden="true">◎</div>
+                <h3>Choose your play time</h3>
+                <p>
+                    Pick 30, 60, or 90 minutes and GW2 Companion will build
+                    a live plan from your current account progress.
+                </p>
+            </div>
+        </div>
+    </article>
+
+    <article class="card panel">
+        <div class="section-heading compact">
+            <div>
+                <p class="eyebrow">DAILY PRIORITIES</p>
+                <h2>Don't miss today's window</h2>
+            </div>
+        </div>
+
+        {% if daily_priorities %}
+        <div class="priority-list">
+            {% for priority in daily_priorities %}
+            <div class="priority-row priority-{{ priority.type }}">
+                <span class="priority-rank">{{ loop.index }}</span>
+                <div class="priority-content">
+                    <div class="priority-title-row">
+                        <strong>{{ priority.title }}</strong>
+                        {% if priority.goal %}
+                        <span class="priority-goal">{{ priority.goal }}</span>
+                        {% endif %}
+                    </div>
+
+                    <p>{{ priority.details }}</p>
+
+                    {% if priority.action %}
+                    <p class="priority-action">{{ priority.action }}</p>
+                    {% endif %}
+
+                    {% if priority.reason or priority.playability_note %}
+                    <details class="priority-explanation">
+                        <summary>Why this?</summary>
+
+                        <div class="priority-explanation-body">
+                            {% if priority.reason %}
+                            <p>{{ priority.reason }}</p>
+                            {% endif %}
+
+                            <div class="priority-explanation-meta">
+                                {% if priority.value %}
+                                <span>Value: {{ priority.value|title }}</span>
+                                {% endif %}
+
+                                {% if priority.effort %}
+                                <span>Effort: {{ priority.effort|title }}</span>
+                                {% endif %}
+
+                                {% if priority.time_gated %}
+                                <span>Time gated</span>
+                                {% endif %}
+                            </div>
+
+                            {% if priority.playability_note %}
+                            <p class="priority-playability-note">
+                                {{ priority.playability_note }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </details>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state daily-empty">
+            <div class="empty-icon" aria-hidden="true">✓</div>
+            <h3>No daily priorities right now</h3>
+            <p>
+                The recommendation engine did not find any unfinished
+                daily-limited work for your tracked goals.
+            </p>
+        </div>
+        {% endif %}
+    </article>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll("[data-session-minutes]");
+    const panel = document.getElementById("session-plan-panel");
+
+    async function loadPlan(minutes, button) {
+        buttons.forEach((item) => {
+            item.disabled = true;
+            item.classList.remove("selected");
+        });
+
+        button.classList.add("selected");
+
+        panel.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon loading-mark" aria-hidden="true">◎</div>
+                <h3>Building your ${minutes}-minute plan...</h3>
+                <p>Checking your live account state and ranking useful work.</p>
+            </div>
+        `;
+
+        try {
+            const response = await fetch(`/app/session-plan?minutes=${minutes}`);
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            panel.innerHTML = await response.text();
+        } catch (error) {
+            panel.innerHTML = `
+                <div class="empty-state error-state">
+                    <div class="empty-icon" aria-hidden="true">!</div>
+                    <h3>Couldn't build the plan</h3>
+                    <p>${error.message}</p>
+                </div>
+            `;
+        } finally {
+            buttons.forEach((item) => {
+                item.disabled = false;
+            });
+            button.classList.add("selected");
+        }
+    }
+
+    buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+            loadPlan(
+                Number(button.dataset.sessionMinutes),
+                button
+            );
+        });
+    });
+});
+</script>
+{% endblock %}
