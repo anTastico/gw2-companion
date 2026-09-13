@@ -2360,6 +2360,14 @@ class RecommendationService:
         aurora: dict,
         recommendations: list
     ):
+        for daily_opportunity in aurora.get(
+            "daily_opportunities",
+            []
+        ):
+            recommendations.append(
+                dict(daily_opportunity)
+            )
+
         summary = aurora.get("summary", {})
         status = summary.get("status")
 

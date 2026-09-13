@@ -1,5 +1,9 @@
 {
   "name": "Vision",
+  "final_item": {
+    "id": 91048,
+    "name": "Vision"
+  },
   "stages": [
     {
       "name": "Vision I: Awakening",

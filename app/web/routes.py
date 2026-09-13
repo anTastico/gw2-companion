@@ -535,13 +535,17 @@ async def web_goal_vision(request: Request):
             "goal_name": progress.get("name", "Vision"),
             "summary": progress.get("summary", {}),
             "stages": stages,
-            "current_phase": next(
-                (
-                    stage["name"]
-                    for stage in stages
-                    if stage["status"] != "completed"
-                ),
-                "Collections complete",
+            "current_phase": (
+                "Complete"
+                if progress.get("completed", False)
+                else next(
+                    (
+                        stage["name"]
+                        for stage in stages
+                        if stage["status"] != "completed"
+                    ),
+                    "Collections complete",
+                )
             ),
             "crafting": _crafting_view(
                 progress.get("crafting", [])
