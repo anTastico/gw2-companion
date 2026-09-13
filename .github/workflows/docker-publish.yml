@@ -3,7 +3,7 @@ name: Publish Docker image
 on:
   push:
     branches:
-      - feature/web-frontend
+      - main
   workflow_dispatch:
 
 permissions:
@@ -35,5 +35,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/antastico/gw2-companion:web-frontend
+            ghcr.io/antastico/gw2-companion:latest
             ghcr.io/antastico/gw2-companion:${{ github.sha }}
