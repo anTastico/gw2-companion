@@ -10,6 +10,7 @@ class AccountState:
     achievements: list
     achievement_by_id: dict
     item_counts: dict
+    wallet_counts: dict
     recipe_ids: set
     skin_ids: set
 
@@ -32,6 +33,7 @@ class AccountState:
             materials,
             shared_inventory,
             characters,
+            wallet,
             recipes,
             skins
         ) = await asyncio.gather(
@@ -40,6 +42,7 @@ class AccountState:
             client.get_materials(),
             client.get_shared_inventory(),
             client.get_characters(),
+            client.get_account_wallet(),
             client.get_account_recipes(),
             client.get_account_skins()
         )
@@ -78,6 +81,11 @@ class AccountState:
                 for item in bag.get("inventory", []):
                     add_item(item)
 
+        wallet_counts = {
+            currency["id"]: currency.get("value", 0)
+            for currency in wallet
+        }
+
         return cls(
             achievements=achievements,
             achievement_by_id={
@@ -85,6 +93,7 @@ class AccountState:
                 for achievement in achievements
             },
             item_counts=item_counts,
+            wallet_counts=wallet_counts,
             recipe_ids=set(recipes),
             skin_ids=set(skins)
         )

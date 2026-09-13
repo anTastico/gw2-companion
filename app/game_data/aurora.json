@@ -6301,6 +6301,17 @@
       ]
     }
   ],
+  "achievement_rewards": {
+    "81729": {
+      "achievement_id": 3489,
+      "achievement_name": "Aurora II: Empowering"
+    },
+    "82008": {
+      "achievement_id": 3522,
+      "achievement_name": "Aurora: Awakening"
+    }
+  },
+
   "crafting": [
     {
       "id": 81729,

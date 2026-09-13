@@ -37,10 +37,15 @@ class VisionTracker:
 
         if account_state is not None:
             item_counts = account_state.item_counts
+            wallet_counts = account_state.wallet_counts
             recipe_ids = account_state.recipe_ids
             skin_ids = account_state.skin_ids
         else:
             item_counts = await self.inventory.get_item_counts()
+            wallet_counts = {
+                currency["id"]: currency.get("value", 0)
+                for currency in await self.client.get_account_wallet()
+            }
             recipe_ids = set(
                 await self.client.get_account_recipes()
             )
@@ -298,7 +303,8 @@ class VisionTracker:
             ):
                 analysis = await self.requirements.analyze_recipe(
                     item_id=item["id"],
-                    item_counts=item_counts
+                    item_counts=item_counts,
+                    wallet_counts=wallet_counts
                 )
 
                 crafting_item["missing_materials"] = (
@@ -317,7 +323,8 @@ class VisionTracker:
 
         missing_materials = await self.requirements.analyze_recipes(
             item_ids=recipe_ids,
-            item_counts=item_counts
+            item_counts=item_counts,
+            wallet_counts=wallet_counts
         )
 
         achievement_current = sum(

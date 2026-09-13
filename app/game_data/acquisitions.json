@@ -1,0 +1,149 @@
+{
+  "19676": {
+    "name": "Icy Runestone",
+    "options": [
+      {
+        "name": "Rojan the Penitent",
+        "location": "Frostgorge Sound",
+        "costs": [
+          {
+            "kind": "currency",
+            "id": 1,
+            "name": "Coin",
+            "amount": 10000,
+            "display": "1 gold per Icy Runestone"
+          }
+        ]
+      }
+    ]
+  },
+  "20797": {
+    "name": "Bloodstone Shard",
+    "options": [
+      {
+        "name": "Mystic Forge vendor",
+        "location": "Lion's Arch or other Mystic Forge vendors",
+        "costs": [
+          {
+            "kind": "currency",
+            "id": 23,
+            "name": "Spirit Shard",
+            "amount": 200
+          }
+        ]
+      }
+    ]
+  },
+  "86093": {
+    "name": "Funerary Incense",
+    "options": [
+      {
+        "name": "Elegy Mosaic route",
+        "vendor": "Primeval Steward",
+        "location": "Tomb of the Primeval Kings",
+        "costs": [
+          {
+            "kind": "currency",
+            "id": 35,
+            "name": "Elegy Mosaic",
+            "amount": 3
+          },
+          {
+            "kind": "item",
+            "id": 68063,
+            "name": "Amalgamated Gemstone",
+            "amount": 1
+          },
+          {
+            "kind": "item",
+            "id": 19925,
+            "name": "Obsidian Shard",
+            "amount": 1
+          },
+          {
+            "kind": "item",
+            "id": 19721,
+            "name": "Glob of Ectoplasm",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "name": "Trade Contract route",
+        "vendor": "Primeval Steward",
+        "location": "Tomb of the Primeval Kings",
+        "costs": [
+          {
+            "kind": "currency",
+            "id": 34,
+            "name": "Trade Contract",
+            "amount": 100
+          },
+          {
+            "kind": "item",
+            "id": 68063,
+            "name": "Amalgamated Gemstone",
+            "amount": 1
+          },
+          {
+            "kind": "item",
+            "id": 19925,
+            "name": "Obsidian Shard",
+            "amount": 1
+          },
+          {
+            "kind": "item",
+            "id": 19721,
+            "name": "Glob of Ectoplasm",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "name": "Vabbi heart-vendor route",
+        "location": "Domain of Vabbi",
+        "daily_limit": 8,
+        "costs": [
+          {
+            "kind": "currency",
+            "id": 34,
+            "name": "Trade Contract",
+            "amount": 5
+          },
+          {
+            "kind": "item",
+            "id": 68063,
+            "name": "Amalgamated Gemstone",
+            "amount": 1
+          },
+          {
+            "kind": "item",
+            "id": 19925,
+            "name": "Obsidian Shard",
+            "amount": 1
+          },
+          {
+            "kind": "item",
+            "id": 19721,
+            "name": "Glob of Ectoplasm",
+            "amount": 1
+          }
+        ]
+      },
+      {
+        "name": "Crystalline Ingot route",
+        "vendor": "Primeval Steward",
+        "location": "Tomb of the Primeval Kings",
+        "daily_limit": 5,
+        "costs": [
+          {
+            "kind": "item",
+            "id": 46683,
+            "name": "Crystalline Ingot",
+            "amount": 1
+          }
+        ]
+      }
+    ]
+  }
+}

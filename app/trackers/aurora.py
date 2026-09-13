@@ -45,6 +45,15 @@ class AuroraTracker:
             if account_state is not None
             else await self.inventory.get_item_counts()
         )
+
+        if account_state is not None:
+            wallet_counts = account_state.wallet_counts
+        else:
+            wallet_counts = {
+                currency["id"]: currency.get("value", 0)
+                for currency in await self.client.get_account_wallet()
+            }
+
         stages = []
 
         for stage in self.data["stages"]:
@@ -151,6 +160,44 @@ class AuroraTracker:
 
             stages.append(stage_result)
 
+        stage_by_achievement_id = {
+            stage_data["achievement_id"]: stage_result
+            for stage_data, stage_result in zip(
+                self.data["stages"],
+                stages,
+            )
+            if stage_data.get("achievement_id") is not None
+        }
+        achievement_rewards = self.data.get(
+            "achievement_rewards",
+            {},
+        )
+
+        def achievement_acquisition(item_id):
+            reward = achievement_rewards.get(str(item_id))
+            if not reward:
+                return None
+
+            stage = stage_by_achievement_id.get(
+                reward["achievement_id"]
+            )
+            if stage is None:
+                return {
+                    "type": "achievement_reward",
+                    "achievement_id": reward["achievement_id"],
+                    "achievement_name": reward["achievement_name"],
+                }
+
+            return {
+                "type": "achievement_reward",
+                "achievement_id": reward["achievement_id"],
+                "achievement_name": reward["achievement_name"],
+                "status": stage.get("status"),
+                "current": stage.get("current", 0),
+                "max": stage.get("max", 0),
+                "percent": stage.get("percent", 0),
+            }
+
         crafting = []
 
         for item in self.data["crafting"]:
@@ -165,15 +212,38 @@ class AuroraTracker:
                 "completed": owned >= required
             }
 
+            if not crafting_item["completed"]:
+                acquisition = achievement_acquisition(
+                    item["id"]
+                )
+                if acquisition:
+                    crafting_item[
+                        "achievement_acquisition"
+                    ] = acquisition
+
             if (
                 str(item["id"]) in self.requirements.recipes
                 and not crafting_item["completed"]
             ):
                 analysis = await self.requirements.analyze_recipe(
                     item_id=item["id"],
-                    item_counts=item_counts
+                    item_counts=item_counts,
+                    wallet_counts=wallet_counts
                 )
-                crafting_item["missing_materials"] = analysis["missing_materials"]
+                missing_materials = analysis["missing_materials"]
+
+                for material in missing_materials:
+                    acquisition = achievement_acquisition(
+                        material.get("id")
+                    )
+                    if acquisition:
+                        material[
+                            "achievement_acquisition"
+                        ] = acquisition
+
+                crafting_item["missing_materials"] = (
+                    missing_materials
+                )
 
             crafting.append(crafting_item)
 
@@ -185,7 +255,8 @@ class AuroraTracker:
 
         missing_materials = await self.requirements.analyze_recipes(
             item_ids=recipe_ids,
-            item_counts=item_counts
+            item_counts=item_counts,
+            wallet_counts=wallet_counts
         )
 
         achievement_current = sum(stage["current"] for stage in stages)

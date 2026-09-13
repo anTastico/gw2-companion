@@ -2,12 +2,14 @@ import json
 from pathlib import Path
 
 from app.services.account_inventory import AccountInventory
+from app.services.gw2_api import GW2Client
 
 
 class RequirementAnalyzer:
 
     def __init__(self):
         self.inventory = AccountInventory()
+        self.client = GW2Client()
 
         data_file = (
             Path(__file__).parent.parent
@@ -18,13 +20,34 @@ class RequirementAnalyzer:
         with open(data_file, "r", encoding="utf-8") as file:
             self.recipes = json.load(file)
 
+        acquisition_file = (
+            Path(__file__).parent.parent
+            / "game_data"
+            / "acquisitions.json"
+        )
+
+        with open(acquisition_file, "r", encoding="utf-8") as file:
+            self.acquisitions = json.load(file)
+
+    async def _get_wallet_counts(self):
+        wallet = await self.client.get_account_wallet()
+
+        return {
+            currency["id"]: currency.get("value", 0)
+            for currency in wallet
+        }
+
     async def analyze_recipe(
         self,
         item_id: int,
-        item_counts: dict | None = None
+        item_counts: dict | None = None,
+        wallet_counts: dict | None = None
     ):
         if item_counts is None:
             item_counts = await self.inventory.get_item_counts()
+
+        if wallet_counts is None:
+            wallet_counts = await self._get_wallet_counts()
 
         tree = self._analyze_item(
             item_id=item_id,
@@ -47,13 +70,25 @@ class RequirementAnalyzer:
             missing = max(required - owned, 0)
 
             if missing > 0:
-                missing_materials.append({
+                missing_material = {
                     "id": leaf_item_id,
                     "name": material["name"],
                     "owned": owned,
                     "required": required,
                     "missing": missing
-                })
+                }
+
+                acquisition_options = self._acquisition_options(
+                    item_id=leaf_item_id,
+                    units_needed=missing,
+                    item_counts=item_counts,
+                    wallet_counts=wallet_counts
+                )
+
+                if acquisition_options:
+                    missing_material["acquisition_options"] = acquisition_options
+
+                missing_materials.append(missing_material)
 
         return {
             **tree,
@@ -63,10 +98,14 @@ class RequirementAnalyzer:
     async def analyze_recipes(
         self,
         item_ids: list[int],
-        item_counts: dict | None = None
+        item_counts: dict | None = None,
+        wallet_counts: dict | None = None
     ):
         if item_counts is None:
             item_counts = await self.inventory.get_item_counts()
+
+        if wallet_counts is None:
+            wallet_counts = await self._get_wallet_counts()
 
         combined_requirements = {}
 
@@ -90,15 +129,80 @@ class RequirementAnalyzer:
             missing = max(required - owned, 0)
 
             if missing > 0:
-                missing_materials.append({
+                missing_material = {
                     "id": leaf_item_id,
                     "name": material["name"],
                     "owned": owned,
                     "required": required,
                     "missing": missing
-                })
+                }
+
+                acquisition_options = self._acquisition_options(
+                    item_id=leaf_item_id,
+                    units_needed=missing,
+                    item_counts=item_counts,
+                    wallet_counts=wallet_counts
+                )
+
+                if acquisition_options:
+                    missing_material["acquisition_options"] = acquisition_options
+
+                missing_materials.append(missing_material)
 
         return missing_materials
+
+    def _acquisition_options(
+        self,
+        item_id: int,
+        units_needed: int,
+        item_counts: dict,
+        wallet_counts: dict
+    ):
+        acquisition = self.acquisitions.get(str(item_id))
+
+        if acquisition is None or units_needed <= 0:
+            return []
+
+        options = []
+
+        for option in acquisition.get("options", []):
+            costs = []
+
+            for cost in option.get("costs", []):
+                required = cost["amount"] * units_needed
+
+                if cost["kind"] == "currency":
+                    owned = wallet_counts.get(cost["id"], 0)
+                else:
+                    owned = item_counts.get(cost["id"], 0)
+
+                missing = max(required - owned, 0)
+
+                cost_result = {
+                    "kind": cost["kind"],
+                    "id": cost["id"],
+                    "name": cost["name"],
+                    "owned": owned,
+                    "required": required,
+                    "missing": missing
+                }
+
+                if cost.get("display"):
+                    cost_result["display"] = cost["display"]
+
+                costs.append(cost_result)
+
+            options.append({
+                "name": option["name"],
+                "vendor": option.get("vendor"),
+                "location": option.get("location"),
+                "daily_limit": option.get("daily_limit"),
+                "units_needed": units_needed,
+                "can_afford": all(cost["missing"] == 0 for cost in costs),
+                "costs": costs
+            })
+
+        return options
 
     def _analyze_item(
         self,

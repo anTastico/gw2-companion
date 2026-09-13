@@ -133,8 +133,8 @@
     "name": "Gift of the Mists",
     "ingredients": [
       {"id": 19678, "name": "Gift of Battle", "required": 1},
-      {"id": 70820, "name": "Shard of Glory", "required": 250},
-      {"id": 71581, "name": "Memory of Battle", "required": 250},
+      {"id": 70528, "name": "Gift of Glory", "required": 1},
+      {"id": 71008, "name": "Gift of War", "required": 1},
       {"id": 9940, "name": "Cube of Stabilized Dark Energy", "required": 1}
     ]
   },
@@ -212,6 +212,30 @@
       {"id": 79469, "name": "Petrified Wood", "required": 250},
       {"id": 79899, "name": "Fresh Winterberry", "required": 250},
       {"id": 81127, "name": "Fire Orchid Blossom", "required": 250}
+    ]
+  },
+
+  "70528": {
+    "name": "Gift of Glory",
+    "ingredients": [
+      {"id": 70820, "name": "Shard of Glory", "required": 250}
+    ]
+  },
+
+  "71008": {
+    "name": "Gift of War",
+    "ingredients": [
+      {"id": 71581, "name": "Memory of Battle", "required": 250}
+    ]
+  },
+
+  "46683": {
+    "name": "Crystalline Ingot",
+    "ingredients": [
+      {"id": 46682, "name": "Crystalline Ore", "required": 1},
+      {"id": 76933, "name": "Fulgurite", "required": 1},
+      {"id": 19721, "name": "Glob of Ectoplasm", "required": 1},
+      {"id": 68063, "name": "Amalgamated Gemstone", "required": 1}
     ]
   }
 }
