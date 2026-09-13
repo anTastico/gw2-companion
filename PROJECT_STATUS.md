@@ -678,15 +678,14 @@ Frontend design rules remain:
 
 `static data describes facts -> account-aware services make decisions`
 
-### Immediate Closeout
+### Frontend Milestone Closeout
 
-Before starting another product milestone:
+The frontend MVP milestone is complete and running in production:
 
-- Completed: pushed `feature/web-frontend` through `af546d2`.
-- Completed: re-pulled/redeployed the exact feature image in Portainer and smoke-tested Vision completion, Aurora daily priorities, the 60-minute planner, and Aurora crafting/material output.
-- Next: merge `feature/web-frontend` into `main`.
-- Restore GitHub Actions from the temporary `feature/web-frontend` / `:web-frontend` publishing path to the production `main` image path.
-- Re-deploy production from the merged `main` image and perform a final smoke test.
+- `feature/web-frontend` was merged into `main`.
+- GitHub Actions publishing was restored to the production `main` trigger and `:latest` GHCR image tag.
+- Portainer was switched from the temporary `:web-frontend` image back to `ghcr.io/antastico/gw2-companion:latest`.
+- The merged production image was re-pulled/redeployed and final smoke testing confirmed that the production frontend matches the previously validated feature build.
 
 ### After Merge
 
@@ -727,9 +726,9 @@ The application/deployment flow is now:
 
 `game data + acquisition data -> shared live account state -> trackers / requirement analysis -> recommendations / session plans -> FastAPI/Jinja frontend`
 
-`feature push -> GitHub Actions -> GHCR feature image -> Portainer re-pull/redeploy -> http://192.168.68.13:8001`
+`main push -> GitHub Actions -> GHCR :latest production image -> Portainer re-pull/redeploy -> http://192.168.68.13:8001`
 
-After the frontend branch is merged, the publishing path should return to the production `main` workflow/tag.
+The temporary `feature/web-frontend` / `:web-frontend` publishing path is retired; production deployment now follows `main`.
 
 Recommendation, session-planning, tracker, and frontend requests can share request-scoped account state, including wallet currencies, Legendary Armory ownership, inventory holdings, achievements, recipes, and skins where required. This preserves fresh account-aware behaviour while avoiding unnecessary duplicate account fetching inside a single request.
 
