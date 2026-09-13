@@ -515,6 +515,8 @@ Current branch: `feature/web-frontend`
 
 Latest verified checkpoints:
 
+- `af546d2` - Fix legendary completion and Henge daily tracking
+- `301e15e` - Update project status for frontend MVP
 - `b702126` - Polish goal crafting drill-downs
 - `a33a0a1` - Add account-aware crafting acquisitions
 - `3c8ae62` - Add recommendation explanations
@@ -547,6 +549,7 @@ Frontend capabilities now include:
 Crafting/account-state capabilities added during frontend field testing:
 
 - `/account/wallet` is included in shared `AccountState`.
+- `/account/legendaryarmory` is included in shared `AccountState` so final legendary ownership can be distinguished from consumed crafting intermediates.
 - Wallet currencies are available to requirement analysis alongside inventory items.
 - `acquisitions.json` describes factual non-recipe acquisition routes separately from recipes.
 - Acquisition options calculate live owned / required / missing costs and affordability.
@@ -565,16 +568,16 @@ Sentient Seed has been completed and Aurora: Awakening is naturally unlocked.
 
 Current top-level stage state:
 
-- Aurora: Awakening - in progress, 7/87 (8.0%).
+- Aurora: Awakening - in progress, 22/87 (25.3%).
 - Aurora II: Empowering - locked, 0/21.
 
-All six Aurora I mastery collections are unlocked and actionable. The dependency-depth architecture remains frozen pending natural gameplay evidence; later Wayfarer's Henge transitions should still be validated as the account reaches them.
+All six Aurora I mastery collections are unlocked and actionable. Natural gameplay has now progressed further into the Wayfarer's Henge chain and exposed a recurring-daily modelling gap that has been fixed and field-tested.
 
 Current crafting state from live account testing:
 
 - Spark of Sentience - 0/1; correctly identified as an achievement reward from Aurora II: Empowering rather than a recipe.
-- Mystic Tribute - complete, 1/1.
-- Gift of Sentience - 0/1; current missing leaves include 100 Icy Runestones, 53 Stabilizing Matrices, and Gift of Valor.
+- Mystic Tribute - 0/1 after its shared materials/intermediates were consumed by the completed Vision craft; the resulting large missing-material list is intentionally preserved as a useful collection/shopping list.
+- Gift of Sentience - 0/1; missing leaves continue to expose live account shortages and Gift of Valor progress.
 - Gift of Valor - linked to live Aurora: Awakening progress rather than shown as a dead-end material.
 - Gift of Draconic Mastery - 0/1; current missing leaf is Bloodstone Shard.
 - Bloodstone Shard - account-aware acquisition route correctly recognises the Spirit Shard wallet balance and current affordability.
@@ -596,9 +599,11 @@ Design rules reinforced by live crafting work:
 
 ### Aurora later-stage natural transition validation
 
-The natural Sentient Seed -> Aurora: Awakening unlock transition has now been validated successfully. The six mastery collections, `achievement_set` dependencies, reusable dependency references, acquisition alternatives, and nested recommendation traversal all survived the real unlock transition.
+The natural Sentient Seed -> Aurora: Awakening unlock transition has been validated successfully. The six mastery collections, `achievement_set` dependencies, reusable dependency references, acquisition alternatives, and nested recommendation traversal all survived the real unlock transition.
 
-Later natural transitions still need to be observed as gameplay reaches them, especially the sequential Wayfarer's Henge handoff from The Druid Stone into Awakening the Druid Stone and later Henge stages.
+Natural gameplay has now progressed beyond the original first Druid Runestone stage. This exposed that `druid_runestones_required` metadata was not being consumed by recommendation logic after the first Henge tier. The tracker now emits an ongoing Druid Runestone `hard_gate` daily while future Wayfarer's Henge steps still consume Runestones. Because the ArenaNet account API cannot reliably prove whether today's Runestone was already obtained and consumed, the daily remains visible as informational priority context but is excluded from `SessionPlanner` allocation. This behaviour has been validated against the live account.
+
+Later individual Henge stage handoffs should still be observed naturally as gameplay reaches them.
 
 ### First-class PvP planning
 
@@ -677,9 +682,9 @@ Frontend design rules remain:
 
 Before starting another product milestone:
 
-- Push the completed `feature/web-frontend` branch.
-- Re-pull/redeploy the feature image in Portainer and smoke-test the exact pushed build.
-- Merge `feature/web-frontend` into `main`.
+- Completed: pushed `feature/web-frontend` through `af546d2`.
+- Completed: re-pulled/redeployed the exact feature image in Portainer and smoke-tested Vision completion, Aurora daily priorities, the 60-minute planner, and Aurora crafting/material output.
+- Next: merge `feature/web-frontend` into `main`.
 - Restore GitHub Actions from the temporary `feature/web-frontend` / `:web-frontend` publishing path to the production `main` image path.
 - Re-deploy production from the merged `main` image and perform a final smoke test.
 
@@ -706,11 +711,11 @@ Further development should remain evidence-driven. Priorities are likely to come
 
 Prismatic Champion's Regalia is complete for the tracked account; its tracker remains operational.
 
-Vision collection tracking is complete for the tracked account: Vision I: Awakening is 42/42 and Vision II: Farsight is 20/20, for 62/62 collection progress. The goal is in the final crafting phase. Current live crafting analysis correctly preserves completed intermediates and exposes account-aware acquisition routes for remaining non-recipe requirements such as Icy Runestones, Funerary Incense, and Bloodstone Shard.
+Vision is complete for the tracked account: Vision I: Awakening is 42/42 and Vision II: Farsight is 20/20, for 62/62 collection progress, and the final legendary has been crafted. Final completion is now determined from live Legendary Armory ownership rather than the presence of consumed intermediate components. After the final craft, the dashboard correctly reports Vision as Complete and the four top-level crafting components remain logically satisfied instead of regressing to missing.
 
-Vision live crafting field tests validated the new wallet/acquisition model. The Funerary Incense drill-down can compare Elegy Mosaic, Trade Contract, Vabbi heart-vendor, and Crystalline Ingot routes against current inventory and wallet balances without declaring a static preferred route.
+Vision live crafting field tests also validated the wallet/acquisition model before completion. The Funerary Incense drill-down can compare Elegy Mosaic, Trade Contract, Vabbi heart-vendor, and Crystalline Ingot routes against current inventory and wallet balances without declaring a static preferred route.
 
-Aurora tracking is operational with Aurora: Awakening currently at 7/87 and Aurora II: Empowering locked at 0/21. The tracker retains reusable achievement-bit / achievement-set dependency guidance, Gift of Aurene depth, the full sequential Wayfarer's Henge chain, reusable dependency definitions/references, normalised playability metadata, and daily-opportunity prioritisation. Aurora crafting now distinguishes recipes, ordinary materials, vendor/currency acquisitions, and achievement-reward items; Spark of Sentience and Gift of Valor link back to their live Aurora achievement stages.
+Aurora tracking is operational with Aurora: Awakening currently at 22/87 and Aurora II: Empowering locked at 0/21. The tracker retains reusable achievement-bit / achievement-set dependency guidance, Gift of Aurene depth, the full sequential Wayfarer's Henge chain, reusable dependency definitions/references, normalised playability metadata, and daily-opportunity prioritisation. Recurring Druid Runestone pressure now remains visible as a hard daily gate throughout later Henge progress without consuming session-plan time when today's acquisition state cannot be proven. Aurora crafting continues to distinguish recipes, ordinary materials, vendor/currency acquisitions, and achievement-reward items; Spark of Sentience and Gift of Valor link back to their live Aurora achievement stages.
 
 The recommendation engine remains operational across Vision, Aurora, and Regalia with progress, quick, and play modes. Normal responses remain concise and diversity-aware while objective bundles provide actionable grouped work. It supports collection-focused filtering, shared dependency/material recognition, prerequisite availability, playability metadata, acquisition alternatives, background-work horizons, and account-aware next-step resolution.
 
@@ -726,6 +731,6 @@ The application/deployment flow is now:
 
 After the frontend branch is merged, the publishing path should return to the production `main` workflow/tag.
 
-Recommendation, session-planning, tracker, and frontend requests can share request-scoped account state, including wallet currencies, inventory holdings, achievements, recipes, and skins where required. This preserves fresh account-aware behaviour while avoiding unnecessary duplicate account fetching inside a single request.
+Recommendation, session-planning, tracker, and frontend requests can share request-scoped account state, including wallet currencies, Legendary Armory ownership, inventory holdings, achievements, recipes, and skins where required. This preserves fresh account-aware behaviour while avoiding unnecessary duplicate account fetching inside a single request.
 
 Milestone-end architecture/efficiency reviews remain part of the development workflow and have now also caught flattened crafting intermediates, missing wallet context, misleading non-recipe material leaves, and static acquisition preference before those became permanent architecture.
