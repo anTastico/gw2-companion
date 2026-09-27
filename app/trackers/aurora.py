@@ -74,6 +74,17 @@ class AuroraTracker:
                 else True
             )
 
+            stage_prerequisites = stage.get("prerequisites", [])
+
+            if not stage_unlocked and stage_prerequisites:
+                stage_unlocked = all(
+                    account_progress.get(
+                        prerequisite_id,
+                        {}
+                    ).get("done", False)
+                    for prerequisite_id in stage_prerequisites
+                )
+
             unlock = None
 
             if not stage_unlocked and stage.get("unlock"):

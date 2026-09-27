@@ -6292,6 +6292,7 @@
     {
       "name": "Aurora II: Empowering",
       "achievement_id": 3489,
+      "prerequisites": [3522],
       "collections": [
         {
           "id": 3489,
